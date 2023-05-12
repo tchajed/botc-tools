@@ -1,4 +1,11 @@
 {
+  "name": "BotC night sheet",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "version": "0.1.0",
+  "description": "Generate a night instruction sheet for a BotC custom script",
+  "author": "Tej Chajed",
+  "license": "MIT",
   "devDependencies": {
     "@parcel/resolver-glob": "^2.8.3",
     "@parcel/transformer-sass": "2.8.3",
