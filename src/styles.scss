@@ -1,4 +1,41 @@
+body {
+  margin: 2em auto;
+  width: 800px;
+}
 h1 {
-  color: hotpink;
-  font-family: cursive;
+  font-family: "Lobster";
+}
+.img-placeholder {
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+}
+.icon-container {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+}
+.char-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+.char-name {
+  display: inline-block;
+  width: 9em;
+}
+.good {
+  color: #003D88;
+}
+.evil {
+  color: #880000;
+}
+.directions {
+  font-family: "EB Garamond";
+  display: inline-block;
+  max-width: 500px;
+}
+.direction-line {
+  display: block;
 }
