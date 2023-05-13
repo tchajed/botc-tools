@@ -156,14 +156,6 @@ function iconPath(character: CharacterInfo): string {
   return images[character.id];
 }
 
-function setScriptTitle(title: string) {
-  document.title = `${title} night sheet`;
-  var titleElement = document.getElementById("title");
-  if (titleElement) {
-    titleElement.innerText = title;
-  }
-}
-
 interface NightSheets {
   // already sorted
   firstNight: CharacterInfo[];
@@ -199,13 +191,26 @@ function getNightSheets(characters: string[]) {
   }
 }
 
-function setCharacterList(characters: string[], firstNight: boolean) {
-  var label = document.getElementById("nights_label");
-  label.innerText = firstNight ? "FIRST NIGHT" : "OTHER NIGHTS";
-  var charList = document.getElementById("list");
+class Script {
+  readonly title: string;
+  readonly sheets: NightSheets;
 
-  const sheets = getNightSheets(characters);
+  constructor(data: ScriptData) {
+    this.title = data.title;
+    this.sheets = getNightSheets(data.characters);
+  }
+}
 
+function createHeader(title: string, firstNight: boolean): HTMLElement {
+  const element = document.createElement("h1");
+  element.insertAdjacentHTML("beforeend", `<div>${title}</div>`);
+  const nightLabel = firstNight ? "FIRST NIGHT" : "OTHER NIGHTS";
+  element.insertAdjacentHTML("beforeend", `<div class="label">${nightLabel}</div>`);
+  return element;
+}
+
+function createCharacterList(sheets: NightSheets, firstNight: boolean): HTMLElement {
+  var charList = document.createElement("table");
   var charHTML = "";
   charHTML += "<tbody>";
   for (const character of firstNight ? sheets.firstNight : sheets.otherNights) {
@@ -233,11 +238,23 @@ function setCharacterList(characters: string[], firstNight: boolean) {
   }
   charHTML += "</tbody>";
   charList?.insertAdjacentHTML("beforeend", charHTML);
+  return charList;
 }
 
-export function loadScriptToDOM(data: ScriptData, firstNight: boolean) {
-  setScriptTitle(data.title);
-  setCharacterList(data.characters, firstNight);
+function createSheetElement(script: Script, firstNight: boolean): HTMLElement {
+  const div = document.createElement("div");
+  div.insertAdjacentElement("beforeend", createHeader(script.title, firstNight));
+  div.insertAdjacentElement("beforeend", createCharacterList(script.sheets, firstNight));
+  return div;
+}
+
+export function loadScriptToDOM(data: ScriptData) {
+  const script = new Script(data);
+  document.title = `${script.title}`;
+  document.body.insertAdjacentElement("beforeend", createSheetElement(script, true));
+  document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-top"></div>`);
+  document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-bottom"></div>`);
+  document.body.insertAdjacentElement("beforeend", createSheetElement(script, false));
 }
 
 // Embedded data for Laissez un Carnaval - imagine this came from a JSON file.
@@ -270,4 +287,4 @@ const script: ScriptData = {
     "leviathan",
   ],
 };
-loadScriptToDOM(script, true);
+loadScriptToDOM(script);
