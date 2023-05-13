@@ -68,15 +68,15 @@ tr.evil td.details-cell:not(.empty) {
 .page-divider-top,.page-divider-bottom {
   height: 10pt;
 }
-.page-divider-top {
-  border-bottom: 2.5px dotted black;
+.page-divider-bottom {
+  border-top: 2.5px dotted black;
 }
 
 @media print {
-  .page-divider-top {
+  .page-divider-bottom {
     display: none;
   }
-  .page-divider-bottom {
+  .page-divider-top {
     break-after: always;
   }
 }

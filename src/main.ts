@@ -37,8 +37,11 @@ const overrides: { [key: string]: Override } = {
     firstNight: null,
   },
   "poisoner": {
-    firstNight: "The poisoner picks a player to poison.",
+    firstNight: "The Poisoner picks a player to poison.",
   },
+  "fortuneteller": {
+    firstNight: "The Fortune Teller points to two players. Give a yes if one is the Demon (or red herring)."
+  }
 }
 
 class NightAction {
@@ -139,8 +142,7 @@ MinionInfo.firstNight = {
 
 const DemonInfo: CharacterInfo = new CharacterInfo("DEMON", "Demon Info", "demon");
 DemonInfo.firstNight = {
-  details: "If there are 7 or more players: Wake the Demon. Show the 'These are \
-  your minions' token. Point to all Minions.",
+  details: `If there are 7 or more players: Wake the Demon.  Show the THESE ARE YOUR MINIONS token. Point to all Minions.`,
   index: nightsheet.firstNight.indexOf("DEMON"),
 }
 
@@ -236,7 +238,10 @@ function createCharacterList(sheets: NightSheets, firstNight: boolean): HTMLElem
       details = details.replace(/\n/g, "<br/>");
       details = details.replace(/\<tab\>/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
       for (const tokenName of tokenNames) {
-        details = details.replace(tokenName, '<strong>$&</strong>');
+        details = details.replace(tokenName, `<strong>${tokenName}</strong>`);
+        var altTokenName = tokenName.charAt(0).toUpperCase() + tokenName.substring(1).toLowerCase();
+        altTokenName = `'${altTokenName}'`;
+        details = details.replace(altTokenName, `<strong>${tokenName}</strong>`);
       }
       charHTML += `<td class="details-cell ${details == "" ? "empty" : ""}">${details}</td>`;
       charHTML += `</tr>`;
