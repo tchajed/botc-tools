@@ -4,6 +4,18 @@ import script_roles from '../assets/data/roles.json';
 import botc_roles from '../assets/data/botc_online_roles.json';
 import nightsheet from '../assets/data/nightsheet.json';
 
+// normalizes keys for images
+function fixImages() {
+  for (const name of Object.keys(images)) {
+    const newName = nameToId(name);
+    if (newName != name) {
+      images[newName] = images[name];
+      // leave the old one as well just in case
+    }
+  }
+}
+fixImages();
+
 interface Override {
   firstNight?: string | null;
   otherNights?: string | null;
