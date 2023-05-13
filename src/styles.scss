@@ -45,6 +45,7 @@ td.icon-cell {
 }
 .img-container {
   display: inline-block;
+  width: 45px;
   height: 45px;
   overflow: hidden;
 }
@@ -62,8 +63,10 @@ tr.good .name-cell {
 tr.evil .name-cell {
   color: $evil
 }
+.details {
+  font-family: "Barlow", sans-serif;
+}
 td.details-cell {
-  font-family: Barlow;
   font-size: 10pt;
   padding: 0 8px;
 }
@@ -72,6 +75,11 @@ tr.good td.details-cell:not(.empty) {
 }
 tr.evil td.details-cell:not(.empty) {
   border-left: 2.5px solid $evil;
+}
+
+.jinxes {
+  text-align: right;
+  font-size: 8pt;
 }
 
 .page-divider-top,.page-divider-bottom {

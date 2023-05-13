@@ -1,4 +1,5 @@
 import images from '../assets/img/*.png';
+import script_jinxes from '../assets/data/jinx.json';
 import script_roles from '../assets/data/roles.json';
 import botc_roles from '../assets/data/botc_online_roles.json';
 import nightsheet from '../assets/data/nightsheet.json';
@@ -202,13 +203,42 @@ function getNightSheets(characters: string[]) {
   }
 }
 
+interface Jinx {
+  readonly character1: string,
+  readonly character2: string,
+  readonly description: string,
+}
+
+function getJinxList(characters: string[]): Jinx[] {
+  var js = [];
+  for (const jinx1 of script_jinxes) {
+    const character1 = nameToId(jinx1.id);
+    if (!characters.includes(character1)) {
+      continue;
+    }
+    for (const jinx2 of jinx1.jinx) {
+      const character2 = nameToId(jinx2.id);
+      if (!characters.includes(character2)) {
+        continue;
+      }
+      js.push({
+        character1, character2, description: jinx2.reason,
+      });
+    }
+  }
+  return js;
+}
+
 class Script {
   readonly title: string;
   readonly sheets: NightSheets;
+  readonly jinxes: Jinx[];
 
   constructor(data: ScriptData) {
     this.title = data.title;
     this.sheets = getNightSheets(data.characters);
+    this.jinxes = getJinxList(data.characters);
+    console.log(this.jinxes);
   }
 }
 
@@ -254,7 +284,7 @@ function createCharacterList(sheets: NightSheets, firstNight: boolean): HTMLElem
         altTokenName = `'${altTokenName}'`;
         details = details.replace(altTokenName, `<strong>${tokenName}</strong>`);
       }
-      charHTML += `<td class="details-cell ${details == "" ? "empty" : ""}">${details}</td>`;
+      charHTML += `<td class="details details-cell ${details == "" ? "empty" : ""}">${details}</td>`;
       charHTML += `</tr>`;
     }
   }
@@ -263,10 +293,27 @@ function createCharacterList(sheets: NightSheets, firstNight: boolean): HTMLElem
   return charList;
 }
 
+function createJinxesElement(script: Script): HTMLElement {
+  const div = document.createElement("div");
+  div.classList.add("jinxes")
+  for (const jinx of script.jinxes) {
+    for (const char of [jinx.character1, jinx.character2]) {
+      div.insertAdjacentHTML("beforeend",
+        `<span class="img-container">
+    <img class="char-icon" src="${images[char]}">
+    </span>`);
+    }
+    div.insertAdjacentHTML("beforeend", "&nbsp;&nbsp;");
+    div.insertAdjacentHTML("beforeend", `<span class="details">${jinx.description}</span>`);
+  }
+  return div;
+}
+
 function createSheetElement(script: Script, firstNight: boolean): HTMLElement {
   const div = document.createElement("div");
   div.insertAdjacentElement("beforeend", createHeader(script.title, firstNight));
   div.insertAdjacentElement("beforeend", createCharacterList(script.sheets, firstNight));
+  div.insertAdjacentElement("beforeend", createJinxesElement(script));
   return div;
 }
 
@@ -279,7 +326,7 @@ export function loadScriptToDOM(data: ScriptData) {
   document.body.insertAdjacentElement("beforeend", createSheetElement(script, false));
 }
 
-// import script from '../assets/scripts/laissez_un_carnaval.json';
+import script from '../assets/scripts/laissez_un_carnaval.json';
 // import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
-import script from '../assets/scripts/visitors.json';
+// import script from '../assets/scripts/visitors.json';
 loadScriptToDOM(script);
