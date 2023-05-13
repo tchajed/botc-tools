@@ -231,7 +231,15 @@ function createCharacterList(sheets: NightSheets, firstNight: boolean): HTMLElem
         charHTML += `<div class="img-container"><img class="char-icon" src=${iconPath(character)}></div>`;
       }
       charHTML += `</td>`
-      charHTML += `<td class="name-cell">${character.name}</td>`;
+      charHTML += `<td class="name-cell">`;
+      if (iconPath(character)) {
+        charHTML += `<a href="https://wiki.bloodontheclocktower.com/${character.name}">
+          ${character.name}
+        </a>`;
+      } else {
+        charHTML += `${character.name}`;
+      }
+      charHTML += `</td>`;
       var details = character.nightDetails(firstNight).details || "";
       details = details.replace(/If [^.]*:/g, '\n$&\n');
       details = details.trim();

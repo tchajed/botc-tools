@@ -7,6 +7,15 @@ body {
   font-family: "EB Garamond", serif;
 }
 
+a,a:visited {
+  background-color: transparent;
+  color: inherit;
+  text-decoration: inherit;
+}
+a:hover {
+  text-decoration: underline;
+}
+
 h1 {
   font-family: "Lobster", serif;
   font-size: 24pt;
