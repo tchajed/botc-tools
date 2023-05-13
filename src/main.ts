@@ -41,6 +41,9 @@ const overrides: { [key: string]: Override } = {
   },
   "fortuneteller": {
     firstNight: "The Fortune Teller points to two players. Give a yes if one is the Demon (or red herring)."
+  },
+  "cultleader": {
+    firstNight: "The Cult Leader might change alignment to match an alive neighbor. If it changed, tell the Cult Leader their new alignment.",
   }
 }
 
