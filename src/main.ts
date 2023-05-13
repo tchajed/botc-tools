@@ -32,7 +32,13 @@ const overrides: { [key: string]: Override } = {
   "cerenovus": {
     firstNight: `The Cerenovus chooses a player and character. Wake the target.
     Show THIS CHARACTER SELECTED YOU, the Cerenovus token, and the madness character.`,
-  }
+  },
+  "sailor": {
+    firstNight: null,
+  },
+  "poisoner": {
+    firstNight: "The poisoner picks a player to poison.",
+  },
 }
 
 class NightAction {
@@ -257,34 +263,6 @@ export function loadScriptToDOM(data: ScriptData) {
   document.body.insertAdjacentElement("beforeend", createSheetElement(script, false));
 }
 
-// Embedded data for Laissez un Carnaval - imagine this came from a JSON file.
-
-
-const script: ScriptData = {
-  title: "Laissez un Carnaval",
-  characters: [
-    "investigator",
-    "chef",
-    "clockmaker",
-    "balloonist",
-    "snakecharmer",
-    "philosopher",
-    "artist",
-    "fisherman",
-    "savant",
-    "amnesiac",
-    "poppygrower",
-    "minstrel",
-    "cannibal",
-    "mutant",
-    "goon",
-    "lunatic",
-    "drunk",
-    "poisoner",
-    "goblin",
-    "baron",
-    "cerenovus",
-    "leviathan",
-  ],
-};
+import script from '../assets/scripts/laissez_un_carnaval.json';
+// import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
 loadScriptToDOM(script);

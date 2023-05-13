@@ -26,7 +26,7 @@ h1 {
 }
 
 table {
-  border-spacing: 0 10px;
+  border-spacing: 0 5px;
   width: 100%;
   max-width: 800px;
 }
@@ -37,16 +37,16 @@ td.icon-cell {
 }
 .img-container {
   display: inline-block;
-  height: 50px;
+  height: 45px;
   overflow: hidden;
 }
 img.char-icon {
-  width: 60px;
+  width: 55px;
   object-fit: cover;
   object-position: 50% 50%;
 }
 td.name-cell {
-  width: 9em;
+  width: 8em;
 }
 tr.good .name-cell {
   color: $good;
