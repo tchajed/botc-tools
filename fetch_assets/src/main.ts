@@ -1,5 +1,6 @@
 import axios from 'axios';
 import fs from 'fs';
+import { Command } from 'commander';
 import sharp from 'sharp';
 
 const query_api = axios.create({
@@ -76,36 +77,79 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
   });
 }
 
-function iconPath(icon: Icon): string {
+function iconName(icon: Icon): string {
   const restOfName = icon.name.slice("Icon_".length);
   const cleanedName = restOfName.replace(/_/g, "");
-  return `assets/img/Icon_${cleanedName}`;
+  return `Icon_${cleanedName}`;
 }
 
-async function main() {
-  console.log("fetching list of icons");
-
-  const icons = await allIcons();
-
-  console.log(`downloading ${icons.length} images`);
-
-  fs.mkdirSync("assets/img", {
-    "recursive": true,
-  });
-
+async function downloadIcons(icons: Icon[], baseDir: string, progressCb: (number) => any) {
   var processed = 0;
   while (icons.length > 0) {
     var nextBatch = icons.splice(0, 5);
-    await Promise.all(nextBatch.map(icon =>
-      downloadIcon(icon).then((data) =>
+    await Promise.all(nextBatch.map(icon => {
+      const path = `${baseDir}/${iconName(icon)}`;
+      return downloadIcon(icon).then((data) =>
         rescaleIcon(data).then((img) =>
-          img.toFile(iconPath(icon))
-        ))
-    ));
+          img.toFile(path)
+        ));
+    }));
     processed += nextBatch.length;
-    if (processed % 50 == 0) {
-      console.log(`done with ${processed}`);
-    }
+    progressCb(processed);
+  }
+}
+
+async function downloadScriptData(assetsPath: string) {
+  // there's also tether.json and game-characters-restrictions.json which we don't download
+  var downloads: { url: string; name: string; }[] = [];
+  for (const file of ["roles", "jinx", "nightsheet"]) {
+    downloads.push({
+      url: `https://script.bloodontheclocktower.com/data/${file}.json`,
+      name: `${file}.json`,
+    })
+  }
+  downloads.push({
+    url: "https://raw.githubusercontent.com/bra1n/townsquare/develop/src/roles.json",
+    name: "botc_online_roles.json",
+  });
+  await Promise.all(downloads.map(async (file) => {
+    let { data } = await axios.get(file.url, {
+      responseType: "arraybuffer",
+      responseEncoding: "binary",
+    });
+    return fs.promises.writeFile(`${assetsPath}/${file.name}`, data);
+  }));
+}
+
+async function main() {
+  const program = new Command();
+
+  program.version("0.1.0")
+    .description("Download assets for BotC sheets")
+    .option("--json", "Download only JSON game data")
+    .option("--img", "Download only images")
+    .parse(process.argv);
+
+  const options = program.opts();
+
+  if (options.json) {
+    console.log("downloading JSON data from script tool");
+    fs.mkdirSync("assets/data", {
+      recursive: true,
+    });
+    await downloadScriptData("assets/data");
+  }
+
+  if (options.img) {
+    console.log("fetching list of icons");
+    const icons = await allIcons();
+
+    console.log(`downloading ${icons.length} images`);
+    await downloadIcons(icons, "assets/img", (n) => {
+      if (n % 50 == 0) {
+        console.log(`...done with ${n}`);
+      }
+    });
   }
 }
 
