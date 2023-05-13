@@ -1,8 +1,7 @@
 import images from './img/*.png';
-import nightsheet from '../data/nightsheet.json';
-// script tool roles
-import roles from '../data/roles.json';
+import script_roles from '../data/roles.json';
 import botc_roles from '../data/botc_online_roles.json';
+import nightsheet from '../data/nightsheet.json';
 
 class NightAction {
   details: string;
@@ -26,10 +25,7 @@ class CharacterInfo {
   }
 
   get evil(): boolean {
-    if (this.roleType == "minion" || this.roleType == "demon" || this.id == "MINION" || this.id == "DEMON") {
-      return true;
-    }
-    return false;
+    return ["minion", "demon", "MINION", "DEMON"].includes(this.roleType);
   }
 
   nightDetails(firstNight: boolean): NightAction | null {
@@ -40,25 +36,24 @@ class CharacterInfo {
   }
 }
 
-
 function nameToId(name: string): string {
   return name.toLowerCase().replace(" ", "").replace("'", "").replace("-", "");
 }
 
-var role_data: Map<string, CharacterInfo> = new Map();
+function createRoleData(): Map<string, CharacterInfo> {
+  var roles: Map<string, CharacterInfo> = new Map();
 
-function loadRoleData() {
-  for (const role of roles) {
+  for (const role of script_roles) {
     const name: string = role.name;
     const id = nameToId(name);
     const roleType = role.roleType;
     const info = new CharacterInfo(id, name, roleType);
-    role_data.set(id, info);
+    roles.set(id, info);
   }
 
   for (const role of botc_roles) {
     const id = role.id;
-    const info = role_data.get(id);
+    const info = roles.get(id);
     if (info !== undefined) {
       if (role.firstNightReminder != "") {
         const index = nightsheet.firstNight.indexOf(info.name);
@@ -82,9 +77,11 @@ function loadRoleData() {
       }
     }
   }
+
+  return roles;
 }
 
-loadRoleData();
+const roles = createRoleData();
 
 const MinionInfo: CharacterInfo = new CharacterInfo("MINION", "Minion Info", "minion");
 MinionInfo.firstNight = {
@@ -137,7 +134,7 @@ function getNightSheets(characters: string[]) {
   var otherNightChars: CharacterInfo[] = [];
 
   for (const id of characters) {
-    const character = role_data.get(id);
+    const character = roles.get(id);
     if (character === undefined) {
       console.warn(`unknown character ${id}`);
       continue;
