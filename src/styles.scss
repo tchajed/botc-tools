@@ -1,5 +1,6 @@
 $good: #003D88;
 $evil: #880000;
+$name-width: 7em;
 
 body {
   margin: 0em auto;
@@ -61,7 +62,7 @@ img.char-icon {
 }
 
 td.name-cell {
-  width: 8em;
+  width: $name-width;
 }
 
 tr.good .name-cell {
