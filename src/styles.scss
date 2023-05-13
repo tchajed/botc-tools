@@ -57,9 +57,9 @@ td.details-cell {
   font-size: 10pt;
   padding: 0 8px;
 }
-tr.good td.details-cell {
+tr.good td.details-cell:not(.empty) {
   border-left: 2.5px solid $good;
 }
-tr.evil td.details-cell {
+tr.evil td.details-cell:not(.empty) {
   border-left: 2.5px solid $evil;
 }
