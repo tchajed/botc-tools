@@ -3,31 +3,27 @@ import fs from 'fs';
 import { Command } from 'commander';
 import sharp from 'sharp';
 
-const query_api = axios.create({
-  baseURL: 'https://wiki.bloodontheclocktower.com/',
-  maxRate: 100 * 1024,
-  params: {
-    action: "query",
-    format: "json",
-  }
-});
-
-function completeQuery(params: any, continueParam: string, continueVal: string | null = null): Promise<any[]> {
+async function completeQuery(params: any, continueParam: string,
+  continueVal: string | null = null): Promise<any[]> {
   if (continueVal !== null) {
     params[continueParam] = continueVal;
   }
-  return query_api.get("api.php", { params }).then((response) => {
-    var r = response.data;
-    if (!('continue' in r)) {
-      // terminated
-      return [r.query];
+  const query_api = axios.create({
+    baseURL: 'https://wiki.bloodontheclocktower.com/',
+    params: {
+      action: "query",
+      format: "json",
     }
-    // need to recursively get remaining results
-    return completeQuery(params, continueParam, r.continue[continueParam]).then((rest: any[]) => {
-      rest.unshift(r.query);
-      return rest;
-    })
   });
+  let { data } = await query_api.get("api.php", { params });
+  if (!('continue' in data)) {
+    // terminated
+    return [data.query];
+  }
+  // need to recursively get remaining results
+  let rest = await completeQuery(params, continueParam, data.continue[continueParam]);
+  rest.unshift(data.query);
+  return rest;
 }
 
 interface Icon {
@@ -131,6 +127,11 @@ async function main() {
     .parse(process.argv);
 
   const options = program.opts();
+
+  if (!(options.json || options.img)) {
+    console.warn("neither --json nor --img specified, doing nothing");
+    return;
+  }
 
   if (options.json) {
     console.log("downloading JSON data from script tool");

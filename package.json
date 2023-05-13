@@ -11,6 +11,7 @@
     "@parcel/transformer-sass": "2.8.3",
     "@types/node": "^20.1.4",
     "parcel": "^2.8.3",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {
