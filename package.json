@@ -1,5 +1,5 @@
 {
-  "name": "BotC night sheet",
+  "name": "botc_sheet",
   "source": "src/index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "version": "0.1.0",

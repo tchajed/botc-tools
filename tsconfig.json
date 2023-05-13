@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "nodenext",
+    "target": "es2015",
+    "lib": [
+      "dom", "es2021"
+    ]
+  }
+}
