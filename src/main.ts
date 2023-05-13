@@ -75,15 +75,15 @@ class CharacterInfo {
 }
 
 function nameToId(name: string): string {
-  return name.toLowerCase().replace(" ", "").replace("'", "").replace("-", "");
+  return name.toLowerCase().replace(" ", "").replace("'", "").replace("-", "").replace("_", "");
 }
 
 function createRoleData(): Map<string, CharacterInfo> {
   var roles: Map<string, CharacterInfo> = new Map();
 
   for (const role of script_roles) {
+    const id = nameToId(role.id);
     const name: string = role.name;
-    const id = nameToId(name);
     const roleType = role.roleType;
     const info = new CharacterInfo(id, name, roleType);
     roles.set(id, info);
@@ -263,6 +263,7 @@ export function loadScriptToDOM(data: ScriptData) {
   document.body.insertAdjacentElement("beforeend", createSheetElement(script, false));
 }
 
-import script from '../assets/scripts/laissez_un_carnaval.json';
+// import script from '../assets/scripts/laissez_un_carnaval.json';
 // import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
+import script from '../assets/scripts/visitors.json';
 loadScriptToDOM(script);
