@@ -45,6 +45,16 @@ const overrides: { [key: string]: Override } = {
   },
   "cultleader": {
     firstNight: "The Cult Leader might change alignment to match an alive neighbor. If it changed, tell the Cult Leader their new alignment.",
+  },
+  "monk": {
+    otherNights: "The Monk protects a player from the Demon.",
+  },
+  "innkeeper": {
+    otherNights: "The Innkeeper points to two players, who are both safe from the Demon. One is drunk.",
+  },
+  "imp": {
+    otherNights: `The Imp kills a player. If they chose themselves,
+    replace an alive Minion with an Imp token. Show them YOU ARE and then the Imp token.`,
   }
 }
 
@@ -146,7 +156,8 @@ MinionInfo.firstNight = {
 
 const DemonInfo: CharacterInfo = new CharacterInfo("DEMON", "Demon Info", "demon");
 DemonInfo.firstNight = {
-  details: `If there are 7 or more players: Wake the Demon.  Show the THESE ARE YOUR MINIONS token. Point to all Minions.`,
+  details: `If there are 7 or more players: Wake the Demon.Show the THESE ARE YOUR MINIONS token.Point to all Minions.
+  Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
   index: nightsheet.firstNight.indexOf("DEMON"),
 }
 
@@ -164,8 +175,8 @@ const tokenNames = new Set([
   "THIS PLAYER IS",
 ]);
 
-function iconPath(character: CharacterInfo): string {
-  return images[character.id];
+function iconPath(id: string): string {
+  return images[`Icon_${id}`];
 }
 
 interface NightSheets {
@@ -182,7 +193,7 @@ function getNightSheets(characters: string[]) {
   for (const id of characters) {
     const character = roles.get(id);
     if (character === undefined) {
-      console.warn(`unknown character ${id}`);
+      console.warn(`unknown character ${id} `);
       continue;
     } else {
       if (character.firstNight) {
@@ -235,6 +246,10 @@ class Script {
   readonly jinxes: Jinx[];
 
   constructor(data: ScriptData) {
+    // normalize
+    for (var i = 0; i < data.characters.length; i++) {
+      data.characters[i] = nameToId(data.characters[i]);
+    }
     this.title = data.title;
     this.sheets = getNightSheets(data.characters);
     this.jinxes = getJinxList(data.characters);
@@ -243,7 +258,7 @@ class Script {
 
 function createHeader(title: string, firstNight: boolean): HTMLElement {
   const element = document.createElement("h1");
-  element.insertAdjacentHTML("beforeend", `<div>${title}</div>`);
+  element.insertAdjacentHTML("beforeend", `<div>${title} </div>`);
   const nightLabel = firstNight ? "FIRST NIGHT" : "OTHER NIGHTS";
   element.insertAdjacentHTML("beforeend", `<div class="label">${nightLabel}</div>`);
   return element;
@@ -259,12 +274,13 @@ function createCharacterList(sheets: NightSheets, firstNight: boolean): HTMLElem
       charHTML += `<tr class="${align}">`;
 
       charHTML += `<td class="icon-cell">`
-      if (iconPath(character)) {
-        charHTML += `<div class="img-container"><img class="char-icon" src=${iconPath(character)}></div>`;
+      if (iconPath(character.id)) {
+        charHTML += `<div class="img-container"><img class="char-icon" src=${iconPath(character.id)}></div>`;
       }
       charHTML += `</td>`
       charHTML += `<td class="name-cell">`;
-      if (iconPath(character)) {
+      // heuristic for whether this is a real character
+      if (iconPath(character.id)) {
         charHTML += `<a href="https://wiki.bloodontheclocktower.com/${character.name}">
           ${character.name}
         </a>`;
@@ -299,7 +315,7 @@ function createJinxesElement(script: Script): HTMLElement {
   for (const jinx of script.jinxes) {
     for (const char of [jinx.character1, jinx.character2]) {
       div.insertAdjacentHTML("beforeend",
-        `<div class="img-container"><img class="char-icon" src="${images[char]}"></div>`);
+        `<div class="img-container"><img class="char-icon" src="${iconPath(char)}"></div>`);
     }
     div.insertAdjacentHTML("beforeend", `<div class="jinx">${jinx.description}</div>`);
   }
@@ -316,14 +332,15 @@ function createSheetElement(script: Script, firstNight: boolean): HTMLElement {
 
 export function loadScriptToDOM(data: ScriptData) {
   const script = new Script(data);
-  document.title = `${script.title}`;
+  document.title = `${script.title} night sheets`;
   document.body.insertAdjacentElement("beforeend", createSheetElement(script, true));
   document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-top"></div>`);
   document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-bottom"></div>`);
   document.body.insertAdjacentElement("beforeend", createSheetElement(script, false));
 }
 
-import script from '../assets/scripts/laissez_un_carnaval.json';
-// import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
+// import script from '../assets/scripts/laissez_un_carnaval.json';
+import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
 // import script from '../assets/scripts/visitors.json';
+// import script from '../assets/scripts/sects_and_violets.json';
 loadScriptToDOM(script);
