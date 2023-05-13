@@ -1,41 +1,42 @@
+$good: #003D88;
+$evil: #880000;
+
 body {
   margin: 2em auto;
   width: 800px;
+  font-family: "EB Garamond";
 }
+
 h1 {
   font-family: "Lobster";
 }
-.img-placeholder {
-  width: 50px;
-  height: 50px;
-  display: inline-block;
+
+table {
+  border-collapse: separate;
+  border-spacing: 0 5px;
 }
-.icon-container {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  overflow: hidden;
+.icon-cell {
+  max-width: 50px;
 }
-.char-icon {
+img.char-icon {
   width: 60px;
   height: 60px;
-  object-fit: cover;
 }
-.char-name {
-  display: inline-block;
+td.name-cell {
   width: 9em;
 }
-.good {
-  color: #003D88;
+tr.good .name-cell {
+  color: $good;
 }
-.evil {
-  color: #880000;
+tr.evil .name-cell {
+  color: $evil
 }
-.directions {
-  font-family: "EB Garamond";
-  display: inline-block;
-  max-width: 500px;
+td.details-cell {
+  padding: 8px;
 }
-.direction-line {
-  display: block;
+tr.good td.details-cell {
+  border-left: 2.5px solid $good;
+}
+tr.evil td.details-cell {
+  border-left: 2.5px solid $evil;
 }

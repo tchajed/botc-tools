@@ -157,29 +157,30 @@ function setCharacterList(characters: string[]) {
 
   const sheets = getNightSheets(characters);
 
+  var charHTML = "";
+  charHTML += "<tbody>";
   for (const character of sheets.firstNight) {
     const align = character.evil ? "evil" : "good";
-    var charHTML = "";
     if (character.firstNight) {
-      charHTML += `<div class="direction-line">`;
+      charHTML += `<tr class="${align}">`;
+
+      charHTML += `<td class="icon-cell">`
       if (iconPath(character)) {
-        charHTML += `<div class="icon-container">
-    <img class="char-icon" src=${iconPath(character)}>
-    </div>`;
-      } else {
-        charHTML += `<div class="img-placeholder"></div>`;
+        charHTML += `<img class="char-icon" src=${iconPath(character)}>`;
       }
-      charHTML += `<div class="char-name ${align}">${character.name}</div>`;
+      charHTML += `</td>`
+      charHTML += `<td class="name-cell">${character.name}</td>`;
       var details = character.firstNight.details;
       details = details.replace("\n", "<br/>");
       for (const tokenName of tokenNames) {
         details = details.replace(tokenName, '<strong>$&</strong>');
       }
-      charHTML += `<div class="directions">${details}</div>`;
+      charHTML += `<td class="details-cell">${details}</td>`;
+      charHTML += `</tr>`;
     }
-    charHTML += `</div>`;
-    charList?.insertAdjacentHTML("beforeend", charHTML);
   }
+  charHTML += "</tbody>";
+  charList?.insertAdjacentHTML("beforeend", charHTML);
 }
 
 export function loadScriptToDOM(data: ScriptData) {
