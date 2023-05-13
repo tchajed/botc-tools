@@ -7,11 +7,13 @@ body {
   font-family: "EB Garamond", serif;
 }
 
-a,a:visited {
+a,
+a:visited {
   background-color: transparent;
   color: inherit;
   text-decoration: inherit;
 }
+
 a:hover {
   text-decoration: underline;
 }
@@ -38,53 +40,79 @@ table {
   border-spacing: 0 5px;
   width: 100%;
 }
+
 td.icon-cell {
   max-width: 50px;
   max-height: 50px;
   padding-right: 10px;
 }
+
 .img-container {
   display: inline-block;
   width: 45px;
   height: 45px;
   overflow: hidden;
 }
+
 img.char-icon {
   width: 55px;
   object-fit: cover;
   object-position: 50% 50%;
 }
+
 td.name-cell {
   width: 8em;
 }
+
 tr.good .name-cell {
   color: $good;
 }
+
 tr.evil .name-cell {
   color: $evil
 }
+
 .details {
   font-family: "Barlow", sans-serif;
 }
+
 td.details-cell {
   font-size: 10pt;
   padding: 0 8px;
 }
+
 tr.good td.details-cell:not(.empty) {
   border-left: 2.5px solid $good;
 }
+
 tr.evil td.details-cell:not(.empty) {
   border-left: 2.5px solid $evil;
 }
 
 .jinxes {
-  text-align: right;
+  text-align: left;
   font-size: 8pt;
+  max-width: 330px;
+  margin-left: auto;
+
+  .img-container {
+    vertical-align: bottom;
+    display: inline-block;
+  }
+
+  .jinx {
+    // TODO: these two max widths are really hacky
+    max-width: 230px;
+    display: inline-block;
+    margin-left: 10px;
+  }
 }
 
-.page-divider-top,.page-divider-bottom {
+.page-divider-top,
+.page-divider-bottom {
   height: 10pt;
 }
+
 .page-divider-bottom {
   border-top: 2.5px dotted black;
 }
@@ -93,6 +121,7 @@ tr.evil td.details-cell:not(.empty) {
   .page-divider-bottom {
     display: none;
   }
+
   .page-divider-top {
     break-after: always;
   }

@@ -238,7 +238,6 @@ class Script {
     this.title = data.title;
     this.sheets = getNightSheets(data.characters);
     this.jinxes = getJinxList(data.characters);
-    console.log(this.jinxes);
   }
 }
 
@@ -296,15 +295,13 @@ function createCharacterList(sheets: NightSheets, firstNight: boolean): HTMLElem
 function createJinxesElement(script: Script): HTMLElement {
   const div = document.createElement("div");
   div.classList.add("jinxes")
+  div.classList.add("details")
   for (const jinx of script.jinxes) {
     for (const char of [jinx.character1, jinx.character2]) {
       div.insertAdjacentHTML("beforeend",
-        `<span class="img-container">
-    <img class="char-icon" src="${images[char]}">
-    </span>`);
+        `<div class="img-container"><img class="char-icon" src="${images[char]}"></div>`);
     }
-    div.insertAdjacentHTML("beforeend", "&nbsp;&nbsp;");
-    div.insertAdjacentHTML("beforeend", `<span class="details">${jinx.description}</span>`);
+    div.insertAdjacentHTML("beforeend", `<div class="jinx">${jinx.description}</div>`);
   }
   return div;
 }
