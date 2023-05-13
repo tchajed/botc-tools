@@ -31,6 +31,13 @@ class CharacterInfo {
     }
     return false;
   }
+
+  nightDetails(firstNight: boolean): NightAction | null {
+    if (firstNight) {
+      return this.firstNight;
+    }
+    return this.otherNights;
+  }
 }
 
 
@@ -81,13 +88,14 @@ loadRoleData();
 
 const MinionInfo: CharacterInfo = new CharacterInfo("MINION", "Minion Info", "minion");
 MinionInfo.firstNight = {
-  details: "wake minions and show demon blah blah",
+  details: "If there are 7 or more players: Wake all Minions. Show the 'This is the demon' token. Point to the Demon.",
   index: nightsheet.firstNight.indexOf("MINION"),
 };
 
 const DemonInfo: CharacterInfo = new CharacterInfo("DEMON", "Demon Info", "demon");
 DemonInfo.firstNight = {
-  details: "wake demon and show minions blah blah",
+  details: "If there are 7 or more players: Wake the Demon. Show the 'These are \
+  your minions' token. Point to all Minions.",
   index: nightsheet.firstNight.indexOf("DEMON"),
 }
 
@@ -152,26 +160,29 @@ function getNightSheets(characters: string[]) {
   }
 }
 
-function setCharacterList(characters: string[]) {
+function setCharacterList(characters: string[], firstNight: boolean) {
+  var label = document.getElementById("nights_label");
+  label.innerText = firstNight ? "FIRST NIGHT" : "OTHER NIGHTS";
   var charList = document.getElementById("list");
 
   const sheets = getNightSheets(characters);
 
   var charHTML = "";
   charHTML += "<tbody>";
-  for (const character of sheets.firstNight) {
+  for (const character of firstNight ? sheets.firstNight : sheets.otherNights) {
     const align = character.evil ? "evil" : "good";
     if (character.firstNight) {
       charHTML += `<tr class="${align}">`;
 
       charHTML += `<td class="icon-cell">`
       if (iconPath(character)) {
-        charHTML += `<img class="char-icon" src=${iconPath(character)}>`;
+        charHTML += `<div class="img-container"><img class="char-icon" src=${iconPath(character)}></div>`;
       }
       charHTML += `</td>`
       charHTML += `<td class="name-cell">${character.name}</td>`;
-      var details = character.firstNight.details;
-      details = details.replace("\n", "<br/>");
+      var details = character.nightDetails(firstNight).details;
+      details = details.replace(/If [^.]*:/g, '\n$&\n');
+      details = details.replace(/\n/g, "<br/>");
       for (const tokenName of tokenNames) {
         details = details.replace(tokenName, '<strong>$&</strong>');
       }
@@ -185,7 +196,7 @@ function setCharacterList(characters: string[]) {
 
 export function loadScriptToDOM(data: ScriptData) {
   setScriptTitle(data.title);
-  setCharacterList(data.characters);
+  setCharacterList(data.characters, true);
 }
 
 // Embedded data for Laissez un Carnaval - imagine this came from a JSON file.

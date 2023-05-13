@@ -9,18 +9,38 @@ body {
 
 h1 {
   font-family: "Lobster";
+  font-size: 24pt;
+  width: 100%;
+  position: relative;
+}
+
+.label {
+  font-family: "Barlow";
+  font-size: 16pt;
+  font-weight: bold;
+  position: absolute;
+  top: 10%;
+  right: 0;
 }
 
 table {
-  border-collapse: separate;
   border-spacing: 0 5px;
+  width: 100%;
+  max-width: 800px;
 }
-.icon-cell {
+td.icon-cell {
   max-width: 50px;
+  max-height: 50px;
+  padding-right: 10px;
+}
+.img-container {
+  display: inline-block;
+  overflow: hidden;
 }
 img.char-icon {
   width: 60px;
-  height: 60px;
+  object-fit: cover;
+  object-position: 50% 50%;
 }
 td.name-cell {
   width: 9em;
@@ -32,6 +52,8 @@ tr.evil .name-cell {
   color: $evil
 }
 td.details-cell {
+  font-family: Barlow;
+  font-size: 10pt;
   padding: 8px;
 }
 tr.good td.details-cell {
