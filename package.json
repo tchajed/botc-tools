@@ -1,6 +1,9 @@
 {
   "name": "botc_sheet",
-  "source": ["src/index.html", "src/roles.html"],
+  "source": [
+    "src/index.html",
+    "src/roles.html"
+  ],
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "version": "0.1.0",
   "description": "Generate a night instruction sheet for a BotC custom script",
@@ -15,7 +18,9 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@types/cli-progress": "^3.11.0",
     "axios": "^1.4.0",
+    "cli-progress": "^3.12.0",
     "sharp": "^0.32.1"
   }
 }

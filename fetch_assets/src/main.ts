@@ -2,6 +2,7 @@ import axios from 'axios';
 import fs from 'fs';
 import { Command } from 'commander';
 import sharp from 'sharp';
+import cliProgress from 'cli-progress';
 
 async function completeQuery(params: any, continueParam: string,
   continueVal: string | null = null): Promise<any[]> {
@@ -52,7 +53,7 @@ async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
   let { data } = await axios.get(icon.url, {
     responseType: "arraybuffer",
     responseEncoding: "binary",
-    maxRate: 1000 * 1024, // 1MB/s
+    maxRate: 2000 * 1024, // 1MB/s
   });
   return data;
 }
@@ -63,13 +64,16 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
   // second scales the icon down
   let img = sharp(data);
   let meta = await img.metadata();
-  const size = 451;
-  return img.extract({
-    left: Math.round((meta.width - size) / 2),
-    top: Math.round((meta.height - size) / 2),
-    width: size,
-    height: size,
-  }).resize({
+  const size = 401;
+  if (meta.height > size) {
+    img = img.extract({
+      left: Math.round((meta.width - size) / 2),
+      top: Math.round((meta.height - size) / 2),
+      width: size,
+      height: size,
+    })
+  }
+  return img.resize({
     width: 250,
     height: 250,
     fit: 'inside',
@@ -102,10 +106,14 @@ async function downloadIcons(icons: Icon[], progressCb: (number) => any): Promis
 }
 
 async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
-  Promise.all(downloads.map(dl => {
+  for (const dl of downloads) {
     const path = `${imgDir}/${iconName(dl.icon)}`;
-    return rescaleIcon(dl.data).then(img => img.toFile(path));
-  }));
+    await rescaleIcon(dl.data).then(img => img.toFile(path));
+  }
+  // Promise.all(downloads.map(dl => {
+  //   const path = `${imgDir}/${iconName(dl.icon)}`;
+  //   return rescaleIcon(dl.data).then(img => img.toFile(path));
+  // }));
 }
 
 async function downloadScriptData(assetsPath: string) {
@@ -163,12 +171,15 @@ async function main() {
 
     console.log(`downloading ${icons.length} images`);
     fs.mkdirSync(imgDir, { recursive: true });
+
+    const bar = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
+    bar.start(icons.length, 0);
+
     const downloads = await downloadIcons(icons, (n) => {
-      if (n % 50 == 0) {
-        console.log(`...done with ${n}`);
-      }
+      bar.update(n);
     });
-    console.log(`processing icons`);
+    bar.stop();
+
     await saveIcons(downloads, imgDir);
   }
 }
