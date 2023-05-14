@@ -106,14 +106,10 @@ async function downloadIcons(icons: Icon[], progressCb: (number) => any): Promis
 }
 
 async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
-  for (const dl of downloads) {
+  Promise.all(downloads.map(dl => {
     const path = `${imgDir}/${iconName(dl.icon)}`;
-    await rescaleIcon(dl.data).then(img => img.toFile(path));
-  }
-  // Promise.all(downloads.map(dl => {
-  //   const path = `${imgDir}/${iconName(dl.icon)}`;
-  //   return rescaleIcon(dl.data).then(img => img.toFile(path));
-  // }));
+    return rescaleIcon(dl.data).then(img => img.toFile(path));
+  }));
 }
 
 async function downloadScriptData(assetsPath: string) {

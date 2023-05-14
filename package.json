@@ -4,6 +4,10 @@
     "src/index.html",
     "src/roles.html"
   ],
+  "scripts": {
+    "fetch-assets": "ts-node fetch_assets/src/main.ts",
+    "build": "parcel build"
+  },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "version": "0.1.0",
   "description": "Generate a night instruction sheet for a BotC custom script",

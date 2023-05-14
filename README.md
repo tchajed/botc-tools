@@ -10,7 +10,7 @@ Run `yarn` to get the dependencies.
 ## Downloading the assets
 
 ```sh
-yarn ts-node fetch_assets/src/main.ts --json --img
+yarn fetch-assets --json --img
 ```
 
 Fetching the images will take about a minute.
