@@ -1,5 +1,5 @@
 import images from '../assets/img/*.png';
-import { NightSheets, Script, ScriptData } from './script';
+import { NightOrders, Script, ScriptData } from './script';
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",
@@ -22,11 +22,11 @@ function createHeader(title: string, firstNight: boolean): HTMLElement {
   return element;
 }
 
-function createCharacterList(sheets: NightSheets, firstNight: boolean): HTMLElement {
+function createCharacterList(orders: NightOrders, firstNight: boolean): HTMLElement {
   var charList = document.createElement("table");
   var charHTML = "";
   charHTML += "<tbody>";
-  for (const character of firstNight ? sheets.firstNight : sheets.otherNights) {
+  for (const character of firstNight ? orders.firstNight : orders.otherNights) {
     const align = character.evil ? "evil" : "good";
     if (character.nightDetails(firstNight)) {
       charHTML += `<tr class="${align}">`;
@@ -83,7 +83,7 @@ function createJinxesElement(script: Script): HTMLElement {
 function createSheetElement(script: Script, firstNight: boolean): HTMLElement {
   const div = document.createElement("div");
   div.insertAdjacentElement("beforeend", createHeader(script.title, firstNight));
-  div.insertAdjacentElement("beforeend", createCharacterList(script.sheets, firstNight));
+  div.insertAdjacentElement("beforeend", createCharacterList(script.orders, firstNight));
   div.insertAdjacentElement("beforeend", createJinxesElement(script));
   return div;
 }

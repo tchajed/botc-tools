@@ -6,14 +6,14 @@ export class ScriptData {
   characters: string[];
 }
 
-export interface NightSheets {
+export interface NightOrders {
   // already sorted
   firstNight: CharacterInfo[];
   // already sorted
   otherNights: CharacterInfo[];
 }
 
-export function getNightSheets(characters: string[]): NightSheets {
+export function getNightOrders(characters: string[]): NightOrders {
   var firstNightChars: CharacterInfo[] = [roles.get("MINION"), roles.get("DEMON")];
   var otherNightChars: CharacterInfo[] = [];
 
@@ -43,7 +43,7 @@ export function getNightSheets(characters: string[]): NightSheets {
 
 export class Script {
   readonly title: string;
-  readonly sheets: NightSheets;
+  readonly orders: NightOrders;
   readonly jinxes: Jinx[];
 
   constructor(data: ScriptData) {
@@ -52,7 +52,7 @@ export class Script {
       data.characters[i] = nameToId(data.characters[i]);
     }
     this.title = data.title;
-    this.sheets = getNightSheets(data.characters);
+    this.orders = getNightOrders(data.characters);
     this.jinxes = getJinxList(data.characters);
   }
 }
