@@ -8,18 +8,21 @@ table {
   font-size: 10pt;
 }
 
+$img-size: 30px;
+
 td.icon-cell {
-  height: 30px;
+  height: $img-size;
   padding-top: 0;
   padding-bottom: 0;
 }
 
 .img-container {
   display: inline-block;
-  height: 34px;
+  height: $img-size;
   overflow: hidden;
 }
 
-img {
-  border: 1px solid black;
+img.char-icon {
+  height: $img-size;
+  width: $img-size;
 }

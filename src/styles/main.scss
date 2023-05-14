@@ -36,21 +36,22 @@ td.name-cell {
   font-family: "EB Garamond", serif;
 }
 
+$img-size: 40px;
+
 td.icon-cell {
-  max-width: 50px;
-  max-height: 50px;
   padding-right: 10px;
 }
 
 .img-container {
   display: inline-block;
-  width: 45px;
-  height: 40px;
+  width: $img-size;
+  height: $img-size;
   overflow: hidden;
 }
 
 img.char-icon {
-  width: 95%;
+  height: $img-size;
+  width: $img-size;
 }
 
 td.name-cell {
