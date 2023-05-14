@@ -1,6 +1,6 @@
-import { CharacterInfo } from './roles';
+import { CharacterInfo } from './botc/roles';
+import { Script } from './botc/script';
 
-import { Script } from './script';
 import { iconPath } from './views';
 
 function htmlToElement(html: string): HTMLElement {

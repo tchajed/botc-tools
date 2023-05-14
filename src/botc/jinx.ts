@@ -1,4 +1,4 @@
-import script_jinxes from '../assets/data/jinx.json';
+import script_jinxes from '../../assets/data/jinx.json';
 
 import { nameToId } from './roles';
 

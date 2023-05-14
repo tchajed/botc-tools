@@ -1,4 +1,4 @@
-import { NightOrders, Script } from './script';
+import { NightOrders, Script } from './botc/script';
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",
