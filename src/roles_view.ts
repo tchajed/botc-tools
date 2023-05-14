@@ -3,6 +3,12 @@ import { Script } from './botc/script';
 
 import { iconPath } from './views';
 
+import h from 'hyperscript';
+import hh from 'hyperscript-helpers';
+const { div, h1, img, strong, table, tbody, tr, td } = hh(h);
+
+import classnames from 'classnames';
+
 function htmlToElement(html: string): HTMLElement {
   var template = document.createElement('template');
   html = html.trimStart(); // Avoid creating a whitespace node
@@ -10,56 +16,60 @@ function htmlToElement(html: string): HTMLElement {
   return template.content.firstChild as HTMLElement;
 }
 
+function htmlToElements(html: string): ChildNode[] {
+  var template = document.createElement('template');
+  html = html.trimStart(); // Avoid creating a whitespace node
+  template.innerHTML = html;
+  return Array.from(template.content.childNodes);
+}
+
 function createHeaderHTML(title: string): HTMLElement {
-  return htmlToElement(`<h1><div>${title}</div></h1>`);
+  return h1(div(title));
+}
+
+function abilityHTML(ability: string): ChildNode[] {
+  return htmlToElements(ability.replace(/\[[^]*\]/g, '<strong>$&</strong>'));
 }
 
 function createCharacterHTML(character: CharacterInfo): HTMLElement {
-  const el = document.createElement("tr");
-  el.classList.add(character.evil ? "evil" : "good");
+  var cells = [];
 
-  var charHTML = "";
-  charHTML += `<td class="icon-cell">`
-  // TODO: factor out this snippet to views.ts
-  if (iconPath(character.id)) {
-    charHTML += `<div class="img-container"><img class="char-icon" src=${iconPath(character.id)}></div>`;
+  cells.push(td(".icon-cell",
+    iconPath(character.id) ? div(".img-container",
+      img(".char-icon", { src: iconPath(character.id) })
+    ) : []))
+
+  cells.push(td(".name-cell", [character.name]));
+
+  cells.push(td(".ability-cell", abilityHTML(character.ability)));
+
+  return tr({ className: classnames(character.evil ? "evil" : "good") }, cells);
+}
+
+function roleTypeRow(roleType: string): HTMLElement {
+  var label: string = roleType;
+  if (label != "townsfolk") {
+    label += "s";
   }
-  charHTML += `</td>`
-  charHTML += `<td class="name-cell">${character.name}</td>`;
-  var ability = character.ability;
-  ability = ability.replace(/\[[^]*\]/g, '<strong>$&</strong>');
-  charHTML += `<td class="ability-cell">${ability}</td>`;
-
-  el.insertAdjacentHTML("beforeend", charHTML);
-
-  return el;
+  label = label.toUpperCase();
+  var cells = [];
+  cells.push(td()); // icon column
+  cells.push(td(strong([label])));
+  cells.push(td()); // ability column
+  return tr(cells);
 }
 
 function createCharactersList(characters: CharacterInfo[]): HTMLElement {
-  const table = document.createElement("table");
-
-  const el = document.createElement("tbody");
-  table.insertAdjacentElement("beforeend", el);
-
+  var rows = [];
   var rolesSeen = {};
   for (const character of characters) {
     if (!rolesSeen[character.roleType]) {
-      var roleType: string = character.roleType;
-      if (roleType != "townsfolk") {
-        roleType += "s";
-      }
-      roleType = roleType.toUpperCase();
-      el.insertAdjacentElement("beforeend", htmlToElement(
-        `<tr><td></td><td>
-        <strong>${roleType}</strong>
-        </td><td></td>`,
-      ));
+      rows.push(roleTypeRow(character.roleType));
       rolesSeen[character.roleType] = true;
     }
-    el.insertAdjacentElement("beforeend", createCharacterHTML(character));
+    rows.push(createCharacterHTML(character));
   }
-
-  return table;
+  return table(tbody(rows));
 }
 
 function loadScriptToDOM(script: Script) {
