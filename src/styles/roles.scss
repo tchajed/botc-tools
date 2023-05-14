@@ -9,13 +9,17 @@ table {
 }
 
 td.icon-cell {
-  height: 0.8em;
+  height: 30px;
   padding-top: 0;
   padding-bottom: 0;
 }
 
 .img-container {
   display: inline-block;
-  height: 35px;
+  height: 34px;
   overflow: hidden;
+}
+
+img {
+  border: 1px solid black;
 }

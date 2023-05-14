@@ -61,12 +61,15 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
   // need two resizes, which can't be in the same pipeline:
   // first removes some of the empty space around each icon,
   // second scales the icon down
-  let resized = await sharp(data).resize({
-    width: 451,
-    height: 451,
-    fit: 'cover',
-  }).toBuffer();
-  return sharp(resized).resize({
+  let img = sharp(data);
+  let meta = await img.metadata();
+  const size = 451;
+  return img.extract({
+    left: Math.round((meta.width - size) / 2),
+    top: Math.round((meta.height - size) / 2),
+    width: size,
+    height: size,
+  }).resize({
     width: 250,
     height: 250,
     fit: 'inside',
@@ -79,20 +82,30 @@ function iconName(icon: Icon): string {
   return `Icon_${cleanedName}`;
 }
 
-async function downloadIcons(icons: Icon[], baseDir: string, progressCb: (number) => any) {
-  var processed = 0;
+interface DownloadedIcon {
+  icon: Icon;
+  data: ArrayBuffer;
+}
+
+async function downloadIcons(icons: Icon[], progressCb: (number) => any): Promise<DownloadedIcon[]> {
+  var downloads: DownloadedIcon[] = [];
   while (icons.length > 0) {
-    var nextBatch = icons.splice(0, 5);
-    await Promise.all(nextBatch.map(icon => {
-      const path = `${baseDir}/${iconName(icon)}`;
-      return downloadIcon(icon).then((data) =>
-        rescaleIcon(data).then((img) =>
-          img.toFile(path)
-        ));
-    }));
-    processed += nextBatch.length;
-    progressCb(processed);
+    var nextBatch = await Promise.all(icons.splice(0, 5).map(icon =>
+      downloadIcon(icon).then(data => {
+        return { icon, data };
+      })
+    ));
+    downloads.push(...nextBatch);
+    progressCb(downloads.length);
   }
+  return downloads;
+}
+
+async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
+  Promise.all(downloads.map(dl => {
+    const path = `${imgDir}/${iconName(dl.icon)}`;
+    return rescaleIcon(dl.data).then(img => img.toFile(path));
+  }));
 }
 
 async function downloadScriptData(assetsPath: string) {
@@ -124,6 +137,7 @@ async function main() {
     .description("Download assets for BotC sheets")
     .option("--json", "Download only JSON game data")
     .option("--img", "Download only images")
+    .option("-o, --out <assets dir>", "Path to assets directory", "./assets")
     .parse(process.argv);
 
   const options = program.opts();
@@ -133,12 +147,14 @@ async function main() {
     return;
   }
 
+  const assetsDir = options.out;
+  const dataDir = `${assetsDir}/data`;
+  const imgDir = `${assetsDir}/img`;
+
   if (options.json) {
     console.log("downloading JSON data from script tool");
-    fs.mkdirSync("assets/data", {
-      recursive: true,
-    });
-    await downloadScriptData("assets/data");
+    fs.mkdirSync(dataDir, { recursive: true });
+    await downloadScriptData(dataDir);
   }
 
   if (options.img) {
@@ -146,11 +162,14 @@ async function main() {
     const icons = await allIcons();
 
     console.log(`downloading ${icons.length} images`);
-    await downloadIcons(icons, "assets/img", (n) => {
+    fs.mkdirSync(imgDir, { recursive: true });
+    const downloads = await downloadIcons(icons, (n) => {
       if (n % 50 == 0) {
         console.log(`...done with ${n}`);
       }
     });
+    console.log(`processing icons`);
+    await saveIcons(downloads, imgDir);
   }
 }
 
