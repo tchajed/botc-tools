@@ -12,3 +12,44 @@ h1 {
   top: 10%;
   right: 0;
 }
+
+td.details-cell {
+  font-size: 10pt;
+  padding: 0 8px;
+}
+
+tr.good td.details-cell:not(.empty) {
+  border-left: 2.5px solid main.$good;
+}
+
+tr.evil td.details-cell:not(.empty) {
+  border-left: 2.5px solid main.$evil;
+}
+
+.jinxes {
+  text-align: left;
+  font-size: 8pt;
+  max-width: 330px;
+  margin-left: auto;
+
+  .img-container {
+    vertical-align: bottom;
+    display: inline-block;
+  }
+
+  .jinx {
+    // TODO: these two max widths are really hacky
+    max-width: 230px;
+    display: inline-block;
+    margin-left: 10px;
+  }
+}
+
+.page-divider-top,
+.page-divider-bottom {
+  height: 10pt;
+}
+
+.page-divider-bottom {
+  border-top: 2.5px dotted black;
+}
