@@ -5,7 +5,7 @@ $name-width: 7em;
 body {
   margin: 0em auto;
   max-width: 800px;
-  font-family: "EB Garamond", serif;
+  font-family: "Barlow", sans-serif;
 }
 
 a,
@@ -25,21 +25,15 @@ h1 {
   margin-top: 0;
   margin-bottom: 10pt;
   width: 100%;
-  position: relative;
-}
-
-.label {
-  font-family: "Barlow", sans-serif;
-  font-size: 16pt;
-  font-weight: bold;
-  position: absolute;
-  top: 10%;
-  right: 0;
 }
 
 table {
   border-spacing: 0 5px;
   width: 100%;
+}
+
+td.name-cell {
+  font-family: "EB Garamond", serif;
 }
 
 td.icon-cell {
@@ -71,10 +65,6 @@ tr.good .name-cell {
 
 tr.evil .name-cell {
   color: $evil
-}
-
-.details {
-  font-family: "Barlow", sans-serif;
 }
 
 td.details-cell {

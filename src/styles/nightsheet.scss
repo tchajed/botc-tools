@@ -1,0 +1,14 @@
+@use 'main';
+
+h1 {
+  position: relative;
+}
+
+.label {
+  font-family: "Barlow", sans-serif;
+  font-size: 16pt;
+  font-weight: bold;
+  position: absolute;
+  top: 10%;
+  right: 0;
+}
