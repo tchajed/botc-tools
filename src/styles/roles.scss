@@ -1,11 +1,11 @@
 @use 'main';
 
-table {
-  border-spacing: 0;
+body {
+  font-size: 10pt;
 }
 
-.ability-cell {
-  font-size: 10pt;
+table {
+  border-spacing: 0;
 }
 
 $img-size: 30px;
