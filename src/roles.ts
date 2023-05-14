@@ -61,15 +61,18 @@ class NightAction {
   index: number;
 }
 
+const RoleTypes = ["townsfolk", "outsider", "minion", "demon", "fabled", "travellers"] as const;
+type RoleType = typeof RoleTypes[number];
+
 export class CharacterInfo {
   readonly id: string;
   readonly name: string;
-  readonly roleType: string;
+  readonly roleType: RoleType;
 
   firstNight: NightAction | null;
   otherNights: NightAction | null;
 
-  constructor(id: string, name: string, roleType: string) {
+  constructor(id: string, name: string, roleType: RoleType) {
     this.id = id;
     this.name = name;
     this.roleType = roleType;
@@ -77,8 +80,16 @@ export class CharacterInfo {
     this.otherNights = null;
   }
 
+  get good(): boolean {
+    return ["townsfolk", "outsider"].includes(this.roleType);
+  }
+
   get evil(): boolean {
-    return ["minion", "demon", "MINION", "DEMON"].includes(this.roleType);
+    return ["minion", "demon"].includes(this.roleType);
+  }
+
+  get special(): boolean {
+    return ["travellers", "fabled"].includes(this.roleType);
   }
 
   nightDetails(firstNight: boolean): NightAction | null {
@@ -113,8 +124,13 @@ function createRoleData(): Map<string, CharacterInfo> {
     const id = nameToId(role.id);
     const name: string = role.name;
     const roleType = role.roleType;
-    const info = new CharacterInfo(id, name, roleType);
-    roles.set(id, info);
+    const validRole = RoleTypes.find((r) => r == roleType);
+    if (validRole) {
+      const info = new CharacterInfo(id, name, validRole);
+      roles.set(id, info);
+    } else {
+      console.warn(`invalid role ${roleType} for ${id}`);
+    }
   }
 
   for (const role of botc_roles) {

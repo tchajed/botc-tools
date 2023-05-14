@@ -1,5 +1,5 @@
 import images from '../assets/img/*.png';
-import { NightOrders, Script, ScriptData } from './script';
+import { NightOrders, Script } from './script';
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",
@@ -88,8 +88,7 @@ function createSheetElement(script: Script, firstNight: boolean): HTMLElement {
   return div;
 }
 
-export function loadScriptToDOM(data: ScriptData) {
-  const script = new Script(data);
+export function loadScriptToDOM(script: Script) {
   document.title = `${script.title} night sheets`;
   document.body.insertAdjacentElement("beforeend", createSheetElement(script, true));
   document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-top"></div>`);
@@ -101,4 +100,4 @@ export function loadScriptToDOM(data: ScriptData) {
 import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
 // import script from '../assets/scripts/visitors.json';
 // import script from '../assets/scripts/sects_and_violets.json';
-loadScriptToDOM(script);
+loadScriptToDOM(new Script(script));
