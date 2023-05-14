@@ -1,6 +1,6 @@
 {
   "name": "botc_sheet",
-  "source": "src/index.html",
+  "source": ["src/index.html", "src/roles.html"],
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "version": "0.1.0",
   "description": "Generate a night instruction sheet for a BotC custom script",

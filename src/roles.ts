@@ -68,6 +68,7 @@ export class CharacterInfo {
   readonly id: string;
   readonly name: string;
   readonly roleType: RoleType;
+  ability: string;
 
   firstNight: NightAction | null;
   otherNights: NightAction | null;
@@ -137,6 +138,8 @@ function createRoleData(): Map<string, CharacterInfo> {
     const id = role.id;
     const info = roles.get(id);
     if (info !== undefined) {
+      info.ability = role.ability;
+
       if (role.firstNightReminder != "") {
         const index = nightsheet.firstNight.indexOf(info.name);
         if (index < 0 && info.roleType != "travellers") {

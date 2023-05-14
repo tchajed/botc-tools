@@ -1,4 +1,3 @@
-import images from '../assets/img/*.png';
 import { NightOrders, Script } from './script';
 
 const tokenNames = new Set([
@@ -10,13 +9,9 @@ const tokenNames = new Set([
   "THIS PLAYER IS",
 ]);
 
-function iconPath(id: string): string {
-  return images[`Icon_${id}`];
-}
-
 function createHeader(title: string, firstNight: boolean): HTMLElement {
   const element = document.createElement("h1");
-  element.insertAdjacentHTML("beforeend", `<div>${title} </div>`);
+  element.insertAdjacentHTML("beforeend", `<div>${title}</div>`);
   const nightLabel = firstNight ? "FIRST NIGHT" : "OTHER NIGHTS";
   element.insertAdjacentHTML("beforeend", `<div class="label">${nightLabel}</div>`);
   return element;
@@ -98,6 +93,7 @@ export function loadScriptToDOM(script: Script) {
 
 // import script from '../assets/scripts/laissez_un_carnaval.json';
 import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
+import { iconPath } from './views';
 // import script from '../assets/scripts/visitors.json';
 // import script from '../assets/scripts/sects_and_violets.json';
 loadScriptToDOM(new Script(script));

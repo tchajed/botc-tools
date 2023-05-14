@@ -13,22 +13,30 @@ export interface NightOrders {
   otherNights: CharacterInfo[];
 }
 
-export function getNightOrders(characters: string[]): NightOrders {
-  var firstNightChars: CharacterInfo[] = [roles.get("MINION"), roles.get("DEMON")];
-  var otherNightChars: CharacterInfo[] = [];
-
+function getCharacterList(characters: string[]): CharacterInfo[] {
+  var chars: CharacterInfo[] = [];
   for (const id of characters) {
     const character = roles.get(id);
     if (character === undefined) {
       console.warn(`unknown character ${id} `);
       continue;
     } else {
-      if (character.firstNight) {
-        firstNightChars.push(character);
-      }
-      if (character.otherNights) {
-        otherNightChars.push(character);
-      }
+      chars.push(character);
+    }
+  }
+  return chars;
+}
+
+function getNightOrders(characters: CharacterInfo[]): NightOrders {
+  var firstNightChars: CharacterInfo[] = [roles.get("MINION"), roles.get("DEMON")];
+  var otherNightChars: CharacterInfo[] = [];
+
+  for (const character of characters) {
+    if (character.firstNight) {
+      firstNightChars.push(character);
+    }
+    if (character.otherNights) {
+      otherNightChars.push(character);
     }
   }
 
@@ -44,15 +52,22 @@ export function getNightOrders(characters: string[]): NightOrders {
 export class Script {
   readonly title: string;
   readonly orders: NightOrders;
+  readonly characters: CharacterInfo[];
   readonly jinxes: Jinx[];
 
   constructor(data: ScriptData) {
+    this.title = data.title;
+
     // normalize
     for (var i = 0; i < data.characters.length; i++) {
       data.characters[i] = nameToId(data.characters[i]);
     }
-    this.title = data.title;
-    this.orders = getNightOrders(data.characters);
+
+    const characters = getCharacterList(data.characters);
+
+    this.characters = characters;
+    this.orders = getNightOrders(characters);
+
     this.jinxes = getJinxList(data.characters);
   }
 }
