@@ -1,14 +1,15 @@
 import { CharacterInfo } from './botc/roles';
 import { NightOrders, Script } from './botc/script';
-import axios from 'axios';
+import { selectedScript } from './select_script';
 
 import { characterIconElement, htmlToElements, iconPath } from './views';
-import classnames from 'classnames';
 
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
-import { selectedScript } from './select_script';
 const { div, h1, a, table, tbody, tr, td } = hh(h);
+
+import axios from 'axios';
+import classnames from 'classnames';
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",

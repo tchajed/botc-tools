@@ -8,3 +8,31 @@ a {
 a:visited {
   color: purple;
 }
+
+table {
+  width: 50%;
+}
+
+.title-cell {
+  // TODO: how to scale this with the page width?
+  width: 50px;
+}
+
+.roles-cell,
+.nightsheet-cell {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.btn {
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  border-radius: 0.25rem;
+  background-color: #007bff;
+  border-color: #007bff;
+
+  a,
+  a:visited {
+    color: white;
+  }
+}

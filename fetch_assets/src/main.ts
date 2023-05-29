@@ -3,7 +3,8 @@ import { Command } from 'commander';
 import cliProgress from 'cli-progress';
 import { allIcons, downloadIcons, saveIcons } from './images';
 import { downloadCharacterData } from './character_json';
-import { getScript } from './get_script';
+import { ScriptData, getScript } from './get_script';
+import path from 'path';
 
 async function main() {
   const program = new Command();
@@ -18,7 +19,7 @@ async function main() {
 
   const options = program.opts();
 
-  if (!(options.json || options.img || options.scripts)) {
+  if (!(options.json || options.img || options.scripts !== undefined)) {
     console.warn("no tasks specified, doing nothing");
     return;
   }
@@ -52,18 +53,34 @@ async function main() {
     await saveIcons(downloads, imgDir);
   }
 
-  if (options.scripts) {
+  if (options.scripts !== undefined) {
     fs.mkdirSync(scriptsDir, { recursive: true });
 
-    let scripts: string = options.scripts;
-    let ids = scripts.split(",").map(s => s.trim())
+    let scripts: string = options.scripts || "";
+    let ids = scripts.split(",").map(s => s.trim()).filter(s => s != "");
     await Promise.all(ids.map(async (id) => {
       let script = await getScript(id);
       await fs.promises.writeFile(`${scriptsDir}/${id}.json`, JSON.stringify(script));
       console.log(`downloaded ${id} - ${script.title}`);
     }));
 
-    // TODO: create an index of downloaded scripts
+    let listing = [];
+    var files = fs.readdirSync(scriptsDir);
+    for (const file of files) {
+      let contents = await fs.promises.readFile(`${scriptsDir}/${file}`, {
+        encoding: "utf-8",
+      });
+      let id = path.basename(file, ".json");
+      let script: ScriptData = JSON.parse(contents);
+      listing.push({
+        id,
+        title: script.title,
+      });
+    }
+    listing.sort((s1, s2) => parseInt(s1.id) - parseInt(s2.id));
+    await fs.promises.writeFile(`${assetsDir}/scripts.json`, JSON.stringify({
+      scripts: listing,
+    }));
   }
 }
 

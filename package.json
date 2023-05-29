@@ -2,7 +2,8 @@
   "name": "botc_sheet",
   "source": [
     "src/index.html",
-    "src/roles.html"
+    "src/roles.html",
+    "src/nightsheet.html"
   ],
   "scripts": {
     "fetch-assets": "ts-node fetch_assets/src/main.ts",
