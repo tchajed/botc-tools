@@ -62,7 +62,7 @@ function loadScriptToDOM(script: Script) {
   el.insertAdjacentHTML("beforeend", "<footer>*Not the first night</footer>");
 }
 
-import script from '../assets/scripts/laissez_un_carnaval.json';
+import script from '../../assets/scripts/laissez_un_carnaval.json';
 // import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
 // import script from '../assets/scripts/visitors.json';
 // import script from '../assets/scripts/sects_and_violets.json';

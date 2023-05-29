@@ -1,6 +1,6 @@
-import script_roles from '../../assets/data/roles.json';
-import botc_roles from '../../assets/data/botc_online_roles.json';
-import nightsheet from '../../assets/data/nightsheet.json';
+import script_roles from '../../../assets/data/roles.json';
+import botc_roles from '../../../assets/data/botc_online_roles.json';
+import nightsheet from '../../../assets/data/nightsheet.json';
 
 interface Override {
   firstNight?: string | null;

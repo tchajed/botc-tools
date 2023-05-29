@@ -1,4 +1,4 @@
-import images from '../assets/img/*.png';
+import images from '../../assets/img/*.png';
 
 import h from 'hyperscript';
 
