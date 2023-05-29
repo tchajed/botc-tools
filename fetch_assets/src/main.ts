@@ -53,7 +53,7 @@ async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
   let { data } = await axios.get(icon.url, {
     responseType: "arraybuffer",
     responseEncoding: "binary",
-    maxRate: 2000 * 1024, // 1MB/s
+    maxRate: 3000 * 1024, // 3MB/s
   });
   return data;
 }
