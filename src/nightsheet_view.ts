@@ -95,6 +95,7 @@ function createSheetElement(script: Script, firstNight: boolean): HTMLElement {
 
 export function loadScriptToDOM(script: Script) {
   document.title = `${script.title} night sheets`;
+  document.body.innerHTML = "";
   document.body.insertAdjacentElement("beforeend", createSheetElement(script, true));
   document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-top"></div>`);
   document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-bottom"></div>`);

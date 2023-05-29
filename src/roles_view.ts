@@ -55,6 +55,7 @@ function createCharactersList(characters: CharacterInfo[]): HTMLElement {
 
 function loadScriptToDOM(script: Script) {
   document.title = `${script.title} roles sheet`;
+  document.body.innerHTML = "";
   document.body.insertAdjacentElement("beforeend", createHeaderHTML(script.title));
   document.body.insertAdjacentElement("beforeend", createCharactersList(script.characters));
   document.body.insertAdjacentHTML("beforeend", "<footer>*Not the first night</footer>");
