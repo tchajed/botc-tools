@@ -95,11 +95,12 @@ function createSheetElement(script: Script, firstNight: boolean): HTMLElement {
 
 export function loadScriptToDOM(script: Script) {
   document.title = `${script.title} night sheets`;
-  document.body.innerHTML = "";
-  document.body.insertAdjacentElement("beforeend", createSheetElement(script, true));
-  document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-top"></div>`);
-  document.body.insertAdjacentHTML("beforeend", `<div class="page-divider-bottom"></div>`);
-  document.body.insertAdjacentElement("beforeend", createSheetElement(script, false));
+  const el = document.getElementById("app");
+  el.innerHTML = "";
+  el.insertAdjacentElement("beforeend", createSheetElement(script, true));
+  el.insertAdjacentHTML("beforeend", `<div class="page-divider-top"></div>`);
+  el.insertAdjacentHTML("beforeend", `<div class="page-divider-bottom"></div>`);
+  el.insertAdjacentElement("beforeend", createSheetElement(script, false));
 }
 
 import script from '../assets/scripts/laissez_un_carnaval.json';
