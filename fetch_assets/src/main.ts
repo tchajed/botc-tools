@@ -3,6 +3,9 @@ import fs from 'fs';
 import { Command } from 'commander';
 import sharp from 'sharp';
 import cliProgress from 'cli-progress';
+import http from 'http';
+
+http.globalAgent.maxSockets = 10;
 
 async function completeQuery(params: any, continueParam: string,
   continueVal: string | null = null): Promise<any[]> {
@@ -35,6 +38,8 @@ interface Icon {
 }
 
 function allIcons(): Promise<Icon[]> {
+  // returns results like
+  // 'https://wiki.bloodontheclocktower.com/api.php?action=query&list=allimages&ailimit=10&aifrom=Icon_&aito=J&format=json'
   return completeQuery({
     list: "allimages",
     ailimit: 20,
@@ -94,13 +99,13 @@ interface DownloadedIcon {
 async function downloadIcons(icons: Icon[], progressCb: (number) => any): Promise<DownloadedIcon[]> {
   var downloads: DownloadedIcon[] = [];
   while (icons.length > 0) {
-    var nextBatch = await Promise.all(icons.splice(0, 5).map(icon =>
+    var nextBatch = await Promise.all(icons.splice(0, 10).map(icon =>
       downloadIcon(icon).then(data => {
+        progressCb(1);
         return { icon, data };
       })
     ));
     downloads.push(...nextBatch);
-    progressCb(downloads.length);
   }
   return downloads;
 }
@@ -172,7 +177,7 @@ async function main() {
     bar.start(icons.length, 0);
 
     const downloads = await downloadIcons(icons, (n) => {
-      bar.update(n);
+      bar.increment(n);
     });
     bar.stop();
 
