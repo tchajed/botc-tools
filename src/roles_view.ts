@@ -27,12 +27,12 @@ function createCharacterHTML(character: CharacterInfo): HTMLElement {
   return tr({ className: classnames(character.evil ? "evil" : "good") }, cells);
 }
 
+function pluralRole(roleType: string): string {
+  return roleType == "townsfolk" ? roleType : roleType + "s"
+}
+
 function roleTypeRow(roleType: string): HTMLElement {
-  var label: string = roleType;
-  if (label != "townsfolk") {
-    label += "s";
-  }
-  label = label.toUpperCase();
+  var label: string = pluralRole(roleType).toUpperCase();
   var cells = [];
   cells.push(td()); // icon column
   cells.push(td(strong([label])));
