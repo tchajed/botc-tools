@@ -13,8 +13,6 @@ Run `yarn` to get the dependencies.
 yarn fetch-assets --json --img
 ```
 
-Fetching the images will take about a minute.
-
 ## Running the web site
 
 For development, run `yarn parcel`.
