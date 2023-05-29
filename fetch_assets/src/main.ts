@@ -7,6 +7,11 @@ import http from 'http';
 
 http.globalAgent.maxSockets = 10;
 
+/** Recursively fetch a paged query with a continue parameter until it has no more results.
+ *
+ * @param params The query to run.
+ * @param continueParam The name of the parameter that specifies how to resume queries.
+ */
 async function completeQuery(params: any, continueParam: string,
   continueVal: string | null = null): Promise<any[]> {
   if (continueVal !== null) {
@@ -26,6 +31,7 @@ async function completeQuery(params: any, continueParam: string,
   }
   // need to recursively get remaining results
   let rest = await completeQuery(params, continueParam, data.continue[continueParam]);
+  // insert the original results at the front of the list
   rest.unshift(data.query);
   return rest;
 }
@@ -37,8 +43,11 @@ interface Icon {
   url: string,
 }
 
+/** Fetch the list of all icons on the wiki through the MediaWiki API. */
 function allIcons(): Promise<Icon[]> {
-  // returns results like
+  // See https://www.mediawiki.org/wiki/API:Allimages for documentation
+  //
+  // Use curl to get an idea of the data format:
   // 'https://wiki.bloodontheclocktower.com/api.php?action=query&list=allimages&ailimit=10&aifrom=Icon_&aito=J&format=json'
   return completeQuery({
     list: "allimages",
@@ -46,7 +55,7 @@ function allIcons(): Promise<Icon[]> {
     aifrom: "Icon_",
     aito: "J",
   }, "aicontinue").then((results) => {
-    var images = [];
+    var images: Icon[] = [];
     for (const r of results) {
       images.push(...r.allimages);
     }
@@ -54,19 +63,36 @@ function allIcons(): Promise<Icon[]> {
   });
 }
 
-async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
-  let { data } = await axios.get(icon.url, {
-    responseType: "arraybuffer",
-    responseEncoding: "binary",
-    maxRate: 3000 * 1024, // 3MB/s
-  });
-  return data;
+interface DownloadedIcon {
+  icon: Icon;
+  data: ArrayBuffer;
+}
+
+/** Download a list of icons and return the raw data in memory. */
+async function downloadIcons(icons: Icon[], progressCb: (number) => any): Promise<DownloadedIcon[]> {
+  async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
+    let { data } = await axios.get(icon.url, {
+      responseType: "arraybuffer",
+      responseEncoding: "binary",
+      maxRate: 3000 * 1024, // 3MB/s
+    });
+    return data;
+  }
+
+  var downloads: DownloadedIcon[] = [];
+  while (icons.length > 0) {
+    var nextBatch = await Promise.all(icons.splice(0, 10).map(icon =>
+      downloadIcon(icon).then(data => {
+        progressCb(1);
+        return { icon, data };
+      })
+    ));
+    downloads.push(...nextBatch);
+  }
+  return downloads;
 }
 
 async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
-  // need two resizes, which can't be in the same pipeline:
-  // first removes some of the empty space around each icon,
-  // second scales the icon down
   let img = sharp(data);
   let meta = await img.metadata();
   const size = 401;
@@ -85,38 +111,21 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
   });
 }
 
-function iconName(icon: Icon): string {
-  const restOfName = icon.name.slice("Icon_".length);
-  const cleanedName = restOfName.replace(/_/g, "");
-  return `Icon_${cleanedName}`;
-}
-
-interface DownloadedIcon {
-  icon: Icon;
-  data: ArrayBuffer;
-}
-
-async function downloadIcons(icons: Icon[], progressCb: (number) => any): Promise<DownloadedIcon[]> {
-  var downloads: DownloadedIcon[] = [];
-  while (icons.length > 0) {
-    var nextBatch = await Promise.all(icons.splice(0, 10).map(icon =>
-      downloadIcon(icon).then(data => {
-        progressCb(1);
-        return { icon, data };
-      })
-    ));
-    downloads.push(...nextBatch);
-  }
-  return downloads;
-}
-
+/** Resize and save icons that are already in memory. */
 async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
-  Promise.all(downloads.map(dl => {
+  function iconName(icon: Icon): string {
+    const restOfName = icon.name.slice("Icon_".length);
+    const cleanedName = restOfName.replace(/_/g, "");
+    return `Icon_${cleanedName}`;
+  }
+
+  await Promise.all(downloads.map(dl => {
     const path = `${imgDir}/${iconName(dl.icon)}`;
     return rescaleIcon(dl.data).then(img => img.toFile(path));
   }));
 }
 
+/** Download JSON files with character metadata and text. */
 async function downloadScriptData(assetsPath: string) {
   // there's also tether.json and game-characters-restrictions.json which we don't download
   var downloads: { url: string; name: string; }[] = [];
