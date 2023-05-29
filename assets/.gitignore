@@ -1,0 +1,4 @@
+# downloaded by fetch_assets --img
+img/*.png
+# downloaded by fetch_assets --scripts
+static/scripts/*.json

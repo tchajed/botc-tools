@@ -1,11 +1,13 @@
 import { CharacterInfo } from './botc/roles';
 import { NightOrders, Script } from './botc/script';
+import axios from 'axios';
 
 import { characterIconElement, htmlToElements, iconPath } from './views';
 import classnames from 'classnames';
 
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
+import { selectedScript } from './select_script';
 const { div, h1, a, table, tbody, tr, td } = hh(h);
 
 const tokenNames = new Set([
@@ -103,8 +105,10 @@ export function loadScriptToDOM(script: Script) {
   el.insertAdjacentElement("beforeend", createSheetElement(script, false));
 }
 
-import script from '../../assets/scripts/laissez_un_carnaval.json';
-// import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
-// import script from '../assets/scripts/visitors.json';
-// import script from '../assets/scripts/sects_and_violets.json';
-loadScriptToDOM(new Script(script));
+async function init() {
+  let id = selectedScript();
+  let script = await axios.get(`/scripts/${id}.json`);
+  loadScriptToDOM(new Script(script.data));
+}
+
+init();

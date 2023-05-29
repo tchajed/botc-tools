@@ -8,6 +8,8 @@ import hh from 'hyperscript-helpers';
 const { div, h1, strong, table, tbody, tr, td } = hh(h);
 
 import classnames from 'classnames';
+import axios from 'axios';
+import { selectedScript } from './select_script';
 
 function createHeaderHTML(title: string): HTMLElement {
   return h1(div(title));
@@ -62,8 +64,10 @@ function loadScriptToDOM(script: Script) {
   el.insertAdjacentHTML("beforeend", "<footer>*Not the first night</footer>");
 }
 
-import script from '../../assets/scripts/laissez_un_carnaval.json';
-// import script from '../assets/scripts/faith_trust_and_pixie_dust.json';
-// import script from '../assets/scripts/visitors.json';
-// import script from '../assets/scripts/sects_and_violets.json';
-loadScriptToDOM(new Script(script));
+async function init() {
+  let id = selectedScript();
+  let script = await axios.get(`/scripts/${id}.json`);
+  loadScriptToDOM(new Script(script.data));
+}
+
+init();

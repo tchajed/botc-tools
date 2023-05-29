@@ -3,6 +3,7 @@ import { CharacterInfo, nameToId, roles } from "./roles";
 
 export class ScriptData {
   title: string;
+  author?: string;
   characters: string[];
 }
 
