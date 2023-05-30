@@ -7,10 +7,10 @@ script, with instructions for each characters, similar in style to the base 3
 scripts. These print nicely.
 
 **Role sheet:** A replacement for the script tool's role sheet (for players)
-*that uses the new icons. Planned is to implement a two-column layout.
+that uses the new icons. Planned is to implement a two-column layout.
 
 **Role selector:** Select roles for a script and randomize them. Helps set up a
-*game that will otherwise be run from a piece of paper (or an iPad).
+game that will otherwise be run from a piece of paper (or an iPad).
 
 ## Setting up
 
