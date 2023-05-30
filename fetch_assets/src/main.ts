@@ -60,6 +60,10 @@ async function main() {
     let ids = scripts.split(",").map(s => s.trim()).filter(s => s != "");
     await Promise.all(ids.map(async (id) => {
       let script = await getScript(id);
+      if (script == null) {
+        console.error(`could not download ${id}`);
+        return;
+      }
       await fs.promises.writeFile(`${scriptsDir}/${id}.json`, JSON.stringify(script));
       console.log(`downloaded ${id} - ${script.title}`);
     }));

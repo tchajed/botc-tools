@@ -39,8 +39,8 @@ function idsFromContents(content: ContentRow[]): string[] {
   return ids;
 }
 
-async function getScriptResp(id: string): Promise<ScriptInstanceResp | ScriptJsonResp> {
-  let resp = await axios.get(`${apiBase}/scripts/${id}?format=json`).catch((err) => {
+async function getScriptResp(id: string): Promise<ScriptInstanceResp | ScriptJsonResp | null> {
+  let resp = await axios.get(`${apiBase}/scripts/${id}/?format=json`).catch((err) => {
     if (err.response && err.response.status == 404) {
       return null;
     } else {
@@ -61,12 +61,18 @@ async function getScriptResp(id: string): Promise<ScriptInstanceResp | ScriptJso
   return data;
 }
 
-export async function getScript(id: string): Promise<ScriptData> {
+export async function getScript(id: string): Promise<ScriptData | null> {
   let data = await getScriptResp(id);
+  if (data == null) {
+    return null;
+  }
   if (data instanceof Array) {
     let contents = data;
     // just a contents array
     let meta = metaFromContents(contents);
+    if (meta == null) {
+      return null;
+    }
     return {
       title: meta.name,
       author: meta.author,
