@@ -36,6 +36,7 @@ jobs:
           path: |
             assets/img/*.png
             assets/static/scripts
+            .parcel-cache
           key: assets
       - name: Yarn setup
         run:
