@@ -19,12 +19,18 @@ Run `yarn` to get the dependencies.
 ## Downloading the assets
 
 ```sh
-yarn fetch-assets --json --img
-yarn fetch-assets --scripts favorites
+yarn fetch-assets
+```
+
+Running this multiple times won't re-download images and scripts (which take
+some time). If you want to re-fetch, delete the downloaded assets:
+
+```sh
+rm -r assets/{data,static,img/*.png}
 ```
 
 ## Running the web site
 
-For development, run `yarn parcel`.
+Use `yarn parcel` to run a development server.
 
-To build to `dist/` run `yarn parcel build`.
+To build an optimized, static version of the site to `dist/`, run `yarn build`.

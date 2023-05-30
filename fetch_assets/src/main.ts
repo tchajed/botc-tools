@@ -82,19 +82,23 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
 async function main() {
   const program = new Command();
 
-  program.version("0.1.0")
+  program.version("0.2.0")
     .description("Download assets for BotC sheets")
+    .option("--all", "Download all assets (shorthand for --json --img --scripts favorites)")
     .option("--json", "Download JSON game data")
     .option("--img", "Download images")
-    .option("--scripts <ids>", "Download script (by its id on botc-scripts)")
+    .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
     .option("-o, --out <assets dir>", "Path to assets directory", "./assets")
     .parse(process.argv);
 
   const options = program.opts();
 
-  if (!(options.json || options.img || options.scripts !== undefined)) {
-    console.warn("no tasks specified, doing nothing");
-    return;
+  if (options.all ||
+    // if nothing is selected, fetch everything by default
+    !(options.json || options.img || options.scripts !== undefined)) {
+    options.json = true;
+    options.img = true;
+    options.scripts = "favorites";
   }
 
   const assetsDir = options.out;

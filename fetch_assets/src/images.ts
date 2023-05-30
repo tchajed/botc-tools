@@ -49,7 +49,7 @@ export function allIcons(): Promise<Icon[]> {
   // 'https://wiki.bloodontheclocktower.com/api.php?action=query&list=allimages&ailimit=10&aifrom=Icon_&aito=J&format=json'
   return completeQuery({
     list: "allimages",
-    ailimit: 20,
+    ailimit: "max",
     aifrom: "Icon_",
     aito: "J",
   }, "aicontinue").then((results) => {
