@@ -151,12 +151,18 @@ function createCharactersList(characters: CharacterInfo[]): HTMLElement {
   for (const character of characters) {
     state.addCharacter(character);
   }
-  var cols = createCharacterColumns(characters, 3);
-  return div(".characters", cols.map(col =>
-    div(".column", col.map(character =>
-      createCharacterHTML(character, true)
-    )),
-  ));
+  function characterColumnsHTML(characters: CharacterInfo[], numColumns: number): HTMLElement {
+    var cols = createCharacterColumns(characters, numColumns);
+    return div(".characters", cols.map(col =>
+      div(".column", col.map(character =>
+        createCharacterHTML(character, true)
+      )),
+    ));
+  }
+  return div([
+    characterColumnsHTML(characters.filter(c => c.good), 2),
+    characterColumnsHTML(characters.filter(c => !c.good), 2),
+  ]);
 }
 
 function createSelectedCharactersHTML(): HTMLElement {
