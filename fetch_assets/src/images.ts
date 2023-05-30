@@ -1,6 +1,7 @@
 import axios from 'axios';
 import sharp from 'sharp';
 import http from 'http';
+import fs from 'fs';
 
 http.globalAgent.maxSockets = 10;
 
@@ -60,13 +61,23 @@ export function allIcons(): Promise<Icon[]> {
   });
 }
 
+export function findNotDownloaded(icons: Icon[], imgDir: string): Icon[] {
+  return icons.filter(icon => {
+    let fileName = iconFileName(icon);
+    return !fs.existsSync(`${imgDir}/${fileName}`);
+  });
+}
+
 interface DownloadedIcon {
   icon: Icon;
   data: ArrayBuffer;
 }
 
-/** Download a list of icons and return the raw data in memory. */
-export async function downloadIcons(icons: Icon[], progressCb: (number) => any): Promise<DownloadedIcon[]> {
+/** Download a list of icons and return the raw data in memory.  */
+export async function downloadIcons(
+  icons: Icon[],
+  progressCb: (number) => any):
+  Promise<DownloadedIcon[]> {
   async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
     let { data } = await axios.get(icon.url, {
       responseType: "arraybuffer",
@@ -108,16 +119,16 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
   });
 }
 
+function iconFileName(icon: Icon): string {
+  const restOfName = icon.name.slice("Icon_".length);
+  const cleanedName = restOfName.replace(/_/g, "");
+  return `Icon_${cleanedName}`;
+}
+
 /** Resize and save icons that are already in memory. */
 export async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
-  function iconName(icon: Icon): string {
-    const restOfName = icon.name.slice("Icon_".length);
-    const cleanedName = restOfName.replace(/_/g, "");
-    return `Icon_${cleanedName}`;
-  }
-
   await Promise.all(downloads.map(dl => {
-    const path = `${imgDir}/${iconName(dl.icon)}`;
+    const path = `${imgDir}/${iconFileName(dl.icon)}`;
     return rescaleIcon(dl.data).then(img => img.toFile(path));
   }));
 }
