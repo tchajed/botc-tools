@@ -30,7 +30,6 @@ jobs:
           node-version: 20.x
           cache: yarn
       - name: Cache assets
-        id: cache-assets
         uses: actions/cache@v3
         with:
           path: |
@@ -38,6 +37,11 @@ jobs:
             assets/static/scripts
             .parcel-cache
           key: assets
+      - name: Cache parcel
+        uses: actions/cache@v3
+        with:
+          path: .parcel-cache
+          key: parcel
       - name: Yarn setup
         run:
           yarn install
