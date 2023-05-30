@@ -25,10 +25,27 @@ body {
   padding: 0.5rem 0.5rem;
   margin: 0.5rem;
   cursor: pointer;
+  user-select: none;
+}
+
+input {
+  width: 4em;
+}
+
+#distribution {
+  font-size: 120%;
+}
+
+.error {
+  color: red;
 }
 
 .character:hover {
   border-color: rgb(0, 170, 255);
+}
+
+.character.selected {
+  border-color: rgb(153, 0, 255);
 }
 
 .role-label {
@@ -52,10 +69,12 @@ img.char-icon {
   width: $img-size;
 }
 
-.good .name {
+.good .name,
+span.good {
   color: main.$good;
 }
 
-.evil .name {
+.evil .name,
+span.evil {
   color: main.$evil
 }
