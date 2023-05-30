@@ -32,13 +32,31 @@ function createCharactersList(characters: CharacterInfo[]): HTMLElement {
   for (const character of characters) {
     rows.push(createCharacterHTML(character));
   }
-  var num = Math.ceil(rows.length / 2);
-  var column1 = rows.slice(0, num);
-  var column2 = rows.slice(num, rows.length);
-  return div(".characters",
-    [div(".column", column1),
-    div(".column", column2)],
-  );
+  var numColumns = 3;
+  const numPerColumn = Math.ceil(rows.length / numColumns);
+  var taken = 0;
+  var columns = [];
+  while (rows.length > 0) {
+    var num = numPerColumn;
+    // this isn't the last column
+    if (rows.length > num &&
+      // and the last two of this row have different roles
+      characters[taken + num - 1].roleType !=
+      characters[taken + num - 2].roleType) {
+      // ... so move the last one to the next column
+      num--;
+    }
+    // if the next column would have a single role at the top, take it earlier
+    if (rows.length > 1 &&
+      taken + num + 1 < characters.length &&
+      characters[taken + num].roleType != characters[taken + num + 1].roleType) {
+      num++;
+    }
+    let col = rows.splice(0, num);
+    columns.push(col);
+    taken += col.length;
+  }
+  return div(".characters", columns.map(col => div(".column", col)));
 }
 
 function loadScriptToDOM(script: Script) {
