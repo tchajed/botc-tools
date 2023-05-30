@@ -8,7 +8,6 @@ import hh from 'hyperscript-helpers';
 const { div, h1, strong, br, span } = hh(h);
 
 import classnames from 'classnames';
-import axios from 'axios';
 import { selectedScript } from './select_script';
 
 function createHeaderHTML(title: string): HTMLElement {
@@ -51,9 +50,8 @@ function loadScriptToDOM(script: Script) {
 }
 
 async function init() {
-  let id = selectedScript();
-  let script = await axios.get(`/scripts/${id}.json`);
-  loadScriptToDOM(new Script(script.data));
+  let script = await selectedScript();
+  loadScriptToDOM(new Script(script));
 }
 
 init();
