@@ -5,7 +5,7 @@ import { characterIconElement, htmlToElements } from './views';
 
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
-const { div, h1, strong, br, span, label, input, hr } = hh(h);
+const { div, h1, strong, br, span, label, input, hr, button } = hh(h);
 
 import classnames from 'classnames';
 import { selectedScript } from './select_script';
@@ -41,7 +41,7 @@ function distributionForCount(numPlayers: number): Distribution {
 
 // TODO: better naming
 function distributionHTML(dist: Distribution): HTMLElement {
-  return span(
+  return span(".distribution",
     [span(".good", dist.townsfolk.toString()),
       " / ",
     span(".good", dist.outsider.toString()),
@@ -53,35 +53,75 @@ function distributionHTML(dist: Distribution): HTMLElement {
 }
 
 function createDistributionHTML(state: Randomizer): HTMLElement {
+  var dist: Distribution;
   if (state.getNumPlayers() == null) {
-    return span("");
+    dist = { townsfolk: 0, outsider: 0, minion: 0, demon: 0 };
+  } else {
+    dist = distributionForCount(state.getNumPlayers());
   }
-  let dist = distributionForCount(state.getNumPlayers());
-  return distributionHTML(dist);
+  return span([
+    "base: ",
+    distributionHTML(dist),
+  ]);
+}
+
+function onNumPlayerUpdate(numPlayers: string) {
+  if (numPlayers == "") {
+    state.setNumPlayers(null);
+  } else {
+    state.setNumPlayers(parseInt(numPlayers));
+  }
+  updateBaseDistribution();
+}
+
+function updateBaseDistribution() {
+  const distEl = document.getElementById("distribution");
+  distEl.innerHTML = "";
+  distEl.insertAdjacentElement("beforeend", createDistributionHTML(state));
+}
+
+function updatePlayerInput() {
+  const el = document.getElementById("numPlayers");
+  if (el instanceof HTMLInputElement) {
+    let numPlayers = state.getNumPlayers();
+    el.value = numPlayers == null ? "" : numPlayers.toString();
+    updateBaseDistribution();
+  }
+}
+
+function incdecButtonEvent(change: number): (Event) => void {
+  return (e) => {
+    console.log("incdec");
+    if (state.getNumPlayers() == null) {
+      state.setNumPlayers(5);
+    } else {
+      state.setNumPlayers(state.getNumPlayers() + change);
+    }
+    updatePlayerInput();
+    return true;
+  };
 }
 
 function createPlayerSelectHTML(): HTMLElement {
+  state.setNumPlayers(8);
   return div("#players", [
     div(
-      [label({ for: "numPlayers" }, "Players: "),
+      [label({ for: "numPlayers" }, "players: "),
+      button({ onclick: incdecButtonEvent(-1) }, "-"),
       input(
         {
+          value: state.getNumPlayers(),
           oninput: (e: Event) => {
             if (e.target instanceof HTMLInputElement) {
-              const el = e.target;
-              if (el.value == "") {
-                state.setNumPlayers(null);
-              } else {
-                state.setNumPlayers(parseInt(el.value));
-              }
-              const distEl = document.getElementById("distribution");
-              distEl.innerHTML = "";
-              distEl.insertAdjacentElement("beforeend", createDistributionHTML(state));
+              onNumPlayerUpdate(e.target.value);
+              return true;
             }
           },
         },
         { type: "text", id: "numPlayers", name: "numPlayers" },
-      )]),
+      ),
+      button({ onclick: incdecButtonEvent(+1) }, "+"),
+      ]),
     div("#distribution", createDistributionHTML(state)),
   ]);
 }

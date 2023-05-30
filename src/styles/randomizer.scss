@@ -28,12 +28,33 @@ body {
   user-select: none;
 }
 
-input {
-  width: 4em;
+#players {
+  font-size: 120%;
+
+  input {
+    width: 2em;
+    font-size: inherit;
+    line-height: 1.5em;
+    text-align: center;
+    vertical-align: middle;
+    margin: 2px;
+  }
+
+  button {
+    height: 2em;
+    width: 1.5rem;
+    margin: 2px;
+    vertical-align: middle;
+  }
 }
 
-#distribution {
-  font-size: 120%;
+span.distribution {
+  span {
+    // make each number fixed-width
+    display: inline-block;
+    width: 0.75rem;
+    text-align: center;
+  }
 }
 
 .error {
