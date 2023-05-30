@@ -14,6 +14,9 @@ function createScriptTable(): HTMLElement {
       td(".nightsheet-cell",
         div(".btn", a({ href: `/nightsheet.html?id=${script.id}` },
           ["Night sheet"]))),
+      td(".randomizer-cell",
+        div(".btn", a({ href: `/randomize.html?id=${script.id}` },
+          ["Select roles"]))),
     ]);
   });
   return table(tbody(rows));

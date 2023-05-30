@@ -193,7 +193,7 @@ function createApp(script: Script): HTMLElement[] {
 }
 
 function loadScriptToDOM(script: Script) {
-  document.title = `${script.title} roles sheet`;
+  document.title = `${script.title} role select`;
   const app = document.getElementById("app");
   app.innerHTML = "";
   for (const el of createApp(script)) {

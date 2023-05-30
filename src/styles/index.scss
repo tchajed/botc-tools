@@ -10,16 +10,12 @@ a:visited {
 }
 
 table {
-  width: 50%;
-}
-
-.title-cell {
-  // TODO: how to scale this with the page width?
-  width: 50px;
+  width: 60%;
 }
 
 .roles-cell,
-.nightsheet-cell {
+.nightsheet-cell,
+.randomizer-cell {
   width: 1%;
   white-space: nowrap;
 }
