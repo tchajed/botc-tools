@@ -91,7 +91,7 @@ function createCharacterHTML(character: CharacterInfo): HTMLElement {
   if (["outsider", "minion"].includes(character.roleType)) {
     roleLabel = span(".role-label", character.roleType.charAt(0).toUpperCase());
   }
-  state.addCharacter(character.id);
+  state.addCharacter(character);
   return div({
     className: classnames(character.evil ? "evil" : "good", "character"),
     onclick: (e: Event) => toggleCharacter(character.id, e),

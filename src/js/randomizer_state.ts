@@ -1,14 +1,19 @@
+import { CharacterInfo } from "./botc/roles";
+
 export class Randomizer {
   numPlayers: number | null;
   selected: { [key: string]: boolean };
+  characters: { [key: string]: CharacterInfo };
 
   constructor() {
     this.selected = {};
+    this.characters = {};
     this.numPlayers = null;
   }
 
-  addCharacter(id: string) {
-    this.selected[id] = false;
+  addCharacter(character: CharacterInfo) {
+    this.selected[character.id] = false;
+    this.characters[character.id] = character;
   }
 
   toggleSelected(id: string): boolean {
@@ -20,14 +25,14 @@ export class Randomizer {
     return this.selected[id];
   }
 
-  allSelected(): string[] {
-    var ids = [];
+  allSelected(): CharacterInfo[] {
+    var chars = [];
     for (const id of Object.keys(this.selected)) {
       if (this.selected[id]) {
-        ids.push(id);
+        chars.push(this.characters[id]);
       }
     }
-    return ids;
+    return chars;
   }
 
   setNumPlayers(numPlayers: number | null): boolean {
