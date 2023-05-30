@@ -12,18 +12,17 @@ export function zeroDistribution(): Distribution {
 }
 
 export function distributionForCount(numPlayers: number): Distribution {
-  const demon = 1;
-  var outsider = null;
-  var minion = null;
+  var dist = zeroDistribution();
+  dist.demon = 1;
   if (numPlayers == 5 || numPlayers == 6) {
-    outsider = numPlayers - 5;
-    minion = 1;
+    dist.outsider = numPlayers - 5;
+    dist.minion = 1;
   } else {
-    outsider = (numPlayers - 7) % 3;
-    minion = Math.floor((numPlayers - 7) / 3) + 1;
+    dist.outsider = (numPlayers - 7) % 3;
+    dist.minion = Math.floor((numPlayers - 7) / 3) + 1;
   }
-  const townsfolk = numPlayers - outsider - minion - demon;
-  return { townsfolk, outsider, minion, demon };
+  dist.townsfolk = numPlayers - dist.outsider - dist.minion - dist.demon;
+  return dist;
 }
 
 export function validNumPlayers(numPlayers: number): boolean {

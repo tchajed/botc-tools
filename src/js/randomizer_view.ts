@@ -32,12 +32,8 @@ function distributionHTML(dist: Distribution): HTMLElement {
 }
 
 function createDistributionHTML(state: Randomizer): HTMLElement {
-  var dist: Distribution;
-  if (state.getNumPlayers() == null) {
-    dist = zeroDistribution();
-  } else {
-    dist = distributionForCount(state.getNumPlayers());
-  }
+  const numPlayers = state.getNumPlayers();
+  const dist = numPlayers == null ? zeroDistribution() : distributionForCount(numPlayers);
   return span([
     span(".label", "base: "),
     distributionHTML(dist),
@@ -55,6 +51,7 @@ function onNumPlayerUpdate(numPlayers: string) {
 
 function updateBaseDistribution() {
   const distEl = document.getElementById("distribution");
+  if (!distEl) { return; }
   distEl.innerHTML = "";
   distEl.insertAdjacentElement("beforeend", createDistributionHTML(state));
 }
@@ -70,11 +67,11 @@ function updatePlayerInput() {
 
 function incdecButtonEvent(change: number): (Event) => void {
   return (e) => {
-    console.log("incdec");
-    if (state.getNumPlayers() == null) {
+    const numPlayers = state.getNumPlayers();
+    if (numPlayers == null) {
       state.setNumPlayers(5);
     } else {
-      state.setNumPlayers(state.getNumPlayers() + change);
+      state.setNumPlayers(numPlayers + change);
     }
     updatePlayerInput();
     return true;
@@ -139,7 +136,7 @@ function createCharacterHTML(character: CharacterInfo, interactive: boolean): HT
 
 function createCharacterColumns(characters: CharacterInfo[], numColumns: number): CharacterInfo[][] {
   const numPerColumn = Math.ceil(characters.length / numColumns);
-  var columns = [];
+  var columns: CharacterInfo[][] = [];
   while (characters.length > 0) {
     let col = characters.splice(0, numPerColumn);
     columns.push(col);
@@ -184,6 +181,7 @@ function createSelectedCharactersHTML(): HTMLElement {
 
 function updateSelected() {
   const selected = document.getElementById("selected");
+  if (!selected) { return; }
   selected.innerHTML = "";
   selected.insertAdjacentElement("beforeend", createSelectedCharactersHTML());
 }
@@ -201,6 +199,7 @@ function createApp(script: Script): HTMLElement[] {
 function loadScriptToDOM(script: Script) {
   document.title = `${script.title} role select`;
   const app = document.getElementById("app");
+  if (!app) { return; }
   app.innerHTML = "";
   for (const el of createApp(script)) {
     app.insertAdjacentElement("beforeend", el);

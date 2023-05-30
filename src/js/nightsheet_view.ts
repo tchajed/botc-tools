@@ -29,11 +29,11 @@ function createHeader(title: string, firstNight: boolean): HTMLElement {
   );
 }
 
-function detailsElement(details: string | null): ChildNode[] {
-  if (!details) {
+function detailsElement(maybe_details: string | undefined): ChildNode[] {
+  if (!maybe_details) {
     return [];
   }
-  var details = details;
+  var details: string = maybe_details;
   details = details.replace(/If [^.]*:/g, '\n$&\n');
   details = details.trim();
   details = details.replace(/\n/g, "<br/>");
@@ -48,7 +48,7 @@ function detailsElement(details: string | null): ChildNode[] {
 }
 
 function characterRow(character: CharacterInfo, firstNight: boolean): HTMLElement {
-  var cells = [];
+  var cells: HTMLElement[] = [];
 
   cells.push(td(".icon-cell", characterIconElement(character)));
   var nameCell = [character.name];
@@ -56,7 +56,7 @@ function characterRow(character: CharacterInfo, firstNight: boolean): HTMLElemen
     nameCell = a({ href: `https://wiki.bloodontheclocktower.com/${character.name}` }, [nameCell]);
   }
   cells.push(td(".name-cell", nameCell));
-  const details = detailsElement(character.nightDetails(firstNight).details);
+  const details = detailsElement(character.nightDetails(firstNight)?.details);
   cells.push(td({
     className: classnames(
       "details", "details-cell",
@@ -67,7 +67,7 @@ function characterRow(character: CharacterInfo, firstNight: boolean): HTMLElemen
 }
 
 function createCharacterList(orders: NightOrders, firstNight: boolean): HTMLElement {
-  var rows = [];
+  var rows: HTMLElement[] = [];
   for (const character of firstNight ? orders.firstNight : orders.otherNights) {
     if (character.nightDetails(firstNight)) {
       rows.push(characterRow(character, firstNight));
@@ -77,7 +77,7 @@ function createCharacterList(orders: NightOrders, firstNight: boolean): HTMLElem
 }
 
 function createJinxesElement(script: Script): HTMLElement {
-  var els = [];
+  var els: HTMLElement[] = [];
   for (const jinx of script.jinxes) {
     for (const char of [jinx.character1, jinx.character2]) {
       els.push(...characterIconElement({ id: char }));
@@ -98,6 +98,9 @@ function createSheetElement(script: Script, firstNight: boolean): HTMLElement {
 export function loadScriptToDOM(script: Script) {
   document.title = `${script.title} night sheets`;
   const el = document.getElementById("app");
+  if (el == null) {
+    return;
+  }
   el.innerHTML = "";
   el.insertAdjacentElement("beforeend", createSheetElement(script, true));
   el.insertAdjacentHTML("beforeend", `<div class="page-divider-top"></div>`);

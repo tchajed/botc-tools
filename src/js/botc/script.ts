@@ -1,7 +1,7 @@
 import { Jinx, getJinxList } from "./jinx";
-import { CharacterInfo, nameToId, roles } from "./roles";
+import { CharacterInfo, DemonInfo, MinionInfo, nameToId, roles } from "./roles";
 
-export class ScriptData {
+export interface ScriptData {
   title: string;
   author?: string;
   characters: string[];
@@ -29,7 +29,7 @@ function getCharacterList(characters: string[]): CharacterInfo[] {
 }
 
 function getNightOrders(characters: CharacterInfo[]): NightOrders {
-  var firstNightChars: CharacterInfo[] = [roles.get("MINION"), roles.get("DEMON")];
+  var firstNightChars: CharacterInfo[] = [MinionInfo, DemonInfo];
   var otherNightChars: CharacterInfo[] = [];
 
   for (const character of characters) {

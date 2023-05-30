@@ -104,7 +104,7 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
   let img = sharp(data);
   let meta = await img.metadata();
   const size = 401;
-  if (meta.height > size) {
+  if (meta.height && meta.width && meta.height > size) {
     img = img.extract({
       left: Math.round((meta.width - size) / 2),
       top: Math.round((meta.height - size) / 2),

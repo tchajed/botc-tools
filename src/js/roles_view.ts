@@ -19,7 +19,7 @@ function abilityHTML(ability: string): ChildNode[] {
 }
 
 function createCharacterHTML(character: CharacterInfo): HTMLElement {
-  var cells = [];
+  var cells: HTMLElement[] = [];
 
   cells.push(td(".icon-cell", characterIconElement(character)));
   cells.push(td(".name-cell", [character.name]));
@@ -34,7 +34,7 @@ function pluralRole(roleType: string): string {
 
 function roleTypeRow(roleType: string): HTMLElement {
   var label: string = pluralRole(roleType).toUpperCase();
-  var cells = [];
+  var cells: HTMLElement[] = [];
   cells.push(td()); // icon column
   cells.push(td(strong([label])));
   cells.push(td()); // ability column
@@ -42,7 +42,7 @@ function roleTypeRow(roleType: string): HTMLElement {
 }
 
 function createCharactersList(characters: CharacterInfo[]): HTMLElement {
-  var rows = [];
+  var rows: HTMLElement[] = [];
   var rolesSeen = {};
   for (const character of characters) {
     if (!rolesSeen[character.roleType]) {
@@ -57,6 +57,7 @@ function createCharactersList(characters: CharacterInfo[]): HTMLElement {
 function loadScriptToDOM(script: Script) {
   document.title = `${script.title} roles sheet`;
   const el = document.getElementById("app");
+  if (!el) { return; }
   el.innerHTML = "";
   el.insertAdjacentElement("beforeend", createHeaderHTML(script.title));
   el.insertAdjacentElement("beforeend", createCharactersList(script.characters));

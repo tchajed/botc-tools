@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export class ScriptData {
+export interface ScriptData {
   title: string;
   author: string;
   characters: string[];
@@ -81,7 +81,7 @@ export async function getScript(id: string): Promise<ScriptData | null> {
   }
   // I haven't seen this required but maybe sometimes the root metadata is
   // missing.
-  let meta = metaFromContents(data.content);
+  let meta = metaFromContents(data.content) || { name: "", author: "" };
   return {
     title: data.name || meta.name,
     author: data.author || meta.author,

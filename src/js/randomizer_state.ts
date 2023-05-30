@@ -27,7 +27,7 @@ export class Randomizer {
   }
 
   allSelected(): CharacterInfo[] {
-    var chars = [];
+    var chars: CharacterInfo[] = [];
     for (const id of Object.keys(this.selected)) {
       if (this.selected[id]) {
         chars.push(this.characters[id]);

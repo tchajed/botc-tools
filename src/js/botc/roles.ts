@@ -56,7 +56,7 @@ const overrides: { [key: string]: Override } = {
   }
 }
 
-class NightAction {
+interface NightAction {
   details: string;
   index: number;
 }
@@ -68,7 +68,7 @@ export class CharacterInfo {
   readonly id: string;
   readonly name: string;
   readonly roleType: RoleType;
-  ability: string;
+  ability: string | null;
 
   firstNight: NightAction | null;
   otherNights: NightAction | null;
@@ -77,6 +77,7 @@ export class CharacterInfo {
     this.id = id;
     this.name = name;
     this.roleType = roleType;
+    this.ability = null;
     this.firstNight = null;
     this.otherNights = null;
   }
@@ -101,13 +102,13 @@ export class CharacterInfo {
   }
 }
 
-const MinionInfo: CharacterInfo = new CharacterInfo("MINION", "Minion Info", "minion");
+export const MinionInfo: CharacterInfo = new CharacterInfo("MINION", "Minion Info", "minion");
 MinionInfo.firstNight = {
   details: "If there are 7 or more players: Wake all Minions. Show the THIS IS THE DEMON token. Point to the Demon.",
   index: nightsheet.firstNight.indexOf("MINION"),
 };
 
-const DemonInfo: CharacterInfo = new CharacterInfo("DEMON", "Demon Info", "demon");
+export const DemonInfo: CharacterInfo = new CharacterInfo("DEMON", "Demon Info", "demon");
 DemonInfo.firstNight = {
   details: `If there are 7 or more players: Wake the Demon.Show the THESE ARE YOUR MINIONS token.Point to all Minions.
   Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
@@ -149,8 +150,9 @@ function createRoleData(): Map<string, CharacterInfo> {
           details: role.firstNightReminder,
           index,
         };
-        if (overrides[id] !== undefined) {
-          info.firstNight.details = overrides[id].firstNight;
+        const override = overrides[id];
+        if (override !== undefined && override.firstNight != null) {
+          info.firstNight.details = override.firstNight;
         }
       }
       if (role.otherNightReminder != "") {
@@ -162,10 +164,11 @@ function createRoleData(): Map<string, CharacterInfo> {
           details: role.otherNightReminder,
           index,
         }
-        if (overrides[id] !== undefined) {
-          var details = overrides[id].otherNights;
+        const override = overrides[id];
+        if (override !== undefined && override.otherNights != null) {
+          var details = override.otherNights;
           if (details === undefined) {
-            details = overrides[id].firstNight;
+            details = override.otherNights;
           }
           info.otherNights.details = details;
         }

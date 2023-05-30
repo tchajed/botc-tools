@@ -24,6 +24,7 @@ function createScriptTable(): HTMLElement {
 
 function loadTableToDOM() {
   const el = document.getElementById("app");
+  if (!el) { return; }
   el.innerHTML = "";
   el.insertAdjacentElement("beforeend", createScriptTable());
 }
