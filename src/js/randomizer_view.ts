@@ -60,7 +60,7 @@ function createDistributionHTML(state: Randomizer): HTMLElement {
     dist = distributionForCount(state.getNumPlayers());
   }
   return span([
-    "base: ",
+    span(".label", "base: "),
     distributionHTML(dist),
   ]);
 }
@@ -106,7 +106,7 @@ function createPlayerSelectHTML(): HTMLElement {
   state.setNumPlayers(8);
   return div("#players", [
     div(
-      [label({ for: "numPlayers" }, "players: "),
+      [label(".label", { for: "numPlayers" }, "players: "),
       button({ onclick: incdecButtonEvent(-1) }, "-"),
       input(
         {
@@ -187,7 +187,7 @@ function createSelectedCharactersHTML(): HTMLElement {
   for (const char of selected) {
     distribution[char.roleType]++;
   }
-  const cols = createCharacterColumns(selected, 4);
+  const cols = createCharacterColumns(selected, 1);
   return div([
     distributionHTML(distribution),
     div(".selected-characters", cols.map(col =>
