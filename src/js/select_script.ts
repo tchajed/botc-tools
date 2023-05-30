@@ -12,6 +12,6 @@ function selectedScriptId(): string {
 
 export async function selectedScript(): Promise<ScriptData> {
   let id = selectedScriptId();
-  let script = await axios.get(`/scripts/${id}.json`);
+  let script = await axios.get(`./scripts/${id}.json`);
   return script.data;
 }

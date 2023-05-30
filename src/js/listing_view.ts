@@ -9,13 +9,13 @@ function createScriptTable(): HTMLElement {
     return tr([
       td(".title-cell", script.title),
       td(".roles-cell",
-        div(".btn", a({ href: `/roles.html?id=${script.id}` },
+        div(".btn", a({ href: `./roles.html?id=${script.id}` },
           ["Roles"]))),
       td(".nightsheet-cell",
-        div(".btn", a({ href: `/nightsheet.html?id=${script.id}` },
+        div(".btn", a({ href: `./nightsheet.html?id=${script.id}` },
           ["Night sheet"]))),
       td(".randomizer-cell",
-        div(".btn", a({ href: `/randomize.html?id=${script.id}` },
+        div(".btn", a({ href: `./randomize.html?id=${script.id}` },
           ["Select roles"]))),
     ]);
   });
