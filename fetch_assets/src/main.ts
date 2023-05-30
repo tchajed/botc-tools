@@ -6,6 +6,8 @@ import { downloadCharacterData } from './character_json';
 import { ScriptData, getScript } from './get_script';
 import path from 'path';
 
+const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273";
+
 async function downloadImages(imgDir: string) {
   console.log("fetching list of icons");
   var icons = await allIcons();
@@ -30,38 +32,51 @@ async function downloadImages(imgDir: string) {
   await saveIcons(downloads, imgDir);
 }
 
+async function makeIndex(scriptsDir: string, destFile: string) {
+  const files = fs.readdirSync(scriptsDir).map(name => {
+    let contents = fs.promises.readFile(`${scriptsDir}/${name}`, {
+      encoding: "utf-8",
+    });
+    return { name, contents };
+  });
+  let listing = [];
+  for (const file of files) {
+    let id = path.basename(file.name, ".json");
+    let script: ScriptData = JSON.parse(await file.contents);
+    let title = script.title;
+    listing.push({ id, title });
+  }
+  listing.sort((s1, s2) => parseInt(s1.id) - parseInt(s2.id));
+  await fs.promises.writeFile(destFile, JSON.stringify({
+    scripts: listing,
+  }));
+}
+
 async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, assetsDir: string) {
   fs.mkdirSync(scriptsDir, { recursive: true });
 
-  const scripts: string = scriptsOpt || "";
+  var scripts: string = scriptsOpt || "";
+  if (scripts == "favorites") {
+    scripts = FAVORITE_SCRIPTS;
+  }
   let ids = scripts.split(",").map(s => s.trim()).filter(s => s != "");
+
   await Promise.all(ids.map(async (id) => {
+    let destFile = `${scriptsDir}/${id}.json`;
+    if (fs.existsSync(destFile)) {
+      console.log(`already have ${id}`);
+      return;
+    }
     let script = await getScript(id);
     if (script == null) {
       console.error(`could not download ${id}`);
       return;
     }
-    await fs.promises.writeFile(`${scriptsDir}/${id}.json`, JSON.stringify(script));
+    await fs.promises.writeFile(destFile, JSON.stringify(script));
     console.log(`downloaded ${id} - ${script.title}`);
   }));
 
-  let listing = [];
-  var files = fs.readdirSync(scriptsDir);
-  for (const file of files) {
-    let contents = await fs.promises.readFile(`${scriptsDir}/${file}`, {
-      encoding: "utf-8",
-    });
-    let id = path.basename(file, ".json");
-    let script: ScriptData = JSON.parse(contents);
-    listing.push({
-      id,
-      title: script.title,
-    });
-  }
-  listing.sort((s1, s2) => parseInt(s1.id) - parseInt(s2.id));
-  await fs.promises.writeFile(`${assetsDir}/scripts.json`, JSON.stringify({
-    scripts: listing,
-  }));
+  makeIndex(scriptsDir, `${assetsDir}/scripts.json`);
 }
 
 async function main() {

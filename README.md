@@ -20,7 +20,7 @@ Run `yarn` to get the dependencies.
 
 ```sh
 yarn fetch-assets --json --img
-yarn fetch-assets --scripts 19,178,180,181,10,360
+yarn fetch-assets --scripts favorites
 ```
 
 ## Running the web site
