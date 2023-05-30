@@ -109,11 +109,11 @@ async function main() {
   }
 
   if (options.img) {
-    downloadImages(imgDir);
+    await downloadImages(imgDir);
   }
 
   if (options.scripts !== undefined) {
-    downloadScripts(options.scripts, scriptsDir, assetsDir);
+    await downloadScripts(options.scripts, scriptsDir, assetsDir);
   }
 }
 
