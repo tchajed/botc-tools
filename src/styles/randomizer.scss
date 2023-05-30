@@ -78,3 +78,17 @@ span.good {
 span.evil {
   color: main.$evil
 }
+
+.separator {
+  border: 3px dotted black;
+  border-style: none none dotted;
+  color: transparent;
+}
+
+#selected {
+  display: flex;
+}
+
+.selected-characters {
+  display: flex;
+}
