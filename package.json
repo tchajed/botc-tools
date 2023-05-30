@@ -8,11 +8,11 @@
   ],
   "scripts": {
     "fetch-assets": "ts-node fetch_assets/src/main.ts",
-    "build": "parcel build"
+    "build": "parcel build --public-url '.'"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "version": "0.1.0",
-  "description": "Generate a night instruction sheet for a BotC custom script",
+  "description": "BotC storyteller tools",
   "author": "Tej Chajed",
   "license": "MIT",
   "devDependencies": {
