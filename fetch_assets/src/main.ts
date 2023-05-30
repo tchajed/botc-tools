@@ -39,7 +39,7 @@ async function makeIndex(scriptsDir: string, destFile: string) {
     });
     return { name, contents };
   });
-  let listing = [];
+  let listing: { id: string, title: string }[] = [];
   for (const file of files) {
     let id = path.basename(file.name, ".json");
     let script: ScriptData = JSON.parse(await file.contents);

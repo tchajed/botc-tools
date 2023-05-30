@@ -6,6 +6,9 @@
     "module": "commonjs",
     "sourceMap": true,
     "esModuleInterop": true,
-    "moduleResolution": "nodenext"
+    "moduleResolution": "nodenext",
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
   }
 }
