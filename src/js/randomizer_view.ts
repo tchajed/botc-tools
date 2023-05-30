@@ -10,34 +10,13 @@ const { div, h1, strong, br, span, label, input, hr, button } = hh(h);
 import classnames from 'classnames';
 import { selectedScript } from './select_script';
 import { Randomizer } from './randomizer_state';
+import { Distribution, distributionForCount, zeroDistribution } from './botc/setup';
 
 function createHeaderHTML(title: string): HTMLElement {
   return h1(div(title));
 }
 
 var state = new Randomizer();
-
-interface Distribution {
-  townsfolk: number,
-  outsider: number,
-  minion: number,
-  demon: number,
-}
-
-function distributionForCount(numPlayers: number): Distribution {
-  const demon = 1;
-  var outsider = null;
-  var minion = null;
-  if (numPlayers == 5 || numPlayers == 6) {
-    outsider = numPlayers - 5;
-    minion = 1;
-  } else {
-    outsider = (numPlayers - 7) % 3;
-    minion = Math.floor((numPlayers - 7) / 3) + 1;
-  }
-  const townsfolk = numPlayers - outsider - minion - demon;
-  return { townsfolk, outsider, minion, demon };
-}
 
 // TODO: better naming
 function distributionHTML(dist: Distribution): HTMLElement {
@@ -55,7 +34,7 @@ function distributionHTML(dist: Distribution): HTMLElement {
 function createDistributionHTML(state: Randomizer): HTMLElement {
   var dist: Distribution;
   if (state.getNumPlayers() == null) {
-    dist = { townsfolk: 0, outsider: 0, minion: 0, demon: 0 };
+    dist = zeroDistribution();
   } else {
     dist = distributionForCount(state.getNumPlayers());
   }
@@ -183,7 +162,7 @@ function createCharactersList(characters: CharacterInfo[]): HTMLElement {
 function createSelectedCharactersHTML(): HTMLElement {
   var selected = state.allSelected();
   selected.sort((i1, i2) => Math.random() - Math.random());
-  var distribution: Distribution = { townsfolk: 0, outsider: 0, minion: 0, demon: 0 };
+  var distribution = zeroDistribution();
   for (const char of selected) {
     distribution[char.roleType]++;
   }

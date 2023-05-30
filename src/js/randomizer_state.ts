@@ -1,4 +1,5 @@
 import { CharacterInfo } from "./botc/roles";
+import { validNumPlayers } from "./botc/setup";
 
 export class Randomizer {
   numPlayers: number | null;
@@ -36,7 +37,7 @@ export class Randomizer {
   }
 
   setNumPlayers(numPlayers: number | null): boolean {
-    if (numPlayers == null || 5 <= numPlayers && numPlayers <= 15) {
+    if (numPlayers == null || validNumPlayers(numPlayers)) {
       this.numPlayers = numPlayers;
       return true;
     }
