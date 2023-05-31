@@ -2,7 +2,7 @@
 @use 'fonts';
 
 body {
-  font-size: 11pt;
+  font-size: 13pt;
 }
 
 .column {
@@ -28,7 +28,7 @@ body {
   user-select: none;
 }
 
-#players {
+.players {
   font-size: 120%;
 
   input {
@@ -40,12 +40,33 @@ body {
     margin: 2px;
   }
 
+  button:-moz-focusring,
+  [type="button"]:-moz-focusring,
+  [type="reset"]:-moz-focusring,
+  [type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText;
+  }
+
   button {
-    height: 2em;
-    width: 1.5rem;
+    text-transform: none;
+    border-style: none;
+    padding: 0;
+    border-radius: 0.25rem;
+    border: 2px solid rgb(212, 212, 212);
+    background-color: rgb(233, 233, 237);
+
+    width: 2rem;
+    font-size: 150%;
+    line-height: 2rem;
     margin: 2px;
+    text-align: center;
     vertical-align: middle;
   }
+
+  button:hover {
+    background-color: rgb(200, 200, 200);
+  }
+
 }
 
 .distribution {

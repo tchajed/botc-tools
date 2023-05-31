@@ -80,7 +80,7 @@ function incdecButtonEvent(change: number): (Event) => void {
 
 function createPlayerSelectHTML(): HTMLElement {
   state.setNumPlayers(8);
-  return div("#players", [
+  return div("#players.players", [
     div(
       [label(".label", { for: "numPlayers" }, "players: "),
       button({ onclick: incdecButtonEvent(-1) }, "-"),
