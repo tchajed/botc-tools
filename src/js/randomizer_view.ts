@@ -156,10 +156,9 @@ function createCharactersList(characters: CharacterInfo[]): HTMLElement {
       )),
     ));
   }
-  return div([
-    characterColumnsHTML(characters.filter(c => c.good), 2),
-    characterColumnsHTML(characters.filter(c => !c.good), 2),
-  ]);
+  return div(["townsfolk", "outsider", "minion", "demon"].map(roleType =>
+    characterColumnsHTML(characters.filter(c => c.roleType == roleType), 2)
+  ));
 }
 
 function createSelectedCharactersHTML(): HTMLElement {
