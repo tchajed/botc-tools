@@ -168,6 +168,27 @@ function CharacterSelection(props: {
   </div>;
 }
 
+function SelectedCharacters(props: {
+  characters: CharacterInfo[],
+  selection: Selection,
+}): JSX.Element {
+  const { characters, selection } = props;
+  var selected = characters.filter(char => selection.has(char.id));
+  selected.sort(() => Math.random() - 0.5);
+  return <div className="selected-characters">
+    <div className="column">
+      {selected.map(char =>
+        <CharacterCard
+          character={char}
+          key={char.id}
+          selected={false}
+          onClick={null}
+        />
+      )}
+    </div>
+  </div>;
+}
+
 function App(props: { script: Script }) {
   const { script } = props;
   const [numPlayers, setNumPlayers] = useState<number | "">(8);
@@ -178,8 +199,11 @@ function App(props: { script: Script }) {
     <CharacterSelection
       characters={script.characters}
       selection={selection}
-      dispatch={dispatch}
-    />
+      dispatch={dispatch} />
+    <hr className="separator" />
+    <SelectedCharacters
+      characters={script.characters}
+      selection={selection} />
   </div>;
 }
 
