@@ -1,4 +1,4 @@
-import React, { Children, ReactNode, useState } from 'react';
+import React, { Children, ReactNode, useReducer, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Distribution, distributionForCount, zeroDistribution } from './botc/setup';
 import { CharacterInfo } from './botc/roles';
@@ -79,10 +79,16 @@ function CharacterIconElement(props: { name: string, id: string }): JSX.Element 
   </div>;
 }
 
-function CharacterCard({ character }: { character: CharacterInfo }): JSX.Element {
+function CharacterCard(props: { character: CharacterInfo, onClick: any, selected: boolean }): JSX.Element {
+  let { character } = props;
   let { roleType } = character;
   let needsLabel = ["outsider", "minion"].includes(roleType);
-  return <div className={classnames(character.evil ? "evil" : "good", "character")}>
+  return <div
+    className={classnames(
+      character.evil ? "evil" : "good",
+      "character",
+      { "selected": props.selected })}
+    onClick={props.onClick}>
     {needsLabel && <RoleLabel roleType={roleType} />}
     <CharacterIconElement {...character} />
     <span className='name'>{character.name}</span>
@@ -110,14 +116,51 @@ function Columns(props: { numColumns: number, children: ReactNode[] }): JSX.Elem
   </>;
 }
 
-function CharacterSelection(props: { characters: CharacterInfo[] }): JSX.Element {
+type Selection = Set<string>;
+
+type SelAction = {
+  type: "toggle",
+  id: string,
+}
+
+function assertUnreachable(_value: never): never {
+  throw new Error("should be unreachable");
+}
+
+function selectionReducer(selection: Selection, action: SelAction): Selection {
+  var newSelection = new Set(selection);
+  switch (action.type) {
+    case "toggle": {
+      if (newSelection.has(action.id)) {
+        newSelection.delete(action.id);
+      } else {
+        newSelection.add(action.id);
+      }
+      return newSelection;
+    }
+    default:
+      assertUnreachable(action.type);
+  }
+}
+
+function CharacterSelection(props: {
+  characters: CharacterInfo[],
+  selection: Selection,
+  dispatch: (a: SelAction) => void,
+}): JSX.Element {
   let chars = props.characters;
+  let { selection, dispatch } = props;
+
   return <div>
     {["townsfolk", "outsider", "minion", "demon"].map(roleType =>
       <div className="characters" key={`${roleType}-roles`}>
         <Columns numColumns={2}>
           {chars.filter(char => char.roleType == roleType).map(char =>
-            <CharacterCard character={char} key={char.id} />
+            <CharacterCard
+              character={char}
+              key={char.id}
+              selected={selection.has(char.id)}
+              onClick={() => dispatch({ type: "toggle", id: char.id })} />
           )}
         </Columns>
       </div>
@@ -128,10 +171,15 @@ function CharacterSelection(props: { characters: CharacterInfo[] }): JSX.Element
 function App(props: { script: Script }) {
   const { script } = props;
   const [numPlayers, setNumPlayers] = useState<number | "">(8);
+  const [selection, dispatch] = useReducer(selectionReducer, new Set() as Set<string>);
   return <div>
     <h1>{script.title}</h1>
     <NumPlayerSelector {...{ numPlayers, setNumPlayers }} />
-    <CharacterSelection characters={script.characters} />
+    <CharacterSelection
+      characters={script.characters}
+      selection={selection}
+      dispatch={dispatch}
+    />
   </div>;
 }
 
