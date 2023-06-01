@@ -79,12 +79,29 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
   makeIndex(scriptsDir, `${assetsDir}/scripts.json`);
 }
 
+async function cleanAssets(assetsDir: string) {
+  const dataDir = `${assetsDir}/data`;
+  const imgDir = `${assetsDir}/img`;
+  const staticDir = `${assetsDir}/static`;
+  await Promise.all([
+    fs.promises.rm(dataDir, { recursive: true, force: true }),
+    fs.promises.rm(staticDir, { recursive: true, force: true }),
+    fs.promises.rm(`${assetsDir}/scripts.json`, { force: true }),
+  ]);
+  await Promise.all(fs.readdirSync(imgDir).map(name => {
+    if (name.endsWith(".png")) {
+      fs.promises.rm(`${imgDir}/${name}`);
+    }
+  }));
+}
+
 async function main() {
   const program = new Command();
 
   program.version("0.2.0")
     .description("Download assets for BotC sheets")
     .option("--all", "Download all assets (shorthand for --json --img --scripts favorites)")
+    .option("--clean", "Delete any existing assets")
     .option("--json", "Download JSON game data")
     .option("--img", "Download images")
     .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
@@ -105,6 +122,11 @@ async function main() {
   const dataDir = `${assetsDir}/data`;
   const imgDir = `${assetsDir}/img`;
   const scriptsDir = `${assetsDir}/static/scripts`;
+
+  if (options.clean) {
+    await cleanAssets(assetsDir);
+    return;
+  }
 
   if (options.json) {
     console.log("downloading JSON data from script tool");
