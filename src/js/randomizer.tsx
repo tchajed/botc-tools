@@ -2,7 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Script } from './botc/script';
 import { selectedScript } from './select_script';
-import { App } from './randomizer/components';
+import { App } from './randomizer/app';
 
 async function init() {
   let script = new Script(await selectedScript());
