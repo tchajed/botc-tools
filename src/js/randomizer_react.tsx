@@ -79,7 +79,11 @@ function CharacterIconElement(props: { name: string, id: string }): JSX.Element 
   </div>;
 }
 
-function CharacterCard(props: { character: CharacterInfo, onClick: any, selected: boolean }): JSX.Element {
+function CharacterCard(props: {
+  character: CharacterInfo,
+  onClick?: React.MouseEventHandler<HTMLElement>,
+  selected: boolean
+}): JSX.Element {
   let { character } = props;
   let { roleType } = character;
   let needsLabel = ["outsider", "minion"].includes(roleType);
@@ -182,7 +186,6 @@ function SelectedCharacters(props: {
           character={char}
           key={char.id}
           selected={false}
-          onClick={null}
         />
       )}
     </div>
