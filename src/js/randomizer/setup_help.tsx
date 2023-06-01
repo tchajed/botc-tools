@@ -30,7 +30,8 @@ function ModificationExplanation(props: { mod: SetupModification }): JSX.Element
       const plural = change == 1 ? "" : "s";
       return <span>({sign}{change} outsider{plural})</span>;
     }
-    case "drunk": {
+    case "drunk":
+    case "marionette": {
       return <span>(+1 townsfolk, not added to bag)</span>;
     }
     case "godfather": {

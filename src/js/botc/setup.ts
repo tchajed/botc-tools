@@ -52,8 +52,10 @@ export type SetupModification =
   } |
   // unique: +1 townsfolk and does not go in bag
   { type: "drunk", notInBag: true } |
+  { type: "marionette", notInBag: true } |
   // unique: +1 minion and does not go in bag
   { type: "lilmonsta", notInBag: true } |
+  // unique: +1 townsfolk and does not go in bag
   // unique: +1 or -1 outsider (non-deterministic)
   { type: "godfather" }
   // Riot [All Minions are Riot] is special but can be run by putting in
@@ -74,6 +76,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   "balloonist": outsiders(+1),
   "drunk": { type: "drunk", notInBag: true },
   "lilmonsta": { type: "lilmonsta", notInBag: true },
+  "marionette": { type: "marionette", notInBag: true },
   "godfather": { type: "godfather" },
 };
 
@@ -96,7 +99,9 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       dist.outsider += mod.delta;
       return [dist];
     }
-    case "drunk": {
+    // these are actually handled the same way
+    case "drunk":
+    case "marionette": {
       dist.townsfolk++;
       return [dist];
     }
@@ -107,7 +112,6 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
     case "godfather": {
       dist.townsfolk--;
       dist.outsider++;
-      // TODO: handle non-determinism upstream and also return otherDist
       var otherDist = { ...old_dist };
       otherDist.townsfolk++;
       otherDist.townsfolk--;
