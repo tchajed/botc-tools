@@ -7,16 +7,9 @@ import { CharacterContext } from "./character_context";
 export type Ranking = { [key: string]: number };
 
 export function randomRanking(characters: CharacterInfo[]): Ranking {
-  const ordering: number[] = [];
-  for (var i = 0; i < characters.length; i++) {
-    ordering.push(i);
-  }
-  ordering.sort(() => Math.random() - 0.5);
-  var r: Ranking = {};
-  characters.forEach((c, i) => {
-    r[c.id] = ordering[i];
-  })
-  return r;
+  const randomOrder = [...characters];
+  randomOrder.sort(() => Math.random() - 0.5);
+  return Object.fromEntries(randomOrder.map((c, i) => [c.id, i]));
 }
 
 function ShuffleBagBtn(props: {
