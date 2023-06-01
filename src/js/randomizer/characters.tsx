@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { Columns } from "./columns";
 import classnames from "classnames";
 import { iconPath } from "../views";
+import { CharacterContext } from "./character_context";
 
 function RoleLabel(props: { roleType: string }): JSX.Element {
   var letter = props.roleType.charAt(0).toUpperCase();
@@ -66,10 +67,8 @@ interface SelectionVar {
   dispatch: (a: SelAction) => void,
 }
 
-export function CharacterSelection(props:
-  { characters: CharacterInfo[], } &
-  SelectionVar): JSX.Element {
-  let chars = props.characters;
+export function CharacterSelection(props: SelectionVar): JSX.Element {
+  const chars = useContext(CharacterContext);
   let { selection, dispatch } = props;
 
   return <div>

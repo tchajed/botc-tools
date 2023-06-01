@@ -7,6 +7,7 @@ import { Script } from '../botc/script';
 import { selectionReducer, CharacterSelection } from './characters';
 import { Distr, SetupModifiers } from './setup_help';
 import { randomRanking, SelectedCharacters } from './bag';
+import { CharacterContext } from './character_context';
 
 function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
   const dist = numPlayers == "" ? zeroDistribution() : distributionForCount(numPlayers);
@@ -61,19 +62,16 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
   const [numPlayers, setNumPlayers] = useState<number | "">(8);
   const [ranking, setRanking] = useState(randomRanking(characters));
   const [selection, dispatch] = useReducer(selectionReducer, initialSelection(characters));
-  return <div>
-    <h1>{script.title}</h1>
-    <NumPlayerSelector {...{ numPlayers, setNumPlayers }} />
-    <SetupModifiers
-      numPlayers={numPlayers || 5}
-      {...{ characters, selection }} />
-    <CharacterSelection
-      {...{ characters, selection }}
-      dispatch={dispatch} />
-    <hr className="separator" />
-    <SelectedCharacters
-      {...{ characters, selection, ranking, setRanking }} />
-  </div>;
+  return <CharacterContext.Provider value={characters}>
+    <div>
+      <h1>{script.title}</h1>
+      <NumPlayerSelector {...{ numPlayers, setNumPlayers }} />
+      <SetupModifiers numPlayers={numPlayers || 5} selection={selection} />
+      <CharacterSelection selection={selection} dispatch={dispatch} />
+      <hr className="separator" />
+      <SelectedCharacters {...{ selection, ranking, setRanking }} />
+    </div>
+  </CharacterContext.Provider>;
 }
 
 export function App(props: { script: Script }): JSX.Element {

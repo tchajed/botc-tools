@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { goesInBag } from "../botc/setup";
 import { CharacterCard, Selection } from "./characters";
+import { CharacterContext } from "./character_context";
 
 export type Ranking = { [key: string]: number };
 
@@ -24,12 +25,12 @@ function ShuffleBag(props: {
 }
 
 export function SelectedCharacters(props: {
-  characters: CharacterInfo[],
   selection: Selection,
   ranking: Ranking,
   setRanking: (r: Ranking) => void,
 }): JSX.Element {
-  const { characters, selection, ranking } = props;
+  const characters = useContext(CharacterContext);
+  const { selection, ranking } = props;
   var selected = characters.filter(char => selection.has(char.id));
 
   var bag = selected.filter(c => goesInBag(c.id));

@@ -1,11 +1,12 @@
 import classnames from "classnames";
-import React from "react";
+import React, { useContext } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { Selection } from "./characters";
 import {
   SetupModification, SetupChanges, distributionForCount,
   modifiedDistribution, actualDistribution, differentRoleTypes, Distribution
 } from "../botc/setup";
+import { CharacterContext } from "./character_context";
 
 export function Distr({ dist }: { dist: Distribution }): JSX.Element {
   return <span className='distribution'>
@@ -43,10 +44,10 @@ function ModificationExplanation(props: { mod: SetupModification }): JSX.Element
 
 export function SetupModifiers(props: {
   numPlayers: number,
-  characters: CharacterInfo[],
   selection: Selection
 }) {
-  let { characters, selection } = props;
+  let { selection } = props;
+  const characters = useContext(CharacterContext);
   var modified: CharacterInfo[] = [];
   selection.forEach(id => {
     if (id in SetupChanges) {
