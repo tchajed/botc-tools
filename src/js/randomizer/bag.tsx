@@ -7,10 +7,15 @@ import { CharacterContext } from "./character_context";
 export type Ranking = { [key: string]: number };
 
 export function randomRanking(characters: CharacterInfo[]): Ranking {
-  var r: Ranking = {};
-  for (const c of characters) {
-    r[c.id] = Math.random();
+  const ordering: number[] = [];
+  for (var i = 0; i < characters.length; i++) {
+    ordering.push(i);
   }
+  ordering.sort(() => Math.random() - 0.5);
+  var r: Ranking = {};
+  characters.forEach((c, i) => {
+    r[c.id] = ordering[i];
+  })
   return r;
 }
 
