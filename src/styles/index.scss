@@ -1,16 +1,19 @@
 @use 'main';
 @use 'fonts';
 
-a {
-  color: blue;
-}
+$link-color: rgb(16, 93, 216);
 
+a,
 a:visited {
-  color: purple;
+  color: $link-color;
+
+  &:visited {
+    color: $link-color;
+  }
 }
 
 table {
-  width: 60%;
+  max-width: 550px;
 }
 
 .roles-cell,

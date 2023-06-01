@@ -12,13 +12,15 @@ interface Script {
 function createScriptTable(scripts: Script[]): HTMLElement {
   let rows = scripts.map(script => {
     return tr([
-      td(".title-cell", script.title),
-      td(".roles-cell",
-        div(".btn", a({ href: `./roles.html?id=${script.id}` },
-          ["Roles"]))),
+      td(".title-cell",
+        a({ href: `./roles.html?id=${script.id}` },
+          script.title)),
+      // td(".roles-cell",
+      //   div(".btn", a({ href: `./roles.html?id=${script.id}` },
+      //     ["Roles"]))),
       td(".nightsheet-cell",
         div(".btn", a({ href: `./nightsheet.html?id=${script.id}` },
-          ["Night sheet"]))),
+          ["Night order"]))),
       td(".randomizer-cell",
         div(".btn", a({ href: `./randomize.html?id=${script.id}` },
           ["Select roles"]))),
