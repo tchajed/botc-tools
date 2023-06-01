@@ -6,17 +6,32 @@ body {
   max-width: 550px;
 }
 
+h2 {
+  font-size: 120%;
+  margin: 1rem 0;
+
+  button {
+    font-size: 85%;
+  }
+}
+
+div.spacer {
+  display: inline-block;
+  width: 2em;
+}
+
 button {
   text-transform: none;
   border-style: none;
-  padding: 0.1rem;
+  padding: 0.1rem 0.3rem;
   border-radius: 0.25rem;
   border: 2px solid rgb(212, 212, 212);
   background-color: rgb(233, 233, 237);
+  color: black;
 
   font-size: 120%;
   text-align: center;
-  vertical-align: middle;
+  vertical-align: bottom;
 
   &:hover {
     @media (hover: hover) {
@@ -64,6 +79,7 @@ button {
   }
 
   button {
+    padding: 0;
     width: 2rem;
     font-size: 150%;
     line-height: 2rem;
