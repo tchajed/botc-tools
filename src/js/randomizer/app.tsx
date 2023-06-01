@@ -56,8 +56,7 @@ function initialSelection(characters: CharacterInfo[]): Set<string> {
   return sel;
 }
 
-export function App(props: { script: Script }) {
-  const { script } = props;
+function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
   const [numPlayers, setNumPlayers] = useState<number | "">(8);
   const [ranking, setRanking] = useState(randomRanking(characters));
@@ -75,4 +74,8 @@ export function App(props: { script: Script }) {
     <SelectedCharacters
       {...{ characters, selection, ranking, setRanking }} />
   </div>;
+}
+
+export function App(props: { script: Script }): JSX.Element {
+  return <Randomizer {...props} />
 }

@@ -71,7 +71,7 @@ export function SetupModifiers(props: {
   return <div className="modifiers">
     <br />
     {modified.map(char => {
-      return <div>
+      return <div key={char.id}>
         <span className={classnames(char.good ? "good" : "evil", "bold")}>
           {char.name}
         </span>
@@ -81,7 +81,7 @@ export function SetupModifiers(props: {
     {modified.length > 0 && <div>
       <span className="label">target: </span>
       {newDistributions
-        .map(dist => <Distr dist={dist} />)
+        .map((dist, i) => <Distr dist={dist} key={i} />)
         .reduce((acc, x) => acc === null ? x : <>{acc} or {x}</>)}
     </div>}
     <div>
