@@ -57,7 +57,13 @@ body {
   }
 
   button:hover {
-    background-color: rgb(200, 200, 200);
+    @media (hover: hover) {
+      background-color: rgb(200, 200, 200);
+    }
+
+    @media (hover: none) {
+      background-color: inherit;
+    }
   }
 
 }
@@ -80,7 +86,13 @@ body {
 }
 
 .character:hover {
-  border-color: rgb(0, 170, 255);
+  @media (hover:hover) {
+    border-color: rgb(0, 170, 255);
+  }
+
+  @media (hover:none) {
+    border-color: inherit;
+  }
 }
 
 .character.selected {
