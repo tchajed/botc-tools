@@ -28,6 +28,13 @@ body {
   user-select: none;
 }
 
+button:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
 .players {
   font-size: 120%;
 
@@ -38,13 +45,6 @@ body {
     text-align: center;
     vertical-align: middle;
     margin: 2px;
-  }
-
-  button:-moz-focusring,
-  [type="button"]:-moz-focusring,
-  [type="reset"]:-moz-focusring,
-  [type="submit"]:-moz-focusring {
-    outline: 1px dotted ButtonText;
   }
 
   button {
@@ -69,11 +69,15 @@ body {
 
 }
 
+.modifiers {
+  font-size: 120%;
+}
+
 .distribution {
   span {
     // make each number fixed-width
     display: inline-block;
-    width: 0.75rem;
+    width: 1rem;
     text-align: center;
   }
 }
@@ -133,4 +137,8 @@ span.evil {
 
 .selected-characters {
   display: flex;
+}
+
+.bold {
+  font-weight: bold;
 }

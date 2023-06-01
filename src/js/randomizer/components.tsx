@@ -1,5 +1,5 @@
 import React, { Children, ReactNode, useReducer, useState } from 'react';
-import { Distribution, distributionForCount, zeroDistribution } from '../botc/setup';
+import { Distribution, SetupChanges, SetupModification, actualDistribution, differentRoleTypes, distributionForCount, goesInBag, modifiedDistribution, zeroDistribution } from '../botc/setup';
 import { CharacterInfo } from '../botc/roles';
 import classnames from 'classnames';
 import { iconPath } from '../views';
@@ -40,12 +40,74 @@ function NumPlayerSelector({ numPlayers, setNumPlayers }: NumPlayerVar): JSX.Ele
   return <div className='players'>
     <div>
       <label className='label' htmlFor='numPlayers'>players: </label>
-      <button onClick={handleIncDec(-1)}>-</button>
+      <button onClick={handleIncDec(-1)}>&#x2212;</button>
       <input value={numPlayers} readOnly={true}></input>
       <button onClick={handleIncDec(+1)}>+</button>
     </div>
     <div>
       <BaseDistr numPlayers={numPlayers} />
+    </div>
+  </div>;
+}
+
+function modificationExplanation(mod: SetupModification): string {
+  switch (mod.type) {
+    case "outsider_count": {
+      const change = Math.abs(mod.delta);
+      const sign = mod.delta > 0 ? "+" : "&#x2212;";
+      const plural = change == 1 ? "" : "s";
+      return `${sign}${change} outsider${plural}`;
+    }
+    case "drunk": {
+      return "+1 townsfolk, not added to bag";
+    }
+    case "godfather": {
+      return "+1 or -1 outsider";
+    }
+    case "lilmonsta": {
+      return "+1 minion, not added to bag";
+    }
+  }
+}
+
+function SetupModifiers(props: {
+  numPlayers: number,
+  characters: CharacterInfo[],
+  selection: Selection
+}) {
+  let { characters, selection } = props;
+  var modified: CharacterInfo[] = [];
+  selection.forEach(id => {
+    if (id in SetupChanges) {
+      const c = characters.find(c => c.id == id);
+      if (c) { modified.push(c); }
+    }
+  })
+  modified.sort();
+
+  const baseDistribution = distributionForCount(props.numPlayers);
+  const newDistribution = modifiedDistribution(
+    baseDistribution,
+    modified.map(c => SetupChanges[c.id]),
+    characters,
+  );
+
+  const selected = characters.filter(c => selection.has(c.id));
+  let actual = actualDistribution(selected);
+  let distributionCorrect = differentRoleTypes(newDistribution, actual).length == 0;
+
+  return <div className="modifiers">
+    {modified.map(char => {
+      return <p><span className={classnames(char.good ? "good" : "evil", "bold")}>
+        {char.name}
+      </span>
+        <span> ({modificationExplanation(SetupChanges[char.id])})</span>
+      </p>;
+    })}
+    {modified.length > 0 && <div><span className="label">target: </span> <Distr dist={newDistribution} /></div>}
+    <div>
+      <span className="label">actual: </span> <Distr dist={actual} />
+      {distributionCorrect && <span className="bold">&#x2713;</span>}
     </div>
   </div>;
 }
@@ -134,11 +196,14 @@ function selectionReducer(selection: Selection, action: SelAction): Selection {
   }
 }
 
-function CharacterSelection(props: {
-  characters: CharacterInfo[],
+interface SelectionVar {
   selection: Selection,
   dispatch: (a: SelAction) => void,
-}): JSX.Element {
+}
+
+function CharacterSelection(props:
+  { characters: CharacterInfo[], } &
+  SelectionVar): JSX.Element {
   let chars = props.characters;
   let { selection, dispatch } = props;
 
@@ -165,10 +230,22 @@ function SelectedCharacters(props: {
 }): JSX.Element {
   const { characters, selection } = props;
   var selected = characters.filter(char => selection.has(char.id));
-  selected.sort(() => Math.random() - 0.5);
+  var bag = selected.filter(c => goesInBag(c.id));
+  bag.sort(() => Math.random() - 0.5);
+  var selectedOutsideBag = selected.filter(char => !goesInBag(char.id));
   return <div className="selected-characters">
     <div className="column">
-      {selected.map(char =>
+      {bag.map(char =>
+        <CharacterCard
+          character={char}
+          key={char.id}
+          selected={false}
+        />
+      )}
+    </div>
+    <div className="column">
+      {selectedOutsideBag.length > 0 && <p><span className="bold">Outside bag:</span></p>}
+      {selectedOutsideBag.map(char =>
         <CharacterCard
           character={char}
           key={char.id}
@@ -182,10 +259,11 @@ function SelectedCharacters(props: {
 export function App(props: { script: Script }) {
   const { script } = props;
   const [numPlayers, setNumPlayers] = useState<number | "">(8);
-  const [selection, dispatch] = useReducer(selectionReducer, new Set() as Set<string>);
+  const [selection, dispatch] = useReducer(selectionReducer, new Set<string>());
   return <div>
     <h1>{script.title}</h1>
     <NumPlayerSelector {...{ numPlayers, setNumPlayers }} />
+    <SetupModifiers numPlayers={numPlayers || 5} characters={script.characters} selection={selection} />
     <CharacterSelection
       characters={script.characters}
       selection={selection}
