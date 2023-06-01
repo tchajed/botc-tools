@@ -49,15 +49,18 @@ export type SetupModification =
     // eg, Baron (+2), Fang Gu (+1), Vigormortis (-1)
     type: "outsider_count",
     delta: number,
-  } |
-  // unique: +1 townsfolk and does not go in bag
-  { type: "drunk", notInBag: true } |
-  { type: "marionette", notInBag: true } |
-  // unique: +1 minion and does not go in bag
-  { type: "lilmonsta", notInBag: true } |
-  // unique: +1 townsfolk and does not go in bag
-  // unique: +1 or -1 outsider (non-deterministic)
-  { type: "godfather" }
+  }
+  // +1 townsfolk and does not go in bag (these are identical but it's easier to
+  // separate them)
+  | { type: "drunk", notInBag: true }
+  | { type: "marionette", notInBag: true }
+  // +1 minion and does not go in bag
+  | { type: "lilmonsta", notInBag: true }
+  // +1 or -1 outsider (non-deterministic)
+  | { type: "godfather" }
+  // +damsel (allows/might require adding an outsider)
+  | { type: "huntsman" }
+
   // Riot [All Minions are Riot] is special but can be run by putting in
   // arbitrary minions.
 
@@ -78,6 +81,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   "lilmonsta": { type: "lilmonsta", notInBag: true },
   "marionette": { type: "marionette", notInBag: true },
   "godfather": { type: "godfather" },
+  "huntsman": { type: "huntsman" },
 };
 
 export function goesInBag(id: string): boolean {
@@ -116,6 +120,19 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       otherDist.townsfolk++;
       otherDist.townsfolk--;
       return [dist, otherDist];
+    }
+    case "huntsman": {
+      if (dist.outsider == 0) {
+        dist.outsider = 1;
+        dist.townsfolk--;
+        return [dist];
+      }
+      // allowed to add Damsel by adding an outsider
+      dist.townsfolk--;
+      dist.outsider++;
+      // ...but we don't have to
+      const sameDist = { ...old_dist };
+      return [sameDist, dist];
     }
   }
 }
