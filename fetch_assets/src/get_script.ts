@@ -1,6 +1,8 @@
 import axios from 'axios';
 
+/** Format for a saved script in assets/static/scripts/<pk>.json. */
 export interface ScriptData {
+  pk: number,
   title: string;
   author: string;
   characters: string[];
@@ -11,8 +13,11 @@ const apiBase = "https://botc-scripts.azurewebsites.net/api";
 type ContentRow = { id: string } | { id: "_meta", name: string, author: string }
 
 interface ScriptInstanceResp {
+  pk: number,
   name: string,
+  version: string, // unused
   author: string,
+  score: number, // unused
   content: ContentRow[],
 }
 
@@ -74,6 +79,7 @@ export async function getScript(id: string): Promise<ScriptData | null> {
       return null;
     }
     return {
+      pk: parseInt(id),
       title: meta.name,
       author: meta.author,
       characters: idsFromContents(contents),
@@ -83,6 +89,7 @@ export async function getScript(id: string): Promise<ScriptData | null> {
   // missing.
   let meta = metaFromContents(data.content) || { name: "", author: "" };
   return {
+    pk: data.pk,
     title: data.name || meta.name,
     author: data.author || meta.author,
     characters: idsFromContents(data.content),

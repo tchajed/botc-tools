@@ -2,6 +2,7 @@ import { Jinx, getJinxList } from "./jinx";
 import { CharacterInfo, DemonInfo, MinionInfo, nameToId, roles } from "./roles";
 
 export interface ScriptData {
+  pk?: number;
   title: string;
   author?: string;
   characters: string[];
