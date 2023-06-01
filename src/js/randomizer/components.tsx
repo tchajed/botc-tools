@@ -268,7 +268,14 @@ function SelectedCharacters(props: {
 export function App(props: { script: Script }) {
   const { script } = props;
   const [numPlayers, setNumPlayers] = useState<number | "">(8);
-  const [selection, dispatch] = useReducer(selectionReducer, new Set<string>());
+  var initialSelection = new Set<string>();
+  const totalDistribution = actualDistribution(script.characters);
+  if (totalDistribution.demon == 1) {
+    for (const c of script.characters) {
+      if (c.roleType == "demon") { initialSelection.add(c.id); }
+    }
+  }
+  const [selection, dispatch] = useReducer(selectionReducer, initialSelection);
   return <div>
     <h1>{script.title}</h1>
     <NumPlayerSelector {...{ numPlayers, setNumPlayers }} />
