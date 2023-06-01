@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import {
   actualDistribution, distributionForCount, goesInBag, zeroDistribution
 } from '../botc/setup';
@@ -6,8 +6,9 @@ import { CharacterInfo } from '../botc/roles';
 import { Script } from '../botc/script';
 import { selectionReducer, CharacterSelection } from './characters';
 import { Distr, SetupModifiers } from './setup_help';
-import { randomRanking, SelectedCharacters } from './bag';
+import { randomRanking, Ranking, SelectedCharacters } from './bag';
 import { CharacterContext } from './character_context';
+import { parseState, serializeState } from './state';
 
 function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
   const dist = numPlayers == "" ? zeroDistribution() : distributionForCount(numPlayers);
@@ -62,6 +63,31 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
   const [numPlayers, setNumPlayers] = useState<number | "">(8);
   const [ranking, setRanking] = useState(randomRanking(characters));
   const [selection, dispatch] = useReducer(selectionReducer, initialSelection(characters));
+
+  useEffect(() => {
+    const json = window.localStorage.getItem("state");
+    if (!json) { return; }
+    const s = parseState(json);
+    if (!s) { return; }
+    if (s.scriptTitle != script.title) {
+      window.localStorage.removeItem("state");
+      return;
+    }
+    setNumPlayers(s.numPlayers);
+    setRanking(s.ranking);
+    s.selection.forEach(id => {
+      dispatch({ "type": "set", "id": id });
+    });
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem("state",
+      serializeState({
+        scriptTitle: script.title,
+        numPlayers, ranking, selection
+      }));
+  }, [numPlayers, ranking, selection]);
+
   return <CharacterContext.Provider value={characters}>
     <div>
       <h1>{script.title}</h1>
@@ -69,7 +95,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
       <SetupModifiers numPlayers={numPlayers || 5} selection={selection} />
       <CharacterSelection selection={selection} dispatch={dispatch} />
       <hr className="separator" />
-      <SelectedCharacters {...{ selection, ranking, setRanking }} />
+      <SelectedCharacters {...{ selection, ranking, setRanking, dispatch }} />
     </div>
   </CharacterContext.Provider>;
 }

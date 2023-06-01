@@ -43,10 +43,16 @@ export function CharacterCard(props: {
 
 export type Selection = Set<string>;
 
-export type SelAction = {
-  type: "toggle",
-  id: string,
-}
+export type SelAction =
+  {
+    type: "toggle",
+    id: string,
+  } | {
+    type: "set",
+    id: string,
+  } | {
+    type: "clear",
+  }
 
 export function selectionReducer(selection: Selection, action: SelAction): Selection {
   var newSelection = new Set(selection);
@@ -58,6 +64,13 @@ export function selectionReducer(selection: Selection, action: SelAction): Selec
         newSelection.add(action.id);
       }
       return newSelection;
+    }
+    case "set": {
+      newSelection.add(action.id);
+      return newSelection;
+    }
+    case "clear": {
+      return new Set();
     }
   }
 }

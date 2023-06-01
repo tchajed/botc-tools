@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { goesInBag } from "../botc/setup";
-import { CharacterCard, Selection } from "./characters";
+import { CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
 
 export type Ranking = { [key: string]: number };
@@ -21,16 +21,26 @@ function ShuffleBag(props: {
   function handleClick() {
     props.setRanking(randomRanking(props.characters));
   }
-  return <button className="shuffle" onClick={handleClick}>shuffle</button>;
+  return <button className="btn" onClick={handleClick}>shuffle</button>;
+}
+
+function ClearSelection(props: {
+  dispatch: (a: SelAction) => void,
+}): JSX.Element {
+  function handleClick() {
+    props.dispatch({ type: "clear" });
+  }
+  return <button className="btn" onClick={handleClick}>clear</button>;
 }
 
 export function SelectedCharacters(props: {
   selection: Selection,
   ranking: Ranking,
+  dispatch: (a: SelAction) => void,
   setRanking: (r: Ranking) => void,
 }): JSX.Element {
   const characters = useContext(CharacterContext);
-  const { selection, ranking } = props;
+  const { selection, ranking, dispatch, setRanking } = props;
   var selected = characters.filter(char => selection.has(char.id));
 
   var bag = selected.filter(c => goesInBag(c.id));
@@ -41,7 +51,8 @@ export function SelectedCharacters(props: {
       <div className="column">
         <h2>Bag:
           <div className="spacer"></div>
-          <ShuffleBag characters={characters} setRanking={props.setRanking}></ShuffleBag>
+          <ShuffleBag characters={characters} setRanking={setRanking}></ShuffleBag>
+          <ClearSelection dispatch={dispatch}></ClearSelection>
         </h2>
         {bag.length == 0 && <span>No roles</span>}
         {bag.map(char =>
