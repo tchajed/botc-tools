@@ -116,15 +116,14 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
   }
 }
 
+function clampNum(num: number, min: number, max: number): number {
+  return Math.min(Math.max(num, min), max);
+}
+
 function clampDistribution(dist: Distribution, characters: CharacterInfo[]) {
   var totalDist = actualDistribution(characters);
   for (const roleType of Object.keys(dist)) {
-    if (dist[roleType] < 0) {
-      dist[roleType] = 0;
-    }
-    if (dist[roleType] > totalDist[roleType]) {
-      dist[roleType] = totalDist[roleType];
-    }
+    dist[roleType] = clampNum(dist[roleType], 0, totalDist[roleType]);
   }
 }
 
