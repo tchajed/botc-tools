@@ -37,15 +37,12 @@ button {
     @media (hover: hover) {
       background-color: rgb(200, 200, 200);
     }
-
-    @media (hover: none) {
-      background-color: inherit;
-    }
   }
 }
 
 .column {
   flex: 50%;
+  margin-right: 0.5rem;
 }
 
 .characters {
@@ -64,6 +61,16 @@ button {
   margin: 0.5rem 0;
   cursor: pointer;
   user-select: none;
+
+  &:hover {
+    @media (hover:hover) {
+      border-color: rgb(0, 170, 255);
+    }
+  }
+
+  &.selected {
+    border-color: rgb(153, 0, 255);
+  }
 }
 
 .players {
@@ -96,23 +103,9 @@ button {
   span {
     // make each number fixed-width
     display: inline-block;
-    width: 1rem;
+    min-width: 1rem;
     text-align: center;
   }
-}
-
-.character:hover {
-  @media (hover:hover) {
-    border-color: rgb(0, 170, 255);
-  }
-
-  @media (hover:none) {
-    border-color: inherit;
-  }
-}
-
-.character.selected {
-  border-color: rgb(153, 0, 255);
 }
 
 .role-label {
