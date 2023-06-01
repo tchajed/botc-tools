@@ -41,7 +41,10 @@ function ModificationExplanation(props: { mod: SetupModification }): JSX.Element
       return <span>(+1 minion, not added to bag)</span>;
     }
     case "huntsman": {
-      return <span>(+the Damsel)</span>;
+      return <span>(+the <span className="good">Damsel</span>)</span>;
+    }
+    case "riot": {
+      return <span>(All minions are <span className="evil">Riot</span>)</span>
     }
   }
 }

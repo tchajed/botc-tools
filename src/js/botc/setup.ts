@@ -60,9 +60,8 @@ export type SetupModification =
   | { type: "godfather" }
   // +damsel (allows/might require adding an outsider)
   | { type: "huntsman" }
-
-  // Riot [All Minions are Riot] is special but can be run by putting in
-  // arbitrary minions.
+  // all minions are riot (requires duplicate characters in bag)
+  | { type: "riot" }
 
   // Legion is complicated (need duplicates, non-deterministic).
   // Atheist is complicated (setup is arbitrary but all good).
@@ -82,6 +81,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   "marionette": { type: "marionette", notInBag: true },
   "godfather": { type: "godfather" },
   "huntsman": { type: "huntsman" },
+  "riot": { type: "riot" },
 };
 
 export function goesInBag(id: string): boolean {
@@ -134,6 +134,11 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       const sameDist = { ...old_dist };
       return [sameDist, dist];
     }
+    case "riot": {
+      dist.demon += dist.minion;
+      dist.minion = 0;
+      return [dist];
+    }
   }
 }
 
@@ -143,6 +148,8 @@ function clampNum(num: number, min: number, max: number): number {
 
 function clampDistribution(dist: Distribution, characters: CharacterInfo[]) {
   var totalDist = actualDistribution(characters);
+  // allow arbitrary number of demons for clamping purposes (for Riot, Legion)
+  totalDist.demon = 15;
   for (const roleType of Object.keys(dist)) {
     dist[roleType] = clampNum(dist[roleType], 0, totalDist[roleType]);
   }
