@@ -98,12 +98,13 @@ function SetupModifiers(props: {
   let distributionCorrect = differentRoleTypes(newDistribution, actual).length == 0;
 
   return <div className="modifiers">
+    <br />
     {modified.map(char => {
-      return <p><span className={classnames(char.good ? "good" : "evil", "bold")}>
+      return <div><span className={classnames(char.good ? "good" : "evil", "bold")}>
         {char.name}
       </span>
         <span> {<ModificationExplanation mod={SetupChanges[char.id]} />}</span>
-      </p>;
+      </div>;
     })}
     {modified.length > 0 && <div><span className="label">target: </span> <Distr dist={newDistribution} /></div>}
     <div>
