@@ -9,6 +9,12 @@ table {
   border-spacing: 0;
 }
 
+@media (max-width: 500px) {
+  td {
+    border-bottom: 1px dotted #bbb;
+  }
+}
+
 $img-size: 30px;
 
 td.icon-cell {

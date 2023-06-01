@@ -14,7 +14,8 @@ function createHeaderHTML(title: string): HTMLElement {
   return h1(div(title));
 }
 
-function abilityHTML(ability: string): ChildNode[] {
+function abilityHTML(ability: string | null): ChildNode[] {
+  if (!ability) { return [] };
   return htmlToElements(ability.replace(/\[[^]*\]/g, '<strong>$&</strong>'));
 }
 
