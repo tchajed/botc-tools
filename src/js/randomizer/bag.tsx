@@ -19,7 +19,7 @@ export function randomRanking(characters: CharacterInfo[]): Ranking {
   return r;
 }
 
-function ShuffleBag(props: {
+function ShuffleBagBtn(props: {
   characters: CharacterInfo[],
   setRanking: (r: Ranking) => void,
 }): JSX.Element {
@@ -29,7 +29,7 @@ function ShuffleBag(props: {
   return <button className="btn" onClick={handleClick}>shuffle</button>;
 }
 
-function ClearSelection(props: {
+function ClearSelectionBtn(props: {
   dispatch: (a: SelAction) => void,
 }): JSX.Element {
   function handleClick() {
@@ -56,8 +56,8 @@ export function SelectedCharacters(props: {
       <div className="column">
         <h2>Bag:
           <div className="spacer"></div>
-          <ShuffleBag characters={characters} setRanking={setRanking}></ShuffleBag>
-          <ClearSelection dispatch={dispatch}></ClearSelection>
+          <ShuffleBagBtn characters={characters} setRanking={setRanking}></ShuffleBagBtn>
+          <ClearSelectionBtn dispatch={dispatch}></ClearSelectionBtn>
         </h2>
         {bag.length == 0 && <span>No roles</span>}
         {bag.map(char =>
