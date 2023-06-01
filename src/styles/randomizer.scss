@@ -6,6 +6,29 @@ body {
   max-width: 550px;
 }
 
+button {
+  text-transform: none;
+  border-style: none;
+  padding: 0.1rem;
+  border-radius: 0.25rem;
+  border: 2px solid rgb(212, 212, 212);
+  background-color: rgb(233, 233, 237);
+
+  font-size: 120%;
+  text-align: center;
+  vertical-align: middle;
+
+  &:hover {
+    @media (hover: hover) {
+      background-color: rgb(200, 200, 200);
+    }
+
+    @media (hover: none) {
+      background-color: inherit;
+    }
+  }
+}
+
 .column {
   flex: 50%;
 }
@@ -41,29 +64,10 @@ body {
   }
 
   button {
-    text-transform: none;
-    border-style: none;
-    padding: 0;
-    border-radius: 0.25rem;
-    border: 2px solid rgb(212, 212, 212);
-    background-color: rgb(233, 233, 237);
-
     width: 2rem;
     font-size: 150%;
     line-height: 2rem;
     margin: 2px;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  button:hover {
-    @media (hover: hover) {
-      background-color: rgb(200, 200, 200);
-    }
-
-    @media (hover: none) {
-      background-color: inherit;
-    }
   }
 
 }
@@ -79,10 +83,6 @@ body {
     width: 1rem;
     text-align: center;
   }
-}
-
-.error {
-  color: red;
 }
 
 .character:hover {

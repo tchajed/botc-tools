@@ -233,14 +233,25 @@ function CharacterSelection(props:
   </div>;
 }
 
+function ShuffleBag(props: {
+  characters: CharacterInfo[],
+  setRanking: (r: Ranking) => void,
+}): JSX.Element {
+  function handleClick() {
+    props.setRanking(randomRanking(props.characters));
+  }
+  return <button className="shuffle" onClick={handleClick}>shuffle</button>;
+}
+
 function SelectedCharacters(props: {
   characters: CharacterInfo[],
   selection: Selection,
+  ranking: Ranking,
 }): JSX.Element {
-  const { characters, selection } = props;
+  const { characters, selection, ranking } = props;
   var selected = characters.filter(char => selection.has(char.id));
   var bag = selected.filter(c => goesInBag(c.id));
-  bag.sort(() => Math.random() - 0.5);
+  bag.sort((c1, c2) => ranking[c1.id] - ranking[c2.id]);
   var selectedOutsideBag = selected.filter(char => !goesInBag(char.id));
   return <div className="selected-characters">
     <div className="column">
@@ -265,28 +276,49 @@ function SelectedCharacters(props: {
   </div>;
 }
 
-export function App(props: { script: Script }) {
-  const { script } = props;
-  const [numPlayers, setNumPlayers] = useState<number | "">(8);
-  var initialSelection = new Set<string>();
-  const totalDistribution = actualDistribution(script.characters);
+/** Get the characters that should be initially selected.
+ *
+ * If the script has a lone demon, it is automatically added.
+ */
+function initialSelection(characters: CharacterInfo[]): Set<string> {
+  var sel = new Set<string>();
+  const totalDistribution = actualDistribution(characters);
   if (totalDistribution.demon == 1) {
-    for (const c of script.characters) {
-      if (c.roleType == "demon") { initialSelection.add(c.id); }
+    for (const c of characters) {
+      if (c.roleType == "demon") { sel.add(c.id); }
     }
   }
-  const [selection, dispatch] = useReducer(selectionReducer, initialSelection);
+  return sel;
+}
+
+type Ranking = { [key: string]: number };
+
+function randomRanking(characters: CharacterInfo[]): Ranking {
+  var r: Ranking = {};
+  for (const c of characters) {
+    r[c.id] = Math.random();
+  }
+  return r;
+}
+
+export function App(props: { script: Script }) {
+  const { script } = props;
+  const { characters } = script;
+  const [numPlayers, setNumPlayers] = useState<number | "">(8);
+  const [ranking, setRanking] = useState(randomRanking(characters));
+  const [selection, dispatch] = useReducer(selectionReducer, initialSelection(characters));
   return <div>
     <h1>{script.title}</h1>
     <NumPlayerSelector {...{ numPlayers, setNumPlayers }} />
-    <SetupModifiers numPlayers={numPlayers || 5} characters={script.characters} selection={selection} />
+    <SetupModifiers
+      numPlayers={numPlayers || 5}
+      {...{ characters, selection }} />
     <CharacterSelection
-      characters={script.characters}
-      selection={selection}
+      {...{ characters, selection }}
       dispatch={dispatch} />
     <hr className="separator" />
+    <ShuffleBag {...{ characters, setRanking }} />
     <SelectedCharacters
-      characters={script.characters}
-      selection={selection} />
+      {...{ characters, selection, ranking }} />
   </div>;
 }
