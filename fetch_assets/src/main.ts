@@ -64,7 +64,7 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
   await Promise.all(ids.map(async (id) => {
     let destFile = `${scriptsDir}/${id}.json`;
     if (fs.existsSync(destFile)) {
-      console.log(`already have ${id}`);
+      console.log(`already have script ${id}.json`);
       return;
     }
     let script = await getScript(id);
