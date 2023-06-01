@@ -10,7 +10,10 @@ function RoleLabel(props: { roleType: string }): JSX.Element {
   return <span className='role-label'>{letter}</span>;
 }
 
-function CharacterIconElement(props: { name: string, id: string }): JSX.Element {
+export function CharacterIconElement(props: {
+  name: string,
+  id: string
+}): JSX.Element {
   let { id } = props;
   if (!iconPath(id)) {
     return <></>;

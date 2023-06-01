@@ -156,3 +156,41 @@ span.evil {
 .bold {
   font-weight: bold;
 }
+
+.hidden {
+  display: none;
+}
+
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  background-color: white;
+
+  .character {
+    // center
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+
+    font-size: 250%;
+    border-radius: 8px;
+    padding: 10%;
+  }
+
+  // make the image larger
+  .img-container {
+    width: 90px;
+    height: 90px;
+  }
+
+  img.char-icon {
+    height: 100%;
+    width: 100%;
+  }
+}

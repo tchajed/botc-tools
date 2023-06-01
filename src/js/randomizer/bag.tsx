@@ -43,10 +43,17 @@ export function SelectedCharacters(props: {
   ranking: Ranking,
   dispatch: (a: SelAction) => void,
   setRanking: (r: Ranking) => void,
+  setFsRole: (r: string) => void,
 }): JSX.Element {
   const characters = useContext(CharacterContext);
-  const { selection, ranking, dispatch, setRanking } = props;
+  const { selection, ranking, dispatch, setRanking, setFsRole } = props;
   var selected = characters.filter(char => selection.has(char.id));
+
+  function handleClick(id: string): () => void {
+    return () => {
+      setFsRole(id);
+    };
+  }
 
   var bag = selected.filter(c => goesInBag(c.id));
   bag.sort((c1, c2) => ranking[c1.id] - ranking[c2.id]);
@@ -65,6 +72,7 @@ export function SelectedCharacters(props: {
             character={char}
             key={char.id}
             selected={false}
+            onClick={handleClick(char.id)}
           />
         )}
       </div>

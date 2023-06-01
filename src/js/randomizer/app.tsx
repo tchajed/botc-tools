@@ -1,14 +1,15 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import {
-  actualDistribution, distributionForCount, goesInBag, zeroDistribution
+  actualDistribution, distributionForCount, zeroDistribution
 } from '../botc/setup';
 import { CharacterInfo } from '../botc/roles';
 import { Script } from '../botc/script';
 import { selectionReducer, CharacterSelection } from './characters';
 import { Distr, SetupModifiers } from './setup_help';
-import { randomRanking, Ranking, SelectedCharacters } from './bag';
+import { randomRanking, SelectedCharacters } from './bag';
 import { CharacterContext } from './character_context';
 import { parseState, serializeState } from './state';
+import { FullscreenRole } from './role_fullscreen';
 
 function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
   const dist = numPlayers == "" ? zeroDistribution() : distributionForCount(numPlayers);
@@ -63,6 +64,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
   const [numPlayers, setNumPlayers] = useState<number | "">(8);
   const [ranking, setRanking] = useState(randomRanking(characters));
   const [selection, dispatch] = useReducer(selectionReducer, initialSelection(characters));
+  const [fsRole, setFsRole] = useState<string | null>(null);
 
   useEffect(() => {
     const json = window.localStorage.getItem("state");
@@ -106,7 +108,8 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
       <SetupModifiers numPlayers={numPlayers || 5} selection={selection} />
       <CharacterSelection selection={selection} dispatch={dispatch} />
       <hr className="separator" />
-      <SelectedCharacters {...{ selection, ranking, setRanking, dispatch }} />
+      <SelectedCharacters {...{ selection, ranking, setRanking, dispatch, setFsRole }} />
+      <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
     </div>
   </CharacterContext.Provider>;
 }
