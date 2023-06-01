@@ -3,6 +3,7 @@
 
 body {
   font-size: 13pt;
+  max-width: 550px;
 }
 
 .column {
@@ -11,7 +12,6 @@ body {
 
 .characters {
   display: flex;
-  width: fit-content;
 }
 
 .character {
@@ -26,13 +26,6 @@ body {
   margin: 0.5rem;
   cursor: pointer;
   user-select: none;
-}
-
-button:-moz-focusring,
-[type="button"]:-moz-focusring,
-[type="reset"]:-moz-focusring,
-[type="submit"]:-moz-focusring {
-  outline: 1px dotted ButtonText;
 }
 
 .players {
@@ -129,10 +122,6 @@ span.evil {
   border: 3px dotted black;
   border-style: none none dotted;
   color: transparent;
-}
-
-#selected {
-  display: flex;
 }
 
 .selected-characters {
