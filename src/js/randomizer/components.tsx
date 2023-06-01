@@ -50,22 +50,23 @@ function NumPlayerSelector({ numPlayers, setNumPlayers }: NumPlayerVar): JSX.Ele
   </div>;
 }
 
-function modificationExplanation(mod: SetupModification): string {
+function ModificationExplanation(props: { mod: SetupModification }): JSX.Element {
+  let { mod } = props;
   switch (mod.type) {
     case "outsider_count": {
       const change = Math.abs(mod.delta);
-      const sign = mod.delta > 0 ? "+" : "&#x2212;";
+      const sign = mod.delta > 0 ? <>+</> : <>&#x2212;</>;
       const plural = change == 1 ? "" : "s";
-      return `${sign}${change} outsider${plural}`;
+      return <span>({sign}{change} outsider{plural})</span>;
     }
     case "drunk": {
-      return "+1 townsfolk, not added to bag";
+      return <span>(+1 townsfolk, not added to bag)</span>;
     }
     case "godfather": {
-      return "+1 or -1 outsider";
+      return <span>(+1 or &#x2212;1 outsider)</span>;
     }
     case "lilmonsta": {
-      return "+1 minion, not added to bag";
+      return <span>(+1 minion, not added to bag)</span>;
     }
   }
 }
@@ -101,7 +102,7 @@ function SetupModifiers(props: {
       return <p><span className={classnames(char.good ? "good" : "evil", "bold")}>
         {char.name}
       </span>
-        <span> ({modificationExplanation(SetupChanges[char.id])})</span>
+        <span> {<ModificationExplanation mod={SetupChanges[char.id]} />}</span>
       </p>;
     })}
     {modified.length > 0 && <div><span className="label">target: </span> <Distr dist={newDistribution} /></div>}
