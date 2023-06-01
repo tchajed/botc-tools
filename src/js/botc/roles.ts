@@ -10,6 +10,7 @@ interface Override {
 const overrides: { [key: string]: Override } = {
   "philosopher": {
     firstNight: null,
+    otherNights: null,
   },
   "investigator": {
     firstNight: null,
@@ -151,8 +152,8 @@ function createRoleData(): Map<string, CharacterInfo> {
           index,
         };
         const override = overrides[id];
-        if (override !== undefined && override.firstNight != null) {
-          info.firstNight.details = override.firstNight;
+        if (override !== undefined) {
+          info.firstNight.details = override.firstNight || "";
         }
       }
       if (role.otherNightReminder != "") {
@@ -165,12 +166,13 @@ function createRoleData(): Map<string, CharacterInfo> {
           index,
         }
         const override = overrides[id];
-        if (override !== undefined && override.otherNights != null) {
+        if (override !== undefined) {
           var details = override.otherNights;
+          // copy first night override of otherNights is omitted
           if (details === undefined) {
-            details = override.otherNights;
+            details = override.firstNight;
           }
-          info.otherNights.details = details;
+          info.otherNights.details = details || "";
         }
       }
     }
