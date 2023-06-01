@@ -1,10 +1,15 @@
-import { scripts } from '../../assets/scripts.json';
+import allScripts from '../../assets/scripts.json';
 
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
-const { div, h1, a, table, tbody, tr, td } = hh(h);
+const { div, h1, h2, a, table, tbody, tr, td } = hh(h);
 
-function createScriptTable(): HTMLElement {
+interface Script {
+  id: string,
+  title: string,
+}
+
+function createScriptTable(scripts: Script[]): HTMLElement {
   let rows = scripts.map(script => {
     return tr([
       td(".title-cell", script.title),
@@ -22,11 +27,22 @@ function createScriptTable(): HTMLElement {
   return table(tbody(rows));
 }
 
+function createScriptLists(scripts: Script[]): HTMLElement {
+  const baseThree = scripts.filter(s => ["178", "180", "181"].includes(s.id));
+  const custom = scripts.filter(s => !["178", "180", "181"].includes(s.id));
+  return div([
+    h2("Base 3"),
+    createScriptTable(baseThree),
+    h2("Custom"),
+    createScriptTable(custom),
+  ]);
+}
+
 function loadTableToDOM() {
   const el = document.getElementById("app");
   if (!el) { return; }
   el.innerHTML = "";
-  el.insertAdjacentElement("beforeend", createScriptTable());
+  el.insertAdjacentElement("beforeend", createScriptLists(allScripts.scripts));
 }
 
 loadTableToDOM();
