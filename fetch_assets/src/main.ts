@@ -80,19 +80,22 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
 }
 
 async function cleanAssets(assetsDir: string) {
+  async function removeIfPresent(path: string, options?: fs.RmOptions) {
+    if (fs.existsSync(path)) {
+      return fs.promises.rm(path, options);
+    }
+  }
+
   const dataDir = `${assetsDir}/data`;
   const imgDir = `${assetsDir}/img`;
   const staticDir = `${assetsDir}/static`;
+
   await Promise.all([
-    fs.promises.rm(dataDir, { recursive: true, force: true }),
-    fs.promises.rm(staticDir, { recursive: true, force: true }),
-    fs.promises.rm(`${assetsDir}/scripts.json`, { force: true }),
+    removeIfPresent(dataDir, { recursive: true }),
+    removeIfPresent(staticDir, { recursive: true }),
+    removeIfPresent(imgDir, { recursive: true }),
+    removeIfPresent(`${assetsDir}/scripts.json`),
   ]);
-  await Promise.all(fs.readdirSync(imgDir).map(name => {
-    if (name.endsWith(".png")) {
-      fs.promises.rm(`${imgDir}/${name}`);
-    }
-  }));
 }
 
 async function main() {

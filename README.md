@@ -26,7 +26,7 @@ Running this multiple times won't re-download images and scripts (which take
 some time). If you want to re-fetch, delete the downloaded assets:
 
 ```sh
-rm -r assets/{data,static,img/*.png}
+yarn fetch-assets --clean
 ```
 
 ## Running the web site
