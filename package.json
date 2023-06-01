@@ -4,8 +4,7 @@
     "src/index.html",
     "src/roles.html",
     "src/nightsheet.html",
-    "src/randomize.html",
-    "src/randomize_react.html"
+    "src/randomize.html"
   ],
   "scripts": {
     "fetch-assets": "ts-node fetch_assets/src/main.ts",
