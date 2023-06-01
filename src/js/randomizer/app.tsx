@@ -1,6 +1,6 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import {
-  actualDistribution, distributionForCount, zeroDistribution
+  actualDistribution, distributionForCount, isTeensyville, zeroDistribution,
 } from '../botc/setup';
 import { CharacterInfo } from '../botc/roles';
 import { Script } from '../botc/script';
@@ -61,7 +61,9 @@ function initialSelection(characters: CharacterInfo[]): Set<string> {
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
-  const [numPlayers, setNumPlayers] = useState<number | "">(8);
+  const [numPlayers, setNumPlayers] = useState<number | "">(
+    isTeensyville(characters) ? 5 : 8,
+  );
   const [ranking, setRanking] = useState(randomRanking(characters));
   const [selection, dispatch] = useReducer(selectionReducer, initialSelection(characters));
   const [fsRole, setFsRole] = useState<string | null>(null);

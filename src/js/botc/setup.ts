@@ -35,8 +35,13 @@ export function actualDistribution(characters: CharacterInfo[]): Distribution {
   return dist;
 }
 
-export function validNumPlayers(numPlayers: number): boolean {
-  return 5 <= numPlayers && numPlayers <= 15;
+export function isTeensyville(characters: CharacterInfo[]): boolean {
+  const dist = actualDistribution(characters);
+  // normal scripts have 13 townsfolk while teensyville is 6
+  if (dist.townsfolk < 10) {
+    return true;
+  }
+  return false;
 }
 
 export type SetupModification =
