@@ -43,7 +43,7 @@ jobs:
           path: .parcel-cache
           key: parcel
       - name: Yarn setup
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Fetch assets
         run: yarn fetch-assets
       - name: Build site
