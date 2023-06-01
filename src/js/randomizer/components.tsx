@@ -87,7 +87,7 @@ function SetupModifiers(props: {
   modified.sort();
 
   const baseDistribution = distributionForCount(props.numPlayers);
-  const newDistribution = modifiedDistribution(
+  const newDistributions = modifiedDistribution(
     baseDistribution,
     modified.map(c => SetupChanges[c.id]),
     characters,
@@ -95,18 +95,25 @@ function SetupModifiers(props: {
 
   const selected = characters.filter(c => selection.has(c.id));
   let actual = actualDistribution(selected);
-  let distributionCorrect = differentRoleTypes(newDistribution, actual).length == 0;
+  let distributionCorrect = newDistributions.some(dist =>
+    differentRoleTypes(dist, actual).length == 0);
 
   return <div className="modifiers">
     <br />
     {modified.map(char => {
-      return <div><span className={classnames(char.good ? "good" : "evil", "bold")}>
-        {char.name}
-      </span>
+      return <div>
+        <span className={classnames(char.good ? "good" : "evil", "bold")}>
+          {char.name}
+        </span>
         <span> {<ModificationExplanation mod={SetupChanges[char.id]} />}</span>
       </div>;
     })}
-    {modified.length > 0 && <div><span className="label">target: </span> <Distr dist={newDistribution} /></div>}
+    {modified.length > 0 && <div>
+      <span className="label">target: </span>
+      {newDistributions
+        .map(dist => <Distr dist={dist} />)
+        .reduce((acc, x) => acc === null ? x : <>{acc} or {x}</>)}
+    </div>}
     <div>
       <span className="label">actual: </span> <Distr dist={actual} />
       {distributionCorrect && <span className="bold">&#x2713;</span>}

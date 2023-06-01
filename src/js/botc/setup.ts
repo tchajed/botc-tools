@@ -83,21 +83,21 @@ export function goesInBag(id: string): boolean {
   return !mod.notInBag;
 }
 
-function applyModification(old_dist: Distribution, mod: SetupModification): Distribution {
+function applyModification(old_dist: Distribution, mod: SetupModification): Distribution[] {
   var dist: Distribution = { ...old_dist };
   switch (mod.type) {
     case "outsider_count": {
       dist.townsfolk -= mod.delta;
       dist.outsider += mod.delta;
-      return dist;
+      return [dist];
     }
     case "drunk": {
       dist.townsfolk++;
-      return dist;
+      return [dist];
     }
     case "lilmonsta": {
       dist.minion++;
-      return dist;
+      return [dist];
     }
     case "godfather": {
       dist.townsfolk--;
@@ -106,7 +106,19 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       var otherDist = { ...old_dist };
       otherDist.townsfolk++;
       otherDist.townsfolk--;
-      return dist;
+      return [dist, otherDist];
+    }
+  }
+}
+
+function clampDistribution(dist: Distribution, characters: CharacterInfo[]) {
+  var totalDist = actualDistribution(characters);
+  for (const roleType of Object.keys(dist)) {
+    if (dist[roleType] < 0) {
+      dist[roleType] = 0;
+    }
+    if (dist[roleType] > totalDist[roleType]) {
+      dist[roleType] = totalDist[roleType];
     }
   }
 }
@@ -115,23 +127,15 @@ export function modifiedDistribution(
   dist: Distribution,
   mods: SetupModification[],
   characters: CharacterInfo[])
-  : Distribution {
-  var dist = dist;
+  : Distribution[] {
+  var dists = [dist];
   for (const mod of mods) {
-    dist = applyModification(dist, mod);
+    dists = dists.flatMap(dist => applyModification(dist, mod));
   }
-  if (dist.outsider < 0) {
-    dist.outsider = 0;
+  for (var dist of dists) {
+    clampDistribution(dist, characters);
   }
-  const numOutsiders = characters.filter(c => c.roleType == "outsider").length;
-  if (dist.outsider > numOutsiders) {
-    dist.outsider = numOutsiders;
-  }
-  const numMinions = characters.filter(c => c.roleType == "minion").length;
-  if (dist.minion > numMinions) {
-    dist.minion = numMinions;
-  }
-  return dist;
+  return dists;
 }
 
 export function differentRoleTypes(d1: Distribution, d2: Distribution): string[] {
