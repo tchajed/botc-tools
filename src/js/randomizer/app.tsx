@@ -75,18 +75,29 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     }
     setNumPlayers(s.numPlayers);
     setRanking(s.ranking);
-    s.selection.forEach(id => {
-      dispatch({ "type": "set", "id": id });
-    });
+    dispatch({ type: "set all", ids: s.selection });
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem("state",
       serializeState({
         scriptTitle: script.title,
-        numPlayers, ranking, selection
+        numPlayers,
+        ranking,
+        selection: [...selection]
       }));
   }, [numPlayers, ranking, selection]);
+
+  window.addEventListener("popstate", (ev) => {
+    const state = ev.state;
+    if (!state) { return; }
+    if ("ranking" in state) {
+      setRanking(state["ranking"]);
+    }
+    if ("selection" in state) {
+      dispatch({ type: "set all", ids: state["selection"] });
+    }
+  });
 
   return <CharacterContext.Provider value={characters}>
     <div>

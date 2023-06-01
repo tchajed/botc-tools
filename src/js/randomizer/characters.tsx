@@ -48,8 +48,8 @@ export type SelAction =
     type: "toggle",
     id: string,
   } | {
-    type: "set",
-    id: string,
+    type: "set all",
+    ids: string[],
   } | {
     type: "clear",
   }
@@ -65,9 +65,8 @@ export function selectionReducer(selection: Selection, action: SelAction): Selec
       }
       return newSelection;
     }
-    case "set": {
-      newSelection.add(action.id);
-      return newSelection;
+    case "set all": {
+      return new Set(action.ids);
     }
     case "clear": {
       return new Set();

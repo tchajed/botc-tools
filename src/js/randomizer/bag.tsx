@@ -20,20 +20,27 @@ export function randomRanking(characters: CharacterInfo[]): Ranking {
 }
 
 function ShuffleBagBtn(props: {
-  characters: CharacterInfo[],
+  ranking: Ranking,
   setRanking: (r: Ranking) => void,
 }): JSX.Element {
+  const characters = useContext(CharacterContext);
   function handleClick() {
-    props.setRanking(randomRanking(props.characters));
+    window.history.replaceState({ ranking: { ...props.ranking } }, "");
+    const newRanking = randomRanking(characters);
+    props.setRanking(newRanking);
+    window.history.pushState({ ranking: { ...newRanking } }, "");
   }
   return <button className="btn" onClick={handleClick}>shuffle</button>;
 }
 
 function ClearSelectionBtn(props: {
+  selection: Selection,
   dispatch: (a: SelAction) => void,
 }): JSX.Element {
   function handleClick() {
+    window.history.replaceState({ selection: [...props.selection] }, "");
     props.dispatch({ type: "clear" });
+    window.history.pushState({ selection: [] }, "no selection");
   }
   return <button className="btn" onClick={handleClick}>clear</button>;
 }
@@ -56,8 +63,8 @@ export function SelectedCharacters(props: {
       <div className="column">
         <h2>Bag:
           <div className="spacer"></div>
-          <ShuffleBagBtn characters={characters} setRanking={setRanking}></ShuffleBagBtn>
-          <ClearSelectionBtn dispatch={dispatch}></ClearSelectionBtn>
+          <ShuffleBagBtn ranking={ranking} setRanking={setRanking}></ShuffleBagBtn>
+          <ClearSelectionBtn selection={selection} dispatch={dispatch}></ClearSelectionBtn>
         </h2>
         {bag.length == 0 && <span>No roles</span>}
         {bag.map(char =>

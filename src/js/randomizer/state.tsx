@@ -1,11 +1,10 @@
 import { Ranking } from "./bag";
-import { Selection } from "./characters";
 
 export interface State {
   scriptTitle: string,
   numPlayers: number | "";
   ranking: Ranking;
-  selection: Selection;
+  selection: string[];
 }
 
 export function serializeState(s: State): string {
@@ -13,7 +12,7 @@ export function serializeState(s: State): string {
     scriptTitle: s.scriptTitle,
     numPlayers: s.numPlayers,
     ranking: s.ranking,
-    selection: [...s.selection],
+    selection: s.selection,
   });
 }
 
@@ -24,7 +23,7 @@ export function parseState(json: string): State | null {
       scriptTitle: s["scriptTitle"],
       numPlayers: s["numPlayers"],
       ranking: s["ranking"],
-      selection: new Set(s["selection"]),
+      selection: Array.from(s["selection"]),
     }
   }
   return null;
