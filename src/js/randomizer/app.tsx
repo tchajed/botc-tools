@@ -110,7 +110,10 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
       <SetupModifiers numPlayers={numPlayers || 5} selection={selection} />
       <CharacterSelection selection={selection} dispatch={dispatch} />
       <hr className="separator" />
-      <SelectedCharacters {...{ selection, ranking, setRanking, dispatch, setFsRole }} />
+      <SelectedCharacters {...{
+        selection, ranking, numPlayers,
+        setRanking, dispatch, setFsRole
+      }} />
       <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
     </div>
   </CharacterContext.Provider>;

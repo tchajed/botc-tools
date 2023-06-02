@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CharacterInfo } from "../botc/roles";
+import { CharacterInfo, RoleType } from "../botc/roles";
 import { Columns } from "./columns";
 import classnames from "classnames";
 import { iconPath } from "../views";
@@ -24,8 +24,16 @@ export function CharacterIconElement(props: {
   </div>;
 }
 
+// like CharacterInfo but not a class
+export interface CardInfo {
+  id: string;
+  name: string;
+  good: boolean;
+  roleType: RoleType,
+}
+
 export function CharacterCard(props: {
-  character: CharacterInfo,
+  character: CardInfo,
   onClick?: React.MouseEventHandler<HTMLElement>,
   selected: boolean
 }): JSX.Element {
@@ -34,7 +42,7 @@ export function CharacterCard(props: {
   let needsLabel = ["outsider", "minion"].includes(roleType);
   return <div
     className={classnames(
-      character.evil ? "evil" : "good",
+      character.good ? "good" : "evil",
       "character",
       { "selected": props.selected })}
     onClick={props.onClick}>

@@ -4,7 +4,7 @@ import { CharacterInfo } from "../botc/roles";
 import { Selection } from "./characters";
 import {
   SetupModification, SetupChanges, distributionForCount,
-  modifiedDistribution, actualDistribution, differentRoleTypes, Distribution
+  modifiedDistribution, actualDistribution, differentRoleTypes, Distribution, effectiveDistribution
 } from "../botc/setup";
 import { CharacterContext } from "./character_context";
 
@@ -72,7 +72,7 @@ export function SetupModifiers(props: {
   );
 
   const selected = characters.filter(c => selection.has(c.id));
-  let actual = actualDistribution(selected);
+  let actual = effectiveDistribution(props.numPlayers, selected);
   let distributionCorrect = newDistributions.some(dist =>
     differentRoleTypes(dist, actual).length == 0);
 

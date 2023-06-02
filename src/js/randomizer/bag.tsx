@@ -1,15 +1,20 @@
 import React, { useContext } from "react";
 import { CharacterInfo } from "../botc/roles";
-import { goesInBag } from "../botc/setup";
-import { CharacterCard, SelAction, Selection } from "./characters";
+import { distributionForCount, goesInBag } from "../botc/setup";
+import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
 
 export type Ranking = { [key: string]: number };
 
 export function randomRanking(characters: CharacterInfo[]): Ranking {
-  const randomOrder = [...characters];
+  const randomOrder = characters.map(c => c.id);
+  for (var i = 0; i < 3; i++) {
+    // assign copies of riot different rankings
+    randomOrder.push(`riot-${i}`);
+  }
   randomOrder.sort(() => Math.random() - 0.5);
-  return Object.fromEntries(randomOrder.map((c, i) => [c.id, i]));
+  var r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
+  return r;
 }
 
 function ShuffleBagBtn(props: {
@@ -41,6 +46,7 @@ function ClearSelectionBtn(props: {
 export function SelectedCharacters(props: {
   selection: Selection,
   ranking: Ranking,
+  numPlayers: number | "",
   dispatch: (a: SelAction) => void,
   setRanking: (r: Ranking) => void,
   setFsRole: (r: string) => void,
@@ -55,8 +61,26 @@ export function SelectedCharacters(props: {
     };
   }
 
-  var bag = selected.filter(c => goesInBag(c.id));
-  bag.sort((c1, c2) => ranking[c1.id] - ranking[c2.id]);
+  var bag: (CardInfo & { riotNum?: number })[] = selected.filter(c => goesInBag(c.id));
+  const numMinions = distributionForCount(props.numPlayers || 5).minion;
+  const riot = bag.find(c => c.id == "riot");
+  if (riot) {
+    for (var i = 0; i < numMinions; i++) {
+      const thisRiot = { riotNum: i, ...riot };
+      bag.push(thisRiot);
+    }
+  }
+
+  // an extended identifier to disambiguate riots
+  function charKey(char: { id: string, riotNum?: number }): string {
+    if (char.id == "riot" && char.riotNum !== undefined) {
+      return `riot-${char.riotNum}`;
+    }
+    return char.id;
+  }
+
+  bag.sort((c1, c2) => ranking[charKey(c1)] - ranking[charKey(c2)]);
+
   var selectedOutsideBag = selected.filter(char => !goesInBag(char.id));
   return <div>
     <div className="selected-characters">
@@ -70,7 +94,7 @@ export function SelectedCharacters(props: {
         {bag.map(char =>
           <CharacterCard
             character={char}
-            key={char.id}
+            key={charKey(char)}
             selected={false}
             onClick={handleClick(char.id)}
           />

@@ -63,7 +63,7 @@ interface NightAction {
 }
 
 const RoleTypes = ["townsfolk", "outsider", "minion", "demon", "fabled", "travellers"] as const;
-type RoleType = typeof RoleTypes[number];
+export type RoleType = typeof RoleTypes[number];
 
 export class CharacterInfo {
   readonly id: string;

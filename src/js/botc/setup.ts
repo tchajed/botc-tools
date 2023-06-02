@@ -35,6 +35,19 @@ export function actualDistribution(characters: CharacterInfo[]): Distribution {
   return dist;
 }
 
+/** Get the number of characters of each type taking into account an extra demon
+ * (Riot) for each nominal minion. */
+export function effectiveDistribution(numPlayers: number, characters: CharacterInfo[]): Distribution {
+  var dist = zeroDistribution();
+  for (const c of characters) {
+    if (c.id == "riot") {
+      dist.demon += distributionForCount(numPlayers).minion;
+    }
+    dist[c.roleType]++;
+  }
+  return dist;
+}
+
 export function isTeensyville(characters: CharacterInfo[]): boolean {
   const dist = actualDistribution(characters);
   // normal scripts have 13 townsfolk while teensyville is 6
