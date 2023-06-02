@@ -6,13 +6,22 @@ import { CharacterContext } from "./character_context";
 
 export type Ranking = { [key: string]: number };
 
+function shuffleArray<T>(array: T[]) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+
 export function randomRanking(characters: CharacterInfo[]): Ranking {
   const randomOrder = characters.map(c => c.id);
   for (var i = 0; i < 3; i++) {
     // assign copies of riot different rankings
     randomOrder.push(`riot-${i}`);
   }
-  randomOrder.sort(() => Math.random() - 0.5);
+  shuffleArray(randomOrder);
   var r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
   return r;
 }
