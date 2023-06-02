@@ -15,14 +15,8 @@
     <script src="./js/listing.tsx" type="module"></script>
     <script type="module">
       import {Workbox} from 'workbox-window';
-      import {registerRoute} from 'workbox-routing';
-      import {CacheFirst} from 'workbox-strategies';
-
-      registerRoute(new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'), new CacheFirst({cacheName: 'google-fonts'}),);
-
       if ('serviceWorker' in navigator) {
         const wb = new Workbox('./service-worker.js');
-
         wb.register();
       }
     </script>
