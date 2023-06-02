@@ -91,6 +91,14 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     }
   });
 
+  window.addEventListener("hashchange", () => {
+    // without some action the page won't change, even though the selected
+    // script has changed
+    //
+    // reloading dynamically is a little hard and not worth it
+    window.location.reload();
+  })
+
   return <CharacterContext.Provider value={characters}>
     <div>
       <h1>{script.title}</h1>
