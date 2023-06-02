@@ -4,7 +4,7 @@ import { CharacterInfo } from "../botc/roles";
 import { Selection } from "./characters";
 import {
   SetupModification, SetupChanges, distributionForCount,
-  modifiedDistribution, actualDistribution, differentRoleTypes, Distribution, effectiveDistribution
+  modifiedDistribution, actualDistribution, Distribution, effectiveDistribution, sameDistribution
 } from "../botc/setup";
 import { CharacterContext } from "./character_context";
 import { characterClass } from "../views";
@@ -47,6 +47,9 @@ function ModificationExplanation(props: { mod: SetupModification }): JSX.Element
     case "riot": {
       return <span>(All minions are <span className="evil">Riot</span>)</span>
     }
+    case "sentinel": {
+      return <span>(might be +1 or &#x2212;1 outsider)</span>
+    }
   }
 }
 
@@ -74,8 +77,7 @@ export function SetupModifiers(props: {
 
   const selected = characters.filter(c => selection.has(c.id));
   let actual = effectiveDistribution(props.numPlayers, selected);
-  let distributionCorrect = newDistributions.some(dist =>
-    differentRoleTypes(dist, actual).length == 0);
+  let distributionCorrect = newDistributions.some(dist => sameDistribution(dist, actual));
 
   return <div className="modifiers">
     <br />

@@ -224,8 +224,6 @@ function createRoleData(): Map<string, CharacterInfo> {
   roles.set("MINION", MinionInfo);
   roles.set("DEMON", DemonInfo);
 
-  console.log(roles.get("spiritofivory"));
-
   return roles;
 }
 

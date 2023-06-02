@@ -4,6 +4,7 @@ import { Columns } from "./columns";
 import classnames from "classnames";
 import { characterClass, iconPath } from "../views";
 import { CharacterContext } from "./character_context";
+import { actualDistribution } from "../botc/setup";
 
 function RoleLabel(props: { roleType: string }): JSX.Element {
   var letter = props.roleType.charAt(0).toUpperCase();
@@ -65,25 +66,62 @@ export type SelAction =
     type: "clear",
   }
 
-export function selectionReducer(selection: Selection, action: SelAction): Selection {
-  var newSelection = new Set(selection);
-  switch (action.type) {
-    case "toggle": {
-      if (newSelection.has(action.id)) {
-        newSelection.delete(action.id);
-      } else {
-        newSelection.add(action.id);
-        if (action.id == "huntsman") {
-          newSelection.add("damsel");
+
+/** Get the characters that should be initially selected.
+ *
+ * If the script has a lone demon, it is automatically added.
+ */
+export function initialSelection(characters: CharacterInfo[]): Set<string> {
+  var sel = new Set<string>();
+  const totalDistribution = actualDistribution(characters);
+  if (totalDistribution.demon == 1) {
+    for (const c of characters) {
+      if (c.roleType == "demon") { sel.add(c.id); }
+    }
+  }
+  for (const c of characters) {
+    if (c.roleType == "fabled") {
+      sel.add(c.id);
+    }
+  }
+  return sel;
+}
+
+function addToSet<T>(s: Set<T>, toAdd: Set<T>) {
+  toAdd.forEach(x => s.add(x));
+}
+
+export function createSelectionReducer(characters: CharacterInfo[])
+  : (selection: Selection, action: SelAction) => Selection {
+  const fabled = new Set<string>();
+  for (const c of characters) {
+    if (c.roleType == "fabled") {
+      fabled.add(c.id);
+    }
+  }
+  return (selection: Selection, action: SelAction) => {
+    var newSelection = new Set(selection);
+    switch (action.type) {
+      case "toggle": {
+        if (newSelection.has(action.id)) {
+          newSelection.delete(action.id);
+        } else {
+          newSelection.add(action.id);
+          if (action.id == "huntsman") {
+            newSelection.add("damsel");
+          }
         }
+        addToSet(newSelection, fabled);
+        return newSelection;
       }
-      return newSelection;
-    }
-    case "set all": {
-      return new Set(action.ids);
-    }
-    case "clear": {
-      return new Set();
+      case "set all": {
+        const newSelection = new Set(action.ids);
+        addToSet(newSelection, fabled);
+        return newSelection;
+      }
+      case "clear": {
+        return new Set(fabled);
+      }
     }
   }
 }

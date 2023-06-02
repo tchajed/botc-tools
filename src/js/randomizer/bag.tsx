@@ -70,7 +70,7 @@ export function SelectedCharacters(props: {
     };
   }
 
-  var bag: (CardInfo & { riotNum?: number })[] = selected.filter(c => goesInBag(c.id));
+  var bag: (CardInfo & { riotNum?: number })[] = selected.filter(c => goesInBag(c));
   const numMinions = distributionForCount(props.numPlayers || 5).minion;
   const riot = bag.find(c => c.id == "riot");
   if (riot) {
@@ -90,7 +90,7 @@ export function SelectedCharacters(props: {
 
   bag.sort((c1, c2) => ranking[charKey(c1)] - ranking[charKey(c2)]);
 
-  var selectedOutsideBag = selected.filter(char => !goesInBag(char.id));
+  var selectedOutsideBag = selected.filter(char => !goesInBag(char));
   return <div>
     <div className="selected-characters">
       <div className="column">

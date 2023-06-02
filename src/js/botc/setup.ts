@@ -1,5 +1,6 @@
 /** Encode the rules for BotC setup. */
 
+import { CardInfo } from "../randomizer/characters";
 import { CharacterInfo } from "./roles";
 
 export interface Distribution {
@@ -71,6 +72,8 @@ export type SetupModification =
   | { type: "lilmonsta", notInBag: true }
   // +1 or -1 outsider (non-deterministic)
   | { type: "godfather" }
+  // +1, -1, or unchanged outsiders
+  | { type: "sentinel" }
   // +damsel (allows/might require adding an outsider)
   | { type: "huntsman" }
   // all minions are riot (requires duplicate characters in bag)
@@ -95,10 +98,14 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   "godfather": { type: "godfather" },
   "huntsman": { type: "huntsman" },
   "riot": { type: "riot" },
+  "sentinel": { type: "sentinel" },
 };
 
-export function goesInBag(id: string): boolean {
-  const mod = SetupChanges[id];
+export function goesInBag(char: CardInfo): boolean {
+  if (char.roleType == "fabled") {
+    return false;
+  }
+  const mod = SetupChanges[char.id];
   if (!mod) {
     return true;
   }
@@ -133,6 +140,14 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       otherDist.townsfolk++;
       otherDist.townsfolk--;
       return [dist, otherDist];
+    }
+    case "sentinel": {
+      dist.townsfolk--;
+      dist.outsider++;
+      var otherDist = { ...old_dist };
+      otherDist.townsfolk++;
+      otherDist.townsfolk--;
+      return [dist, otherDist, { ...old_dist }];
     }
     case "huntsman": {
       if (dist.outsider == 0) {
@@ -180,11 +195,24 @@ export function modifiedDistribution(
   for (var dist of dists) {
     clampDistribution(dist, characters);
   }
-  return dists;
+  // remove duplicates
+  var uniqueDists: Distribution[] = [];
+  for (const dist of dists) {
+    if (uniqueDists.some(d => sameDistribution(d, dist))) {
+      // duplicate
+      continue;
+    }
+    uniqueDists.push(dist);
+  }
+  return uniqueDists;
 }
 
-export function differentRoleTypes(d1: Distribution, d2: Distribution): string[] {
+function differentRoleTypes(d1: Distribution, d2: Distribution): string[] {
   return ["townsfolk", "outsider", "minion", "demon"].filter(
     roleType => d1[roleType] != d2[roleType]
   );
+}
+
+export function sameDistribution(d1: Distribution, d2: Distribution): boolean {
+  return differentRoleTypes(d1, d2).length == 0;
 }

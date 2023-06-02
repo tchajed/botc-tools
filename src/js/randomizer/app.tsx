@@ -4,12 +4,13 @@ import {
 } from '../botc/setup';
 import { CharacterInfo } from '../botc/roles';
 import { Script } from '../botc/script';
-import { selectionReducer, CharacterSelection } from './characters';
+import { createSelectionReducer, CharacterSelection, initialSelection } from './characters';
 import { Distr, SetupModifiers } from './setup_help';
 import { randomRanking, SelectedCharacters } from './bag';
 import { CharacterContext } from './character_context';
 import { parseState, serializeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
+import { create } from 'axios';
 
 function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
   const dist = numPlayers == "" ? zeroDistribution() : distributionForCount(numPlayers);
@@ -44,28 +45,15 @@ function NumPlayerSelector({ numPlayers, setNumPlayers }: NumPlayerVar): JSX.Ele
   </div>;
 }
 
-/** Get the characters that should be initially selected.
- *
- * If the script has a lone demon, it is automatically added.
- */
-function initialSelection(characters: CharacterInfo[]): Set<string> {
-  var sel = new Set<string>();
-  const totalDistribution = actualDistribution(characters);
-  if (totalDistribution.demon == 1) {
-    for (const c of characters) {
-      if (c.roleType == "demon") { sel.add(c.id); }
-    }
-  }
-  return sel;
-}
-
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
   const [numPlayers, setNumPlayers] = useState<number | "">(
     isTeensyville(characters) ? 5 : 8,
   );
   const [ranking, setRanking] = useState(randomRanking(characters));
-  const [selection, dispatch] = useReducer(selectionReducer, initialSelection(characters));
+  const [selection, dispatch] = useReducer(
+    createSelectionReducer(characters),
+    initialSelection(characters));
   const [fsRole, setFsRole] = useState<string | null>(null);
 
   useEffect(() => {
