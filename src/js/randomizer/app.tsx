@@ -36,7 +36,7 @@ function NumPlayerSelector({ numPlayers, setNumPlayers }: NumPlayerVar): JSX.Ele
     <div>
       <label className='label' htmlFor='numPlayers'>players: </label>
       <button onClick={handleIncDec(-1)}>&#x2212;</button>
-      <input value={numPlayers} readOnly={true}></input>
+      <input id="numPlayers" value={numPlayers} readOnly={true}></input>
       <button onClick={handleIncDec(+1)}>+</button>
     </div>
     <div>
