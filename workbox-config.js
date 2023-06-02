@@ -9,8 +9,16 @@ module.exports = {
     options: {
       cacheName: 'google-fonts',
     },
+    expiration: {
+      maxEntries: 30,
+    },
+    plugins: [
+      // new cacheableResponse.Plugin({
+      //   statuses: [0, 200]
+      // }),
+    ],
   }],
   swDest: "dist/service-worker.js",
   clientsClaim: true,
-  skipWaiting: true
+  skipWaiting: false
 };
