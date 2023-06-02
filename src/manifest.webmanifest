@@ -2,7 +2,7 @@
   "short_name": "BotC tools",
   "name": "BotC tools",
   "start_url": ".",
-  "display": "minimal-ui",
+  "display": "fullscreen",
   "background_color": "#e0e0e0",
   "theme_color": "#593286",
   "icons": [
