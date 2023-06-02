@@ -1,8 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import {
-  actualDistribution, distributionForCount, isTeensyville, zeroDistribution,
+  distributionForCount, isTeensyville, zeroDistribution,
 } from '../botc/setup';
-import { CharacterInfo } from '../botc/roles';
 import { Script } from '../botc/script';
 import { createSelectionReducer, CharacterSelection, initialSelection } from './characters';
 import { Distr, SetupModifiers } from './setup_help';
@@ -10,7 +9,6 @@ import { randomRanking, SelectedCharacters } from './bag';
 import { CharacterContext } from './character_context';
 import { parseState, serializeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
-import { create } from 'axios';
 
 function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
   const dist = numPlayers == "" ? zeroDistribution() : distributionForCount(numPlayers);
@@ -55,6 +53,10 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     createSelectionReducer(characters),
     initialSelection(characters));
   const [fsRole, setFsRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    window.history.scrollRestoration = 'manual';
+  }, []);
 
   useEffect(() => {
     const json = window.localStorage.getItem("state");

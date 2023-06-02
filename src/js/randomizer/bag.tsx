@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { distributionForCount, goesInBag } from "../botc/setup";
 import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
@@ -52,6 +52,34 @@ function ClearSelectionBtn(props: {
   return <button className="btn" onClick={handleClick}>clear</button>;
 }
 
+function HistoryBtns(): JSX.Element {
+  const [forwardCount, setForwardCount] = useState(0);
+
+  function handleBack() {
+    if (forwardCount < 0) {
+      setForwardCount(1);
+    } else {
+      setForwardCount(forwardCount + 1);
+    }
+    window.history.back();
+  }
+
+  function handleForward() {
+    if (forwardCount > 0) {
+      setForwardCount(forwardCount - 1);
+    } else {
+      setForwardCount(0);
+    }
+    window.history.forward();
+  }
+
+  return <>
+    <button className="btn" onClick={handleBack}>undo</button>
+    {forwardCount > 0 &&
+      <button className="btn" onClick={handleForward}>redo</button>}
+  </>
+}
+
 export function SelectedCharacters(props: {
   selection: Selection,
   ranking: Ranking,
@@ -94,11 +122,16 @@ export function SelectedCharacters(props: {
   return <div>
     <div className="selected-characters">
       <div className="column">
-        <h2>Bag:
-          <div className="spacer"></div>
-          <ShuffleBagBtn ranking={ranking} setRanking={setRanking}></ShuffleBagBtn>
-          <ClearSelectionBtn selection={selection} dispatch={dispatch}></ClearSelectionBtn>
-        </h2>
+        <div className="bag-header">
+          <h2>Bag</h2>
+          {bag.length > 0 &&
+            <><div>
+              <ShuffleBagBtn ranking={ranking} setRanking={setRanking}></ShuffleBagBtn>
+              <ClearSelectionBtn selection={selection} dispatch={dispatch}></ClearSelectionBtn>
+            </div>
+              <div><HistoryBtns /></div>
+            </>}
+        </div>
         {bag.length == 0 && <span>No roles</span>}
         {bag.map(char =>
           <CharacterCard
@@ -110,7 +143,7 @@ export function SelectedCharacters(props: {
         )}
       </div>
       <div className="column">
-        {selectedOutsideBag.length > 0 && <h2>Outside bag:</h2>}
+        {selectedOutsideBag.length > 0 && <h2>Outside bag</h2>}
         {selectedOutsideBag.map(char =>
           <CharacterCard
             character={char}
