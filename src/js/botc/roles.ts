@@ -3,6 +3,7 @@ import botc_roles from '../../../assets/data/botc_online_roles.json';
 import nightsheet from '../../../assets/data/nightsheet.json';
 
 interface Override {
+  ability?: string;
   firstNight?: string | null;
   otherNights?: string | null;
 }
@@ -54,7 +55,27 @@ const overrides: { [key: string]: Override } = {
   "imp": {
     otherNights: `The Imp kills a player. If they chose themselves,
     replace an alive Minion with an Imp token. Show them YOU ARE and then the Imp token.`,
-  }
+  },
+
+  // fabled do not have abilities in the botc online data
+  "spiritofivory": {
+    ability: "There can't be more than 1 extra evil player."
+  },
+  "doomsayer": {
+    ability: `If 4 or more players live, each living player may publicly
+choose (once per game) that a player of their own alignment dies.`,
+  },
+  "duchess": {
+    ability: `Each day, 3 players may choose to visit you.
+At night*, each visitor learns how many visitors are evil, but 1 gets false info.`,
+  },
+  "sentinel": {
+    ability: `There might be 1 extra or 1 fewer Outsider in play.`,
+  },
+  "stormcatcher": {
+    ability: `Name a good character. If in play, they can only
+die by execution, but evil players learn which player it is.`,
+  },
 }
 
 interface NightAction {
@@ -117,7 +138,7 @@ DemonInfo.firstNight = {
 }
 
 export function nameToId(name: string): string {
-  return name.toLowerCase().replace(" ", "").replace("'", "").replace("-", "").replace("_", "");
+  return name.toLowerCase().replaceAll(/[ '-_]/g, "");
 }
 
 function createRoleData(): Map<string, CharacterInfo> {
@@ -139,47 +160,71 @@ function createRoleData(): Map<string, CharacterInfo> {
   for (const role of botc_roles) {
     const id = role.id;
     const info = roles.get(id);
-    if (info !== undefined) {
-      info.ability = role.ability;
+    const override = overrides[id];
+    if (info === undefined) {
+      // a character in the online tool but not known to the script tool -
+      // applies to Mephit (which was renamed)
+      continue;
+    }
 
-      if (role.firstNightReminder != "") {
-        const index = nightsheet.firstNight.indexOf(info.name);
-        if (index < 0 && info.roleType != "travellers") {
-          console.warn(`${id} not found in night sheet`);
-        }
-        info.firstNight = {
-          details: role.firstNightReminder,
-          index,
-        };
-        const override = overrides[id];
-        if (override !== undefined) {
-          info.firstNight.details = override.firstNight || "";
-        }
+    if (override !== undefined && override.ability !== undefined) {
+      info.ability = override.ability;
+    } else {
+      info.ability = role.ability;
+    }
+
+    if (role.firstNightReminder != "") {
+      const index = nightsheet.firstNight.indexOf(info.name);
+      if (index < 0 && info.roleType != "travellers") {
+        console.warn(`${id} not found in night sheet`);
       }
-      if (role.otherNightReminder != "") {
-        const index = nightsheet.otherNight.indexOf(info.name);
-        if (index < 0 && info.roleType != "travellers") {
-          console.warn(`${id} not found in night sheet`);
+      info.firstNight = {
+        details: role.firstNightReminder,
+        index,
+      };
+      if (override !== undefined) {
+        info.firstNight.details = override.firstNight || "";
+      }
+    }
+    if (role.otherNightReminder != "") {
+      const index = nightsheet.otherNight.indexOf(info.name);
+      if (index < 0 && info.roleType != "travellers") {
+        console.warn(`${id} not found in night sheet`);
+      }
+      info.otherNights = {
+        details: role.otherNightReminder,
+        index,
+      }
+      if (override !== undefined) {
+        var details = override.otherNights;
+        // copy first night override of otherNights is omitted
+        if (details === undefined) {
+          details = override.firstNight;
         }
-        info.otherNights = {
-          details: role.otherNightReminder,
-          index,
-        }
-        const override = overrides[id];
-        if (override !== undefined) {
-          var details = override.otherNights;
-          // copy first night override of otherNights is omitted
-          if (details === undefined) {
-            details = override.firstNight;
-          }
-          info.otherNights.details = details || "";
-        }
+        info.otherNights.details = details || "";
+      }
+    }
+  }
+
+  for (const id of Object.keys(overrides)) {
+    if (botc_roles.find(c => c.id == id) === undefined) {
+      // an override for a character not in Clocktower Online
+      const info = roles.get(id);
+      if (info === undefined) {
+        console.error(`override info for unknown id ${id} `);
+        continue;
+      }
+      const override = overrides[id];
+      if (override.ability) {
+        info.ability = override.ability;
       }
     }
   }
 
   roles.set("MINION", MinionInfo);
   roles.set("DEMON", DemonInfo);
+
+  console.log(roles.get("spiritofivory"));
 
   return roles;
 }

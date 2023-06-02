@@ -7,6 +7,7 @@ import {
   modifiedDistribution, actualDistribution, differentRoleTypes, Distribution, effectiveDistribution
 } from "../botc/setup";
 import { CharacterContext } from "./character_context";
+import { characterClass } from "../views";
 
 export function Distr({ dist }: { dist: Distribution }): JSX.Element {
   return <span className='distribution'>
@@ -80,7 +81,7 @@ export function SetupModifiers(props: {
     <br />
     {modified.map(char => {
       return <div key={char.id}>
-        <span className={classnames(char.good ? "good" : "evil", "bold")}>
+        <span className={classnames(characterClass(char), "bold")}>
           {char.name}
         </span>
         <span> {<ModificationExplanation mod={SetupChanges[char.id]} />}</span>

@@ -1,7 +1,7 @@
 import { CharacterInfo } from './botc/roles';
 import { Script } from './botc/script';
 
-import { characterIconElement, htmlToElements } from './views';
+import { characterClass, characterIconElement, htmlToElements } from './views';
 
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
@@ -26,11 +26,11 @@ function createCharacterHTML(character: CharacterInfo): HTMLElement {
   cells.push(td(".name-cell", [character.name]));
   cells.push(td(".ability-cell", abilityHTML(character.ability)));
 
-  return tr({ className: classnames(character.evil ? "evil" : "good") }, cells);
+  return tr({ className: characterClass(character) }, cells);
 }
 
 function pluralRole(roleType: string): string {
-  return roleType == "townsfolk" ? roleType : roleType + "s"
+  return ["townsfolk", "fabled"].includes(roleType) ? roleType : roleType + "s"
 }
 
 function roleTypeRow(roleType: string): HTMLElement {

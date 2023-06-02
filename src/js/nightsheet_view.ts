@@ -2,7 +2,7 @@ import { CharacterInfo } from './botc/roles';
 import { NightOrders, Script } from './botc/script';
 import { selectedScript } from './select_script';
 
-import { characterIconElement, htmlToElements, iconPath } from './views';
+import { characterClass, characterIconElement, htmlToElements, iconPath } from './views';
 
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
@@ -63,7 +63,7 @@ function characterRow(character: CharacterInfo, firstNight: boolean): HTMLElemen
       details.length == 0 ? "empty" : null)
   }, details));
 
-  return tr({ className: classnames(character.evil ? "evil" : "good") }, cells);
+  return tr({ className: characterClass(character) }, cells);
 }
 
 function createCharacterList(orders: NightOrders, firstNight: boolean): HTMLElement {

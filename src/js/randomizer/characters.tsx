@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Columns } from "./columns";
 import classnames from "classnames";
-import { iconPath } from "../views";
+import { characterClass, iconPath } from "../views";
 import { CharacterContext } from "./character_context";
 
 function RoleLabel(props: { roleType: string }): JSX.Element {
@@ -42,7 +42,7 @@ export function CharacterCard(props: {
   let needsLabel = ["outsider", "minion"].includes(roleType);
   return <div
     className={classnames(
-      character.good ? "good" : "evil",
+      characterClass(character),
       "character",
       { "selected": props.selected })}
     onClick={props.onClick}>

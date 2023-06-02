@@ -21,3 +21,18 @@ export function characterIconElement(character: { id: string }): HTMLElement[] {
     h("img.char-icon", { src: iconPath(character.id) })
   )];
 }
+
+export function characterClass(character: { roleType: string }): string {
+  switch (character.roleType) {
+    case "townsfolk":
+    case "outsider":
+      return "good";
+    case "minion":
+    case "demon":
+      return "evil";
+    case "fabled":
+      return "fabled";
+    default:
+      return "";
+  }
+}

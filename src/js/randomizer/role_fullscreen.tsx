@@ -3,6 +3,7 @@ import { CharacterContext } from "./character_context";
 import React from "react";
 import { CharacterIconElement } from "./characters";
 import classnames from "classnames";
+import { characterClass } from "../views";
 
 export function FullscreenRole(props: {
   fsRole: string | null,
@@ -24,7 +25,7 @@ export function FullscreenRole(props: {
   }
 
   return <div className="fullscreen" onClick={handleClick}>
-    <div className={classnames(char.good ? "good" : "evil", 'character')}>
+    <div className={classnames(characterClass(char), 'character')}>
       <CharacterIconElement {...char} />
       <span className='name'>{char.name}</span>
     </div>
