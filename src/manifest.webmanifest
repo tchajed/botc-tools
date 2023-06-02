@@ -2,7 +2,7 @@
   "short_name": "BotC tools",
   "name": "BotC tools",
   "start_url": ".",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#e0e0e0",
   "theme_color": "#593286",
   "icons": [
@@ -17,5 +17,9 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
+  ],
+  "categories": [
+    "utilities",
+    "games"
   ]
 }

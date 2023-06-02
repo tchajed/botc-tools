@@ -82,24 +82,41 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
       }));
   }, [numPlayers, ranking, selection]);
 
-  window.addEventListener("popstate", (ev) => {
-    const state = ev.state;
-    if (!state) { return; }
-    if ("ranking" in state) {
-      setRanking(state["ranking"]);
-    }
-    if ("selection" in state) {
-      dispatch({ type: "set all", ids: state["selection"] });
-    }
-  });
+  // register all of our event listeners
+  useEffect(() => {
+    window.addEventListener("popstate", (ev) => {
+      const state = ev.state;
+      if (!state) { return; }
+      if ("ranking" in state) {
+        setRanking(state["ranking"]);
+      }
+      if ("selection" in state) {
+        dispatch({ type: "set all", ids: state["selection"] });
+      }
+    });
 
-  window.addEventListener("hashchange", () => {
-    // without some action the page won't change, even though the selected
-    // script has changed
-    //
-    // reloading dynamically is a little hard and not worth it
-    window.location.reload();
-  })
+    window.addEventListener("hashchange", () => {
+      // without some action the page won't change, even though the selected
+      // script has changed
+      //
+      // reloading dynamically is a little hard and not worth it
+      window.location.reload();
+    });
+
+    // note: this was supposed to reset zoom in landscape mode, but it doesn't
+    // actually work
+    window.addEventListener("orientationchange", () => {
+      if ("orientation" in window.screen) {
+        if (window.screen.orientation.type.startsWith("landscape")) {
+          const viewportmeta = document.querySelector('meta[name=viewport]');
+          if (viewportmeta) {
+            viewportmeta.setAttribute('content',
+              "width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0");
+          }
+        }
+      }
+    });
+  }, []);
 
   return <CharacterContext.Provider value={characters}>
     <div>
