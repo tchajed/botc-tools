@@ -54,10 +54,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     initialSelection(characters));
   const [fsRole, setFsRole] = useState<string | null>(null);
 
-  useEffect(() => {
-    window.history.scrollRestoration = 'manual';
-  }, []);
-
+  // load state from local storage
   useEffect(() => {
     const s = loadState(script.title);
     if (!s) { return; }
@@ -66,9 +63,14 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     dispatch({ type: "set all", ids: s.selection });
   }, []);
 
+  // keep local storage up-to-date
   useEffect(() => {
     storeState({ scriptTitle: script.title, numPlayers, ranking, selection });
   }, [numPlayers, ranking, selection]);
+
+  useEffect(() => {
+    window.history.scrollRestoration = 'manual';
+  }, []);
 
   // register all of our event listeners
   useEffect(() => {
