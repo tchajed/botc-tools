@@ -36,7 +36,7 @@ jobs:
             assets/img/*.png
             assets/static/scripts
             assets/data
-          key: assets-${hashFiles('assets/**')}
+          key: assets-${{ hashFiles('assets/**') }}
           restore-keys: assets-
       - name: Cache parcel
         uses: actions/cache@v3
