@@ -113,8 +113,8 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
     })
   }
   return img.resize({
-    width: 250,
-    height: 250,
+    width: 200,
+    height: 200,
     fit: 'inside',
   });
 }
