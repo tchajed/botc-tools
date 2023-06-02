@@ -3,6 +3,7 @@ import { CharacterInfo } from "../botc/roles";
 import { distributionForCount, goesInBag } from "../botc/setup";
 import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
+import { State } from "./state";
 
 export type Ranking = { [key: string]: number };
 
@@ -32,10 +33,12 @@ function ShuffleBagBtn(props: {
 }): JSX.Element {
   const characters = useContext(CharacterContext);
   function handleClick() {
-    window.history.replaceState({ ranking: { ...props.ranking } }, "");
+    let oldState: Partial<State> = { ranking: { ...props.ranking } };
+    window.history.replaceState(oldState, "");
     const newRanking = randomRanking(characters);
     props.setRanking(newRanking);
-    window.history.pushState({ ranking: { ...newRanking } }, "");
+    let newState: Partial<State> = { ranking: { ...newRanking } };
+    window.history.pushState(newState, "");
   }
   return <button className="btn" onClick={handleClick}>shuffle</button>;
 }

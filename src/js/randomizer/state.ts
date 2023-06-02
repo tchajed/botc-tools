@@ -7,7 +7,7 @@ export interface State {
   selection: string[];
 }
 
-export function serializeState(s: State): string {
+function serializeState(s: State): string {
   return JSON.stringify({
     scriptTitle: s.scriptTitle,
     numPlayers: s.numPlayers,
@@ -16,7 +16,7 @@ export function serializeState(s: State): string {
   });
 }
 
-export function parseState(json: string): State | null {
+function parseState(json: string): State | null {
   const s = JSON.parse(json);
   if ("scriptTitle" in s && "numPlayers" in s && "ranking" in s && "selection" in s) {
     return {
@@ -27,4 +27,26 @@ export function parseState(json: string): State | null {
     }
   }
   return null;
+}
+
+export function loadState(title: string): State | undefined {
+  const json = window.localStorage.getItem("state");
+  if (!json) { return; }
+  const s = parseState(json);
+  if (!s) { return; }
+  if (s.scriptTitle != title) {
+    window.localStorage.removeItem("state");
+    return;
+  }
+  return s;
+}
+
+export function storeState(state: {
+  scriptTitle: string;
+  numPlayers: number | "";
+  ranking: Ranking, selection: Set<string>;
+}) {
+  let selection = Array.from(state.selection);
+  let s = serializeState({ ...state, selection });
+  window.localStorage.setItem("state", s);
 }

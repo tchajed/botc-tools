@@ -7,7 +7,7 @@ import { createSelectionReducer, CharacterSelection, initialSelection } from './
 import { Distr, SetupModifiers } from './setup_help';
 import { randomRanking, SelectedCharacters } from './bag';
 import { CharacterContext } from './character_context';
-import { parseState, serializeState } from './state';
+import { State, loadState, storeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
 
 function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
@@ -59,39 +59,27 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
   }, []);
 
   useEffect(() => {
-    const json = window.localStorage.getItem("state");
-    if (!json) { return; }
-    const s = parseState(json);
+    const s = loadState(script.title);
     if (!s) { return; }
-    if (s.scriptTitle != script.title) {
-      window.localStorage.removeItem("state");
-      return;
-    }
     setNumPlayers(s.numPlayers);
     setRanking(s.ranking);
     dispatch({ type: "set all", ids: s.selection });
   }, []);
 
   useEffect(() => {
-    window.localStorage.setItem("state",
-      serializeState({
-        scriptTitle: script.title,
-        numPlayers,
-        ranking,
-        selection: [...selection]
-      }));
+    storeState({ scriptTitle: script.title, numPlayers, ranking, selection });
   }, [numPlayers, ranking, selection]);
 
   // register all of our event listeners
   useEffect(() => {
     window.addEventListener("popstate", (ev) => {
-      const state = ev.state;
+      const state: Partial<State> = ev.state;
       if (!state) { return; }
-      if ("ranking" in state) {
-        setRanking(state["ranking"]);
+      if (state.ranking !== undefined) {
+        setRanking(state.ranking);
       }
-      if ("selection" in state) {
-        dispatch({ type: "set all", ids: state["selection"] });
+      if (state.selection !== undefined) {
+        dispatch({ type: "set all", ids: state.selection });
       }
     });
 
