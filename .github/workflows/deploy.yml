@@ -38,11 +38,6 @@ jobs:
             assets/data
           key: assets-${{ hashFiles('assets/**') }}
           restore-keys: assets-
-      - name: Cache parcel
-        uses: actions/cache@v3
-        with:
-          path: .parcel-cache
-          key: parcel
       - name: Yarn setup
         run: yarn install --frozen-lockfile
       - name: Fetch assets
