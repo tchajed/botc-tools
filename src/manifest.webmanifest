@@ -1,5 +1,12 @@
 {
   "short_name": "BotC tools",
   "name": "BotC tools",
-  "start_url": "."
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "../icons/favicon.ico",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
 }
