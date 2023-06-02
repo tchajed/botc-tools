@@ -2,10 +2,10 @@ import axios from "axios";
 import { ScriptData } from "./botc/script";
 
 function selectedScriptId(): string {
-  let params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
-  if (id) { return id; }
-  // Laissez un Carnaval as a default
+  if (window.location.hash != "") {
+    const id = window.location.hash.substring(1);
+    return id;
+  }
   return "19";
 }
 

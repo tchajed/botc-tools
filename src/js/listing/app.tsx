@@ -18,16 +18,16 @@ function ScriptRow(props: { script: Script }): JSX.Element {
   const { id, title } = props.script;
   return <tr>
     <td className="title-cell">
-      <a href={`./roles.html?id=${id}`}>{title}</a>
+      <a href={`./roles.html#${id}`}>{title}</a>
     </td>
     <td className="nightsheet-cell">
       <div className="btn">
-        <a href={`./nightsheet.html?id=${id}`}>Night order</a>
+        <a href={`./nightsheet.html#${id}`}>Night order</a>
       </div>
     </td>
     <td className="randomizer-cell">
       <div className="btn">
-        <a href={`./randomize.html?id=${id}`}>Select roles</a>
+        <a href={`./randomize.html#${id}`}>Select roles</a>
       </div>
     </td>
   </tr>

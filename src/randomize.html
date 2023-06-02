@@ -10,7 +10,19 @@
   <body>
     <div id="app"></div>
     <script src="./js/randomizer.tsx" type="module"></script>
-    <script src="./js/sw.js"></script>
+    <script type="module">
+      import {Workbox} from 'workbox-window';
+      import {registerRoute} from 'workbox-routing';
+      import {StaleWhileRevalidate} from 'workbox-strategies';
+
+      if ('serviceWorker' in navigator) {
+        const wb = new Workbox('./service-worker.js');
+
+        wb.register();
+
+        registerRoute(/^https:\/\/fonts\.googleapis\.com/, new StaleWhileRevalidate({cacheName: 'google-fonts-stylesheets'}));
+      }
+    </script>
   </script>
 </body>
 </html>
