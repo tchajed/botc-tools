@@ -5,9 +5,35 @@
     <title>BotC tools</title>
     <link rel="stylesheet" href="styles/index.scss"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3">
+    <link rel="manifest" href="./manifest.webmanifest"/>
   </head>
   <body>
     <div id="app"></div>
     <script src="./js/listing.tsx" type="module"></script>
+    <script type="module">
+      import {Workbox} from 'workbox-window';
+      import {registerRoute} from 'workbox-routing';
+      import {CacheFirst} from 'workbox-strategies';
+
+      if ('serviceWorker' in navigator) {
+        const wb = new Workbox('./service-worker.js');
+
+        wb.register();
+
+        registerRoute(new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'), new CacheFirst({
+          cacheName: 'google-fonts',
+          plugins: [
+            new workbox
+              .expiration
+              .Plugin({maxEntries: 30}),
+            new workbox
+              .cacheableResponse
+              .Plugin({
+                statuses: [0, 200]
+              })
+          ]
+        }),);
+      }
+    </script>
   </body>
 </html>
