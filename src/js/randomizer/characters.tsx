@@ -73,6 +73,9 @@ export function selectionReducer(selection: Selection, action: SelAction): Selec
         newSelection.delete(action.id);
       } else {
         newSelection.add(action.id);
+        if (action.id == "huntsman") {
+          newSelection.add("damsel");
+        }
       }
       return newSelection;
     }
