@@ -1,7 +1,4 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import {
-  isTeensyville,
-} from '../botc/setup';
 import { Script } from '../botc/script';
 import { createSelectionReducer, CharacterSelection, initialSelection } from './characters';
 import { SetupModifiers } from './setup_help';
@@ -15,9 +12,7 @@ import { NumPlayerSelector } from './num_players';
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
-  const [numPlayers, setNumPlayers] = useState<number>(
-    isTeensyville(characters) ? 5 : 8,
-  );
+  const [numPlayers, setNumPlayers] = useState<number>(script.teensyville ? 5 : 8);
   const [ranking, setRanking] = useState(randomRanking(characters));
   const [selection, selDispatch] = useReducer(
     createSelectionReducer(characters),
@@ -84,7 +79,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
       <Nav scriptId={script.id} />
       <div className="main">
         <h1>{script.title}</h1>
-        <NumPlayerSelector teenysville={isTeensyville(characters)} {...{ numPlayers, setNumPlayers }} />
+        <NumPlayerSelector teenysville={script.teensyville} {...{ numPlayers, setNumPlayers }} />
         <SetupModifiers numPlayers={numPlayers} selection={selection} />
         <CharacterSelection selection={selection} selDispatch={selDispatch} />
         <hr className="separator" />

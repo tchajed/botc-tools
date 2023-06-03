@@ -49,15 +49,6 @@ export function effectiveDistribution(numPlayers: number, characters: CharacterI
   return dist;
 }
 
-export function isTeensyville(characters: CharacterInfo[]): boolean {
-  const dist = actualDistribution(characters);
-  // normal scripts have 13 townsfolk while teensyville is 6
-  if (dist.townsfolk < 10) {
-    return true;
-  }
-  return false;
-}
-
 export type SetupModification =
   {
     // eg, Baron (+2), Fang Gu (+1), Vigormortis (-1)

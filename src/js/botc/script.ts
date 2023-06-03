@@ -51,12 +51,19 @@ function getNightOrders(characters: CharacterInfo[]): NightOrders {
   }
 }
 
+function isTeensyville(characters: CharacterInfo[]): boolean {
+  const numTownsfolk = characters.map(c => c.roleType == "townsfolk").length;
+  // normal scripts have 13 townsfolk while teensyville is 6
+  return numTownsfolk < 10;
+}
+
 export class Script {
   readonly id: number;
   readonly title: string;
   readonly orders: NightOrders;
   readonly characters: CharacterInfo[];
   readonly jinxes: Jinx[];
+  readonly teensyville: boolean;
 
   constructor(data: ScriptData) {
     this.id = data.pk || 0;
@@ -70,8 +77,8 @@ export class Script {
     const characters = getCharacterList(data.characters);
 
     this.characters = characters;
+    this.teensyville = isTeensyville(characters);
     this.orders = getNightOrders(characters);
-
     this.jinxes = getJinxList(data.characters);
   }
 }
