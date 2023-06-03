@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useReducer, useState } from 'react';
 import {
   distributionForCount, isTeensyville, zeroDistribution,
 } from '../botc/setup';
@@ -11,8 +11,9 @@ import { State, loadState, storeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
 import { History } from './history';
 
-function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
-  const dist = numPlayers == "" ? zeroDistribution() : distributionForCount(numPlayers);
+function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
+  const dist = (5 <= numPlayers && numPlayers <= 15) ?
+    distributionForCount(numPlayers) : zeroDistribution();
   return <>
     <span className='label'>base: </span>
     <Distr dist={dist} />
@@ -20,23 +21,26 @@ function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
 }
 
 interface NumPlayerVar {
-  numPlayers: number | "",
-  setNumPlayers: (n: number | "") => void,
+  numPlayers: number,
+  setNumPlayers: Dispatch<SetStateAction<number>>,
 }
 
-function NumPlayerSelector({ numPlayers, setNumPlayers }: NumPlayerVar): JSX.Element {
+function NumPlayerSelector(props: NumPlayerVar & { teenysville: boolean }): JSX.Element {
+  const { numPlayers } = props;
   function handleIncDec(delta: number): () => void {
     return () => {
-      setNumPlayers(numPlayers ? (numPlayers + delta) : 5);
+      props.setNumPlayers(n => n + delta);
     };
   }
+
+  const maxPlayers = props.teenysville ? 6 : 15;
 
   return <div className='players'>
     <div>
       <label className='label' htmlFor='numPlayers'>players: </label>
-      <button onClick={handleIncDec(-1)}>&#x2212;</button>
+      <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}>&#x2212;</button>
       <input id="numPlayers" value={numPlayers} readOnly={true}></input>
-      <button onClick={handleIncDec(+1)}>+</button>
+      <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}>+</button>
     </div>
     <div>
       <BaseDistr numPlayers={numPlayers} />
@@ -46,7 +50,7 @@ function NumPlayerSelector({ numPlayers, setNumPlayers }: NumPlayerVar): JSX.Ele
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
-  const [numPlayers, setNumPlayers] = useState<number | "">(
+  const [numPlayers, setNumPlayers] = useState<number>(
     isTeensyville(characters) ? 5 : 8,
   );
   const [ranking, setRanking] = useState(randomRanking(characters));
@@ -113,8 +117,8 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
   return <CharacterContext.Provider value={characters}>
     <div>
       <h1>{script.title}</h1>
-      <NumPlayerSelector {...{ numPlayers, setNumPlayers }} />
-      <SetupModifiers numPlayers={numPlayers || 5} selection={selection} />
+      <NumPlayerSelector teenysville={isTeensyville(characters)} {...{ numPlayers, setNumPlayers }} />
+      <SetupModifiers numPlayers={numPlayers} selection={selection} />
       <CharacterSelection selection={selection} selDispatch={selDispatch} />
       <hr className="separator" />
       <SelectedCharacters {...{

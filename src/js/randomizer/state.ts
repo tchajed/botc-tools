@@ -2,7 +2,7 @@ import { Ranking } from "./bag";
 
 export interface State {
   scriptTitle: string,
-  numPlayers: number | "";
+  numPlayers: number;
   ranking: Ranking;
   selection: string[];
 }
@@ -43,7 +43,7 @@ export function loadState(title: string): State | undefined {
 
 export function storeState(state: {
   scriptTitle: string;
-  numPlayers: number | "";
+  numPlayers: number;
   ranking: Ranking, selection: Set<string>;
 }) {
   let selection = Array.from(state.selection);

@@ -1,11 +1,10 @@
-import React, { Dispatch, SetStateAction, useContext, } from "react";
+import React, { Dispatch, useContext, } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { distributionForCount, goesInBag } from "../botc/setup";
 import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
 import { State } from "./state";
-import { History, HistoryAction, SetHistory, historyApply, pureHistoryApply } from "./history";
-import classNames from "classnames";
+import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
 
 export type Ranking = { [key: string]: number };
 
@@ -132,7 +131,7 @@ function splitSelectedChars(
 export function SelectedCharacters(props: {
   selection: Selection,
   ranking: Ranking,
-  numPlayers: number | "",
+  numPlayers: number,
   selDispatch: Dispatch<SelAction>,
   setRanking: (r: Ranking) => void,
   setFsRole: (r: string) => void,
@@ -142,7 +141,7 @@ export function SelectedCharacters(props: {
   const characters = useContext(CharacterContext);
   const { selection, ranking, setFsRole } = props;
 
-  const { bag, outsideBag } = splitSelectedChars(characters, selection, props.numPlayers || 5);
+  const { bag, outsideBag } = splitSelectedChars(characters, selection, props.numPlayers);
 
   // an extended identifier to disambiguate riots
   function charKey(char: { id: string, riotNum?: number }): string {
