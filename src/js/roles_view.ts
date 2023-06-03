@@ -7,7 +7,6 @@ import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
 const { div, h1, strong, table, tbody, tr, td } = hh(h);
 
-import classnames from 'classnames';
 import { selectedScript } from './select_script';
 
 function createHeaderHTML(title: string): HTMLElement {
@@ -66,6 +65,9 @@ function loadScriptToDOM(script: Script) {
 }
 
 async function init() {
+  window.addEventListener('hashchange', () => {
+    window.location.reload();
+  })
   let script = await selectedScript();
   loadScriptToDOM(new Script(script));
 }

@@ -2,7 +2,11 @@
 @use 'fonts';
 
 body {
-  font-size: 9pt;
+  font-size: 11pt;
+
+  @media print {
+    font-size: 9pt;
+  }
 }
 
 table {
