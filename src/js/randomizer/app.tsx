@@ -14,10 +14,7 @@ import { History } from './history';
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
   const dist = (5 <= numPlayers && numPlayers <= 15) ?
     distributionForCount(numPlayers) : zeroDistribution();
-  return <>
-    <span className='label'>base: </span>
-    <Distr dist={dist} />
-  </>;
+  return <Distr dist={dist} />;
 }
 
 interface NumPlayerVar {
@@ -37,10 +34,12 @@ function NumPlayerSelector(props: NumPlayerVar & { teenysville: boolean }): JSX.
 
   return <div className='players'>
     <div>
-      <label className='label' htmlFor='numPlayers'>players: </label>
-      <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}>&#x2212;</button>
-      <input id="numPlayers" value={numPlayers} readOnly={true}></input>
-      <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}>+</button>
+      <div className='player-num-btns'>
+        <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}>&#x2212;</button>
+        <input id="numPlayers" value={numPlayers} readOnly={true}></input>
+        <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}>+</button>
+      </div>
+      <label className='label' htmlFor='numPlayers'>players</label>
     </div>
     <div>
       <BaseDistr numPlayers={numPlayers} />

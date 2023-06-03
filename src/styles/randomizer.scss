@@ -60,6 +60,11 @@ button:disabled {
   }
 }
 
+.player-num-btns {
+  display: inline-block;
+  margin-right: 1rem;
+}
+
 .column {
   flex: 50%;
   margin-right: 0.5rem;
