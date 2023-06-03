@@ -27,12 +27,20 @@ export function NumPlayerSelector(props: {
 
   return <div className='players'>
     <div className='player-num-btns'>
-      <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}><FontAwesomeIcon icon={faMinus} /></button>
+      <label htmlFor="minus-player-btn" className="visuallyhidden">subtract one player</label>
+      <button id="minus-player-btn" title="subtract one player"
+        disabled={numPlayers <= 5} onClick={handleIncDec(-1)}>
+        <FontAwesomeIcon icon={faMinus} />
+      </button>
       <span className="numPlayers">
         <span className='count'>{numPlayers}</span>
         players
       </span>
-      <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}><FontAwesomeIcon icon={faPlus} /></button>
+      <label htmlFor="plus-player-btn" className="visuallyhidden">add one player</label>
+      <button id="plus-player-btn" title="add one players"
+        disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}>
+        <FontAwesomeIcon icon={faPlus} />
+      </button>
     </div>
     <div>
       <BaseDistr numPlayers={numPlayers} />
