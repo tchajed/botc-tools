@@ -42,7 +42,7 @@
     "hyperscript-helpers": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sharp": "^0.32.1",
+    "sharp": "^0.31.1",
     "workbox-window": "^7.0.0"
   },
   "staticFiles": {

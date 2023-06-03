@@ -5,6 +5,7 @@
   "display": "fullscreen",
   "background_color": "#e0e0e0",
   "theme_color": "#593286",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "../icons/favicon.ico",
@@ -12,8 +13,14 @@
       "type": "image/webp"
     },
     {
-      "src": "../icons/icon.png",
+      "src": "../icons/favicon.ico?as=png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "../icons/favicon.ico?as=png&width=96&height=96",
+      "sizes": "96x96",
       "type": "image/png",
       "purpose": "any maskable"
     }
