@@ -2,6 +2,7 @@ import React from "react";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
 import { CharacterIconElement } from "../views";
+import { Nav } from "../randomizer/nav";
 
 
 function Ability(props: { ability: string | null }): JSX.Element {
@@ -57,7 +58,10 @@ function CharacterList(props: { characters: CharacterInfo[] }): JSX.Element {
 
 export function App({ script }: { script: Script }): JSX.Element {
   return <div>
-    <h1>{script.title}</h1>
-    <CharacterList characters={script.characters} />
+    <Nav scriptId={script.id} />
+    <div className="main">
+      <h1>{script.title}</h1>
+      <CharacterList characters={script.characters} />
+    </div>
   </div>
 }
