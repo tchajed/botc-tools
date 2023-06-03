@@ -13,7 +13,7 @@ function Character({ character }: { character: CharacterInfo }): JSX.Element {
   return <tr>
     <td className="icon-cell"><CharacterIconElement {...character} /></td>
     <td className="name-cell">{character.name}</td>
-    <Ability ability={character.ability} />
+    <td className="ability-cell"><Ability ability={character.ability} /></td>
   </tr>
 }
 
