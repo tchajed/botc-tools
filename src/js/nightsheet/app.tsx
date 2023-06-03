@@ -4,6 +4,7 @@ import { NightOrders, Script } from '../botc/script';
 import classnames from 'classnames';
 import React from 'react';
 import { characterClass, iconPath, CharacterIconElement } from '../views';
+import { Nav } from '../randomizer/nav';
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",
@@ -96,9 +97,12 @@ function Sheet({ script, firstNight }: { script: Script, firstNight: boolean }):
 
 export function App({ script }: { script: Script }): JSX.Element {
   return <>
-    <Sheet script={script} firstNight={true} />
-    <div className="page-divider-top"></div>
-    <div className="page-divider-bottom"></div>
-    <Sheet script={script} firstNight={false} />
+    <Nav scriptId={script.id} />
+    <div className="main">
+      <Sheet script={script} firstNight={true} />
+      <div className="page-divider-top"></div>
+      <div className="page-divider-bottom"></div>
+      <Sheet script={script} firstNight={false} />
+    </div>
   </>
 }
