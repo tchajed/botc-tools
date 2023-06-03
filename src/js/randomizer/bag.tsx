@@ -1,10 +1,12 @@
-import React, { Dispatch, useContext, } from "react";
+import React, { Dispatch, PropsWithChildren, useContext, } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { distributionForCount, goesInBag } from "../botc/setup";
 import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
 import { State } from "./state";
 import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShuffle, faBan, faUndo, faRedo } from '@fortawesome/free-solid-svg-icons'
 
 export type Ranking = { [key: string]: number };
 
@@ -28,12 +30,12 @@ export function randomRanking(characters: CharacterInfo[]): Ranking {
   return r;
 }
 
-function ShuffleBagBtn(props: {
+function ShuffleBagBtn(props: PropsWithChildren<{
   ranking: Ranking,
   bagSize: number,
   setRanking: (r: Ranking) => void,
   setHistory: SetHistory,
-}): JSX.Element {
+}>): JSX.Element {
   const characters = useContext(CharacterContext);
 
   function handleClick() {
@@ -53,16 +55,17 @@ function ShuffleBagBtn(props: {
       state: { ranking: { ...newRanking } }
     });
   }
-  return <button className="btn"
+  return <button id="shuffle-btn" className="btn"
     disabled={props.bagSize <= 1}
-    onClick={handleClick}>shuffle</button>;
+    onClick={handleClick}
+    title="Shuffle">{props.children}</button>;
 }
 
-function ClearSelectionBtn(props: {
+function ClearSelectionBtn(props: PropsWithChildren<{
   selection: Selection,
   selDispatch: Dispatch<SelAction>,
   setHistory: SetHistory,
-}): JSX.Element {
+}>): JSX.Element {
   function handleClick() {
     pureHistoryApply(props.setHistory, {
       type: 'replace',
@@ -74,15 +77,17 @@ function ClearSelectionBtn(props: {
       state: { selection: [] },
     });
   }
-  return <button className="btn"
+  return <button id="clear-btn" className="btn"
     disabled={props.selection.size == 0}
-    onClick={handleClick}>clear</button>;
+    onClick={handleClick}
+    title="Clear">{props.children}</button>;
 }
 
 function HistoryBtns(props: {
   setRanking: (r: Ranking) => void,
   selDispatch: Dispatch<SelAction>,
-  history: History<Partial<State>>, setHistory: SetHistory,
+  history: History<Partial<State>>,
+  setHistory: SetHistory,
 }): JSX.Element {
   const { history, setHistory } = props;
 
@@ -100,8 +105,18 @@ function HistoryBtns(props: {
   const canRedo = history.forward.length > 0;
 
   return <>
-    <button className="btn" disabled={!canUndo} onClick={handleUndo}>undo</button>
-    <button className="btn" disabled={!canRedo} onClick={handleRedo}>redo</button>
+    <label htmlFor="undo-btn" className="visuallyhidden">Undo</label>
+    <button id="undo-btn"
+      className="btn" disabled={!canUndo} onClick={handleUndo}
+      title="Undo">
+      <FontAwesomeIcon icon={faUndo} />
+    </button>
+    <label htmlFor="redo-btn" className="visuallyhidden">Redo</label>
+    <button id="redo-btn"
+      className="btn" disabled={!canRedo} onClick={handleRedo}
+      title="Redo">
+      <FontAwesomeIcon icon={faRedo} />
+    </button>
   </>
 }
 
@@ -165,12 +180,18 @@ export function SelectedCharacters(props: {
         <div className="bag-header">
           <h2>Bag</h2>
           <div className="bag-btns">
+            <label htmlFor="shuffle-btn" className="visuallyhidden">Shuffle</label>
             <ShuffleBagBtn bagSize={bag.length} ranking={ranking} setRanking={props.setRanking}
-              setHistory={props.setHistory}></ShuffleBagBtn>
+              setHistory={props.setHistory}>
+              <FontAwesomeIcon icon={faShuffle} />
+            </ShuffleBagBtn>
+            <label htmlFor="clear-btn" className="visuallyhidden">Clear</label>
             <ClearSelectionBtn selection={selection} selDispatch={props.selDispatch}
-              setHistory={props.setHistory}></ClearSelectionBtn>
+              setHistory={props.setHistory}>
+              <FontAwesomeIcon icon={faBan} />
+            </ClearSelectionBtn>
+            <HistoryBtns {...props} />
           </div>
-          <div className="history-btns"><HistoryBtns {...props} /></div>
         </div>
         {bag.length == 0 && <span>No roles</span>}
         {bag.map(char =>

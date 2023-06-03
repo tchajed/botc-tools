@@ -1,6 +1,14 @@
 $good: #003D88;
 $evil: #880000;
 
+// allow scrolling past end
+@media screen {
+  html {
+    height: auto !important;
+    padding-bottom: 300px !important;
+  }
+}
+
 body {
   margin: 1em auto;
   max-width: 800px;
@@ -90,4 +98,16 @@ tr.evil .name-cell {
   body {
     margin: 0;
   }
+}
+
+// hide accessibility labels
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }

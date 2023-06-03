@@ -3,7 +3,7 @@ import { distributionForCount, zeroDistribution } from "../botc/setup";
 import { Distr } from "./setup_help";
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
   const dist = (5 <= numPlayers && numPlayers <= 15) ?
