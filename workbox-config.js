@@ -1,8 +1,9 @@
 module.exports = {
   globDirectory: "dist",
   globPatterns: [
-    "**/*.{html,js,css,png,svg,jpg,gif,json,woff,woff2,eot,ico,webmanifest,map}"
+    "**/*.{html,js,css,png,svg,json,woff,woff2,ico,webmanifest}"
   ],
+  maximumFileSizeToCacheInBytes: 3000000,
   runtimeCaching: [{
     urlPattern: new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
     handler: 'CacheFirst',
