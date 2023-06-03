@@ -6,8 +6,8 @@ import { CharacterContext } from "./character_context";
 import { State } from "./state";
 import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShuffle, faBan, faUndo, faRedo } from '@fortawesome/free-solid-svg-icons'
 import { BagSetupHelp } from "./setup_help";
+import '../icons';
 
 export type Ranking = { [key: string]: number };
 
@@ -110,13 +110,13 @@ function HistoryBtns(props: {
     <button id="undo-btn"
       className="btn" disabled={!canUndo} onClick={handleUndo}
       title="Undo">
-      <FontAwesomeIcon icon={faUndo} />
+      <FontAwesomeIcon icon="undo" />
     </button>
     <label htmlFor="redo-btn" className="visuallyhidden">Redo</label>
     <button id="redo-btn"
       className="btn" disabled={!canRedo} onClick={handleRedo}
       title="Redo">
-      <FontAwesomeIcon icon={faRedo} />
+      <FontAwesomeIcon icon="redo" />
     </button>
   </>
 }
@@ -138,12 +138,12 @@ function BagHeader(props: {
       <label htmlFor="shuffle-btn" className="visuallyhidden">Shuffle</label>
       <ShuffleBagBtn bagSize={props.bagSize} ranking={ranking} setRanking={props.setRanking}
         setHistory={props.setHistory}>
-        <FontAwesomeIcon icon={faShuffle} />
+        <FontAwesomeIcon icon="shuffle" />
       </ShuffleBagBtn>
       <label htmlFor="clear-btn" className="visuallyhidden">Clear</label>
       <ClearSelectionBtn selection={selection} selDispatch={props.selDispatch}
         setHistory={props.setHistory}>
-        <FontAwesomeIcon icon={faBan} />
+        <FontAwesomeIcon icon="trash" />
       </ClearSelectionBtn>
       <HistoryBtns {...props} />
     </div>
