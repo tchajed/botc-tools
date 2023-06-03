@@ -33,7 +33,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            assets/img/*.png
+            assets/img
             assets/static/scripts
             assets/data
           key: assets-${{ hashFiles('assets/**') }}
