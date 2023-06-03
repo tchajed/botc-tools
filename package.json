@@ -34,12 +34,9 @@
   },
   "dependencies": {
     "@types/cli-progress": "^3.11.0",
-    "@types/hyperscript": "^0.0.4",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "cli-progress": "^3.12.0",
-    "hyperscript": "^2.0.2",
-    "hyperscript-helpers": "^3.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sharp": "^0.31.1",
