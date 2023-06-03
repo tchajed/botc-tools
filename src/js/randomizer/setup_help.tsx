@@ -4,7 +4,7 @@ import { CharacterInfo } from "../botc/roles";
 import { Selection } from "./characters";
 import {
   SetupModification, SetupChanges, distributionForCount,
-  modifiedDistribution, actualDistribution, Distribution, effectiveDistribution, sameDistribution
+  modifiedDistribution, Distribution, effectiveDistribution, sameDistribution
 } from "../botc/setup";
 import { CharacterContext } from "./character_context";
 import { characterClass } from "../views";

@@ -1,4 +1,5 @@
 import images from '../../assets/img/*.png';
+import React from "react";
 
 export function iconPath(id: string): string {
   return images[`Icon_${id}`];
@@ -17,4 +18,17 @@ export function characterClass(character: { roleType: string }): string {
     default:
       return "";
   }
+}
+export function CharacterIconElement(props: {
+  name: string,
+  id: string
+}): JSX.Element {
+  let { id } = props;
+  if (!iconPath(id)) {
+    return <></>;
+  }
+  return <div className="img-container">
+    <img className="char-icon"
+      src={iconPath(id)} alt={props.name} />
+  </div>;
 }

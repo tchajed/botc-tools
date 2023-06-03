@@ -2,10 +2,9 @@ import React, { useContext } from "react";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Columns } from "./columns";
 import classnames from "classnames";
-import { characterClass } from "../views";
 import { CharacterContext } from "./character_context";
 import { actualDistribution } from "../botc/setup";
-import { CharacterIconElement } from "../views_react";
+import { CharacterIconElement, characterClass } from "../views";
 
 function RoleLabel(props: { roleType: string }): JSX.Element {
   var letter = props.roleType.charAt(0).toUpperCase();

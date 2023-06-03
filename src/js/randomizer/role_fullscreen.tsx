@@ -2,8 +2,7 @@ import { useContext } from "react";
 import { CharacterContext } from "./character_context";
 import React from "react";
 import classnames from "classnames";
-import { characterClass } from "../views";
-import { CharacterIconElement } from "../views_react";
+import { CharacterIconElement, characterClass } from "../views";
 
 export function FullscreenRole(props: {
   fsRole: string | null,

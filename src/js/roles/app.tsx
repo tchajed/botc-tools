@@ -1,7 +1,7 @@
 import React from "react";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
-import { CharacterIconElement } from "../views_react";
+import { CharacterIconElement } from "../views";
 
 
 function Ability(props: { ability: string | null }): JSX.Element {
