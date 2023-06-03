@@ -6,7 +6,7 @@ import { characterClass, characterIconElement, htmlToElements, iconPath } from '
 
 import h from 'hyperscript';
 import hh from 'hyperscript-helpers';
-const { div, h1, a, table, tbody, tr, td } = hh(h);
+const { div, span, h1, a, table, tbody, tr, td } = hh(h);
 
 import classnames from 'classnames';
 
@@ -23,8 +23,8 @@ function createHeader(title: string, firstNight: boolean): HTMLElement {
   const nightLabel = firstNight ? "FIRST NIGHT" : "OTHER NIGHTS";
   return h1(
     [
-      div(title),
-      div(".label", nightLabel),
+      div({ className: classnames("title", { "other-nights": !firstNight }) }, title),
+      span(".label", nightLabel),
     ]
   );
 }

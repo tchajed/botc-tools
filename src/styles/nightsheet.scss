@@ -1,16 +1,30 @@
 @use 'main';
 
 h1 {
-  position: relative;
-}
+  display: inline-block;
+  margin-bottom: 0.5rem;
 
-.label {
-  font-family: "Barlow", sans-serif;
-  font-size: 16pt;
-  font-weight: bold;
-  position: absolute;
-  top: 10%;
-  right: 0;
+  .title {
+    float: left;
+
+    &.other-nights {
+
+      // the other-nights title is a header only for printing (since it goes on
+      // the second page)
+      @media not print {
+        display: none;
+      }
+    }
+  }
+
+  .label {
+    font-family: "Barlow", sans-serif;
+    font-size: 16pt;
+    font-weight: bold;
+    float: right;
+    margin-right: 1rem;
+  }
+
 }
 
 td.details-cell {
