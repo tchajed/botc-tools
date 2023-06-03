@@ -1,4 +1,5 @@
 @use 'main';
+@use 'theme';
 @use 'nav';
 
 body {
@@ -177,12 +178,12 @@ img.char-icon {
 
 .good .name,
 span.good {
-  color: main.$good;
+  color: theme.$good;
 }
 
 .evil .name,
 span.evil {
-  color: main.$evil
+  color: theme.$evil
 }
 
 .separator {

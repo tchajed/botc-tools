@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '../icons';
+
 interface Script {
   id: string,
   title: string,
@@ -18,16 +21,24 @@ function ScriptRow(props: { script: Script }): JSX.Element {
   const { id, title } = props.script;
   return <tr>
     <td className="title-cell">
-      <a href={`./roles.html#${id}`}>{title}</a>
+      <a href={`./roles.html#${id}`}>
+        <FontAwesomeIcon icon="list" />
+        {title}
+      </a>
     </td>
     <td className="nightsheet-cell">
       <div className="btn">
-        <a href={`./nightsheet.html#${id}`}>Night order</a>
+        <a href={`./nightsheet.html#${id}`}>
+          <FontAwesomeIcon icon="moon" />Night order
+        </a>
       </div>
     </td>
     <td className="randomizer-cell">
       <div className="btn">
-        <a href={`./randomize.html#${id}`}>Select roles</a>
+        <a href={`./randomize.html#${id}`}>
+          <FontAwesomeIcon icon="dice" />
+          Assign roles
+        </a>
       </div>
     </td>
   </tr>

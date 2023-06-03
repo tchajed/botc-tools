@@ -1,3 +1,5 @@
+@use 'theme';
+
 body {
   margin: 0;
   padding: 0;
@@ -11,7 +13,7 @@ body {
 }
 
 #nav {
-  background-color: #593286;
+  background-color: theme.$purple;
   padding: 1rem 5px;
   margin: 0 0 1rem 0;
 
@@ -46,7 +48,7 @@ body {
       &.current {
         // color: #555;
         color: white;
-        border-bottom: 0.2rem solid rgb(255, 235, 122);
+        border-bottom: 0.2rem solid theme.$yellow;
         // box-shadow: 0 0 10px 5px rgb(255, 235, 122);
       }
 

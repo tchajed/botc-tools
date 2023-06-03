@@ -1,4 +1,5 @@
 @use 'main';
+@use 'theme';
 
 $link-color: rgb(16, 93, 216);
 
@@ -26,11 +27,15 @@ table {
   border: 1px solid transparent;
   padding: .375rem .75rem;
   border-radius: 0.25rem;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: theme.$purple;
+  border-color: theme.$purple;
 
   a,
   a:visited {
     color: white;
   }
+}
+
+.svg-inline--fa {
+  margin-right: 0.5rem;
 }

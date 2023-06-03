@@ -3,7 +3,7 @@ import { distributionForCount, zeroDistribution } from "../botc/setup";
 import { Distr } from "./setup_help";
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import '../icons';
 
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
   const dist = (5 <= numPlayers && numPlayers <= 15) ?
@@ -30,7 +30,7 @@ export function NumPlayerSelector(props: {
       <label htmlFor="minus-player-btn" className="visuallyhidden">subtract one player</label>
       <button id="minus-player-btn" title="subtract one player"
         disabled={numPlayers <= 5} onClick={handleIncDec(-1)}>
-        <FontAwesomeIcon icon={faMinus} />
+        <FontAwesomeIcon icon="minus" />
       </button>
       <span className="numPlayers">
         <span className='count'>{numPlayers}</span>
@@ -39,7 +39,7 @@ export function NumPlayerSelector(props: {
       <label htmlFor="plus-player-btn" className="visuallyhidden">add one player</label>
       <button id="plus-player-btn" title="add one players"
         disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}>
-        <FontAwesomeIcon icon={faPlus} />
+        <FontAwesomeIcon icon="plus" />
       </button>
     </div>
     <div>

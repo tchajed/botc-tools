@@ -1,4 +1,5 @@
 @use 'main';
+@use 'theme';
 @use 'nav';
 
 h1 {
@@ -34,11 +35,11 @@ td.details-cell {
 }
 
 tr.good td.details-cell:not(.empty) {
-  border-left: 2.5px solid main.$good;
+  border-left: 2.5px solid theme.$good;
 }
 
 tr.evil td.details-cell:not(.empty) {
-  border-left: 2.5px solid main.$evil;
+  border-left: 2.5px solid theme.$evil;
 }
 
 .jinxes {

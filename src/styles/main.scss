@@ -1,5 +1,4 @@
-$good: #003D88;
-$evil: #880000;
+@use 'theme';
 
 // allow scrolling past end
 @media screen {
@@ -77,11 +76,11 @@ td.name-cell {
 }
 
 tr.good .name-cell {
-  color: $good;
+  color: theme.$good;
 }
 
 tr.evil .name-cell {
-  color: $evil
+  color: theme.$evil
 }
 
 @media print {
