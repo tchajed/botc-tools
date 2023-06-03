@@ -26,6 +26,7 @@
     "@types/react-dom": "^18.2.4",
     "parcel": "^2.9.1",
     "parcel-reporter-static-files-copy": "^1.5.0",
+    "posthtml-include": "^1.7.4",
     "process": "^0.11.10",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",

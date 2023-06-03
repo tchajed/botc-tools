@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
     <title>BotC tools</title>
     <link rel="stylesheet" href="styles/index.scss"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3">
-    <link rel="icon" type="image/x-icon" href="../icons/favicon.ico">
-    <link rel="manifest" href="./manifest.webmanifest"/>
-    <meta name="theme-color" content="#593286"/>
+    <include src="./src/head.html"></include>
   </head>
   <body>
     <script>
@@ -15,12 +11,6 @@
     </script>
     <div id="app"></div>
     <script src="./js/listing.tsx" type="module"></script>
-    <script type="module">
-      import {Workbox} from 'workbox-window';
-      if ('serviceWorker' in navigator) {
-        const wb = new Workbox('./service-worker.js');
-        wb.register();
-      }
-    </script>
+    <script src="./js/sw.js" type="module"></script>
   </body>
 </html>

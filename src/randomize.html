@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
     <title>BotC randomizer</title>
     <link rel="stylesheet" href="styles/randomizer.scss"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=2">
-    <link rel="icon" type="image/x-icon" href="../icons/favicon.ico">
-    <link rel="manifest" href="./manifest.webmanifest"/>
-    <meta name="theme-color" content="#593286"/>
+    <include src="./src/head.html"></include>
   </head>
   <body>
     <script>
@@ -15,13 +11,7 @@
     </script>
     <div id="app"></div>
     <script src="./js/randomizer.tsx" type="module"></script>
-    <script type="module">
-      import {Workbox} from 'workbox-window';
-      if (process.env.NODE_ENV == 'production' && 'serviceWorker' in navigator) {
-        const wb = new Workbox('./service-worker.js');
-        wb.register();
-      }
-    </script>
+    <script src="./js/sw.js" type="module"></script>
   </script>
 </body>
 </html>
