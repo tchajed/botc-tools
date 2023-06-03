@@ -2,27 +2,14 @@ import React, { useContext } from "react";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Columns } from "./columns";
 import classnames from "classnames";
-import { characterClass, iconPath } from "../views";
+import { characterClass } from "../views";
 import { CharacterContext } from "./character_context";
 import { actualDistribution } from "../botc/setup";
+import { CharacterIconElement } from "../views_react";
 
 function RoleLabel(props: { roleType: string }): JSX.Element {
   var letter = props.roleType.charAt(0).toUpperCase();
   return <span className='role-label'>{letter}</span>;
-}
-
-export function CharacterIconElement(props: {
-  name: string,
-  id: string
-}): JSX.Element {
-  let { id } = props;
-  if (!iconPath(id)) {
-    return <></>;
-  }
-  return <div className="img-container">
-    <img className="char-icon"
-      src={iconPath(id)} alt={props.name} />
-  </div>;
 }
 
 // like CharacterInfo but not a class
