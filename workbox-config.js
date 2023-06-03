@@ -1,7 +1,7 @@
 module.exports = {
   globDirectory: "dist",
   globPatterns: [
-    "**/*.{html,js,css,png,svg,json,woff,woff2,ico,webmanifest}"
+    "**/*.{html,js,css,png,webp,svg,json,woff,woff2,ico,webmanifest}"
   ],
   maximumFileSizeToCacheInBytes: 3000000,
   runtimeCaching: [{

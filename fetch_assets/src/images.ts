@@ -122,7 +122,8 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
 function iconFileName(icon: Icon): string {
   const restOfName = icon.name.slice("Icon_".length);
   const cleanedName = restOfName.replaceAll(/_/g, "");
-  return `Icon_${cleanedName}`;
+  const withWebp = cleanedName.replace(/\.png$/, ".webp");
+  return `Icon_${withWebp}`;
 }
 
 /** Resize and save icons that are already in memory. */
