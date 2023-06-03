@@ -11,7 +11,6 @@
     "build": "parcel build --public-url '.'",
     "postbuild": "workbox generateSW"
   },
-  "browserslist": "> 0.5%, last 2 versions, not dead",
   "version": "0.1.0",
   "description": "BotC storyteller tools",
   "author": "Tej Chajed",
