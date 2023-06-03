@@ -19,5 +19,5 @@ module.exports = {
   }],
   swDest: "dist/service-worker.js",
   clientsClaim: false,
-  skipWaiting: false
+  skipWaiting: true
 };
