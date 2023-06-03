@@ -26,8 +26,6 @@ export function Nav(props: { scriptId: number }): JSX.Element {
 
   const currentPage = filename(window.location.pathname);
 
-  console.log(currentPage);
-
   return <div id="nav">
     <ul className="nav-header">
       <li className="nav-item"><a href="./">Scripts</a></li>
