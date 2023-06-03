@@ -128,12 +128,12 @@ export function createSelectionReducer(characters: CharacterInfo[])
 
 interface SelectionVar {
   selection: Selection,
-  dispatch: (a: SelAction) => void,
+  selDispatch: (a: SelAction) => void,
 }
 
 export function CharacterSelection(props: SelectionVar): JSX.Element {
   const chars = useContext(CharacterContext);
-  let { selection, dispatch } = props;
+  let { selection, selDispatch: dispatch } = props;
 
   return <div>
     {["townsfolk", "outsider", "minion", "demon"].map(roleType =>

@@ -8,16 +8,11 @@ body {
 
 h2 {
   font-size: 120%;
-  margin: 1rem 0;
-
-  button {
-    font-size: 85%;
-  }
+  margin: 0.5rem 0;
 }
 
-div.spacer {
-  display: inline-block;
-  width: 1em;
+.bag-header {
+  margin-bottom: 1.5rem;
 }
 
 button {
@@ -40,8 +35,29 @@ button {
   }
 }
 
+button:disabled {
+  opacity: 50%;
+
+  &:hover {
+    background-color: rgb(233, 233, 237);
+  }
+}
+
 .btn {
   margin: 0 0.2rem;
+}
+
+
+.bag-btns {
+  margin-bottom: 0.5rem;
+}
+
+.bag-btns,
+.history-btns {
+  .btn {
+    width: 5rem;
+    height: 2.5rem;
+  }
 }
 
 .column {
