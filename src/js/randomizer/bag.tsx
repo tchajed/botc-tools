@@ -1,9 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { distributionForCount, goesInBag } from "../botc/setup";
 import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
 import { State } from "./state";
+import { History, HistoryAction, SetHistory, historyApply, pureHistoryApply } from "./history";
+import classNames from "classnames";
 
 export type Ranking = { [key: string]: number };
 
@@ -29,80 +31,91 @@ export function randomRanking(characters: CharacterInfo[]): Ranking {
 
 function ShuffleBagBtn(props: {
   ranking: Ranking,
+  bagSize: number,
   setRanking: (r: Ranking) => void,
+  setHistory: SetHistory,
 }): JSX.Element {
   const characters = useContext(CharacterContext);
+
   function handleClick() {
-    let oldState: Partial<State> = { ranking: { ...props.ranking } };
-    window.history.replaceState(oldState, "");
+    // save the old state
+    pureHistoryApply(props.setHistory, {
+      type: 'replace',
+      state: { ranking: { ...props.ranking } },
+    });
+
+    // create and set a new ranking...
     const newRanking = randomRanking(characters);
     props.setRanking(newRanking);
-    let newState: Partial<State> = { ranking: { ...newRanking } };
-    window.history.pushState(newState, "");
+
+    // ...and save it to history
+    pureHistoryApply(props.setHistory, {
+      type: 'push',
+      state: { ranking: { ...newRanking } }
+    });
   }
-  return <button className="btn" onClick={handleClick}>shuffle</button>;
+  return <button className="btn"
+    disabled={props.bagSize <= 1}
+    onClick={handleClick}>shuffle</button>;
 }
 
 function ClearSelectionBtn(props: {
   selection: Selection,
-  dispatch: (a: SelAction) => void,
+  selDispatch: Dispatch<SelAction>,
+  setHistory: SetHistory,
 }): JSX.Element {
   function handleClick() {
-    window.history.replaceState({ selection: [...props.selection] }, "");
-    props.dispatch({ type: "clear" });
-    window.history.pushState({ selection: [] }, "no selection");
+    pureHistoryApply(props.setHistory, {
+      type: 'replace',
+      state: { selection: [...props.selection] },
+    });
+    props.selDispatch({ type: "clear" });
+    pureHistoryApply(props.setHistory, {
+      type: 'push',
+      state: { selection: [] },
+    });
   }
-  return <button className="btn" onClick={handleClick}>clear</button>;
+  return <button className="btn"
+    disabled={props.selection.size == 0}
+    onClick={handleClick}>clear</button>;
 }
 
-function HistoryBtns(): JSX.Element {
-  const [forwardCount, setForwardCount] = useState(0);
+function HistoryBtns(props: {
+  setRanking: (r: Ranking) => void,
+  selDispatch: Dispatch<SelAction>,
+  history: History<Partial<State>>, setHistory: SetHistory,
+}): JSX.Element {
+  const { history, setHistory } = props;
 
-  function handleBack() {
-    if (forwardCount < 0) {
-      setForwardCount(1);
-    } else {
-      setForwardCount(forwardCount + 1);
-    }
-    window.history.back();
+  function handleUndo() {
+    historyApply(props.setRanking, props.selDispatch, history, setHistory,
+      { type: 'pop' });
   }
 
-  function handleForward() {
-    if (forwardCount > 0) {
-      setForwardCount(forwardCount - 1);
-    } else {
-      setForwardCount(0);
-    }
-    window.history.forward();
+  function handleRedo() {
+    historyApply(props.setRanking, props.selDispatch, history, setHistory,
+      { type: 'forward' });
   }
+
+  const canUndo = history.back.length > 0;
+  const canRedo = history.forward.length > 0;
 
   return <>
-    <button className="btn" onClick={handleBack}>undo</button>
-    {forwardCount > 0 &&
-      <button className="btn" onClick={handleForward}>redo</button>}
+    <button className="btn" disabled={!canUndo} onClick={handleUndo}>undo</button>
+    <button className="btn" disabled={!canRedo} onClick={handleRedo}>redo</button>
   </>
 }
 
-export function SelectedCharacters(props: {
+function splitSelectedChars(
+  characters: CharacterInfo[],
   selection: Selection,
-  ranking: Ranking,
-  numPlayers: number | "",
-  dispatch: (a: SelAction) => void,
-  setRanking: (r: Ranking) => void,
-  setFsRole: (r: string) => void,
-}): JSX.Element {
-  const characters = useContext(CharacterContext);
-  const { selection, ranking, dispatch, setRanking, setFsRole } = props;
+  numPlayers: number): {
+    bag: (CardInfo & { riotNum?: number })[],
+    outsideBag: CardInfo[],
+  } {
   var selected = characters.filter(char => selection.has(char.id));
-
-  function handleClick(id: string): () => void {
-    return () => {
-      setFsRole(id);
-    };
-  }
-
   var bag: (CardInfo & { riotNum?: number })[] = selected.filter(c => goesInBag(c));
-  const numMinions = distributionForCount(props.numPlayers || 5).minion;
+  const numMinions = distributionForCount(numPlayers).minion;
   const riot = bag.find(c => c.id == "riot");
   if (riot) {
     for (var i = 0; i < numMinions; i++) {
@@ -110,6 +123,26 @@ export function SelectedCharacters(props: {
       bag.push(thisRiot);
     }
   }
+
+  var outsideBag = selected.filter(char => !goesInBag(char));
+  outsideBag.sort((c1, c2) => c1.name.localeCompare(c2.name));
+  return { bag, outsideBag };
+}
+
+export function SelectedCharacters(props: {
+  selection: Selection,
+  ranking: Ranking,
+  numPlayers: number | "",
+  selDispatch: Dispatch<SelAction>,
+  setRanking: (r: Ranking) => void,
+  setFsRole: (r: string) => void,
+  history: History<Partial<State>>,
+  setHistory: SetHistory,
+}): JSX.Element {
+  const characters = useContext(CharacterContext);
+  const { selection, ranking, setFsRole } = props;
+
+  const { bag, outsideBag } = splitSelectedChars(characters, selection, props.numPlayers || 5);
 
   // an extended identifier to disambiguate riots
   function charKey(char: { id: string, riotNum?: number }): string {
@@ -121,19 +154,24 @@ export function SelectedCharacters(props: {
 
   bag.sort((c1, c2) => ranking[charKey(c1)] - ranking[charKey(c2)]);
 
-  var selectedOutsideBag = selected.filter(char => !goesInBag(char));
+  function handleClick(id: string): () => void {
+    return () => {
+      setFsRole(id);
+    };
+  }
+
   return <div>
     <div className="selected-characters">
       <div className="column">
         <div className="bag-header">
           <h2>Bag</h2>
-          {bag.length > 0 &&
-            <><div>
-              <ShuffleBagBtn ranking={ranking} setRanking={setRanking}></ShuffleBagBtn>
-              <ClearSelectionBtn selection={selection} dispatch={dispatch}></ClearSelectionBtn>
-            </div>
-              <div><HistoryBtns /></div>
-            </>}
+          <div className="bag-btns">
+            <ShuffleBagBtn bagSize={bag.length} ranking={ranking} setRanking={props.setRanking}
+              setHistory={props.setHistory}></ShuffleBagBtn>
+            <ClearSelectionBtn selection={selection} selDispatch={props.selDispatch}
+              setHistory={props.setHistory}></ClearSelectionBtn>
+          </div>
+          <div className="history-btns"><HistoryBtns {...props} /></div>
         </div>
         {bag.length == 0 && <span>No roles</span>}
         {bag.map(char =>
@@ -146,8 +184,8 @@ export function SelectedCharacters(props: {
         )}
       </div>
       <div className="column">
-        {selectedOutsideBag.length > 0 && <h2>Outside bag</h2>}
-        {selectedOutsideBag.map(char =>
+        {outsideBag.length > 0 && <h2>Outside bag</h2>}
+        {outsideBag.map(char =>
           <CharacterCard
             character={char}
             key={char.id}

@@ -9,6 +9,7 @@ import { randomRanking, SelectedCharacters } from './bag';
 import { CharacterContext } from './character_context';
 import { State, loadState, storeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
+import { History } from './history';
 
 function BaseDistr({ numPlayers }: { numPlayers: number | "" }): JSX.Element {
   const dist = numPlayers == "" ? zeroDistribution() : distributionForCount(numPlayers);
@@ -49,10 +50,11 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     isTeensyville(characters) ? 5 : 8,
   );
   const [ranking, setRanking] = useState(randomRanking(characters));
-  const [selection, dispatch] = useReducer(
+  const [selection, selDispatch] = useReducer(
     createSelectionReducer(characters),
     initialSelection(characters));
   const [fsRole, setFsRole] = useState<string | null>(null);
+  const [history, setHistory] = useState({ back: [], forward: [] } as History<Partial<State>>);
 
   // load state from local storage
   useEffect(() => {
@@ -60,7 +62,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     if (!s) { return; }
     setNumPlayers(s.numPlayers);
     setRanking(s.ranking);
-    dispatch({ type: "set all", ids: s.selection });
+    selDispatch({ type: "set all", ids: s.selection });
   }, []);
 
   // keep local storage up-to-date
@@ -81,7 +83,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
         setRanking(state.ranking);
       }
       if (state.selection !== undefined) {
-        dispatch({ type: "set all", ids: state.selection });
+        selDispatch({ type: "set all", ids: state.selection });
       }
     });
 
@@ -113,11 +115,12 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
       <h1>{script.title}</h1>
       <NumPlayerSelector {...{ numPlayers, setNumPlayers }} />
       <SetupModifiers numPlayers={numPlayers || 5} selection={selection} />
-      <CharacterSelection selection={selection} dispatch={dispatch} />
+      <CharacterSelection selection={selection} selDispatch={selDispatch} />
       <hr className="separator" />
       <SelectedCharacters {...{
         selection, ranking, numPlayers,
-        setRanking, dispatch, setFsRole
+        setRanking, selDispatch, setFsRole,
+        history, setHistory,
       }} />
       <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
     </div>
