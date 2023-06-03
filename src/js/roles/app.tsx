@@ -1,7 +1,7 @@
 import React from "react";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
-import { CharacterIconElement } from "../views";
+import { CharacterIconElement, characterClass } from "../views";
 import { Nav } from "../randomizer/nav";
 
 
@@ -11,7 +11,7 @@ function Ability(props: { ability: string | null }): JSX.Element {
 }
 
 function Character({ character }: { character: CharacterInfo }): JSX.Element {
-  return <tr>
+  return <tr className={characterClass(character)}>
     <td className="icon-cell"><CharacterIconElement {...character} /></td>
     <td className="name-cell">{character.name}</td>
     <td className="ability-cell"><Ability ability={character.ability} /></td>
