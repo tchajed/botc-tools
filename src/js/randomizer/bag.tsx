@@ -180,17 +180,19 @@ export function SelectedCharacters(props: {
         <div className="bag-header">
           <h2>Bag</h2>
           <div className="bag-btns">
-            <label htmlFor="shuffle-btn" className="visuallyhidden">Shuffle</label>
-            <ShuffleBagBtn bagSize={bag.length} ranking={ranking} setRanking={props.setRanking}
-              setHistory={props.setHistory}>
-              <FontAwesomeIcon icon={faShuffle} />
-            </ShuffleBagBtn>
-            <label htmlFor="clear-btn" className="visuallyhidden">Clear</label>
-            <ClearSelectionBtn selection={selection} selDispatch={props.selDispatch}
-              setHistory={props.setHistory}>
-              <FontAwesomeIcon icon={faBan} />
-            </ClearSelectionBtn>
-            <HistoryBtns {...props} />
+            <div>
+              <label htmlFor="shuffle-btn" className="visuallyhidden">Shuffle</label>
+              <ShuffleBagBtn bagSize={bag.length} ranking={ranking} setRanking={props.setRanking}
+                setHistory={props.setHistory}>
+                <FontAwesomeIcon icon={faShuffle} />
+              </ShuffleBagBtn>
+              <label htmlFor="clear-btn" className="visuallyhidden">Clear</label>
+              <ClearSelectionBtn selection={selection} selDispatch={props.selDispatch}
+                setHistory={props.setHistory}>
+                <FontAwesomeIcon icon={faBan} />
+              </ClearSelectionBtn>
+              <HistoryBtns {...props} />
+            </div>
           </div>
         </div>
         {bag.length == 0 && <span>No roles</span>}
@@ -203,7 +205,7 @@ export function SelectedCharacters(props: {
           />
         )}
       </div>
-      <div className="column">
+      <div className="column-smaller">
         {outsideBag.length > 0 && <h2>Outside bag</h2>}
         {outsideBag.map(char =>
           <CharacterCard

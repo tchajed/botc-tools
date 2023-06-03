@@ -50,21 +50,22 @@ button:disabled {
   }
 }
 
-.btn {
-  margin: 0 0.2rem;
-}
-
-
 .bag-btns {
   margin-bottom: 0.5rem;
+
+  .btn:not(:first-child) {
+    margin-right: 0.25rem;
+  }
+
+  .btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 120%;
+  }
 }
 
-.bag-btns {
-  .btn {
-    width: 3.5rem;
-    height: 3.5rem;
-    font-size: 150%;
-  }
+.history-btns {
+  margin-top: 0.5rem;
 }
 
 .player-num-btns {
@@ -72,9 +73,17 @@ button:disabled {
   margin-right: 0.5rem;
 }
 
+.column-smaller {
+  margin-left: 0.5rem;
+  flex: 40%;
+}
+
 .column {
   flex: 50%;
-  margin-right: 0.5rem;
+
+  &:not(:first-child) {
+    margin-left: 0.5rem;
+  }
 }
 
 .characters {
@@ -111,7 +120,7 @@ button:disabled {
   .numPlayers {
     .count {
       display: inline-block;
-      min-width: 1.5rem;
+      min-width: 1rem;
       padding-right: 0.5rem;
     }
 
