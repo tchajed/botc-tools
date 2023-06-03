@@ -195,7 +195,7 @@ export function SelectedCharacters(props: {
         )}
       </div>
       <div className="column-smaller">
-        {outsideBag.length > 0 && <h2>Outside bag</h2>}
+        {outsideBag.length > 0 && <h2>Others</h2>}
         {outsideBag.map(char =>
           <CharacterCard
             character={char}

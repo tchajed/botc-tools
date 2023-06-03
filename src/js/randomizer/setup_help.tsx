@@ -35,13 +35,13 @@ function ModificationExplanation(props: { mod: SetupModification }): JSX.Element
     }
     case "drunk":
     case "marionette": {
-      return <span>(+1 townsfolk, not added to bag)</span>;
+      return <span>(+1 townsfolk, not distributed)</span>;
     }
     case "godfather": {
       return <span>(+1 or &#x2212;1 outsider)</span>;
     }
     case "lilmonsta": {
-      return <span>(+1 minion, not added to bag)</span>;
+      return <span>(+1 minion, not distributed)</span>;
     }
     case "huntsman": {
       return <span>(+the <span className="good">Damsel</span>)</span>;
@@ -87,7 +87,10 @@ export function SetupModifiers(props: {
     </div>}
     <div>
       <span className="label">actual: </span> <Distr dist={actual} />
-      {distributionCorrect && <span className="bold">&#x2713;</span>}
+      {distributionCorrect &&
+        <span className="success">
+          <FontAwesomeIcon icon="circle-check" />
+        </span>}
     </div>
   </div>;
 }
