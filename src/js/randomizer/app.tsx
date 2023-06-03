@@ -9,6 +9,8 @@ import { FullscreenRole } from './role_fullscreen';
 import { History } from './history';
 import { Nav } from './nav';
 import { NumPlayerSelector } from './num_players';
+import { actualDistribution, effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, targetDistributions } from '../botc/setup';
+import { CharacterInfo } from '../botc/roles';
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
@@ -74,6 +76,19 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     });
   }, []);
 
+  const targetDists = targetDistributions(
+    numPlayers,
+    modifyingCharacters(selection, characters),
+    characters,
+  );
+  var selectedCharInfo: CharacterInfo[] = [];
+  selection.forEach(id => {
+    const c = characters.find(c => c.id == id);
+    if (c) { selectedCharInfo.push(c) }
+  });
+  const actual = effectiveDistribution(numPlayers, selectedCharInfo);
+  const rolesNotNeeded = roleTypesDefinitelyDone(targetDists, actual);
+
   return <CharacterContext.Provider value={characters}>
     <div>
       <Nav scriptId={script.id} />
@@ -81,7 +96,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
         <h1>{script.title}</h1>
         <NumPlayerSelector teenysville={script.teensyville} {...{ numPlayers, setNumPlayers }} />
         <SetupModifiers numPlayers={numPlayers} selection={selection} />
-        <CharacterSelection selection={selection} selDispatch={selDispatch} />
+        <CharacterSelection selection={selection} selDispatch={selDispatch} doneRoles={rolesNotNeeded} />
         <hr className="separator" />
         <SelectedCharacters {...{
           selection, ranking, numPlayers,

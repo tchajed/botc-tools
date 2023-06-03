@@ -22,7 +22,8 @@ export interface CardInfo {
 export function CharacterCard(props: {
   character: CardInfo,
   onClick?: React.MouseEventHandler<HTMLElement>,
-  selected: boolean
+  selected?: boolean,
+  notNeeded?: boolean,
 }): JSX.Element {
   let { character } = props;
   let { roleType } = character;
@@ -31,7 +32,8 @@ export function CharacterCard(props: {
     className={classnames(
       characterClass(character),
       "character",
-      { "selected": props.selected })}
+      { "selected": props.selected },
+      { "not-needed": props.notNeeded })}
     onClick={props.onClick}>
     {needsLabel && <RoleLabel roleType={roleType} />}
     <CharacterIconElement {...character} />
@@ -117,7 +119,7 @@ interface SelectionVar {
   selDispatch: (a: SelAction) => void,
 }
 
-export function CharacterSelection(props: SelectionVar): JSX.Element {
+export function CharacterSelection(props: SelectionVar & { doneRoles: string[] }): JSX.Element {
   const chars = useContext(CharacterContext);
   let { selection, selDispatch: dispatch } = props;
 
@@ -125,13 +127,16 @@ export function CharacterSelection(props: SelectionVar): JSX.Element {
     {["townsfolk", "outsider", "minion", "demon"].map(roleType =>
       <div className="characters" key={`${roleType}-roles`}>
         <Columns numColumns={2}>
-          {chars.filter(char => char.roleType == roleType).map(char =>
-            <CharacterCard
+          {chars.filter(char => char.roleType == roleType).map(char => {
+            const selected = selection.has(char.id);
+            const notNeeded = !selected && props.doneRoles.includes(roleType);
+            return <CharacterCard
               character={char}
               key={char.id}
-              selected={selection.has(char.id)}
+              selected={selected}
+              notNeeded={notNeeded}
               onClick={() => dispatch({ type: "toggle", id: char.id })} />
-          )}
+          })}
         </Columns>
       </div>
     )}

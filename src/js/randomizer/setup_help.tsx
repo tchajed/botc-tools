@@ -1,10 +1,9 @@
 import classnames from "classnames";
 import React, { useContext } from "react";
-import { CharacterInfo } from "../botc/roles";
 import { Selection } from "./characters";
 import {
   SetupModification, SetupChanges, distributionForCount,
-  modifiedDistribution, Distribution, effectiveDistribution, sameDistribution
+  modifiedDistribution, Distribution, effectiveDistribution, sameDistribution, modifyingCharacters, targetDistributions
 } from "../botc/setup";
 import { CharacterContext } from "./character_context";
 import { characterClass } from "../views";
@@ -59,19 +58,10 @@ export function SetupModifiers(props: {
 }) {
   let { selection } = props;
   const characters = useContext(CharacterContext);
-  var modified: CharacterInfo[] = [];
-  selection.forEach(id => {
-    if (id in SetupChanges) {
-      const c = characters.find(c => c.id == id);
-      if (c) { modified.push(c); }
-    }
-  })
-  modified.sort();
+  const modified = modifyingCharacters(selection, characters);
 
-  const baseDistribution = distributionForCount(props.numPlayers);
-  const newDistributions = modifiedDistribution(
-    baseDistribution,
-    modified.map(c => SetupChanges[c.id]),
+  const newDistributions = targetDistributions(props.numPlayers,
+    modified,
     characters,
   );
 

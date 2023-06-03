@@ -113,6 +113,10 @@ button:disabled {
   &.selected {
     border-color: rgb(153, 0, 255);
   }
+
+  &.not-needed {
+    opacity: 60%;
+  }
 }
 
 .players {

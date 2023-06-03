@@ -1,7 +1,7 @@
 /** Encode the rules for BotC setup. */
 
 import { CardInfo } from "../randomizer/characters";
-import { CharacterInfo } from "./roles";
+import { CharacterInfo, RoleType } from "./roles";
 
 export interface Distribution {
   townsfolk: number,
@@ -198,6 +198,35 @@ export function modifiedDistribution(
   return uniqueDists;
 }
 
+export function modifyingCharacters(
+  selection: Set<string>,
+  characters: CharacterInfo[],
+): CharacterInfo[] {
+  var modified: CharacterInfo[] = [];
+  selection.forEach(id => {
+    if (id in SetupChanges) {
+      const c = characters.find(c => c.id == id);
+      if (c) { modified.push(c); }
+    }
+  })
+  modified.sort((c1, c2) => c1.name.localeCompare(c2.name));
+  return modified;
+}
+
+export function targetDistributions(
+  numPlayers: number,
+  modifying: CharacterInfo[],
+  characters: CharacterInfo[],
+): Distribution[] {
+  const baseDistribution = distributionForCount(numPlayers);
+  const newDistributions = modifiedDistribution(
+    baseDistribution,
+    modifying.map(c => SetupChanges[c.id]),
+    characters,
+  );
+  return newDistributions;
+}
+
 function differentRoleTypes(d1: Distribution, d2: Distribution): string[] {
   return ["townsfolk", "outsider", "minion", "demon"].filter(
     roleType => d1[roleType] != d2[roleType]
@@ -206,4 +235,11 @@ function differentRoleTypes(d1: Distribution, d2: Distribution): string[] {
 
 export function sameDistribution(d1: Distribution, d2: Distribution): boolean {
   return differentRoleTypes(d1, d2).length == 0;
+}
+
+export function roleTypesDefinitelyDone(targets: Distribution[], d: Distribution): RoleType[] {
+  const roles: RoleType[] = ["townsfolk", "outsider", "minion", "demon"];
+  return roles.filter(
+    roleType => targets.every(td => d[roleType] >= td[roleType])
+  );
 }

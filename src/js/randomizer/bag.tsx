@@ -200,7 +200,6 @@ export function SelectedCharacters(props: {
           <CharacterCard
             character={char}
             key={charKey(char)}
-            selected={false}
             onClick={handleClick(char.id)}
           />
         )}
@@ -211,7 +210,6 @@ export function SelectedCharacters(props: {
           <CharacterCard
             character={char}
             key={char.id}
-            selected={false}
           />
         )}
       </div>
