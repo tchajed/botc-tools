@@ -190,6 +190,14 @@ span.evil {
   color: theme.$evil
 }
 
+.error {
+  color: rgb(236, 25, 25);
+}
+
+.success {
+  color: green;
+}
+
 .separator {
   border: 3px dotted black;
   border-style: none none dotted;

@@ -9,7 +9,7 @@ import { FullscreenRole } from './role_fullscreen';
 import { History } from './history';
 import { Nav } from './nav';
 import { NumPlayerSelector } from './num_players';
-import { actualDistribution, effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, targetDistributions } from '../botc/setup';
+import { effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, targetDistributions } from '../botc/setup';
 import { CharacterInfo } from '../botc/roles';
 
 function Randomizer({ script }: { script: Script }): JSX.Element {

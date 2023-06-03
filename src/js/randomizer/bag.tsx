@@ -1,12 +1,13 @@
 import React, { Dispatch, PropsWithChildren, useContext, } from "react";
 import { CharacterInfo } from "../botc/roles";
-import { distributionForCount, goesInBag } from "../botc/setup";
-import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
+import { splitSelectedChars } from "../botc/setup";
+import { CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
 import { State } from "./state";
 import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShuffle, faBan, faUndo, faRedo } from '@fortawesome/free-solid-svg-icons'
+import { BagSetupHelp } from "./setup_help";
 
 export type Ranking = { [key: string]: number };
 
@@ -120,27 +121,33 @@ function HistoryBtns(props: {
   </>
 }
 
-function splitSelectedChars(
-  characters: CharacterInfo[],
+function BagHeader(props: {
   selection: Selection,
-  numPlayers: number): {
-    bag: (CardInfo & { riotNum?: number })[],
-    outsideBag: CardInfo[],
-  } {
-  var selected = characters.filter(char => selection.has(char.id));
-  var bag: (CardInfo & { riotNum?: number })[] = selected.filter(c => goesInBag(c));
-  const numMinions = distributionForCount(numPlayers).minion;
-  const riot = bag.find(c => c.id == "riot");
-  if (riot) {
-    for (var i = 0; i < numMinions; i++) {
-      const thisRiot = { riotNum: i, ...riot };
-      bag.push(thisRiot);
-    }
-  }
-
-  var outsideBag = selected.filter(char => !goesInBag(char));
-  outsideBag.sort((c1, c2) => c1.name.localeCompare(c2.name));
-  return { bag, outsideBag };
+  ranking: Ranking,
+  bagSize: number,
+  selDispatch: Dispatch<SelAction>,
+  setRanking: (r: Ranking) => void,
+  setFsRole: (r: string) => void,
+  history: History<Partial<State>>,
+  setHistory: SetHistory,
+}): JSX.Element {
+  let { ranking, selection } = props;
+  return <div className="bag-header">
+    <h2>Bag</h2>
+    <div className="bag-btns">
+      <label htmlFor="shuffle-btn" className="visuallyhidden">Shuffle</label>
+      <ShuffleBagBtn bagSize={props.bagSize} ranking={ranking} setRanking={props.setRanking}
+        setHistory={props.setHistory}>
+        <FontAwesomeIcon icon={faShuffle} />
+      </ShuffleBagBtn>
+      <label htmlFor="clear-btn" className="visuallyhidden">Clear</label>
+      <ClearSelectionBtn selection={selection} selDispatch={props.selDispatch}
+        setHistory={props.setHistory}>
+        <FontAwesomeIcon icon={faBan} />
+      </ClearSelectionBtn>
+      <HistoryBtns {...props} />
+    </div>
+  </div>
 }
 
 export function SelectedCharacters(props: {
@@ -177,25 +184,8 @@ export function SelectedCharacters(props: {
   return <div>
     <div className="selected-characters">
       <div className="column">
-        <div className="bag-header">
-          <h2>Bag</h2>
-          <div className="bag-btns">
-            <div>
-              <label htmlFor="shuffle-btn" className="visuallyhidden">Shuffle</label>
-              <ShuffleBagBtn bagSize={bag.length} ranking={ranking} setRanking={props.setRanking}
-                setHistory={props.setHistory}>
-                <FontAwesomeIcon icon={faShuffle} />
-              </ShuffleBagBtn>
-              <label htmlFor="clear-btn" className="visuallyhidden">Clear</label>
-              <ClearSelectionBtn selection={selection} selDispatch={props.selDispatch}
-                setHistory={props.setHistory}>
-                <FontAwesomeIcon icon={faBan} />
-              </ClearSelectionBtn>
-              <HistoryBtns {...props} />
-            </div>
-          </div>
-        </div>
-        {bag.length == 0 && <span>No roles</span>}
+        <BagHeader bagSize={bag.length} {...props} />
+        <div><BagSetupHelp numPlayers={props.numPlayers} selection={selection} /></div>
         {bag.map(char =>
           <CharacterCard
             character={char}

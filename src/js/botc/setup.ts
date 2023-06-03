@@ -243,3 +243,28 @@ export function roleTypesDefinitelyDone(targets: Distribution[], d: Distribution
     roleType => targets.every(td => d[roleType] >= td[roleType])
   );
 }
+
+/** Divide the selection into characters in the bag and those "outside" (in play
+ * but not distributed). */
+export function splitSelectedChars(
+  characters: CharacterInfo[],
+  selection: Set<string>,
+  numPlayers: number): {
+    bag: (CardInfo & { riotNum?: number })[],
+    outsideBag: CardInfo[],
+  } {
+  var selected = characters.filter(char => selection.has(char.id));
+  var bag: (CardInfo & { riotNum?: number })[] = selected.filter(c => goesInBag(c));
+  const numMinions = distributionForCount(numPlayers).minion;
+  const riot = bag.find(c => c.id == "riot");
+  if (riot) {
+    for (var i = 0; i < numMinions; i++) {
+      const thisRiot = { riotNum: i, ...riot };
+      bag.push(thisRiot);
+    }
+  }
+
+  var outsideBag = selected.filter(char => !goesInBag(char));
+  outsideBag.sort((c1, c2) => c1.name.localeCompare(c2.name));
+  return { bag, outsideBag };
+}

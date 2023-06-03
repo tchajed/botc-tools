@@ -2,11 +2,14 @@ import classnames from "classnames";
 import React, { useContext } from "react";
 import { Selection } from "./characters";
 import {
-  SetupModification, SetupChanges, distributionForCount,
-  modifiedDistribution, Distribution, effectiveDistribution, sameDistribution, modifyingCharacters, targetDistributions
+  SetupModification, SetupChanges,
+  Distribution, effectiveDistribution,
+  sameDistribution, modifyingCharacters, targetDistributions, splitSelectedChars
 } from "../botc/setup";
 import { CharacterContext } from "./character_context";
 import { characterClass } from "../views";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import '../icons';
 
 export function Distr({ dist }: { dist: Distribution }): JSX.Element {
   return <span className='distribution'>
@@ -56,17 +59,14 @@ export function SetupModifiers(props: {
   numPlayers: number,
   selection: Selection
 }) {
-  let { selection } = props;
+  let { numPlayers, selection } = props;
   const characters = useContext(CharacterContext);
   const modified = modifyingCharacters(selection, characters);
-
-  const newDistributions = targetDistributions(props.numPlayers,
-    modified,
-    characters,
-  );
+  const newDistributions = targetDistributions(numPlayers,
+    modified, characters);
 
   const selected = characters.filter(c => selection.has(c.id));
-  let actual = effectiveDistribution(props.numPlayers, selected);
+  let actual = effectiveDistribution(numPlayers, selected);
   let distributionCorrect = newDistributions.some(dist => sameDistribution(dist, actual));
 
   return <div className="modifiers">
@@ -90,4 +90,34 @@ export function SetupModifiers(props: {
       {distributionCorrect && <span className="bold">&#x2713;</span>}
     </div>
   </div>;
+}
+
+export function BagSetupHelp(props: {
+  numPlayers: number,
+  selection: Selection,
+}): JSX.Element {
+  let { numPlayers, selection } = props;
+  const characters = useContext(CharacterContext);
+  const modified = modifyingCharacters(selection, characters);
+  const targets = targetDistributions(numPlayers,
+    modified, characters);
+  const selected = characters.filter(c => selection.has(c.id));
+  let actual = effectiveDistribution(numPlayers, selected);
+
+  const { bag } = splitSelectedChars(characters, selection, numPlayers);
+
+  if (bag.length == numPlayers) {
+    if (targets.some(d => sameDistribution(d, actual))) {
+      return <span className="success">
+        {bag.length}/{numPlayers} characters
+        &nbsp;<FontAwesomeIcon icon="circle-check" />
+      </span>;
+    }
+    // the right total number but something is wrong with the distribution
+    return <>{bag.length}/{numPlayers} characters
+      <span className="error"> (<FontAwesomeIcon icon="thumbs-down" /> distribution)
+      </span>
+    </>
+  }
+  return <span className="error">{bag.length}/{numPlayers} characters</span>;
 }
