@@ -148,6 +148,17 @@ button:disabled {
 
 .modifiers {
   font-size: 120%;
+
+  .label {
+    width: 4.5rem;
+    display: inline-block;
+  }
+
+  .svg-inline--fa {
+    width: 1.5rem;
+    display: inline-block;
+    text-align: center;
+  }
 }
 
 .distribution {

@@ -80,13 +80,18 @@ export function SetupModifiers(props: {
       </div>;
     })}
     {modified.length > 0 && <div>
-      <span className="label">target: </span>
+      <span className="label">goal</span>
+      <FontAwesomeIcon icon="location-crosshairs" />
       {newDistributions
         .map((dist, i) => <Distr dist={dist} key={i} />)
         .reduce((acc, x) => acc === null ? x : <>{acc} or {x}</>)}
     </div>}
     <div>
-      <span className="label">actual: </span> <Distr dist={actual} />
+      <span className="label">
+        current
+      </span>
+      <FontAwesomeIcon icon="down-long" />
+      <Distr dist={actual} />
       {distributionCorrect &&
         <span className="success">
           <FontAwesomeIcon icon="circle-check" />
