@@ -3,6 +3,8 @@ import { Ranking } from "./bag";
 import { SelAction } from "./characters";
 import { State } from "./state";
 
+const MAX_SIZE = 20;
+
 export interface History<T> {
   back: T[];
   forward: T[];
@@ -22,6 +24,9 @@ export type HistoryAction<T> =
 function historyPush<T>(h: History<T>, s: T): History<T> {
   var newBack = [...h.back];
   newBack.push(s);
+  while (newBack.length > MAX_SIZE) {
+    newBack.shift();
+  }
   return { back: newBack, forward: [] };
 }
 
@@ -29,7 +34,7 @@ function historyReplace<T>(h: History<T>, s: T): History<T> {
   var newBack = [...h.back];
   newBack.pop(); // throw away current state
   newBack.push(s);
-  return { back: newBack, forward: [] };
+  return { back: newBack, forward: [...h.forward] };
 }
 
 function historyPop<T>(h: History<T>): { h: History<T>, state?: T } {
