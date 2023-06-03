@@ -1,52 +1,17 @@
-import React, { Dispatch, SetStateAction, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import {
-  distributionForCount, isTeensyville, zeroDistribution,
+  isTeensyville,
 } from '../botc/setup';
 import { Script } from '../botc/script';
 import { createSelectionReducer, CharacterSelection, initialSelection } from './characters';
-import { Distr, SetupModifiers } from './setup_help';
+import { SetupModifiers } from './setup_help';
 import { randomRanking, SelectedCharacters } from './bag';
 import { CharacterContext } from './character_context';
 import { State, loadState, storeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
 import { History } from './history';
 import { Nav } from './nav';
-
-function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
-  const dist = (5 <= numPlayers && numPlayers <= 15) ?
-    distributionForCount(numPlayers) : zeroDistribution();
-  return <Distr dist={dist} />;
-}
-
-interface NumPlayerVar {
-  numPlayers: number,
-  setNumPlayers: Dispatch<SetStateAction<number>>,
-}
-
-function NumPlayerSelector(props: NumPlayerVar & { teenysville: boolean }): JSX.Element {
-  const { numPlayers } = props;
-  function handleIncDec(delta: number): () => void {
-    return () => {
-      props.setNumPlayers(n => n + delta);
-    };
-  }
-
-  const maxPlayers = props.teenysville ? 6 : 15;
-
-  return <div className='players'>
-    <div>
-      <div className='player-num-btns'>
-        <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}>&#x2212;</button>
-        <input id="numPlayers" value={numPlayers} readOnly={true}></input>
-        <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}>+</button>
-      </div>
-      <label className='label' htmlFor='numPlayers'>players</label>
-    </div>
-    <div>
-      <BaseDistr numPlayers={numPlayers} />
-    </div>
-  </div>;
-}
+import { NumPlayerSelector } from './num_players';
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
