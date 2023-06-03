@@ -1,14 +1,15 @@
 @use 'main';
+@use 'nav';
 
 body {
   font-size: 13pt;
-  max-width: 550px;
 }
 
 h2 {
   font-size: 120%;
   margin: 0.5rem 0;
 }
+
 
 .bag-header {
   margin-bottom: 1.5rem;

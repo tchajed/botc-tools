@@ -1,0 +1,55 @@
+body {
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
+
+.main {
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+#nav {
+  background-color: #593286;
+  padding: 1rem 0;
+  margin: 0 0 1rem 0;
+  width: 100%;
+
+  @media print {
+    display: none;
+  }
+
+  ul {
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    align-items: center;
+    list-style: none;
+
+    li {
+      display: flex;
+      border: 1px solid gray;
+
+      &.current {
+        font-style: italic;
+        color: #555;
+      }
+
+      padding: 0.5rem;
+      border-radius: 0.3rem;
+      background-color: white;
+      color: black;
+
+      &:hover {
+        border-color: rgb(0, 170, 255);
+      }
+
+      a {
+        display: block;
+      }
+    }
+  }
+}

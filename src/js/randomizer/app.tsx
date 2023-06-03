@@ -10,6 +10,7 @@ import { CharacterContext } from './character_context';
 import { State, loadState, storeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
 import { History } from './history';
+import { Header } from './header';
 
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
   const dist = (5 <= numPlayers && numPlayers <= 15) ?
@@ -115,17 +116,20 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
 
   return <CharacterContext.Provider value={characters}>
     <div>
-      <h1>{script.title}</h1>
-      <NumPlayerSelector teenysville={isTeensyville(characters)} {...{ numPlayers, setNumPlayers }} />
-      <SetupModifiers numPlayers={numPlayers} selection={selection} />
-      <CharacterSelection selection={selection} selDispatch={selDispatch} />
-      <hr className="separator" />
-      <SelectedCharacters {...{
-        selection, ranking, numPlayers,
-        setRanking, selDispatch, setFsRole,
-        history, setHistory,
-      }} />
-      <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
+      <Header scriptId={script.id} />
+      <div className="main">
+        <h1>{script.title}</h1>
+        <NumPlayerSelector teenysville={isTeensyville(characters)} {...{ numPlayers, setNumPlayers }} />
+        <SetupModifiers numPlayers={numPlayers} selection={selection} />
+        <CharacterSelection selection={selection} selDispatch={selDispatch} />
+        <hr className="separator" />
+        <SelectedCharacters {...{
+          selection, ranking, numPlayers,
+          setRanking, selDispatch, setFsRole,
+          history, setHistory,
+        }} />
+        <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
+      </div>
     </div>
   </CharacterContext.Provider>;
 }

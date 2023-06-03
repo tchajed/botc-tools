@@ -52,12 +52,14 @@ function getNightOrders(characters: CharacterInfo[]): NightOrders {
 }
 
 export class Script {
+  readonly id: number;
   readonly title: string;
   readonly orders: NightOrders;
   readonly characters: CharacterInfo[];
   readonly jinxes: Jinx[];
 
   constructor(data: ScriptData) {
+    this.id = data.pk || 0;
     this.title = data.title;
 
     // normalize
