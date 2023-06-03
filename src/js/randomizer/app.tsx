@@ -10,7 +10,7 @@ import { CharacterContext } from './character_context';
 import { State, loadState, storeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
 import { History } from './history';
-import { Header } from './header';
+import { Nav } from './nav';
 
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
   const dist = (5 <= numPlayers && numPlayers <= 15) ?
@@ -116,7 +116,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
 
   return <CharacterContext.Provider value={characters}>
     <div>
-      <Header scriptId={script.id} />
+      <Nav scriptId={script.id} />
       <div className="main">
         <h1>{script.title}</h1>
         <NumPlayerSelector teenysville={isTeensyville(characters)} {...{ numPlayers, setNumPlayers }} />

@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { CharacterContext } from "./character_context";
 import React from "react";
-import { CharacterIconElement } from "./characters";
 import classnames from "classnames";
 import { characterClass } from "../views";
+import { CharacterIconElement } from "../views_react";
 
 export function FullscreenRole(props: {
   fsRole: string | null,

@@ -21,7 +21,7 @@ function PageLink(props: PropsWithChildren<{ currentPage: string, id: number, pa
   </li>
 }
 
-export function Header(props: { scriptId: number }): JSX.Element {
+export function Nav(props: { scriptId: number }): JSX.Element {
   const id = props.scriptId;
 
   const currentPage = filename(window.location.pathname);
