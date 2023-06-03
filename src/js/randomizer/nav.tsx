@@ -1,5 +1,7 @@
 import classnames from "classnames";
 import React, { PropsWithChildren } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouse, faList, faMoon, faDice } from '@fortawesome/free-solid-svg-icons'
 
 function filename(path: string): string {
   var filename = path;
@@ -28,10 +30,10 @@ export function Nav(props: { scriptId: number }): JSX.Element {
 
   return <div id="nav">
     <ul className="nav-header">
-      <li className="nav-item"><a href="./">Scripts</a></li>
-      <PageLink currentPage={currentPage} id={id} page="roles">Roles</PageLink>
-      <PageLink currentPage={currentPage} id={id} page="nightsheet">Night order</PageLink>
-      <PageLink currentPage={currentPage} id={id} page="randomize">Select roles</PageLink>
+      <li className="nav-item"><a href="./"><FontAwesomeIcon icon={faHouse} /> Scripts</a></li>
+      <PageLink currentPage={currentPage} id={id} page="roles"><FontAwesomeIcon icon={faList} />Roles</PageLink>
+      <PageLink currentPage={currentPage} id={id} page="nightsheet"><FontAwesomeIcon icon={faMoon} />Night</PageLink>
+      <PageLink currentPage={currentPage} id={id} page="randomize"><FontAwesomeIcon icon={faDice} />Assign </PageLink>
     </ul>
   </div>;
 }

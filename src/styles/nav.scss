@@ -31,17 +31,24 @@ body {
 
     li {
       display: flex;
-      border: 1px solid gray;
-
-      &.current {
-        font-style: italic;
-        color: #555;
-      }
-
+      border: 1px solid #aaa;
+      line-height: 1.5rem;
       padding: 0.5rem;
       border-radius: 0.3rem;
-      background-color: white;
-      color: black;
+      // background-color: white;
+      color: white;
+
+      .svg-inline--fa {
+        font-size: 110%;
+        margin-right: 0.4rem;
+      }
+
+      &.current {
+        // color: #555;
+        color: white;
+        border-bottom: 0.2rem solid rgb(255, 235, 122);
+        // box-shadow: 0 0 10px 5px rgb(255, 235, 122);
+      }
 
       &:hover {
         border-color: rgb(0, 170, 255);
