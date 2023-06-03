@@ -26,13 +26,13 @@ export function NumPlayerSelector(props: {
   const maxPlayers = props.teenysville ? 6 : 15;
 
   return <div className='players'>
-    <div>
-      <div className='player-num-btns'>
-        <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}><FontAwesomeIcon icon={faMinus} /></button>
-        <input id="numPlayers" value={numPlayers} readOnly={true}></input>
-        <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}><FontAwesomeIcon icon={faPlus} /></button>
-      </div>
-      <FontAwesomeIcon icon={faUser} />
+    <div className='player-num-btns'>
+      <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}><FontAwesomeIcon icon={faMinus} /></button>
+      <span className="numPlayers">
+        <span className='count'>{numPlayers}</span>
+        players
+      </span>
+      <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}><FontAwesomeIcon icon={faPlus} /></button>
     </div>
     <div>
       <BaseDistr numPlayers={numPlayers} />

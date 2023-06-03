@@ -108,11 +108,16 @@ button:disabled {
 .players {
   font-size: 120%;
 
-  input {
-    width: 2em;
-    font-size: inherit;
+  .numPlayers {
+    .count {
+      display: inline-block;
+      min-width: 1.5rem;
+      padding-right: 0.5rem;
+    }
+
+    padding: 0 0.5rem;
     line-height: 1.5em;
-    text-align: center;
+    text-align: right;
     vertical-align: middle;
     margin: 2px;
   }
@@ -121,7 +126,8 @@ button:disabled {
     padding: 0;
     width: 2rem;
     line-height: 2rem;
-    margin: 2px;
+    font-size: 100%;
+    margin-bottom: 2px;
   }
 
 }
