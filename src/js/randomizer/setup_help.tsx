@@ -79,13 +79,13 @@ export function SetupModifiers(props: {
         <span> {<ModificationExplanation mod={SetupChanges[char.id]} />}</span>
       </div>;
     })}
-    {modified.length > 0 && <div>
+    <div>
       <span className="label">goal</span>
       <FontAwesomeIcon icon="location-crosshairs" />
       {newDistributions
         .map((dist, i) => <Distr dist={dist} key={i} />)
         .reduce((acc, x) => acc === null ? x : <>{acc} or {x}</>)}
-    </div>}
+    </div>
     <div>
       <span className="label">
         current
