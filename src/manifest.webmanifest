@@ -1,6 +1,7 @@
 {
   "short_name": "BotC tools",
   "name": "BotC tools",
+  "id": "/",
   "start_url": ".",
   "display": "fullscreen",
   "background_color": "#e0e0e0",
@@ -8,21 +9,16 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "../icons/favicon.ico",
+      "src": "../icons/favicon.ico?width=512&height=512",
       "sizes": "512x512",
-      "type": "image/webp"
+      "type": "image/webp",
+      "purpose": "any"
     },
     {
       "src": "../icons/favicon.ico?as=png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "../icons/favicon.ico?as=png&width=96&height=96",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "maskable"
     }
   ],
   "categories": [

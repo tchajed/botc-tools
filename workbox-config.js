@@ -18,6 +18,6 @@ module.exports = {
     },
   }],
   swDest: "dist/service-worker.js",
-  clientsClaim: true,
+  clientsClaim: false,
   skipWaiting: false
 };
