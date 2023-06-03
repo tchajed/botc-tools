@@ -29,7 +29,7 @@ function ScriptRow(props: { script: Script }): JSX.Element {
     <td className="nightsheet-cell">
       <div className="btn">
         <a href={`./nightsheet.html#${id}`}>
-          <FontAwesomeIcon icon="moon" />Night order
+          <FontAwesomeIcon icon="moon" />Night
         </a>
       </div>
     </td>
@@ -37,7 +37,7 @@ function ScriptRow(props: { script: Script }): JSX.Element {
       <div className="btn">
         <a href={`./randomize.html#${id}`}>
           <FontAwesomeIcon icon="dice" />
-          Assign roles
+          Assign
         </a>
       </div>
     </td>
