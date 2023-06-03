@@ -2,6 +2,8 @@ import { Dispatch, SetStateAction } from "react";
 import { distributionForCount, zeroDistribution } from "../botc/setup";
 import { Distr } from "./setup_help";
 import React from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
   const dist = (5 <= numPlayers && numPlayers <= 15) ?
@@ -26,11 +28,11 @@ export function NumPlayerSelector(props: {
   return <div className='players'>
     <div>
       <div className='player-num-btns'>
-        <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}>&#x2212;</button>
+        <button disabled={numPlayers <= 5} onClick={handleIncDec(-1)}><FontAwesomeIcon icon={faMinus} /></button>
         <input id="numPlayers" value={numPlayers} readOnly={true}></input>
-        <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}>+</button>
+        <button disabled={numPlayers >= maxPlayers} onClick={handleIncDec(+1)}><FontAwesomeIcon icon={faPlus} /></button>
       </div>
-      <label className='label' htmlFor='numPlayers'>players</label>
+      <FontAwesomeIcon icon={faUser} />
     </div>
     <div>
       <BaseDistr numPlayers={numPlayers} />

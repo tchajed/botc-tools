@@ -69,7 +69,7 @@ button:disabled {
 
 .player-num-btns {
   display: inline-block;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
 .column {
@@ -120,7 +120,6 @@ button:disabled {
   button {
     padding: 0;
     width: 2rem;
-    font-size: 150%;
     line-height: 2rem;
     margin: 2px;
   }
