@@ -4,8 +4,10 @@ import { CharacterInfo } from '../../botc/roles';
 import { splitSelectedChars } from '../../botc/setup';
 import { CardInfo } from '../characters';
 import { Ranking } from '../bag';
+import { renderToString } from 'react-dom/server';
+import { Canvg } from 'canvg';
 
-const LINE_MAX = [25, 32, 30, 35, 35];
+const LINE_MAX = [22, 32, 30, 35, 35];
 
 function splitLines(ability: string): string[] {
   var lines: string[] = [];
@@ -103,12 +105,14 @@ function boundingRect(poss: { x: number, y: number }[]): { xmin: number, xmax: n
   };
 }
 
-export function Townsquare(props: {
+interface TownsquareInfo {
   characters: CharacterInfo[],
   numPlayers: number,
   ranking: Ranking,
   selection: Set<string>,
-}): JSX.Element {
+}
+
+export function Townsquare(props: TownsquareInfo): JSX.Element {
   const { characters, numPlayers, selection } = props;
   let { bag } = splitSelectedChars(characters, selection, numPlayers);
   bag.sort((c1, c2) => props.ranking[charKey(c1)] - props.ranking[charKey(c2)]);
@@ -135,11 +139,38 @@ export function Townsquare(props: {
   const bounds = boundingRect(positions);
   const width = bounds.xmax - bounds.xmin + 230;
   const height = bounds.ymax - bounds.ymin + 230;
-  return <svg width={500} height={500} viewBox={`${bounds.xmin} ${bounds.ymin} ${width} ${height}`}>
+  return <svg id="townsquare" width={1000} height={1000} viewBox={`${bounds.xmin} ${bounds.ymin} ${width} ${height}`}>
     {bag.map((c, i) => {
       const key = charKey(c);
       const { x, y } = positions[i];
       return <TokenSvg key={key} x={x} y={y} character={c} />;
     })}
   </svg>
+}
+
+function svgToPng(svgText: string): string {
+  const canvas = document.createElement("canvas");
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  const v = Canvg.fromString(ctx, svgText);
+  v.start();
+  const data = canvas.toDataURL();
+  const img = new Image();
+  img.src = data;
+  img.height = 1000;
+  img.width = 1000;
+  document.body.appendChild(img);
+  return data;
+}
+
+export function TownsquareImage(props: {
+  characters: CharacterInfo[],
+  numPlayers: number,
+  ranking: Ranking,
+  selection: Set<string>,
+}): JSX.Element {
+  const svgText = renderToString(<Townsquare {...props} />);
+  const pngUrl = svgToPng(svgText);
+  return <></>
+  // return <img className="townsquare" src={pngUrl} width={1000} height={1000} />;
 }
