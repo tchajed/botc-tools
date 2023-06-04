@@ -1,5 +1,6 @@
 /** Encode the rules for BotC setup. */
 
+import { Ranking } from "../randomizer/bag";
 import { CardInfo } from "../randomizer/characters";
 import { CharacterInfo, RoleType } from "./roles";
 

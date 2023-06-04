@@ -15,6 +15,7 @@ function RoleLabel(props: { roleType: string }): JSX.Element {
 export interface CardInfo {
   id: string;
   name: string;
+  ability: string | null;
   good: boolean;
   roleType: RoleType,
 }
