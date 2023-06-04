@@ -11,7 +11,7 @@ import { Nav } from './nav';
 import { NumPlayerSelector } from './num_players';
 import { effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, targetDistributions } from '../botc/setup';
 import { CharacterInfo, roles } from '../botc/roles';
-import { TokenSvg } from './tokens/token_svg';
+import { TokenSvg, Townsquare } from './tokens/token_svg';
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
@@ -96,9 +96,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     <div>
       <Nav scriptId={script.id} />
       <div className="main">
-        <svg className="token">
-          <TokenSvg x={0} y={0} character={acrobat} />
-        </svg>
+        <Townsquare characters={characters} ranking={ranking} numPlayers={numPlayers} selection={selection} />
         <h1>{script.title}</h1>
         <NumPlayerSelector teenysville={script.teensyville} {...{ numPlayers, setNumPlayers }} />
         <SetupModifiers numPlayers={numPlayers} selection={selection} />
