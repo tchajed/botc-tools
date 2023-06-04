@@ -1,7 +1,6 @@
 @use 'main';
 @use 'theme';
 @use 'nav';
-@use 'svg';
 
 body {
   font-size: 13pt;
@@ -260,4 +259,8 @@ span.evil {
     height: 100%;
     width: 100%;
   }
+}
+
+.townsquare {
+  border: 1px solid black;
 }

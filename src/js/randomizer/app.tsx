@@ -9,7 +9,7 @@ import { FullscreenRole } from './role_fullscreen';
 import { History } from './history';
 import { Nav } from './nav';
 import { NumPlayerSelector } from './num_players';
-import { effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, targetDistributions } from '../botc/setup';
+import { effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, splitSelectedChars, targetDistributions } from '../botc/setup';
 import { CharacterInfo, roles } from '../botc/roles';
 import { TokenSvg, Townsquare, TownsquareImage } from './tokens/token_svg';
 
@@ -92,6 +92,8 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
   const acrobat = roles.get('acrobat');
   if (!acrobat) { throw new Error("example not found"); }
 
+  const { bag } = splitSelectedChars(characters, selection, numPlayers);
+
   return <CharacterContext.Provider value={characters}>
     <div>
       <Nav scriptId={script.id} />
@@ -106,10 +108,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
           setRanking, selDispatch, setFsRole,
           history, setHistory,
         }} />
-        {selection.size >= 5 && <Townsquare
-          characters={characters} ranking={ranking} numPlayers={numPlayers} selection={selection} />}
-        {selection.size >= 5 && <TownsquareImage
-          characters={characters} ranking={ranking} numPlayers={numPlayers} selection={selection} />}
+        {bag.length == numPlayers && <TownsquareImage bag={bag} />}
         <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
       </div>
     </div>
