@@ -1,7 +1,7 @@
 import React, { Dispatch, PropsWithChildren, useContext, } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { splitSelectedChars } from "../botc/setup";
-import { CharacterCard, SelAction, Selection } from "./characters";
+import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
 import { State } from "./state";
 import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
@@ -150,6 +150,14 @@ function BagHeader(props: {
   </div>
 }
 
+export function charKey(character: CardInfo & { riotNum?: number }): string {
+  return character.riotNum ? `${character.id}-${character.riotNum}` : character.id;
+}
+
+export function sortBag(bag: (CardInfo & { riotNum?: number })[], ranking: Ranking) {
+  bag.sort((c1, c2) => ranking[charKey(c1)] - ranking[charKey(c2)]);
+}
+
 export function SelectedCharacters(props: {
   selection: Selection,
   ranking: Ranking,
@@ -164,16 +172,7 @@ export function SelectedCharacters(props: {
   const { selection, ranking, setFsRole } = props;
 
   const { bag, outsideBag } = splitSelectedChars(characters, selection, props.numPlayers);
-
-  // an extended identifier to disambiguate riots
-  function charKey(char: { id: string, riotNum?: number }): string {
-    if (char.id == "riot" && char.riotNum !== undefined) {
-      return `riot-${char.riotNum}`;
-    }
-    return char.id;
-  }
-
-  bag.sort((c1, c2) => ranking[charKey(c1)] - ranking[charKey(c2)]);
+  sortBag(bag, ranking);
 
   function handleClick(id: string): () => void {
     return () => {

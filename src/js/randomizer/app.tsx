@@ -2,7 +2,7 @@ import React, { useEffect, useReducer, useState } from 'react';
 import { Script } from '../botc/script';
 import { createSelectionReducer, CharacterSelection, initialSelection } from './characters';
 import { SetupModifiers } from './setup_help';
-import { randomRanking, SelectedCharacters } from './bag';
+import { randomRanking, SelectedCharacters, sortBag } from './bag';
 import { CharacterContext } from './character_context';
 import { State, loadState, storeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
@@ -11,7 +11,7 @@ import { Nav } from './nav';
 import { NumPlayerSelector } from './num_players';
 import { effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, splitSelectedChars, targetDistributions } from '../botc/setup';
 import { CharacterInfo, roles } from '../botc/roles';
-import { TokenSvg, Townsquare, TownsquareImage } from './tokens/token_svg';
+import { TownsquareImage } from './tokens/token_svg';
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
@@ -93,6 +93,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
   if (!acrobat) { throw new Error("example not found"); }
 
   const { bag } = splitSelectedChars(characters, selection, numPlayers);
+  sortBag(bag, ranking);
 
   return <CharacterContext.Provider value={characters}>
     <div>

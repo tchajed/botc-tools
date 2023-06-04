@@ -3,6 +3,7 @@ import { iconPath } from '../../views';
 import { CardInfo } from '../characters';
 import { renderToString } from 'react-dom/server';
 import { Canvg } from 'canvg';
+import { charKey } from '../bag';
 
 const LINE_MAX = [22, 32, 30, 35, 35];
 
@@ -29,11 +30,6 @@ function splitLines(ability: string): string[] {
     lines.push(line);
   }
   return lines.map(l => l.trimEnd());
-}
-
-
-function charKey(character: CardInfo & { riotNum?: number }): string {
-  return character.riotNum ? `${character.id}-${character.riotNum}` : character.id;
 }
 
 export function TokenSvg(props: { character: CardInfo & { riotNum?: number }, x: number, y: number }): JSX.Element {
@@ -67,7 +63,7 @@ export function TokenSvg(props: { character: CardInfo & { riotNum?: number }, x:
       transform="translate(10, 10)"
       id={`innerCircle-${charKey(character)}`} />
     <text style={{ "fontSize": "24px", "fontWeight": 700, "fontFamily": "'Barlow'" }} x="113" y="245" textAnchor='middle'>
-      {character.name.toUpperCase()}
+      {name.toUpperCase()}
     </text>
   </g>
   // <textPath href={`#innerCircle-${charKey(character)}`} startOffset={startOffset}>
@@ -144,9 +140,8 @@ export function Townsquare(props: TownsquareInfo): JSX.Element {
   const height = bounds.ymax - bounds.ymin + 230;
   return <svg id="townsquare" width={2000} height={2000} viewBox={`${bounds.xmin} ${bounds.ymin} ${width} ${height}`}>
     {bag.map((c, i) => {
-      const key = charKey(c);
       const { x, y } = positions[i];
-      return <TokenSvg key={key} x={x} y={y} character={c} />;
+      return <TokenSvg key={charKey(c)} x={x} y={y} character={c} />;
     })}
   </svg>
 }
