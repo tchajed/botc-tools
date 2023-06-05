@@ -114,6 +114,6 @@ export function App(props: { scripts: Script[] }): JSX.Element {
       <footer>
         <GitHubLink />
       </footer>
-    </div>;
+    </div>
   </div>
 }
