@@ -12,7 +12,7 @@ import { BagCharacter } from '../../botc/setup';
  * really long ability texts.
  */
 function splitLines(ability: string): string[] {
-  const LINE_MAX = [25, 29, 29, 35, 35];
+  const LINE_MAX = [25, 29, 29, 32, 35];
   var lines: string[] = [];
   var line = "";
   var rest = ability;
@@ -46,6 +46,8 @@ export function TokenSvg(props: { character: BagCharacter, x: number, y: number 
   var firstYoff = "0";
   if (abilityLines.length <= 2) {
     firstYoff = "1.2em";
+  } else if (abilityLines.length >= 5) {
+    firstYoff = "-1.2em";
   }
 
   // icon is placed first so text goes on top
