@@ -91,8 +91,7 @@ async function svgToPng(svgText: string): Promise<string> {
 export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
   const svgText = renderToString(<Townsquare {...props} />);
 
-  // TODO: can't figure out the type argument here
-  const img: React.MutableRefObject<any> = useRef();
+  const img: React.MutableRefObject<HTMLImageElement | null> = useRef(null);
 
   // This component returns an empty <img> and then asynchronously runs svgToPng
   // to convert it to PNG data (this uses a hidden canvas which isn't relevant
@@ -101,7 +100,7 @@ export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
   // so that this effect can reference the generated HTML element directly.
   useEffect(() => {
     svgToPng(svgText).then((pngData) => {
-      if (img.current !== undefined && 'src' in img.current) {
+      if (img.current) {
         img.current.src = pngData;
       }
     });
