@@ -67,9 +67,14 @@ export function Townsquare(props: { bag: BagCharacter[] }): JSX.Element {
     playerPosition(usableDeg, radius, n, i)
   );
   const bounds = boundingRect(positions);
-  const width = bounds.xmax - bounds.xmin + 230;
-  const height = bounds.ymax - bounds.ymin + 230;
-  return <svg id="townsquare" width={3000} height={3000} viewBox={`${bounds.xmin} ${bounds.ymin} ${width} ${height}`}>
+  const xPadding = 20;
+  // for some reason there's a huge offset here
+  bounds.ymin += 220;
+  // a little padding is neededto cover the token width
+  const width = bounds.xmax - bounds.xmin + 240 + xPadding * 2;
+  const height = bounds.ymax - bounds.ymin;
+  return <svg id="townsquare" width={3000} height={3000}
+    viewBox={`${bounds.xmin - xPadding} ${bounds.ymin} ${width} ${height}`}>
     {bag.map((c, i) => {
       const { x, y } = positions[i];
       return <TokenSvg key={charKey(c)} x={x} y={y} character={c} />;
