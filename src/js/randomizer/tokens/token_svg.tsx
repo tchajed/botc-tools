@@ -5,7 +5,7 @@ import { renderToString } from 'react-dom/server';
 import { Canvg } from 'canvg';
 import { charKey } from '../bag';
 
-const LINE_MAX = [22, 32, 30, 35, 35];
+const LINE_MAX = [22, 32, 32, 35, 35];
 
 function splitLines(ability: string): string[] {
   var lines: string[] = [];
@@ -50,7 +50,7 @@ export function TokenSvg(props: { character: CardInfo & { riotNum?: number }, x:
       cx="113.38607"
       cy="147.34323"
       r="110.615341" />
-    <text style={{ "fontSize": "13px" }} x="113" y="80" textAnchor="middle" >
+    <text style={{ "fontSize": "13px", "fontFamily": "'Barlow'" }} x="113" y="80" textAnchor="middle" >
       {abilityLines.map((line, i) => {
         return <tspan x="113" dy={i == 0 ? firstYoff : "1.2em"} key={i}>{line}</tspan>;
       })}
@@ -138,7 +138,7 @@ export function Townsquare(props: TownsquareInfo): JSX.Element {
   const bounds = boundingRect(positions);
   const width = bounds.xmax - bounds.xmin + 230;
   const height = bounds.ymax - bounds.ymin + 230;
-  return <svg id="townsquare" width={2000} height={2000} viewBox={`${bounds.xmin} ${bounds.ymin} ${width} ${height}`}>
+  return <svg id="townsquare" width={3000} height={3000} viewBox={`${bounds.xmin} ${bounds.ymin} ${width} ${height}`}>
     {bag.map((c, i) => {
       const { x, y } = positions[i];
       return <TokenSvg key={charKey(c)} x={x} y={y} character={c} />;
