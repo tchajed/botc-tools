@@ -9,10 +9,13 @@
 }
 
 body {
-  margin: 1em auto;
-  max-width: 800px;
-  padding: 0 5px;
   font-family: "Barlow", sans-serif;
+}
+
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 5px;
 }
 
 a,

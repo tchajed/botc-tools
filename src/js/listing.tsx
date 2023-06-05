@@ -8,7 +8,9 @@ function init() {
   const app = document.getElementById("app");
   if (!app) { return; }
   const root = createRoot(app);
-  root.render(<App scripts={allScripts.scripts} />);
+  root.render(<React.StrictMode>
+    <App scripts={allScripts.scripts} />
+  </React.StrictMode>);
 }
 
 init();

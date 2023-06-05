@@ -2,10 +2,6 @@
 @use 'theme';
 @use 'nav';
 
-body {
-  font-size: 13pt;
-}
-
 h2 {
   font-size: 120%;
   margin: 0.5rem 0;
@@ -13,6 +9,7 @@ h2 {
 
 .main {
   max-width: 550px;
+  font-size: 13pt;
 }
 
 #nav .nav-header {
