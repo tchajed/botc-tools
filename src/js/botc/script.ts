@@ -52,7 +52,7 @@ function getNightOrders(characters: CharacterInfo[]): NightOrders {
 }
 
 function isTeensyville(characters: CharacterInfo[]): boolean {
-  const numTownsfolk = characters.map(c => c.roleType == "townsfolk").length;
+  const numTownsfolk = characters.filter(c => c.roleType == "townsfolk").length;
   // normal scripts have 13 townsfolk while teensyville is 6
   return numTownsfolk < 10;
 }
