@@ -1,8 +1,10 @@
 {
   "short_name": "BotC tools",
   "name": "BotC tools",
+  "description": "BotC roles, night sheets, and storyteller role assignment tools.",
   "id": "/",
-  "start_url": ".",
+  "start_url": "./",
+  "scope": ".",
   "display": "fullscreen",
   "background_color": "#e0e0e0",
   "theme_color": "#593286",
