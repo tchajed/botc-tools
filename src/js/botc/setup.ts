@@ -205,6 +205,18 @@ function clampDistribution(dist: Distribution, characters: CharacterInfo[]) {
   }
 }
 
+export function uniqueDistributions(dists: Distribution[]): Distribution[] {
+  var uniqueDists: Distribution[] = [];
+  for (const dist of dists) {
+    if (uniqueDists.some(d => sameDistribution(d, dist))) {
+      // duplicate
+      continue;
+    }
+    uniqueDists.push(dist);
+  }
+  return uniqueDists;
+}
+
 export function modifiedDistribution(
   dist: Distribution,
   mods: SetupModification[],
@@ -217,16 +229,7 @@ export function modifiedDistribution(
   for (var dist of dists) {
     clampDistribution(dist, characters);
   }
-  // remove duplicates
-  var uniqueDists: Distribution[] = [];
-  for (const dist of dists) {
-    if (uniqueDists.some(d => sameDistribution(d, dist))) {
-      // duplicate
-      continue;
-    }
-    uniqueDists.push(dist);
-  }
-  return uniqueDists;
+  return uniqueDistributions(dists);
 }
 
 export function modifyingCharacters(

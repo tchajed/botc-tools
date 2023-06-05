@@ -4,7 +4,7 @@ import { Selection } from "./characters";
 import {
   SetupModification, SetupChanges,
   Distribution, effectiveDistribution,
-  sameDistribution, modifyingCharacters, targetDistributions, splitSelectedChars
+  sameDistribution, modifyingCharacters, targetDistributions, splitSelectedChars, uniqueDistributions
 } from "../botc/setup";
 import { CharacterContext } from "./character_context";
 import { characterClass } from "../views";
@@ -23,6 +23,13 @@ export function Distr({ dist }: { dist: Distribution }): JSX.Element {
   </span>;
 }
 
+export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
+  return <span className='distribution'>
+    <span className='good'>{dist.townsfolk + dist.outsider}</span>
+    /
+    <span className='evil'>{dist.demon}</span>
+  </span>
+}
 
 function ModificationExplanation(props: { mod: SetupModification }): JSX.Element {
   let { mod } = props;
@@ -67,12 +74,23 @@ export function SetupModifiers(props: {
   const modified = modifyingCharacters(selection, characters);
   const newDistributions = targetDistributions(numPlayers,
     modified, characters);
-  // TODO: don't show goal distributions as disjunction for Legion, show total
-  // good (current distribution can be shown using effectiveDistribution)
 
   const selected = characters.filter(c => selection.has(c.id));
   let actual = effectiveDistribution(numPlayers, selected);
   let distributionCorrect = newDistributions.some(dist => sameDistribution(dist, actual));
+
+  var goalDistributionElement: JSX.Element = <>{newDistributions
+    .map((dist, i) => <Distr dist={dist} key={i} />)
+    .reduce((acc, x) => acc === null ? x : <>{acc} or {x}</>)}</>;
+  if (selection.has("legion")) {
+    // only for presentation purposes
+    const newLegionDistributions: Distribution[] = uniqueDistributions(newDistributions.map(dist => {
+      return { townsfolk: dist.townsfolk + dist.outsider, outsider: 0, minion: 0, demon: dist.demon };
+    }));
+    goalDistributionElement = <>{newLegionDistributions
+      .map((dist, i) => <LegionDistr dist={dist} key={i} />)
+      .reduce((acc, x) => acc === null ? x : <>{acc} or {x}</>)}</>
+  }
 
   return <div className="modifiers">
     <br />
@@ -87,9 +105,7 @@ export function SetupModifiers(props: {
     <div>
       <span className="label">goal</span>
       <FontAwesomeIcon icon="location-crosshairs" />
-      {newDistributions
-        .map((dist, i) => <Distr dist={dist} key={i} />)
-        .reduce((acc, x) => acc === null ? x : <>{acc} or {x}</>)}
+      {goalDistributionElement}
     </div>
     <div>
       <span className="label">
