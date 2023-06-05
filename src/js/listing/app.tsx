@@ -82,11 +82,9 @@ function ScriptRow(props: { script: Script }): JSX.Element {
 }
 
 function GitHubLink(): JSX.Element {
-  return <a href="https://github.com/tchajed/botc-tools" target="_blank">
-    <span className="github-link">
-      <FontAwesomeIcon icon={['fab', 'github']} />&nbsp;
-      GitHub source
-    </span>
+  return <a className="github-link" href="https://github.com/tchajed/botc-tools" target="_blank">
+    <FontAwesomeIcon icon={['fab', 'github']} />&nbsp;
+    GitHub source
   </a>
 }
 
@@ -112,7 +110,9 @@ export function App(props: { scripts: Script[] }): JSX.Element {
       <HelpText />
       <p>These tools are meant to support in-person games.</p>
       <footer>
-        <GitHubLink />
+        <div className="link-block"><GitHubLink /></div>
+        <p>This is an unofficial app not affiliated with The
+          Pandamonium Institute.</p>
       </footer>
     </div>
   </div>
