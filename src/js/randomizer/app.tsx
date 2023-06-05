@@ -11,7 +11,7 @@ import { Nav } from './nav';
 import { NumPlayerSelector } from './num_players';
 import { effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, splitSelectedChars, targetDistributions } from '../botc/setup';
 import { CharacterInfo, roles } from '../botc/roles';
-import { TownsquareImage } from './tokens/token_svg';
+import { TownsquareImage } from './tokens/townsquare';
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;
