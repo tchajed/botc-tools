@@ -298,7 +298,7 @@ export function splitSelectedChars(
   }
   const legion = bag.find(c => c.id == "legion");
   if (legion) {
-    const numExtraLegion = dist.townsfolk + dist.outsider;
+    const numExtraLegion = dist.townsfolk + dist.outsider - 1;
     for (var i = 0; i < numExtraLegion && bag.length < numPlayers; i++) {
       const thisLegion: BagCharacter = { demonNum: i, ...legion };
       bag.push(thisLegion);
