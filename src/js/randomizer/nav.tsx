@@ -18,9 +18,9 @@ function filename(path: string): string {
 
 function PageLink(props: PropsWithChildren<{ currentPage: string, id: number, page: string }>): JSX.Element {
   const { currentPage, id, page } = props;
-  return <li className={classnames("nav-item", { current: currentPage == page + ".html" })}>
-    <a href={`./${page}.html#${id}`}>{props.children}</a>
-  </li>
+  return <a className={classnames("nav-item", { current: currentPage == page + ".html" })} href={`./${page}.html#${id}`}>
+    {props.children}
+  </a>
 }
 
 export function Nav(props: { scriptId: number }): JSX.Element {
@@ -29,11 +29,11 @@ export function Nav(props: { scriptId: number }): JSX.Element {
   const currentPage = filename(window.location.pathname);
 
   return <div id="nav">
-    <ul className="nav-header">
-      <li className="nav-item"><a href="./"><FontAwesomeIcon icon="house" /> Scripts</a></li>
-      <PageLink currentPage={currentPage} id={id} page="roles"><FontAwesomeIcon icon="list" />Roles</PageLink>
-      <PageLink currentPage={currentPage} id={id} page="nightsheet"><FontAwesomeIcon icon="moon" />Night</PageLink>
-      <PageLink currentPage={currentPage} id={id} page="randomize"><FontAwesomeIcon icon="dice" />Assign </PageLink>
-    </ul>
+    <div className="nav-header">
+      <a className="nav-item" href="./"><FontAwesomeIcon icon="house" />&nbsp; Scripts</a>
+      <PageLink currentPage={currentPage} id={id} page="roles"><FontAwesomeIcon icon="list" />&nbsp; Roles</PageLink>
+      <PageLink currentPage={currentPage} id={id} page="nightsheet"><FontAwesomeIcon icon="moon" />&nbsp; Night</PageLink>
+      <PageLink currentPage={currentPage} id={id} page="randomize"><FontAwesomeIcon icon="dice" />&nbsp; Assign </PageLink>
+    </div>
   </div>;
 }

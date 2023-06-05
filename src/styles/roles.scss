@@ -1,7 +1,7 @@
 @use 'main';
 @use 'nav';
 
-body {
+.main {
   font-size: 11pt;
 
   @media print {

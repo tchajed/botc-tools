@@ -21,7 +21,7 @@ body {
     display: none;
   }
 
-  ul {
+  .nav-header {
     max-width: 800px;
     margin: 0 auto;
     padding: 0;
@@ -31,10 +31,13 @@ body {
     align-items: center;
     list-style: none;
 
-    li {
+    a:hover {
+      text-decoration: none;
+    }
+
+    .nav-item {
       display: flex;
       border: 1px solid #aaa;
-      line-height: 1.5rem;
       padding: 0.5rem;
       border-radius: 0.3rem;
       // background-color: white;
@@ -42,7 +45,6 @@ body {
 
       .svg-inline--fa {
         font-size: 110%;
-        margin-right: 0.4rem;
       }
 
       &.current {
@@ -54,10 +56,7 @@ body {
 
       &:hover {
         border-color: rgb(0, 170, 255);
-      }
-
-      a {
-        display: block;
+        background-color: lighten(theme.$purple, 20);
       }
     }
   }
