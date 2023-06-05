@@ -10,7 +10,7 @@ import { History } from './history';
 import { Nav } from './nav';
 import { NumPlayerSelector } from './num_players';
 import { effectiveDistribution, modifyingCharacters, roleTypesDefinitelyDone, splitSelectedChars, targetDistributions } from '../botc/setup';
-import { CharacterInfo, roles } from '../botc/roles';
+import { CharacterInfo, getCharacter, roles } from '../botc/roles';
 import { TownsquareImage } from './tokens/townsquare';
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
@@ -79,14 +79,10 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
 
   const targetDists = targetDistributions(
     numPlayers,
-    modifyingCharacters(selection, characters),
+    modifyingCharacters(selection),
     characters,
   );
-  var selectedCharInfo: CharacterInfo[] = [];
-  selection.forEach(id => {
-    const c = characters.find(c => c.id == id);
-    if (c) { selectedCharInfo.push(c) }
-  });
+  var selectedCharInfo: CharacterInfo[] = [...selection].map(id => getCharacter(id));
   const actual = effectiveDistribution(numPlayers, selectedCharInfo);
   const rolesNotNeeded = roleTypesDefinitelyDone(targetDists, actual);
   const acrobat = roles.get('acrobat');

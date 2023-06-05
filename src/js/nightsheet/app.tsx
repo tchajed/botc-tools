@@ -1,4 +1,4 @@
-import { CharacterInfo } from '../botc/roles';
+import { CharacterInfo, getCharacter } from '../botc/roles';
 import { NightOrders, Script } from '../botc/script';
 
 import classnames from 'classnames';
@@ -78,7 +78,7 @@ function Jinxes({ script }: { script: Script }): JSX.Element {
     {script.jinxes.map(jinx => {
       return <div className="jinx" key={`${jinx.character1}-${jinx.character2}`}>
         {[jinx.character1, jinx.character2].map(id => {
-          const name = script.characters.find(c => c.id == id)?.name || "";
+          const name = getCharacter(id).name;
           return <CharacterIconElement id={id} name={name} key={id} />;
         })}
         {jinx.description}

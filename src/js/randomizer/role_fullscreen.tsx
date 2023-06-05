@@ -1,23 +1,17 @@
-import { useContext } from "react";
-import { CharacterContext } from "./character_context";
 import React from "react";
 import classnames from "classnames";
 import { CharacterIconElement, characterClass } from "../views";
+import { getCharacter } from "../botc/roles";
 
 export function FullscreenRole(props: {
   fsRole: string | null,
   setFsRole: (r: null) => void,
 }): JSX.Element {
-  const characters = useContext(CharacterContext);
   const id = props.fsRole;
   if (id == null) {
     return <div className="fullscreen hidden"></div>;
   }
-  const char = characters.find(c => c.id == id);
-  if (!char) {
-    console.error(`invalid character ${id} for fullscreen`);
-    return <div></div>;
-  }
+  const char = getCharacter(id);
 
   function handleClick() {
     props.setFsRole(null);

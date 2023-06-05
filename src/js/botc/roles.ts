@@ -156,3 +156,11 @@ function createRoleData(): Map<string, CharacterInfo> {
 }
 
 export const roles = createRoleData();
+
+export function getCharacter(id: string): CharacterInfo {
+  const c = roles.get(id);
+  if (!c) {
+    throw new Error(`unknown character ${id}`);
+  }
+  return c;
+}

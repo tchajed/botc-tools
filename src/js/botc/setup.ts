@@ -1,7 +1,7 @@
 /** Encode the rules for BotC setup. */
 
 import { CardInfo } from "../randomizer/characters";
-import { CharacterInfo, RoleType } from "./roles";
+import { CharacterInfo, RoleType, getCharacter } from "./roles";
 
 export interface Distribution {
   townsfolk: number,
@@ -232,15 +232,11 @@ export function modifiedDistribution(
   return uniqueDistributions(dists);
 }
 
-export function modifyingCharacters(
-  selection: Set<string>,
-  characters: CharacterInfo[],
-): CharacterInfo[] {
+export function modifyingCharacters(selection: Set<string>): CharacterInfo[] {
   var modified: CharacterInfo[] = [];
   selection.forEach(id => {
     if (id in SetupChanges) {
-      const c = characters.find(c => c.id == id);
-      if (c) { modified.push(c); }
+      modified.push(getCharacter(id));
     }
   })
   modified.sort((c1, c2) => c1.name.localeCompare(c2.name));
