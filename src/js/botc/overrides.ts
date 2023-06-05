@@ -61,6 +61,23 @@ const overrideList: { [key: string]: Override } = {
     otherNights: "Give a 'yes' or 'no' for if a Minion nominated today.",
   },
 
+  // new roles not in BotC online
+  "knight": {
+    ability: "You start knowing 2 players that are not the Demon.",
+    firstNight: "Point to the two players marked Know (one is the Demon).",
+  },
+  "steward": {
+    ability: "You start knowing 1 good player.",
+    firstNight: "Point to the player marked Know (who is good).",
+  },
+  "vizier": {
+    ability: "All players know who you are. You cannot die during the day. If good voted, you may choose to execute immediately.",
+    firstNight: "Announce which player is the Vizier.",
+  },
+  "organgrinder": {
+    ability: "All players keep their eyes closed when voting & the vote tally is secret. Votes for you only count if you vote.",
+  },
+
   // fabled do not have abilities in the botc online data
   "spiritofivory": {
     ability: "There can't be more than 1 extra evil player."
