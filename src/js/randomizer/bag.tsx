@@ -151,7 +151,7 @@ function BagHeader(props: {
 }
 
 export function charKey(character: BagCharacter): string {
-  return character.demonNum ? `${character.id}-${character.demonNum}` : character.id;
+  return character.demonNum !== undefined ? `${character.id}-${character.demonNum}` : character.id;
 }
 
 export function sortBag(bag: BagCharacter[], ranking: Ranking) {
