@@ -12,8 +12,12 @@ a:visited {
   }
 }
 
-table {
+body {
   max-width: 550px;
+}
+
+.roles-cell {
+  padding-left: 0.5rem;
 }
 
 .roles-cell,
@@ -24,18 +28,49 @@ table {
 }
 
 .btn {
-  border: 1px solid transparent;
-  padding: .375rem .75rem;
+  padding: .4rem 0.5rem;
   border-radius: 0.25rem;
   background-color: theme.$purple;
-  border-color: theme.$purple;
+}
 
-  a,
-  a:visited {
+a.btn-link,
+a.btn-link:visited {
+  display: block;
+
+  .btn {
+    color: white;
+
+    &:hover {
+      background-color: lighten(theme.$purple, 20);
+      border-color: lighten(theme.$purple, 20);
+    }
+  }
+
+  &:hover {
+    text-decoration: none;
     color: white;
   }
 }
 
-.svg-inline--fa {
-  margin-right: 0.5rem;
+footer {
+  margin-top: 3em;
+  font-size: 90%;
+  float: right;
+
+  .github-link {
+    color: white;
+    background-color: black;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+
+    &:hover {
+      background-color: lighten(black, 30);
+    }
+  }
+
+  a {
+    &:hover {
+      text-decoration: none;
+    }
+  }
 }

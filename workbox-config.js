@@ -3,7 +3,7 @@ module.exports = {
   globPatterns: [
     "**/*.{html,js,css,png,webp,svg,json,woff,woff2,ico,webmanifest}"
   ],
-  maximumFileSizeToCacheInBytes: 3000000,
+  maximumFileSizeToCacheInBytes: 5000000, // 5MB
   runtimeCaching: [{
     urlPattern: new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
     handler: 'CacheFirst',

@@ -22,24 +22,32 @@ function ScriptRow(props: { script: Script }): JSX.Element {
   return <tr>
     <td className="title-cell">
       <a href={`./roles.html#${id}`}>
-        <FontAwesomeIcon icon="list" />
         {title}
       </a>
     </td>
+    <td className="roles-cell">
+      <a className="btn-link" href={`./roles.html#${id}`}>
+        <div className="btn">
+          <FontAwesomeIcon icon="list" />&nbsp;
+          Roles
+        </div>
+      </a>
+    </td>
     <td className="nightsheet-cell">
-      <div className="btn">
-        <a href={`./nightsheet.html#${id}`}>
-          <FontAwesomeIcon icon="moon" />Night
-        </a>
-      </div>
+      <a className="btn-link" href={`./nightsheet.html#${id}`}>
+        <div className="btn">
+          <FontAwesomeIcon icon="moon" />&nbsp;
+          Night
+        </div>
+      </a>
     </td>
     <td className="randomizer-cell">
-      <div className="btn">
-        <a href={`./randomize.html#${id}`}>
-          <FontAwesomeIcon icon="dice" />
+      <a className="btn-link" href={`./randomize.html#${id}`}>
+        <div className="btn">
+          <FontAwesomeIcon icon="dice" />&nbsp;
           Assign
-        </a>
-      </div>
+        </div>
+      </a>
     </td>
   </tr>
 }
@@ -54,5 +62,13 @@ export function App(props: { scripts: Script[] }): JSX.Element {
     <ScriptTable scripts={baseThree} />
     <h2>Custom</h2>
     <ScriptTable scripts={custom} />
+    <footer>
+      <a href="https://github.com/tchajed/botc-tools" target="_blank">
+        <span className="github-link">
+          <FontAwesomeIcon icon={['fab', 'github']} />&nbsp;
+          GitHub source
+        </span>
+      </a>
+    </footer>
   </div>;
 }
