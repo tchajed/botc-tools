@@ -1,6 +1,5 @@
 /** Encode the rules for BotC setup. */
 
-import { Ranking } from "../randomizer/bag";
 import { CardInfo } from "../randomizer/characters";
 import { CharacterInfo, RoleType } from "./roles";
 
@@ -41,11 +40,24 @@ export function actualDistribution(characters: CharacterInfo[]): Distribution {
  * (Riot) for each nominal minion. */
 export function effectiveDistribution(numPlayers: number, characters: CharacterInfo[]): Distribution {
   var dist = zeroDistribution();
+  const targetDist = distributionForCount(numPlayers);
+  var isLegion = false;
   for (const c of characters) {
     if (c.id == "riot") {
-      dist.demon += distributionForCount(numPlayers).minion;
+      // all minions are riot
+      dist.demon += targetDist.minion;
     }
+    isLegion = isLegion || (c.id == "legion");
     dist[c.roleType]++;
+  }
+  if (isLegion) {
+    // all other players are legion
+    //
+    // the minion count is going to be wrong but avoid adding too many characters
+    var demonCount = numPlayers - dist.townsfolk - dist.outsider - dist.minion;
+    if (demonCount > 0) {
+      dist.demon = demonCount;
+    }
   }
   return dist;
 }
@@ -70,6 +82,7 @@ export type SetupModification =
   | { type: "huntsman" }
   // all minions are riot (requires duplicate characters in bag)
   | { type: "riot" }
+  | { type: "legion" }
 
   // Legion is complicated (need duplicates, non-deterministic).
   // Atheist is complicated (setup is arbitrary but all good).
@@ -90,6 +103,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   "godfather": { type: "godfather" },
   "huntsman": { type: "huntsman" },
   "riot": { type: "riot" },
+  "legion": { type: "legion" },
   "sentinel": { type: "sentinel" },
 };
 
@@ -158,6 +172,22 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       dist.demon += dist.minion;
       dist.minion = 0;
       return [dist];
+    }
+    case "legion": {
+      var dists: Distribution[] = [];
+      const numPlayers = old_dist.townsfolk + old_dist.outsider + old_dist.minion + old_dist.demon;
+      const oldGoodCount = old_dist.townsfolk + old_dist.outsider;
+      for (const demonCount of [oldGoodCount, oldGoodCount - 1]) {
+        const goodCount = numPlayers - demonCount;
+        dist.demon = demonCount;
+        dist.minion = 0;
+        for (var numTownsfolk = 1; numTownsfolk <= goodCount; numTownsfolk++) {
+          dists.push(
+            { demon: demonCount, minion: 0, townsfolk: numTownsfolk, outsider: goodCount - numTownsfolk }
+          );
+        }
+      }
+      return dists;
     }
   }
 }
@@ -245,23 +275,33 @@ export function roleTypesDefinitelyDone(targets: Distribution[], d: Distribution
   );
 }
 
+export type BagCharacter = CardInfo & { demonNum?: number };
+
 /** Divide the selection into characters in the bag and those "outside" (in play
  * but not distributed). */
 export function splitSelectedChars(
   characters: CharacterInfo[],
   selection: Set<string>,
   numPlayers: number): {
-    bag: (CardInfo & { riotNum?: number })[],
+    bag: BagCharacter[],
     outsideBag: CardInfo[],
   } {
   var selected = characters.filter(char => selection.has(char.id));
-  var bag: (CardInfo & { riotNum?: number })[] = selected.filter(c => goesInBag(c));
-  const numMinions = distributionForCount(numPlayers).minion;
+  var bag: BagCharacter[] = selected.filter(c => goesInBag(c));
+  const dist = distributionForCount(numPlayers);
   const riot = bag.find(c => c.id == "riot");
   if (riot) {
-    for (var i = 0; i < numMinions; i++) {
-      const thisRiot = { riotNum: i, ...riot };
+    for (var i = 0; i < dist.minion; i++) {
+      const thisRiot: BagCharacter = { demonNum: i, ...riot };
       bag.push(thisRiot);
+    }
+  }
+  const legion = bag.find(c => c.id == "legion");
+  if (legion) {
+    const numExtraLegion = dist.townsfolk + dist.outsider;
+    for (var i = 0; i < numExtraLegion && bag.length < numPlayers; i++) {
+      const thisLegion: BagCharacter = { demonNum: i, ...legion };
+      bag.push(thisLegion);
     }
   }
 

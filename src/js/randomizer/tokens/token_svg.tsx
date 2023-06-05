@@ -4,6 +4,7 @@ import { CardInfo } from '../characters';
 import { renderToString } from 'react-dom/server';
 import { Canvg } from 'canvg';
 import { charKey } from '../bag';
+import { BagCharacter } from '../../botc/setup';
 
 const LINE_MAX = [22, 32, 32, 35, 35];
 
@@ -32,7 +33,7 @@ function splitLines(ability: string): string[] {
   return lines.map(l => l.trimEnd());
 }
 
-export function TokenSvg(props: { character: CardInfo & { riotNum?: number }, x: number, y: number }): JSX.Element {
+export function TokenSvg(props: { character: BagCharacter, x: number, y: number }): JSX.Element {
   const { character } = props;
   const { name, ability } = character;
   // let startOffset = 285 - 70 / 13 * name.length;
@@ -103,11 +104,7 @@ function boundingRect(poss: { x: number, y: number }[]): { xmin: number, xmax: n
   };
 }
 
-interface TownsquareInfo {
-  bag: (CardInfo & { riotNum?: number })[];
-}
-
-export function Townsquare(props: TownsquareInfo): JSX.Element {
+export function Townsquare(props: { bag: BagCharacter[] }): JSX.Element {
   const { bag } = props;
 
   const n = bag.length;
@@ -157,7 +154,7 @@ async function svgToPng(svgText: string): Promise<string> {
   return dataURL;
 }
 
-export function TownsquareImage(props: TownsquareInfo): JSX.Element {
+export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
   const svgText = renderToString(<Townsquare {...props} />);
 
   // TODO: can't figure out the type argument here

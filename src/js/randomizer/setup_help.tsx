@@ -52,6 +52,9 @@ function ModificationExplanation(props: { mod: SetupModification }): JSX.Element
     case "sentinel": {
       return <span>(might be +1 or &#x2212;1 outsider)</span>
     }
+    case "legion": {
+      return <span>(Most players are <span className="evil">Legion</span>)</span>
+    }
   }
 }
 
@@ -64,6 +67,8 @@ export function SetupModifiers(props: {
   const modified = modifyingCharacters(selection, characters);
   const newDistributions = targetDistributions(numPlayers,
     modified, characters);
+  // TODO: don't show goal distributions as disjunction for Legion, show total
+  // good (current distribution can be shown using effectiveDistribution)
 
   const selected = characters.filter(c => selection.has(c.id));
   let actual = effectiveDistribution(numPlayers, selected);

@@ -1,7 +1,7 @@
 import React, { Dispatch, PropsWithChildren, useContext, } from "react";
 import { CharacterInfo } from "../botc/roles";
-import { splitSelectedChars } from "../botc/setup";
-import { CardInfo, CharacterCard, SelAction, Selection } from "./characters";
+import { BagCharacter, splitSelectedChars } from "../botc/setup";
+import { CharacterCard, SelAction, Selection } from "./characters";
 import { CharacterContext } from "./character_context";
 import { State } from "./state";
 import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
@@ -150,11 +150,11 @@ function BagHeader(props: {
   </div>
 }
 
-export function charKey(character: CardInfo & { riotNum?: number }): string {
-  return character.riotNum ? `${character.id}-${character.riotNum}` : character.id;
+export function charKey(character: BagCharacter): string {
+  return character.demonNum ? `${character.id}-${character.demonNum}` : character.id;
 }
 
-export function sortBag(bag: (CardInfo & { riotNum?: number })[], ranking: Ranking) {
+export function sortBag(bag: BagCharacter[], ranking: Ranking) {
   bag.sort((c1, c2) => ranking[charKey(c1)] - ranking[charKey(c2)]);
 }
 
