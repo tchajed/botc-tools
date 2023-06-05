@@ -1,22 +1,36 @@
 module.exports = {
   globDirectory: "dist",
   globPatterns: [
-    "**/*.{html,js,css,png,webp,svg,json,woff,woff2,ico,webmanifest}"
+    // core code
+    "**/*.{html,js,css}",
+    // images
+    "**/*.{png,webp,svg,ico}",
+    "**/*.{json,woff,woff2,webmanifest}",
   ],
   maximumFileSizeToCacheInBytes: 5000000, // 5MB
-  runtimeCaching: [{
-    urlPattern: new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
-    handler: 'CacheFirst',
-    options: {
-      cacheName: 'google-fonts',
-      cacheableResponse: {
-        statuses: [0, 200],
-      },
-      expiration: {
-        maxEntries: 30,
-      },
+  runtimeCaching: [
+    {
+      urlPattern: /^https:\/\/fonts\.googleapis\.com/,
+      handler: "StaleWhileRevalidate",
+      options: {
+        cacheName: "google-fonts",
+      }
     },
-  }],
+    {
+      urlPattern: /^https:\/\/fonts\.gstatic\.com/,
+      handler: "CacheFirst",
+      options: {
+        cacheName: "google-fonts",
+        cacheableResponse: {
+          statuses: [0, 200]
+        },
+        expiration: {
+          maxAgeSeconds: 60 * 60 * 24 * 365,
+          maxEntries: 30
+        }
+      }
+    }
+  ],
   swDest: "dist/service-worker.js",
   clientsClaim: false,
   skipWaiting: false,
