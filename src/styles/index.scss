@@ -1,6 +1,10 @@
 @use 'main';
 @use 'theme';
 
+body {
+  max-width: 550px;
+}
+
 $link-color: rgb(16, 93, 216);
 
 a,
@@ -12,8 +16,18 @@ a:visited {
   }
 }
 
-body {
-  max-width: 550px;
+p {
+  margin-bottom: 2rem;
+}
+
+.help {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  li:not(:last-child) {
+    padding-bottom: 1rem;
+  }
 }
 
 .roles-cell {
@@ -33,17 +47,17 @@ body {
   background-color: theme.$purple;
 }
 
-a.btn-link,
-a.btn-link:visited {
-  display: block;
-
+.btn-link,
+.btn-link:visited {
   .btn {
     color: white;
+  }
+}
 
-    &:hover {
-      background-color: lighten(theme.$purple, 20);
-      border-color: lighten(theme.$purple, 20);
-    }
+a.btn-link {
+  .btn:hover {
+    background-color: lighten(theme.$purple, 20);
+    border-color: lighten(theme.$purple, 20);
   }
 
   &:hover {

@@ -8,6 +8,34 @@ interface Script {
   title: string,
 }
 
+function HelpText(): JSX.Element {
+  return <>
+    <p>
+      <strong>Player tools:</strong>
+      <br /><br />
+      <div className="btn-link">
+        <span className="btn"><FontAwesomeIcon
+          icon="list" />&nbsp; Roles</span>
+        &nbsp;&nbsp; character sheet
+      </div>
+    </p>
+    <p>
+      <strong>Storyteller tools:</strong>
+      <br /><br />
+      <div className="btn-link">
+        <span className="btn"><FontAwesomeIcon
+          icon="moon" />&nbsp; Night</span>
+        &nbsp;&nbsp;night order</div>
+      < br />
+      <div className="btn-link">
+        <span className="btn"><FontAwesomeIcon
+          icon="moon" />&nbsp;Assign</span>
+        &nbsp;&nbsp;select and assign roles
+      </div>
+    </p>
+  </>
+}
+
 function ScriptTable(props: { scripts: Script[] }): JSX.Element {
   return <table>
     <tbody>
@@ -58,10 +86,30 @@ export function App(props: { scripts: Script[] }): JSX.Element {
   custom.sort((s1, s2) => s1.title.localeCompare(s2.title));
   return <div>
     <h1>BotC tools</h1>
+
     <h2>Base 3</h2>
     <ScriptTable scripts={baseThree} />
     <h2>Custom</h2>
     <ScriptTable scripts={custom} />
+
+    <br /><br />
+    <ul className="help">
+      <li>
+        <span className="btn-link">
+          <span className="btn"><FontAwesomeIcon
+            icon="list" />&nbsp; Roles</span></span>
+        &nbsp; is a character sheet
+      </li>
+      <li><span className="btn-link"> <span className="btn"><FontAwesomeIcon
+        icon="moon" />&nbsp; Night</span></span> &nbsp; is the night order
+      </li>
+      <li><span className="btn-link"> <span className="btn"><FontAwesomeIcon
+        icon="dice" />&nbsp; Assign</span></span> &nbsp; helps the Storyteller
+        select & assign roles
+      </li>
+    </ul>
+    <p>These tools are meant to support in-person games.</p>
+
     <footer>
       <a href="https://github.com/tchajed/botc-tools" target="_blank">
         <span className="github-link">
