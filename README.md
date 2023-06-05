@@ -15,15 +15,9 @@ that uses the new icons. Planned is to implement a two-column layout. On mobile 
 
 ## Role assignment features
 
-- After setting the number of players, gives feedback on the correct outsider /
-  minion distribution.
-- Understands roles that modify setup, including Drunk, Godfather, and even Riot.
-- After selecting roles, click on them (one by one) to make them full screen for
-  showing each player their character.
-- Can be installed as a mobile app, which works offline and without the browser
-  UI. On iOS, open in Safari and click on share icon > Add to home screen.
-- Supports offline operation. After first load, the app should continue to work
-  offline.
+The highlights are that the tool helps you pick characters and distribute them
+to players, and it all works offline. See this [detailed list of
+features](FEATURES.md) for more, as well as some screenshots.
 
 ## Setting up
 
