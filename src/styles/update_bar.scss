@@ -1,0 +1,10 @@
+#update {
+  &.disabled {
+    display: none;
+  }
+
+  background-color: lightgreen;
+  color: black;
+  line-height: 2rem;
+  margin-bottom: 1rem;
+}

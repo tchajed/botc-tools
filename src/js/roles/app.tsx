@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
 import { CharacterIconElement, characterClass } from "../views";
@@ -57,6 +57,10 @@ function CharacterList(props: { characters: CharacterInfo[] }): JSX.Element {
 }
 
 export function App({ script }: { script: Script }): JSX.Element {
+  useEffect(() => {
+    window['reloadSafe'] = true;
+  }, []);
+
   return <div>
     <Nav scriptId={script.id} />
     <div className="main">

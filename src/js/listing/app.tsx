@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../icons';
@@ -6,6 +6,17 @@ import '../icons';
 interface Script {
   id: string,
   title: string,
+}
+
+function UpdateBar(): JSX.Element {
+  // Set disabled class to hide the bar.
+  //
+  // Need to hook up to service worker events, and offer a refresh button.
+  return <div id="update">
+    <div className="main">
+      A new version is available. Close all tabs to restart.
+    </div>
+  </div>
 }
 
 function HelpText(): JSX.Element {
@@ -83,6 +94,11 @@ export function App(props: { scripts: Script[] }): JSX.Element {
   const baseThree = props.scripts.filter(s => ["178", "180", "181"].includes(s.id));
   const custom = props.scripts.filter(s => !["178", "180", "181"].includes(s.id));
   custom.sort((s1, s2) => s1.title.localeCompare(s2.title));
+
+  useEffect(() => {
+    window['reloadSafe'] = true;
+  }, []);
+
   return <div>
     <div className="main">
       <h1>BotC tools</h1>
