@@ -6,7 +6,7 @@ import { downloadCharacterData } from './character_json';
 import { ScriptData, getScript } from './get_script';
 import path from 'path';
 
-const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435";
+const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435,811";
 
 async function downloadImages(imgDir: string) {
   console.log("fetching list of icons");
