@@ -1,6 +1,5 @@
 # downloaded by fetch-assets
 /img/
 /data/
-/static/scripts/
-/*.json
-/*.gz
+/static/
+*.json

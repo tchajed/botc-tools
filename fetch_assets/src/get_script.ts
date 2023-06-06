@@ -5,6 +5,7 @@ export interface ScriptData {
   pk: number,
   title: string;
   author: string;
+  score: number,
   characters: string[];
 }
 
@@ -12,12 +13,12 @@ const apiBase = "https://botc-scripts.azurewebsites.net/api";
 
 type ContentRow = { id: string } | { id: "_meta", name: string, author: string }
 
-interface ScriptInstanceResp {
+export interface ScriptInstanceResp {
   pk: number,
   name: string,
   version: string, // unused
   author: string,
-  score: number, // unused
+  score: number,
   content: ContentRow[],
 }
 
@@ -35,13 +36,7 @@ function metaFromContents(content: ContentRow[]): { name: string, author: string
 }
 
 function idsFromContents(content: ContentRow[]): string[] {
-  var ids: string[] = [];
-  for (const c of content) {
-    if (c.id != "_meta") {
-      ids.push(c.id);
-    }
-  }
-  return ids;
+  return content.map(c => c.id).filter(id => id != "_meta");
 }
 
 async function getScriptResp(id: string): Promise<ScriptInstanceResp | ScriptJsonResp | null> {
@@ -66,6 +61,19 @@ async function getScriptResp(id: string): Promise<ScriptInstanceResp | ScriptJso
   return data;
 }
 
+export function parseScriptInstance(data: ScriptInstanceResp): ScriptData {
+  // I haven't seen this required but maybe sometimes the root metadata is
+  // missing.
+  let meta = metaFromContents(data.content) || { name: "", author: "" };
+  return {
+    pk: data.pk,
+    title: data.name || meta.name,
+    author: data.author || meta.author,
+    characters: idsFromContents(data.content),
+    score: data.score,
+  }
+}
+
 export async function getScript(id: string): Promise<ScriptData | null> {
   let data = await getScriptResp(id);
   if (data == null) {
@@ -83,15 +91,8 @@ export async function getScript(id: string): Promise<ScriptData | null> {
       title: meta.name,
       author: meta.author,
       characters: idsFromContents(contents),
+      score: 0,
     };
   }
-  // I haven't seen this required but maybe sometimes the root metadata is
-  // missing.
-  let meta = metaFromContents(data.content) || { name: "", author: "" };
-  return {
-    pk: data.pk,
-    title: data.name || meta.name,
-    author: data.author || meta.author,
-    characters: idsFromContents(data.content),
-  }
+  return parseScriptInstance(data);
 }

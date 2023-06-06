@@ -81,10 +81,11 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
   makeIndex(scriptsDir, `${assetsDir}/scripts.json`);
 }
 
-async function downloadAllScripts(assetsDir: string) {
+async function downloadAllScripts(staticDir: string) {
+  fs.mkdirSync(staticDir, { recursive: true });
   const allScripts = await fetchAllScripts();
   const compressed = await gzip(JSON.stringify(allScripts), { level: 9 });
-  fs.promises.writeFile(`${assetsDir}/all-scripts.json.gz`, compressed);
+  fs.promises.writeFile(`${staticDir}/scripts.json.gz`, compressed);
 }
 
 async function cleanAssets(assetsDir: string) {
@@ -103,7 +104,6 @@ async function cleanAssets(assetsDir: string) {
     removeIfPresent(staticDir, { recursive: true }),
     removeIfPresent(imgDir, { recursive: true }),
     removeIfPresent(`${assetsDir}/scripts.json`),
-    removeIfPresent(`${assetsDir}/all-scripts.json.gz`),
   ]);
 }
 
@@ -135,6 +135,7 @@ async function main() {
   const assetsDir = options.out;
   const dataDir = `${assetsDir}/data`;
   const imgDir = `${assetsDir}/img`;
+  const staticDir = `${assetsDir}/static`;
   const scriptsDir = `${assetsDir}/static/scripts`;
 
   if (options.clean) {
@@ -157,7 +158,7 @@ async function main() {
   }
 
   if (options.allScripts) {
-    await downloadAllScripts(assetsDir);
+    await downloadAllScripts(staticDir);
   }
 }
 
