@@ -73,7 +73,10 @@ function CharacterList(props: { orders: NightOrders, firstNight: boolean }): JSX
   </table>
 }
 
-function Jinxes({ script }: { script: Script }): JSX.Element {
+export function Jinxes({ script }: { script: Script }): JSX.Element {
+  if (script.jinxes.length == 0) {
+    return <></>
+  }
   return <div className="jinxes details">
     {script.jinxes.map(jinx => {
       return <div className="jinx" key={`${jinx.character1}-${jinx.character2}`}>

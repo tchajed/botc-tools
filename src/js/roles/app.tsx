@@ -3,6 +3,7 @@ import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
 import { CharacterIconElement, characterClass } from "../views";
 import { Nav } from "../randomizer/nav";
+import { Jinxes } from "../nightsheet/app";
 
 
 function Ability(props: { ability: string | null }): JSX.Element {
@@ -66,6 +67,7 @@ export function App({ script }: { script: Script }): JSX.Element {
     <div className="main">
       <h1>{script.title}</h1>
       <CharacterList characters={script.characters} />
+      <Jinxes script={script} />
     </div>
   </div>
 }
