@@ -1,4 +1,4 @@
-import images from '../../assets/img/*.webp';
+import images from '../../assets/icons/*.webp';
 import React from "react";
 
 export function iconPath(id: string): string {
