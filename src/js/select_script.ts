@@ -6,8 +6,7 @@ function selectedScriptId(): string {
     const id = window.location.hash.substring(1);
     return id;
   }
-  const params = new URLSearchParams(window.location.pathname);
-  console.log(params);
+  const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
   if (id) {
     return id;

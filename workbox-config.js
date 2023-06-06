@@ -8,6 +8,7 @@ module.exports = {
     "**/*.{json,woff,woff2,webmanifest}",
   ],
   maximumFileSizeToCacheInBytes: 5000000, // 5MB
+  ignoreURLParametersMatching: [/^id$/, /^utm_/],
   runtimeCaching: [
     {
       urlPattern: /^https:\/\/fonts\.googleapis\.com/,
