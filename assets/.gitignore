@@ -1,5 +1,4 @@
 # downloaded by fetch-assets
-/img/
-/data/
-/static/
-*.json
+!.gitignore
+!globals.d.ts
+*

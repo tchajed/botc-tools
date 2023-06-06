@@ -34,7 +34,8 @@ jobs:
         with:
           path: |
             assets/img
-            assets/static/scripts
+            assets/icons
+            assets/static
             assets/data
           key: assets-${{ hashFiles('assets/**') }}
           restore-keys: assets-
