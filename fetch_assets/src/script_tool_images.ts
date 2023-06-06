@@ -56,7 +56,7 @@ async function downloadRole(r: Role): Promise<ArrayBuffer> {
 
 function roleIconFile(r: Role): string {
   const name = r.id;
-  const id = name.toLowerCase().replaceAll(/[' ]/g, "");
+  const id = name.toLowerCase().replaceAll(/['\- ]/g, "");
   return `Icon_${id}.webp`;
 }
 
