@@ -82,15 +82,16 @@ export function Townsquare(props: { bag: BagCharacter[] }): JSX.Element {
   </svg>
 }
 
-async function svgToPng(svgText: string): Promise<string> {
+async function svgToPng(svgText: string): Promise<{ blob: Blob | null, dataURL: string }> {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext('2d');
   const v = Canvg.fromString(ctx, svgText);
   v.start();
   await v.ready();
+  const blob = await new Promise<Blob | null>(r => canvas.toBlob(r));
   const dataURL = canvas.toDataURL("image/png");
   v.stop();
-  return dataURL;
+  return { blob, dataURL };
 }
 
 export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
@@ -98,15 +99,30 @@ export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
 
   const img: React.MutableRefObject<HTMLImageElement | null> = useRef(null);
 
+  function copyImageToClipboard(blob: Blob) {
+    // not supported by Firefox
+    if ('ClipboardItem' in window) {
+      const data = [new ClipboardItem({ [blob.type]: blob })];
+      window.navigator.clipboard.write(data).then(() => {
+        // TODO: would be nice to have a toast here
+      }, (err) => {
+        console.warn(`could not copy to clipboard: ${err}`);
+      });
+    }
+  }
+
   // This component returns an empty <img> and then asynchronously runs svgToPng
   // to convert it to PNG data (this uses a hidden canvas which isn't relevant
   // to React). Here we take the result of that conversion when it's complete
   // and attach it to the empty image. In order to make this work we need a ref
   // so that this effect can reference the generated HTML element directly.
   useEffect(() => {
-    svgToPng(svgText).then((pngData) => {
+    svgToPng(svgText).then(({ blob, dataURL }) => {
       if (img.current) {
-        img.current.src = pngData;
+        img.current.src = dataURL;
+        if (blob) {
+          img.current.onclick = () => copyImageToClipboard(blob);
+        }
       }
     });
   }, [svgText]);
