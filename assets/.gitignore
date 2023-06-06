@@ -3,3 +3,4 @@
 /data/
 /static/scripts/
 /*.json
+/*.gz

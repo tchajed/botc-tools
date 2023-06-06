@@ -1,5 +1,4 @@
 import axios from 'axios';
-import fs from 'fs';
 import cliProgress from 'cli-progress';
 
 interface Resp {
@@ -11,7 +10,7 @@ interface Resp {
 // give up after this
 const MAX_PAGES = 300;
 
-async function fetchAll(): Promise<any[]> {
+export async function fetchAllScripts(): Promise<any[]> {
   var results: any[] = [];
   const bar = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
   for (var page = 1; page < MAX_PAGES; page++) {
@@ -38,10 +37,3 @@ async function fetchAll(): Promise<any[]> {
   }
   return results;
 }
-
-async function main() {
-  let results = await fetchAll();
-  await fs.promises.writeFile("assets/all-scripts.json", JSON.stringify(results));
-}
-
-main();

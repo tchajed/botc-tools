@@ -1,10 +1,12 @@
 import fs from 'fs';
-import { Command } from 'commander';
+import { Command, Option } from 'commander';
 import cliProgress from 'cli-progress';
 import { allIcons, downloadIcons, findNotDownloaded, saveIcons } from './images';
 import { downloadCharacterData } from './character_json';
 import { ScriptData, getScript } from './get_script';
 import path from 'path';
+import { fetchAllScripts } from './all_scripts';
+import { gzip } from 'node-gzip';
 
 const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435,811";
 
@@ -79,6 +81,12 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
   makeIndex(scriptsDir, `${assetsDir}/scripts.json`);
 }
 
+async function downloadAllScripts(assetsDir: string) {
+  const allScripts = await fetchAllScripts();
+  const compressed = await gzip(JSON.stringify(allScripts), { level: 9 });
+  fs.promises.writeFile(`${assetsDir}/all-scripts.json.gz`, compressed);
+}
+
 async function cleanAssets(assetsDir: string) {
   async function removeIfPresent(path: string, options?: fs.RmOptions) {
     if (fs.existsSync(path)) {
@@ -95,27 +103,30 @@ async function cleanAssets(assetsDir: string) {
     removeIfPresent(staticDir, { recursive: true }),
     removeIfPresent(imgDir, { recursive: true }),
     removeIfPresent(`${assetsDir}/scripts.json`),
+    removeIfPresent(`${assetsDir}/all-scripts.json.gz`),
   ]);
 }
 
 async function main() {
   const program = new Command();
 
-  program.version("0.2.0")
+  program.version("0.3.0")
     .description("Download assets for BotC sheets")
-    .option("--all", "Download all assets (shorthand for --json --img --scripts favorites)")
+    .addOption(new Option(
+      "--all", "Download all assets (shorthand for --json --img --scripts favorites)",
+    ).implies({ json: true, img: true, scripts: 'favorites' }))
     .option("--clean", "Delete any existing assets")
     .option("--json", "Download JSON game data")
     .option("--img", "Download images")
     .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
-    .option("-o, --out <assets dir>", "Path to assets directory", "./assets")
-    .parse(process.argv);
+    .option("--all-scripts", "Download all scripts in database")
+    .option("-o, --out <assets dir>", "Path to assets directory", "./assets");
+  program.parse();
 
   const options = program.opts();
 
-  if (options.all ||
-    // if nothing is selected, fetch everything by default
-    !(options.json || options.img || options.scripts !== undefined)) {
+  if (// if nothing is selected, fetch everything by default
+    !(options.json || options.img || options.scripts !== undefined || options.allScripts)) {
     options.json = true;
     options.img = true;
     options.scripts = "favorites";
@@ -143,6 +154,10 @@ async function main() {
 
   if (options.scripts !== undefined) {
     await downloadScripts(options.scripts, scriptsDir, assetsDir);
+  }
+
+  if (options.allScripts) {
+    await downloadAllScripts(assetsDir);
   }
 }
 
