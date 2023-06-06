@@ -11,12 +11,11 @@ import '../icons';
 
 export type Ranking = { [key: string]: number };
 
+// from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
 function shuffleArray<T>(array: T[]) {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
 }
 
@@ -25,6 +24,10 @@ export function randomRanking(characters: CharacterInfo[]): Ranking {
   for (var i = 0; i < 3; i++) {
     // assign copies of riot different rankings
     randomOrder.push(`riot-${i}`);
+  }
+  for (var i = 0; i < 12; i++) {
+    // assign copies of legion different rankings
+    randomOrder.push(`legion-${i}`);
   }
   shuffleArray(randomOrder);
   var r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
