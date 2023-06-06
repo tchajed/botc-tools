@@ -42,6 +42,7 @@ async function downloadScriptToolIcons(dataDir: string, iconsDir: string) {
     console.log("no icons to download");
     return;
   }
+  console.log(`downloading ${roles.length} icons`);
   const bar = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
   bar.start(roles.length, 0);
   await downloadRoles(roles, iconsDir, (n) => { bar.increment(n); });
@@ -102,6 +103,7 @@ async function downloadAllScripts(staticDir: string) {
     console.log("already have scripts.json.gz");
     return;
   }
+  console.log("downloading all scripts");
   const allScripts = await fetchAllScripts();
   const compressed = await gzip(JSON.stringify(allScripts), { level: 9 });
   fs.promises.writeFile(path, compressed);
