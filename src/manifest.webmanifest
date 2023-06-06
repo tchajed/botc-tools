@@ -11,14 +11,14 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "../icons/favicon.ico?width=512&height=512",
-      "sizes": "512x512",
+      "src": "../icons/favicon.ico",
+      "sizes": "256x256",
       "type": "image/webp",
       "purpose": "any"
     },
     {
       "src": "../icons/favicon.ico?as=png",
-      "sizes": "512x512",
+      "sizes": "256x256",
       "type": "image/png",
       "purpose": "maskable"
     }
