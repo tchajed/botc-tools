@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../icons';
+import { pageUrl } from '../routing';
 
 interface Script {
   id: string,
@@ -50,12 +51,12 @@ function ScriptRow(props: { script: Script }): JSX.Element {
   const { id, title } = props.script;
   return <tr>
     <td className="title-cell">
-      <a href={`./roles.html#${id}`}>
+      <a href={pageUrl("roles", id)}>
         {title}
       </a>
     </td>
     <td className="roles-cell">
-      <a className="btn-link" href={`./roles.html#${id}`}>
+      <a className="btn-link" href={pageUrl("roles", id)}>
         <div className="btn">
           <FontAwesomeIcon icon="list" />&nbsp;
           Roles
@@ -63,7 +64,7 @@ function ScriptRow(props: { script: Script }): JSX.Element {
       </a>
     </td>
     <td className="nightsheet-cell">
-      <a className="btn-link" href={`./nightsheet.html#${id}`}>
+      <a className="btn-link" href={pageUrl("nightsheet", id)}>
         <div className="btn">
           <FontAwesomeIcon icon="moon" />&nbsp;
           Night
@@ -71,7 +72,7 @@ function ScriptRow(props: { script: Script }): JSX.Element {
       </a>
     </td>
     <td className="randomizer-cell">
-      <a className="btn-link" href={`./randomize.html#${id}`}>
+      <a className="btn-link" href={pageUrl("randomize", id)}>
         <div className="btn">
           <FontAwesomeIcon icon="dice" />&nbsp;
           Assign

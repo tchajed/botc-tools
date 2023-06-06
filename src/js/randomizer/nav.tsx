@@ -2,6 +2,7 @@ import classnames from "classnames";
 import React, { PropsWithChildren } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../icons';
+import { Page, pageUrl } from "../routing";
 
 function filename(path: string): string {
   var filename = path;
@@ -16,9 +17,9 @@ function filename(path: string): string {
   return filename;
 }
 
-function PageLink(props: PropsWithChildren<{ currentPage: string, id: number, page: string }>): JSX.Element {
+function PageLink(props: PropsWithChildren<{ currentPage: string, id: number, page: Page }>): JSX.Element {
   const { currentPage, id, page } = props;
-  return <a className={classnames("nav-item", { current: currentPage == page + ".html" })} href={`./${page}.html#${id}`}>
+  return <a className={classnames("nav-item", { current: currentPage == page + ".html" })} href={pageUrl(page, id.toString())}>
     {props.children}
   </a>
 }

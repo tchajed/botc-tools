@@ -6,7 +6,14 @@ function selectedScriptId(): string {
     const id = window.location.hash.substring(1);
     return id;
   }
-  return "19";
+  const params = new URLSearchParams(window.location.pathname);
+  console.log(params);
+  const id = params.get('id');
+  if (id) {
+    return id;
+  }
+  // default to Trouble Brewing
+  return "178";
 }
 
 export async function selectedScript(): Promise<ScriptData> {
