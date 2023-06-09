@@ -5,11 +5,12 @@ import '../icons';
 import { pageUrl } from '../routing';
 import { ScriptData, getCharacterList, isTeensyville, onlyBaseThree } from '../botc/script';
 import { queryMatches, searchNormalize } from './search';
-import { CharacterInfo, nameToId } from '../botc/roles';
+import { nameToId } from '../botc/roles';
 import { State, initStorage, latestScript } from '../randomizer/state';
 
 const BaseThree = [178, 180, 181];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function UpdateBar(): JSX.Element {
   // Set disabled class to hide the bar.
   //
@@ -94,6 +95,8 @@ function ScriptRow(props: { script: ScriptData }): JSX.Element {
   </tr>
 }
 
+// the old table format (with buttons for each page)
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function ScriptTable(props: { scripts: ScriptData[] }): JSX.Element {
   return <table>
     <tbody>
@@ -163,7 +166,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
     }
   }, [query]);
 
-  function queryChange(v: React.ChangeEvent<any>) {
+  function queryChange(v: React.ChangeEvent<HTMLInputElement>) {
     const newQuery = v.target.value;
     setQuery(newQuery);
     window.location.hash = searchNormalize(newQuery);

@@ -16,7 +16,7 @@ if ('serviceWorker' in navigator) {
   // It's the simple version. The complicated version is at
   // https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68.
 
-  const showSkipWaitingPrompt = async (event) => {
+  const showSkipWaitingPrompt = async () => {
     console.log(`A new version of the app is available and ` + `will be installed when all tabs are closed.`);
 
     // Assuming the user accepted the update, set up a listener
@@ -48,8 +48,8 @@ if ('serviceWorker' in navigator) {
     }
   };
 
-  wb.addEventListener('waiting', event => {
-    showSkipWaitingPrompt(event);
+  wb.addEventListener('waiting', () => {
+    showSkipWaitingPrompt();
   });
 
   wb.register();

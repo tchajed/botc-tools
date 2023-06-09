@@ -178,10 +178,6 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
   }
 }
 
-function clampNum(num: number, min: number, max: number): number {
-  return Math.min(Math.max(num, min), max);
-}
-
 function clampedValid(dist: Distribution, characters: CharacterInfo[]): boolean {
   var totalDist = actualDistribution(characters);
   // allow arbitrary number of demons for clamping purposes (for Riot, Legion)

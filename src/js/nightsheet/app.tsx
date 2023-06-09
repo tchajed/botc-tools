@@ -31,7 +31,7 @@ function Details(props: { details: string }): JSX.Element {
   details = details.replace(/If [^.]*:/g, '\n$&\n');
   details = details.trim();
   details = details.replace(/\n/g, "<br/>");
-  details = details.replace(/\<tab\>/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+  details = details.replace(/<tab>/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
   for (const tokenName of tokenNames) {
     details = details.replace(tokenName, `<strong>${tokenName}</strong>`);
     var altTokenName = tokenName.charAt(0).toUpperCase() + tokenName.substring(1).toLowerCase();

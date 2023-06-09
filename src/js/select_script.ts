@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ScriptData } from "./botc/script";
 import { getScripts } from "./get_scripts";
 
