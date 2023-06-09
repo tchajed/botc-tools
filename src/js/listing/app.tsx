@@ -5,6 +5,7 @@ import '../icons';
 import { pageUrl } from '../routing';
 import { ScriptData, getCharacterList, isTeensyville, onlyBaseThree } from '../botc/script';
 import { queryMatches, searchNormalize } from './search';
+import { nameToId } from '../botc/roles';
 
 const BaseThree = [178, 180, 181];
 
@@ -51,7 +52,9 @@ function ScriptTable(props: { scripts: ScriptData[] }): JSX.Element {
 
 function ScriptRow(props: { script: ScriptData }): JSX.Element {
   const { pk, title } = props.script;
-  const chars = getCharacterList(props.script.characters);
+  // TODO: normalizing these ids is an ugly hack, we should standardize on
+  // script tool IDs
+  const chars = getCharacterList(props.script.characters.map(id => nameToId(id)));
   let id = (pk || 0).toString();
   return <tr>
     <td className="title-cell">
