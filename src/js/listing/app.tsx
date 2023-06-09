@@ -92,6 +92,7 @@ function GitHubLink(): JSX.Element {
 
 export function App(props: { scripts: ScriptData[] }): JSX.Element {
   const baseThree = props.scripts.filter(s => [178, 180, 181].includes(s.pk));
+  baseThree.sort((s1, s2) => s1.pk - s2.pk);
   const custom = props.scripts.filter(s => ![178, 180, 181].includes(s.pk));
 
   function removePrefix(s: string, prefix: string): string {
