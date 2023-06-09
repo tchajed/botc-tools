@@ -65,8 +65,9 @@ export function effectiveDistribution(numPlayers: number, characters: CharacterI
 export type SetupModification =
   {
     // eg, Baron (+2), Fang Gu (+1), Vigormortis (-1)
+    // godfather and sentinel have multiple options
     type: "outsider_count",
-    delta: number,
+    delta: number[],
   }
   // +1 townsfolk and does not go in bag (these are identical but it's easier to
   // separate them)
@@ -74,21 +75,18 @@ export type SetupModification =
   | { type: "marionette", notInBag: true }
   // +1 minion and does not go in bag
   | { type: "lilmonsta", notInBag: true }
-  // +1 or -1 outsider (non-deterministic)
-  | { type: "godfather" }
-  // +1, -1, or unchanged outsiders
-  | { type: "sentinel" }
   // +damsel (allows/might require adding an outsider)
   | { type: "huntsman" }
   // all minions are riot (requires duplicate characters in bag)
   | { type: "riot" }
+  // most players are legion (choice of number of evil, and requires duplicate
+  // characters in bag)
   | { type: "legion" }
 
-  // Legion is complicated (need duplicates, non-deterministic).
   // Atheist is complicated (setup is arbitrary but all good).
   ;
 
-function outsiders(delta: number): SetupModification {
+function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
 }
 
@@ -100,11 +98,11 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   "drunk": { type: "drunk", notInBag: true },
   "lilmonsta": { type: "lilmonsta", notInBag: true },
   "marionette": { type: "marionette", notInBag: true },
-  "godfather": { type: "godfather" },
+  "godfather": outsiders(+1, -1),
+  "sentinel": outsiders(+1, 0, -1),
   "huntsman": { type: "huntsman" },
   "riot": { type: "riot" },
   "legion": { type: "legion" },
-  "sentinel": { type: "sentinel" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -125,9 +123,12 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
   var dist: Distribution = { ...old_dist };
   switch (mod.type) {
     case "outsider_count": {
-      dist.townsfolk -= mod.delta;
-      dist.outsider += mod.delta;
-      return [dist];
+      return mod.delta.map(delta => {
+        var newDist = { ...old_dist };
+        newDist.townsfolk -= delta;
+        newDist.outsider += delta;
+        return newDist;
+      });
     }
     // these are actually handled the same way
     case "drunk":
@@ -138,22 +139,6 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
     case "lilmonsta": {
       dist.minion++;
       return [dist];
-    }
-    case "godfather": {
-      dist.townsfolk--;
-      dist.outsider++;
-      var otherDist = { ...old_dist };
-      otherDist.townsfolk++;
-      otherDist.outsider--;
-      return [dist, otherDist];
-    }
-    case "sentinel": {
-      dist.townsfolk--;
-      dist.outsider++;
-      var otherDist = { ...old_dist };
-      otherDist.townsfolk++;
-      otherDist.outsider--;
-      return [dist, { ...old_dist }, otherDist];
     }
     case "huntsman": {
       if (dist.outsider == 0) {
