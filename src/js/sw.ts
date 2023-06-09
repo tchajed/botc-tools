@@ -17,6 +17,8 @@ if ('serviceWorker' in navigator) {
   // https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68.
 
   const showSkipWaitingPrompt = async (event) => {
+    console.log(`A new version of the app is available and ` + `will be installed when all tabs are closed.`);
+
     // Assuming the user accepted the update, set up a listener
     // that will reload the page as soon as the previously waiting
     // service worker has taken control.
@@ -47,12 +49,12 @@ if ('serviceWorker' in navigator) {
   };
 
   wb.addEventListener('waiting', event => {
-    console.log(`A new version of the app is available and ` + `will be installed when all tabs are closed.`);
+    showSkipWaitingPrompt(event);
   });
 
   wb.register();
 
   setInterval(() => {
     wb.update();
-  }, 60 /* min */ * 60 * 1000);
+  }, 20 /* min */ * 60 * 1000);
 }
