@@ -34,12 +34,16 @@ td.details-cell {
   padding: 0 8px;
 }
 
-tr.good td.details-cell:not(.empty) {
-  border-left: 2.5px solid theme.$good;
+td.details-cell:not(.empty) {
+  border-left: 2.5px solid;
 }
 
-tr.evil td.details-cell:not(.empty) {
-  border-left: 2.5px solid theme.$evil;
+tr.good td.details-cell {
+  border-color: theme.$good;
+}
+
+tr.evil td.details-cell {
+  border-color: theme.$evil;
 }
 
 .jinxes {
