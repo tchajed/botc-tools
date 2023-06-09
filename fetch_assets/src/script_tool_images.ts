@@ -12,24 +12,24 @@ const BASE_URL = "https://script.bloodontheclocktower.com";
 
 /** Make an icon square by adding padding.
  *
- * TODO: make this smarter by first truncating any extra fully-transparent
- * margin and only then padding to square. Currently most icons end up with a
- * border all the way around, but there are landscape icons (eg, for fabled)
- * that need exactly this treatment.
+ * This is done in two steps: first we remove any existing border and only then
+ * do we fit it into a 177x177 square.
+ *
  */
 async function makeSquare(data: ArrayBuffer): Promise<sharp.Sharp> {
   let img = sharp(data);
-  const meta = await img.metadata();
-  if (meta.width > meta.height) {
-    const extra = (meta.width - meta.height) / 2;
-    img = img.extend({
-      top: Math.floor(extra),
-      bottom: Math.ceil(extra),
-      left: 0,
-      right: 0,
-      background: { r: 0, g: 0, b: 0, alpha: 0 },
-    })
-  }
+  // remove existing border
+  img = img.trim();
+  // contain puts the image into exactly these dimensions, filling with a
+  // background image
+  img = img.resize({
+    width: 177,
+    height: 177,
+    fit: 'contain',
+    position: 'centre',
+    // fill with transparent background
+    background: { r: 0, g: 0, b: 0, alpha: 0 },
+  })
   return img;
 }
 
