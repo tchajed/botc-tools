@@ -153,7 +153,7 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       var otherDist = { ...old_dist };
       otherDist.townsfolk++;
       otherDist.outsider--;
-      return [dist, otherDist, { ...old_dist }];
+      return [dist, { ...old_dist }, otherDist];
     }
     case "huntsman": {
       if (dist.outsider == 0) {
@@ -197,13 +197,13 @@ function clampNum(num: number, min: number, max: number): number {
   return Math.min(Math.max(num, min), max);
 }
 
-function clampDistribution(dist: Distribution, characters: CharacterInfo[]) {
+function clampedValid(dist: Distribution, characters: CharacterInfo[]): boolean {
   var totalDist = actualDistribution(characters);
   // allow arbitrary number of demons for clamping purposes (for Riot, Legion)
   totalDist.demon = 15;
-  for (const roleType of Object.keys(dist)) {
-    dist[roleType] = clampNum(dist[roleType], 0, totalDist[roleType]);
-  }
+  return Object.keys(dist).every(roleType => {
+    return 0 <= dist[roleType] && dist[roleType] <= totalDist[roleType];
+  });
 }
 
 export function uniqueDistributions(dists: Distribution[]): Distribution[] {
@@ -218,15 +218,6 @@ export function uniqueDistributions(dists: Distribution[]): Distribution[] {
   return uniqueDists;
 }
 
-function distNumPlayers(dist: Distribution): number {
-  return dist.townsfolk + dist.outsider + dist.minion + dist.demon;
-}
-
-function sameNumPlayers(dist: Distribution, dists: Distribution[]): Distribution[] {
-  const numPlayers = distNumPlayers(dist);
-  return dists.filter(d => distNumPlayers(d) == numPlayers);
-}
-
 export function modifiedDistribution(
   dist: Distribution,
   mods: SetupModification[],
@@ -236,14 +227,8 @@ export function modifiedDistribution(
   for (const mod of mods) {
     dists = dists.flatMap(dist => applyModification(dist, mod));
   }
-  for (var dist of dists) {
-    clampDistribution(dist, characters);
-  }
-  // only take distributions that end up with the right number of players
-  // (useful after clamping)
-  dists = sameNumPlayers(dist, dists);
-  dists = uniqueDistributions(dists);
-  return dists;
+  dists = dists.filter(d => clampedValid(d, characters));
+  return uniqueDistributions(dists);
 }
 
 export function modifyingCharacters(selection: Set<string>): CharacterInfo[] {
