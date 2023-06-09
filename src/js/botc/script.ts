@@ -58,7 +58,9 @@ export function isTeensyville(characters: CharacterInfo[]): boolean {
 }
 
 export function onlyBaseThree(characters: CharacterInfo[]): boolean {
-  return characters.every(c => c.edition != "other" || c.roleType == "travellers");
+  return characters.every(c =>
+    c.edition != "other" || c.roleType == "travellers" || c.roleType == "fabled"
+  );
 }
 
 export class Script {
