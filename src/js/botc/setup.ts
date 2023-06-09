@@ -144,7 +144,7 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       dist.outsider++;
       var otherDist = { ...old_dist };
       otherDist.townsfolk++;
-      otherDist.townsfolk--;
+      otherDist.outsider--;
       return [dist, otherDist];
     }
     case "sentinel": {
@@ -152,11 +152,12 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       dist.outsider++;
       var otherDist = { ...old_dist };
       otherDist.townsfolk++;
-      otherDist.townsfolk--;
+      otherDist.outsider--;
       return [dist, otherDist, { ...old_dist }];
     }
     case "huntsman": {
       if (dist.outsider == 0) {
+        // we must add an outsider to have the Damsel
         dist.outsider = 1;
         dist.townsfolk--;
         return [dist];
