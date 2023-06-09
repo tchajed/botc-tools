@@ -131,8 +131,11 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
       <ScriptTable scripts={baseThree} />
       <h2>Custom</h2>
       <div id="search">
-        <input id="search-query" value={query} onChange={queryChange} />
-        &nbsp;<span className="icon"><FontAwesomeIcon icon="search" /></span>
+        <input id="search-query" type="search" placeholder="search" value={query} onChange={queryChange} />
+        &nbsp;<span className="icon">
+          <FontAwesomeIcon icon="search" />
+        </span>
+        &nbsp;
       </div>
       <ScriptTable scripts={queryMatches(custom, query)} />
 

@@ -15,7 +15,12 @@
 
   input {
     font-size: inherit;
-    width: 10rem;
+    width: 8rem;
+    transition: all 0.3s;
+
+    &:focus {
+      width: 15rem;
+    }
   }
 }
 

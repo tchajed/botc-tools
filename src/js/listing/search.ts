@@ -1,7 +1,12 @@
 import { ScriptData } from "../botc/script";
 
 const FAVORITES: number[] = (() => {
-  const favorites = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435,811"
+  // removed compared to fetch_assets:
+  // 360 Visitors
+  // 811 Lunatic's Asylum
+  // 23 Stringing 'Em Along Redux
+  // 81 High Stakes Betting
+  const favorites = "19,178,180,181,10,1273,1245,83,4,2,435"
   return favorites.split(",").map(s => parseInt(s));
 })()
 
