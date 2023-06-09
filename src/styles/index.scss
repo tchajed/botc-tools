@@ -23,6 +23,8 @@
       width: 15rem;
     }
   }
+
+  margin-bottom: 0.5rem;
 }
 
 .forward-link {
@@ -41,6 +43,16 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+}
+
+ul.script {
+  font-size: 120%;
+}
+
+li {
+  &:not(:last-child) {
+    padding-bottom: 0.5rem;
   }
 }
 
@@ -67,10 +79,8 @@ p {
   margin-bottom: 2rem;
 }
 
-.help {
-  list-style-type: none;
+ul.help {
   margin: 0;
-  padding: 0;
   margin-top: 3rem;
 
   li:not(:last-child) {

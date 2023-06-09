@@ -31,6 +31,16 @@ a:hover {
   text-decoration: underline;
 }
 
+// reset
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
 h1 {
   font-family: "Lobster", serif;
   font-size: 24pt;

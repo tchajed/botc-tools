@@ -5,7 +5,7 @@ import '../icons';
 import { pageUrl } from '../routing';
 import { ScriptData, getCharacterList, isTeensyville, onlyBaseThree } from '../botc/script';
 import { queryMatches, searchNormalize } from './search';
-import { nameToId } from '../botc/roles';
+import { CharacterInfo, nameToId } from '../botc/roles';
 import { State, initStorage, latestScript } from '../randomizer/state';
 
 const BaseThree = [178, 180, 181];
@@ -22,24 +22,76 @@ function UpdateBar(): JSX.Element {
 }
 
 function HelpText(): JSX.Element {
-  return <ul className="help">
+  const buttonHelp = [
     <li>
       <span className="btn-link">
         <span className="btn"><FontAwesomeIcon
           icon="list" />&nbsp; Roles</span></span>
       &nbsp; is a character sheet
-    </li>
+    </li>,
     <li><span className="btn-link"> <span className="btn"><FontAwesomeIcon
-      icon="moon" />&nbsp; Night</span></span> &nbsp; is the night order
-    </li>
+      icon="moon" />&nbsp; Night</span></span> &nbsp; has the night sheets
+    </li>,
     <li><span className="btn-link"> <span className="btn"><FontAwesomeIcon
-      icon="dice" />&nbsp; Assign</span></span> &nbsp; helps the Storyteller
-      select & assign roles
+      icon="dice" />&nbsp; Assign</span></span> &nbsp; helps the ST select &
+      assign roles
     </li>
+  ];
+  // disable button help for now
+  return <ul className="help">
+    <li>Each script has these tools:</li>
+    {buttonHelp}
     <li>
       These tools are meant to support in-person games.
     </li>
   </ul>
+}
+
+function ScriptTitleTags({ script }: { script: ScriptData }): JSX.Element {
+  // TODO: normalizing these ids is an ugly hack, we should standardize on
+  // script tool IDs
+  const chars = getCharacterList(script.characters.map(id => nameToId(id)));
+  return <><a href={pageUrl("roles", script.pk)}>
+    {script.title}
+  </a>
+    {isTeensyville(chars) &&
+      <>&nbsp;<span className="script-label">teensy</span></>}
+    {onlyBaseThree(chars) && !BaseThree.includes(script.pk) &&
+      <>&nbsp;<span className="script-label">base3</span></>}
+  </>
+}
+
+function ScriptRow(props: { script: ScriptData }): JSX.Element {
+  const { pk } = props.script;
+  return <tr>
+    <td className="title-cell">
+      <ScriptTitleTags script={props.script} />
+    </td>
+    <td className="roles-cell">
+      <a className="btn-link" href={pageUrl("roles", pk)}>
+        <div className="btn">
+          <FontAwesomeIcon icon="list" />&nbsp;
+          Roles
+        </div>
+      </a>
+    </td>
+    <td className="nightsheet-cell">
+      <a className="btn-link" href={pageUrl("nightsheet", pk)}>
+        <div className="btn">
+          <FontAwesomeIcon icon="moon" />&nbsp;
+          Night
+        </div>
+      </a>
+    </td>
+    <td className="randomizer-cell">
+      <a className="btn-link" href={pageUrl("randomize", pk)}>
+        <div className="btn">
+          <FontAwesomeIcon icon="dice" />&nbsp;
+          Assign
+        </div>
+      </a>
+    </td>
+  </tr>
 }
 
 function ScriptTable(props: { scripts: ScriptData[] }): JSX.Element {
@@ -51,47 +103,14 @@ function ScriptTable(props: { scripts: ScriptData[] }): JSX.Element {
   </table>
 }
 
-function ScriptRow(props: { script: ScriptData }): JSX.Element {
-  const { pk, title } = props.script;
-  // TODO: normalizing these ids is an ugly hack, we should standardize on
-  // script tool IDs
-  const chars = getCharacterList(props.script.characters.map(id => nameToId(id)));
-  let id = (pk || 0).toString();
-  return <tr>
-    <td className="title-cell">
-      <a href={pageUrl("roles", id)}>
-        {title}
-      </a>
-      {isTeensyville(chars) &&
-        <>&nbsp;<span className="script-label">teensy</span></>}
-      {onlyBaseThree(chars) && !BaseThree.includes(pk) &&
-        <>&nbsp;<span className="script-label">base3</span></>}
-    </td>
-    <td className="roles-cell">
-      <a className="btn-link" href={pageUrl("roles", id)}>
-        <div className="btn">
-          <FontAwesomeIcon icon="list" />&nbsp;
-          Roles
-        </div>
-      </a>
-    </td>
-    <td className="nightsheet-cell">
-      <a className="btn-link" href={pageUrl("nightsheet", id)}>
-        <div className="btn">
-          <FontAwesomeIcon icon="moon" />&nbsp;
-          Night
-        </div>
-      </a>
-    </td>
-    <td className="randomizer-cell">
-      <a className="btn-link" href={pageUrl("randomize", id)}>
-        <div className="btn">
-          <FontAwesomeIcon icon="dice" />&nbsp;
-          Assign
-        </div>
-      </a>
-    </td>
-  </tr>
+function ScriptList(props: { scripts: ScriptData[] }): JSX.Element {
+  return <ul className="script">
+    {props.scripts.map(script => {
+      return <li>
+        <FontAwesomeIcon icon="table-list" />&nbsp;
+        <ScriptTitleTags script={script} /></li>
+    })}
+  </ul>
 }
 
 function GitHubLink(): JSX.Element {
@@ -175,7 +194,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
       <h1>BotC tools</h1>
 
       <h2>Base 3</h2>
-      <ScriptTable scripts={baseThree} />
+      <ScriptList scripts={baseThree} />
       <h2>Custom</h2>
       <div id="search">
         <input id="search-query" type="search" placeholder="search" value={query} onChange={queryChange} />
@@ -183,7 +202,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
           <FontAwesomeIcon icon="search" />
         </span></>}
       </div>
-      <ScriptTable scripts={results} />
+      <ScriptList scripts={results} />
       {extraResults.length > 0 && <span>... plus {extraResults.length} more</span>}
 
       <HelpText />
