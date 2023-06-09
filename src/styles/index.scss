@@ -4,6 +4,7 @@
 
 .main {
   max-width: 550px;
+  padding: 5px;
 }
 
 #search {
@@ -21,6 +22,25 @@
     &:focus {
       width: 15rem;
     }
+  }
+}
+
+.forward-link {
+  display: float;
+  float: right;
+  margin-top: 1rem;
+  font-size: 90%;
+
+  .btn>* {
+    vertical-align: middle;
+  }
+
+  .script-title {
+    display: inline-block;
+    max-width: 8rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -73,13 +93,7 @@ p {
   padding: .4rem 0.5rem;
   border-radius: 0.25rem;
   background-color: theme.$purple;
-}
-
-.btn-link,
-.btn-link:visited {
-  .btn {
-    color: white;
-  }
+  color: white;
 }
 
 a.btn-link {
@@ -88,7 +102,8 @@ a.btn-link {
     border-color: lighten(theme.$purple, 20);
   }
 
-  &:hover {
+  &:hover,
+  &:visited {
     text-decoration: none;
     color: white;
   }

@@ -6,6 +6,7 @@ import { pageUrl } from '../routing';
 import { ScriptData, getCharacterList, isTeensyville, onlyBaseThree } from '../botc/script';
 import { queryMatches, searchNormalize } from './search';
 import { nameToId } from '../botc/roles';
+import { State, initStorage, latestScript } from '../randomizer/state';
 
 const BaseThree = [178, 180, 181];
 
@@ -117,6 +118,18 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   }
 
   const [query, setQuery] = useState(hashQuery());
+  const [lastScript, setLastScript] = useState<State | null>(null);
+
+  useEffect(() => {
+    initStorage();
+    latestScript().then(s => {
+      if (!s) { return; }
+      const elapsedMs: number = (new Date()).getDate() - s.lastSave.getDate();
+      if (elapsedMs <= 30 /* minutes */ * 60 * 1000) {
+        setLastScript(s);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     window['reloadSafe'] = true;
@@ -147,6 +160,18 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
 
   return <div>
     <div className="main">
+      {lastScript &&
+        <div className="forward-link">
+          <a className="btn-link" href={pageUrl("randomize", lastScript.id.toString())}>
+            <div className="btn">
+              <span className="script-title">
+                {lastScript.scriptTitle}
+              </span>
+              &nbsp; <FontAwesomeIcon icon="chevron-right" />
+            </div>
+          </a>
+        </div>
+      }
       <h1>BotC tools</h1>
 
       <h2>Base 3</h2>
