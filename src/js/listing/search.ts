@@ -46,7 +46,7 @@ function measure(s: ScriptData, q: string): Tuple {
 }
 
 export function queryMatches(scripts: ScriptData[], query: string): ScriptData[] {
-  var matches: ScriptData[];
+  let matches: ScriptData[];
   if (query == "") {
     matches = scripts.filter(s => FAVORITES.includes(s.pk));
   } else {

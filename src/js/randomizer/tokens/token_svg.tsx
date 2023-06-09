@@ -13,9 +13,9 @@ import { BagCharacter } from '../../botc/setup';
  */
 function splitLines(ability: string): string[] {
   const LINE_MAX = [25, 29, 29, 32, 35];
-  var lines: string[] = [];
-  var line = "";
-  var rest = ability;
+  let lines: string[] = [];
+  let line = "";
+  let rest = ability;
   while (rest.length > 0) {
     const match = /[ \n]/.exec(rest);
     if (match == null) {
@@ -43,7 +43,7 @@ export function TokenSvg(props: { character: BagCharacter, x: number, y: number 
 
   const abilityLines = splitLines(ability || "");
 
-  var firstYoff = "0";
+  let firstYoff = "0";
   if (abilityLines.length <= 2) {
     firstYoff = "1.2em";
   } else if (abilityLines.length >= 5) {

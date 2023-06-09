@@ -48,14 +48,14 @@ export function Townsquare(props: { bag: BagCharacter[] }): JSX.Element {
     </svg>
   }
 
-  var usableDeg = 270;
+  let usableDeg = 270;
   if (n <= 6) {
     usableDeg = 180;
   }
   if (n == 7) {
     usableDeg = 230;
   }
-  var radius = 0;
+  let radius = 0;
   if (2 <= n && n < 9) {
     radius = 500;
   } else if (9 <= n && n <= 11) {

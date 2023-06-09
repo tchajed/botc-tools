@@ -79,7 +79,7 @@ export function SetupModifiers(props: {
   let actual = effectiveDistribution(numPlayers, selected);
   let distributionCorrect = newDistributions.some(dist => sameDistribution(dist, actual));
 
-  var goalDistributionElement: JSX.Element = <>{newDistributions
+  let goalDistributionElement: JSX.Element = <>{newDistributions
     .map((dist, i) => <Distr dist={dist} key={i} />)
     .reduce((acc, x) => acc === null ? x : <>{acc} or {x}</>)}</>;
   if (selection.has("legion")) {

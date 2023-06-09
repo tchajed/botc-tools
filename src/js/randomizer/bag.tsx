@@ -21,16 +21,16 @@ function shuffleArray<T>(array: T[]) {
 
 export function randomRanking(characters: CharacterInfo[]): Ranking {
   const randomOrder = characters.map(c => c.id);
-  for (var i = 0; i < 3; i++) {
+  for (let i = 0; i < 3; i++) {
     // assign copies of riot different rankings
     randomOrder.push(`riot-${i}`);
   }
-  for (var i = 0; i < 12; i++) {
+  for (let i = 0; i < 12; i++) {
     // assign copies of legion different rankings
     randomOrder.push(`legion-${i}`);
   }
   shuffleArray(randomOrder);
-  var r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
+  let r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
   return r;
 }
 

@@ -5,8 +5,8 @@ import '../icons';
 import { Page, pageUrl } from "../routing";
 
 function filename(path: string): string {
-  var filename = path;
-  var i = filename.lastIndexOf("/");
+  let filename = path;
+  let i = filename.lastIndexOf("/");
   if (i >= 0) {
     filename = filename.substring(i + 1);
   }

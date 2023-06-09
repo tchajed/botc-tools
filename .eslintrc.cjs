@@ -13,7 +13,6 @@ module.exports = {
       "files": ["*.ts", "*.tsx"],
       "rules": {
         // ignore these for now, will fix them together later
-        "no-var": 'off',
         "prefer-const": 'off',
       },
     }

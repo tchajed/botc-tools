@@ -33,8 +33,8 @@ function RoleTypeRow(props: { roleType: string }): JSX.Element {
 }
 
 function CharacterList(props: { characters: CharacterInfo[] }): JSX.Element {
-  var rows: (CharacterInfo | RoleType)[] = [];
-  var rolesSeen: { [key: string]: boolean } = {};
+  let rows: (CharacterInfo | RoleType)[] = [];
+  let rolesSeen: { [key: string]: boolean } = {};
   for (const c of props.characters) {
     if (!rolesSeen[c.roleType]) {
       rows.push(c.roleType);

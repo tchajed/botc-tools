@@ -7,7 +7,7 @@ import { actualDistribution } from "../botc/setup";
 import { CharacterIconElement, characterClass } from "../views";
 
 function RoleLabel(props: { roleType: string }): JSX.Element {
-  var letter = props.roleType.charAt(0).toUpperCase();
+  let letter = props.roleType.charAt(0).toUpperCase();
   return <span className='role-label'>{letter}</span>;
 }
 
@@ -61,7 +61,7 @@ export type SelAction =
  * If the script has a lone demon, it is automatically added.
  */
 export function initialSelection(characters: CharacterInfo[]): Set<string> {
-  var sel = new Set<string>();
+  let sel = new Set<string>();
   const totalDistribution = actualDistribution(characters);
   if (totalDistribution.demon == 1) {
     for (const c of characters) {
@@ -89,7 +89,7 @@ export function createSelectionReducer(characters: CharacterInfo[])
     }
   }
   return (selection: Selection, action: SelAction) => {
-    var newSelection = new Set(selection);
+    let newSelection = new Set(selection);
     switch (action.type) {
       case "toggle": {
         if (newSelection.has(action.id)) {

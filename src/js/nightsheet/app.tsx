@@ -27,14 +27,14 @@ function Header(props: { title: string, firstNight: boolean }): JSX.Element {
 }
 
 function Details(props: { details: string }): JSX.Element {
-  var details: string = props.details;
+  let details: string = props.details;
   details = details.replace(/If [^.]*:/g, '\n$&\n');
   details = details.trim();
   details = details.replace(/\n/g, "<br/>");
   details = details.replace(/<tab>/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
   for (const tokenName of tokenNames) {
     details = details.replace(tokenName, `<strong>${tokenName}</strong>`);
-    var altTokenName = tokenName.charAt(0).toUpperCase() + tokenName.substring(1).toLowerCase();
+    let altTokenName = tokenName.charAt(0).toUpperCase() + tokenName.substring(1).toLowerCase();
     altTokenName = `'${altTokenName}'`;
     details = details.replace(altTokenName, `<strong>${tokenName}</strong>`);
   }

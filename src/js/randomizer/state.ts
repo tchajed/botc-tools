@@ -36,7 +36,7 @@ export async function storeState(id: number,
 }
 
 export async function latestScript(): Promise<State | null> {
-  var newestState: State | null = null;
+  let newestState: State | null = null;
   await localforage.iterate<State, void>((s) => {
     if (newestState == null || s.lastSave > newestState.lastSave) {
       newestState = s;

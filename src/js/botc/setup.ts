@@ -15,7 +15,7 @@ export function zeroDistribution(): Distribution {
 }
 
 export function distributionForCount(numPlayers: number): Distribution {
-  var dist = zeroDistribution();
+  let dist = zeroDistribution();
   dist.demon = 1;
   if (numPlayers == 5 || numPlayers == 6) {
     dist.outsider = numPlayers - 5;
@@ -29,7 +29,7 @@ export function distributionForCount(numPlayers: number): Distribution {
 }
 
 export function actualDistribution(characters: CharacterInfo[]): Distribution {
-  var dist = zeroDistribution();
+  let dist = zeroDistribution();
   for (const c of characters) {
     dist[c.roleType]++;
   }
@@ -39,9 +39,9 @@ export function actualDistribution(characters: CharacterInfo[]): Distribution {
 /** Get the number of characters of each type taking into account an extra demon
  * (Riot) for each nominal minion. */
 export function effectiveDistribution(numPlayers: number, characters: CharacterInfo[]): Distribution {
-  var dist = zeroDistribution();
+  let dist = zeroDistribution();
   const targetDist = distributionForCount(numPlayers);
-  var isLegion = false;
+  let isLegion = false;
   for (const c of characters) {
     if (c.id == "riot") {
       // all minions are riot
@@ -54,7 +54,7 @@ export function effectiveDistribution(numPlayers: number, characters: CharacterI
     // all other players are legion
     //
     // the minion count is going to be wrong but avoid adding too many characters
-    var demonCount = numPlayers - dist.townsfolk - dist.outsider - dist.minion;
+    let demonCount = numPlayers - dist.townsfolk - dist.outsider - dist.minion;
     if (demonCount > 0) {
       dist.demon = demonCount;
     }
@@ -120,11 +120,11 @@ export function goesInBag(char: CardInfo): boolean {
 }
 
 function applyModification(old_dist: Distribution, mod: SetupModification): Distribution[] {
-  var dist: Distribution = { ...old_dist };
+  let dist: Distribution = { ...old_dist };
   switch (mod.type) {
     case "outsider_count": {
       return mod.delta.map(delta => {
-        var newDist = { ...old_dist };
+        let newDist = { ...old_dist };
         newDist.townsfolk -= delta;
         newDist.outsider += delta;
         return newDist;
@@ -160,14 +160,14 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       return [dist];
     }
     case "legion": {
-      var dists: Distribution[] = [];
+      let dists: Distribution[] = [];
       const numPlayers = old_dist.townsfolk + old_dist.outsider + old_dist.minion + old_dist.demon;
       const oldGoodCount = old_dist.townsfolk + old_dist.outsider;
       for (const demonCount of [oldGoodCount, oldGoodCount - 1]) {
         const goodCount = numPlayers - demonCount;
         dist.demon = demonCount;
         dist.minion = 0;
-        for (var numTownsfolk = 1; numTownsfolk <= goodCount; numTownsfolk++) {
+        for (let numTownsfolk = 1; numTownsfolk <= goodCount; numTownsfolk++) {
           dists.push(
             { demon: demonCount, minion: 0, townsfolk: numTownsfolk, outsider: goodCount - numTownsfolk }
           );
@@ -179,7 +179,7 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
 }
 
 function clampedValid(dist: Distribution, characters: CharacterInfo[]): boolean {
-  var totalDist = actualDistribution(characters);
+  let totalDist = actualDistribution(characters);
   // allow arbitrary number of demons for clamping purposes (for Riot, Legion)
   totalDist.demon = 15;
   return Object.keys(dist).every(roleType => {
@@ -188,7 +188,7 @@ function clampedValid(dist: Distribution, characters: CharacterInfo[]): boolean 
 }
 
 export function uniqueDistributions(dists: Distribution[]): Distribution[] {
-  var uniqueDists: Distribution[] = [];
+  let uniqueDists: Distribution[] = [];
   for (const dist of dists) {
     if (uniqueDists.some(d => sameDistribution(d, dist))) {
       // duplicate
@@ -204,7 +204,7 @@ export function modifiedDistribution(
   mods: SetupModification[],
   characters: CharacterInfo[])
   : Distribution[] {
-  var dists = [dist];
+  let dists = [dist];
   for (const mod of mods) {
     dists = dists.flatMap(dist => applyModification(dist, mod));
   }
@@ -213,7 +213,7 @@ export function modifiedDistribution(
 }
 
 export function modifyingCharacters(selection: Set<string>): CharacterInfo[] {
-  var modified: CharacterInfo[] = [];
+  let modified: CharacterInfo[] = [];
   selection.forEach(id => {
     if (id in SetupChanges) {
       modified.push(getCharacter(id));
@@ -265,12 +265,12 @@ export function splitSelectedChars(
     bag: BagCharacter[],
     outsideBag: CardInfo[],
   } {
-  var selected = characters.filter(char => selection.has(char.id));
-  var bag: BagCharacter[] = selected.filter(c => goesInBag(c));
+  let selected = characters.filter(char => selection.has(char.id));
+  let bag: BagCharacter[] = selected.filter(c => goesInBag(c));
   const dist = distributionForCount(numPlayers);
   const riot = bag.find(c => c.id == "riot");
   if (riot) {
-    for (var i = 0; i < dist.minion; i++) {
+    for (let i = 0; i < dist.minion; i++) {
       const thisRiot: BagCharacter = { demonNum: i, ...riot };
       bag.push(thisRiot);
     }
@@ -278,13 +278,13 @@ export function splitSelectedChars(
   const legion = bag.find(c => c.id == "legion");
   if (legion) {
     const numExtraLegion = dist.townsfolk + dist.outsider - 1;
-    for (var i = 0; i < numExtraLegion && bag.length < numPlayers; i++) {
+    for (let i = 0; i < numExtraLegion && bag.length < numPlayers; i++) {
       const thisLegion: BagCharacter = { demonNum: i, ...legion };
       bag.push(thisLegion);
     }
   }
 
-  var outsideBag = selected.filter(char => !goesInBag(char));
+  let outsideBag = selected.filter(char => !goesInBag(char));
   outsideBag.sort((c1, c2) => c1.name.localeCompare(c2.name));
   return { bag, outsideBag };
 }

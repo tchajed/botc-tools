@@ -9,7 +9,7 @@ export interface Jinx {
 }
 
 export function getJinxList(characters: string[]): Jinx[] {
-  var js: Jinx[] = [];
+  let js: Jinx[] = [];
   for (const jinx1 of script_jinxes) {
     const character1 = nameToId(jinx1.id);
     if (!characters.includes(character1)) {
