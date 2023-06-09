@@ -6,7 +6,6 @@ import { downloadCharacterData } from './character_json';
 import { ScriptData, getScript } from './get_script';
 import path from 'path';
 import { fetchAllScripts } from './all_scripts';
-import { gzip } from 'node-gzip';
 import { downloadRoles, findNotDownloadedIcons, getRoles } from './script_tool_images';
 
 const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435,811";
@@ -98,15 +97,14 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
 
 async function downloadAllScripts(staticDir: string) {
   fs.mkdirSync(staticDir, { recursive: true });
-  let path = `${staticDir}/scripts.json.gz`;
+  let path = `${staticDir}/scripts.json`;
   if (fs.existsSync(path)) {
-    console.log("already have scripts.json.gz");
+    console.log("already have scripts.json");
     return;
   }
   console.log("downloading all scripts");
   const allScripts = await fetchAllScripts();
-  const compressed = await gzip(JSON.stringify(allScripts), { level: 9 });
-  fs.promises.writeFile(path, compressed);
+  fs.promises.writeFile(path, JSON.stringify(allScripts));
 }
 
 async function cleanAssets(assetsDir: string) {
