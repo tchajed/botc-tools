@@ -60,7 +60,7 @@ export function queryMatches(scripts: ScriptData[], query: string): ScriptData[]
   matches.sort((s1, s2) => {
     return lexCompare(measure(s1, query), measure(s2, query));
   });
-  return matches.slice(0, 20);
+  return matches;
 }
 
 export function searchNormalize(s: string): string {

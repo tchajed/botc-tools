@@ -32,6 +32,9 @@ function HelpText(): JSX.Element {
       icon="dice" />&nbsp; Assign</span></span> &nbsp; helps the Storyteller
       select & assign roles
     </li>
+    <li>
+      These tools are meant to support in-person games.
+    </li>
   </ul>
 }
 
@@ -123,6 +126,14 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
     window.location.hash = searchNormalize(newQuery);
   }
 
+  const allResults = queryMatches(custom, query);
+  const results = allResults.slice(0, 20);
+  const extraResults = allResults.slice(20);
+
+  // on Safari the search box already has a magnifying glass icon so avoid
+  // adding a redundant one
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
   return <div>
     <div className="main">
       <h1>BotC tools</h1>
@@ -132,16 +143,14 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
       <h2>Custom</h2>
       <div id="search">
         <input id="search-query" type="search" placeholder="search" value={query} onChange={queryChange} />
-        &nbsp;<span className="icon">
+        {!isSafari && <>&nbsp;<span className="icon">
           <FontAwesomeIcon icon="search" />
-        </span>
-        &nbsp;
+        </span></>}
       </div>
-      <ScriptTable scripts={queryMatches(custom, query)} />
+      <ScriptTable scripts={results} />
+      {extraResults.length > 0 && <span>... plus {extraResults.length} more</span>}
 
-      <br /><br />
       <HelpText />
-      <p>These tools are meant to support in-person games.</p>
       <footer>
         <div className="link-block"><GitHubLink /></div>
         <p>This is an unofficial app not affiliated with The

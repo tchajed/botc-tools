@@ -16,7 +16,7 @@
   input {
     font-size: inherit;
     width: 8rem;
-    transition: all 0.3s;
+    transition: width 0.3s;
 
     &:focus {
       width: 15rem;
@@ -43,6 +43,7 @@ p {
   list-style-type: none;
   margin: 0;
   padding: 0;
+  margin-top: 3rem;
 
   li:not(:last-child) {
     padding-bottom: 1rem;
