@@ -1,4 +1,4 @@
-import { ScriptData } from "../botc/script";
+import { ScriptData, scriptIsTeensyville } from "../botc/script";
 
 const FAVORITES: number[] = (() => {
   // removed compared to fetch_assets:

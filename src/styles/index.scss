@@ -24,6 +24,13 @@
   }
 }
 
+.teensy-label {
+  border: 1px dotted gray;
+  border-radius: 0.25rem;
+  background-color: darken(white, 10);
+  padding: 0.1rem;
+}
+
 h2 {
   margin-bottom: 1rem;
 }

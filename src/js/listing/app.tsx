@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../icons';
 import { pageUrl } from '../routing';
-import { ScriptData } from '../botc/script';
+import { ScriptData, scriptIsTeensyville } from '../botc/script';
 import { queryMatches, searchNormalize } from './search';
 
 function UpdateBar(): JSX.Element {
@@ -55,6 +55,8 @@ function ScriptRow(props: { script: ScriptData }): JSX.Element {
       <a href={pageUrl("roles", id)}>
         {title}
       </a>
+      {scriptIsTeensyville(props.script) &&
+        <>&nbsp;<span className="teensy-label">teensy</span></>}
     </td>
     <td className="roles-cell">
       <a className="btn-link" href={pageUrl("roles", id)}>
