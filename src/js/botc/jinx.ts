@@ -1,11 +1,11 @@
-import script_jinxes from '../../../assets/data/jinx.json';
+import script_jinxes from "../../../assets/data/jinx.json";
 
-import { nameToId } from './roles';
+import { nameToId } from "./roles";
 
 export interface Jinx {
-  readonly character1: string,
-  readonly character2: string,
-  readonly description: string,
+  readonly character1: string;
+  readonly character2: string;
+  readonly description: string;
 }
 
 export function getJinxList(characters: string[]): Jinx[] {
@@ -21,7 +21,9 @@ export function getJinxList(characters: string[]): Jinx[] {
         continue;
       }
       js.push({
-        character1, character2, description: jinx2.reason,
+        character1,
+        character2,
+        description: jinx2.reason,
       });
     }
   }

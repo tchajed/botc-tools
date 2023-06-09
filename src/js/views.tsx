@@ -1,4 +1,4 @@
-import images from '../../assets/icons/*.webp';
+import images from "../../assets/icons/*.webp";
 import React from "react";
 
 export function iconPath(id: string): string {
@@ -20,15 +20,16 @@ export function characterClass(character: { roleType: string }): string {
   }
 }
 export function CharacterIconElement(props: {
-  name: string,
-  id: string
+  name: string;
+  id: string;
 }): JSX.Element {
   const { id } = props;
   if (!iconPath(id)) {
     return <></>;
   }
-  return <div className="img-container">
-    <img className="char-icon"
-      src={iconPath(id)} alt={props.name} />
-  </div>;
+  return (
+    <div className="img-container">
+      <img className="char-icon" src={iconPath(id)} alt={props.name} />
+    </div>
+  );
 }

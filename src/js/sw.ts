@@ -1,8 +1,8 @@
-import { Workbox } from 'workbox-window';
-if ('serviceWorker' in navigator) {
-  const wb = new Workbox('./service-worker.js');
+import { Workbox } from "workbox-window";
+if ("serviceWorker" in navigator) {
+  const wb = new Workbox("./service-worker.js");
 
-  wb.addEventListener('activated', event => {
+  wb.addEventListener("activated", (event) => {
     if (!event.isUpdate) {
       console.log("app is now available offline");
     } else {
@@ -17,17 +17,20 @@ if ('serviceWorker' in navigator) {
   // https://redfin.engineering/how-to-fix-the-refresh-button-when-using-service-workers-a8e27af6df68.
 
   const showSkipWaitingPrompt = async () => {
-    console.log(`A new version of the app is available and ` + `will be installed when all tabs are closed.`);
+    console.log(
+      `A new version of the app is available and ` +
+        `will be installed when all tabs are closed.`
+    );
 
     // Assuming the user accepted the update, set up a listener
     // that will reload the page as soon as the previously waiting
     // service worker has taken control.
-    wb.addEventListener('controlling', () => {
+    wb.addEventListener("controlling", () => {
       // At this point, reloading will ensure that the current
       // tab is loaded under the control of the new service worker.
       // Depending on your web app, you may want to auto-save or
       // persist transient state before triggering the reload.
-      if ('reloadSafe' in window && window.reloadSafe) {
+      if ("reloadSafe" in window && window.reloadSafe) {
         window.location.reload();
       }
     });
@@ -48,7 +51,7 @@ if ('serviceWorker' in navigator) {
     }
   };
 
-  wb.addEventListener('waiting', () => {
+  wb.addEventListener("waiting", () => {
     showSkipWaitingPrompt();
   });
 

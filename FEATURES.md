@@ -48,7 +48,7 @@ duplicate roles during setup. High Stakes Betting has no Minions at all and only
 Riot, which is handled correctly. The Huntsman requires the Damsel, which can be
 one of the usual Outsiders or might replace a townsfolk.
 
------
+---
 
 Below the list of characters the assignment tool shows what tokens are in the
 "bag" (or really townsquare, since they are already ordered randomly):
@@ -73,7 +73,7 @@ This is my favorite feature of the app - it really speeds up setup, and it's
 much easier to run the game with all the characters and abilities clearly
 visible rather than just having hand-written names.
 
------
+---
 
 Once you've set up the game, you also have to tell players their roles. Clicking
 on a role in the bag list will make it full screen, and you can show that to

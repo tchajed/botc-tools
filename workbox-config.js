@@ -16,7 +16,7 @@ module.exports = {
       handler: "StaleWhileRevalidate",
       options: {
         cacheName: "google-fonts",
-      }
+      },
     },
     {
       urlPattern: /^https:\/\/fonts\.gstatic\.com/,
@@ -24,14 +24,14 @@ module.exports = {
       options: {
         cacheName: "google-fonts",
         cacheableResponse: {
-          statuses: [0, 200]
+          statuses: [0, 200],
         },
         expiration: {
           maxAgeSeconds: 60 * 60 * 24 * 365,
-          maxEntries: 30
-        }
-      }
-    }
+          maxEntries: 30,
+        },
+      },
+    },
   ],
   swDest: "dist/service-worker.js",
   clientsClaim: false,

@@ -23,8 +23,5 @@
       "purpose": "maskable"
     }
   ],
-  "categories": [
-    "utilities",
-    "games"
-  ]
+  "categories": ["utilities", "games"]
 }

@@ -4,11 +4,11 @@
 // to form the script PDF).
 //
 // Official characters from https://script.bloodontheclocktower.com/
-import script_roles from '../../../assets/data/roles.json';
+import script_roles from "../../../assets/data/roles.json";
 // Script Tool "night sheet"
 //
 // Gives a global ordering for all characters, for first night and other nights.
-import nightsheet from '../../../assets/data/nightsheet.json';
+import nightsheet from "../../../assets/data/nightsheet.json";
 
 // clocktower.online (old online website) roles
 //
@@ -17,23 +17,30 @@ import nightsheet from '../../../assets/data/nightsheet.json';
 // the wiki has detailed "how to run" instructions but not concise ones suitable
 // for a night sheet. There are also night orderings here, but they're ignored
 // in favor of the official script tool.
-import botc_roles from '../../../assets/data/botc_online_roles.json';
+import botc_roles from "../../../assets/data/botc_online_roles.json";
 
 // Custom overrides provided by this app. Most of these are simplifications to
 // the night sheet to surface more important instructions, but this also
 // includes fabled abilities which are otherwise not available anywhere.
-import { overrides } from './overrides';
+import { overrides } from "./overrides";
 
 interface NightAction {
   details: string;
   index: number;
 }
 
-const RoleTypes = ["townsfolk", "outsider", "minion", "demon", "fabled", "travellers"] as const;
-export type RoleType = typeof RoleTypes[number];
+const RoleTypes = [
+  "townsfolk",
+  "outsider",
+  "minion",
+  "demon",
+  "fabled",
+  "travellers",
+] as const;
+export type RoleType = (typeof RoleTypes)[number];
 
 const Editions = ["tb", "snv", "bmr", "other"] as const;
-export type Edition = typeof Editions[number];
+export type Edition = (typeof Editions)[number];
 
 export class CharacterInfo {
   readonly id: string;
@@ -75,19 +82,30 @@ export class CharacterInfo {
   }
 }
 
-export const MinionInfo: CharacterInfo = new CharacterInfo("MINION", "Minion Info", "minion", "other");
+export const MinionInfo: CharacterInfo = new CharacterInfo(
+  "MINION",
+  "Minion Info",
+  "minion",
+  "other"
+);
 MinionInfo.firstNight = {
-  details: "If there are 7 or more players: Wake all Minions. Show the THIS IS THE DEMON token. Point to the Demon.",
+  details:
+    "If there are 7 or more players: Wake all Minions. Show the THIS IS THE DEMON token. Point to the Demon.",
   index: nightsheet.firstNight.indexOf("MINION"),
 };
 
-export const DemonInfo: CharacterInfo = new CharacterInfo("DEMON", "Demon Info", "demon", "other");
+export const DemonInfo: CharacterInfo = new CharacterInfo(
+  "DEMON",
+  "Demon Info",
+  "demon",
+  "other"
+);
 DemonInfo.firstNight = {
   details: `If there are 7 or more players: Wake the Demon.
   Show the THESE ARE YOUR MINIONS token. Point to all Minions.
   Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
   index: nightsheet.firstNight.indexOf("DEMON"),
-}
+};
 
 export function nameToId(name: string): string {
   return name.toLowerCase().replaceAll(/[ '-_]/g, "");
@@ -114,7 +132,10 @@ function createRoleData(): Map<string, CharacterInfo> {
     const validRole = RoleTypes.find((r) => r == roleType);
     if (validRole) {
       const info = new CharacterInfo(
-        id, name, validRole, versionToEdition(role.version),
+        id,
+        name,
+        validRole,
+        versionToEdition(role.version)
       );
       roles.set(id, info);
     } else {
@@ -151,19 +172,19 @@ function createRoleData(): Map<string, CharacterInfo> {
       info.otherNights = {
         details: overrides.otherNights(id) ?? role.otherNightReminder,
         index,
-      }
+      };
     }
   }
 
   for (const id of Object.keys(overrides.all)) {
-    if (botc_roles.find(c => c.id == id) === undefined) {
+    if (botc_roles.find((c) => c.id == id) === undefined) {
       // an override for a character not in Clocktower Online
       const info = roles.get(id);
       if (info === undefined) {
         console.error(`override info for unknown id ${id} `);
         continue;
       }
-      info.ability = overrides.get(id).ability ?? info.ability
+      info.ability = overrides.get(id).ability ?? info.ability;
     }
   }
 

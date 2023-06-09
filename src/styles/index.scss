@@ -1,6 +1,6 @@
-@use 'main';
-@use 'theme';
-@use 'update_bar';
+@use "main";
+@use "theme";
+@use "update_bar";
 
 .main {
   max-width: 550px;
@@ -33,7 +33,7 @@
   margin-top: 1rem;
   font-size: 90%;
 
-  .btn>* {
+  .btn > * {
     vertical-align: middle;
   }
 
@@ -100,7 +100,7 @@ ul.help {
 }
 
 .btn {
-  padding: .4rem 0.5rem;
+  padding: 0.4rem 0.5rem;
   border-radius: 0.25rem;
   background-color: theme.$purple;
   color: white;

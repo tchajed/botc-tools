@@ -32,6 +32,7 @@
     "parcel": "^2.9.1",
     "parcel-reporter-static-files-copy": "^1.5.0",
     "posthtml-include": "^1.7.4",
+    "prettier": "^2.8.8",
     "process": "^0.11.10",
     "puppeteer": "^20.5.0",
     "ts-node": "^10.9.1",

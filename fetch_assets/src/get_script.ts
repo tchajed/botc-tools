@@ -1,32 +1,36 @@
-import axios from 'axios';
+import axios from "axios";
 
 /** Format for a saved script in assets/static/scripts/<pk>.json. */
 export interface ScriptData {
-  pk: number,
+  pk: number;
   title: string;
   author: string;
-  score: number,
+  score: number;
   characters: string[];
 }
 
 const apiBase = "https://botc-scripts.azurewebsites.net/api";
 
-type ContentRow = { id: string } | { id: "_meta", name: string, author: string }
+type ContentRow =
+  | { id: string }
+  | { id: "_meta"; name: string; author: string };
 
 export interface ScriptInstanceResp {
-  pk: number,
-  name: string,
-  version: string, // unused
-  author: string,
-  score: number,
-  content: ContentRow[],
+  pk: number;
+  name: string;
+  version: string; // unused
+  author: string;
+  score: number;
+  content: ContentRow[];
 }
 
 type ScriptJsonResp = ContentRow[];
 
 /** Try to find a id: "_meta" metadata element. Not all scripts have such an
  * element (eg, 19). */
-function metaFromContents(content: ContentRow[]): { name: string, author: string } | null {
+function metaFromContents(
+  content: ContentRow[]
+): { name: string; author: string } | null {
   for (const c of content) {
     if (c.id == "_meta" && "name" in c) {
       return c;
@@ -36,17 +40,21 @@ function metaFromContents(content: ContentRow[]): { name: string, author: string
 }
 
 function idsFromContents(content: ContentRow[]): string[] {
-  return content.map(c => c.id).filter(id => id != "_meta");
+  return content.map((c) => c.id).filter((id) => id != "_meta");
 }
 
-async function getScriptResp(id: string): Promise<ScriptInstanceResp | ScriptJsonResp | null> {
-  const resp = await axios.get(`${apiBase}/scripts/${id}/?format=json`).catch((err) => {
-    if (err.response && err.response.status == 404) {
-      return null;
-    } else {
-      console.error(err.message);
-    }
-  });
+async function getScriptResp(
+  id: string
+): Promise<ScriptInstanceResp | ScriptJsonResp | null> {
+  const resp = await axios
+    .get(`${apiBase}/scripts/${id}/?format=json`)
+    .catch((err) => {
+      if (err.response && err.response.status == 404) {
+        return null;
+      } else {
+        console.error(err.message);
+      }
+    });
   if (resp == null) {
     // For some ids (eg, 2082) fetching the script itself doesn't work but
     // getting its JSON works (this appears to be because this is an older
@@ -71,7 +79,7 @@ export function parseScriptInstance(data: ScriptInstanceResp): ScriptData {
     author: data.author || meta.author,
     characters: idsFromContents(data.content),
     score: data.score,
-  }
+  };
 }
 
 export async function getScript(id: string): Promise<ScriptData | null> {

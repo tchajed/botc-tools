@@ -1,6 +1,6 @@
-@use 'main';
-@use 'theme';
-@use 'nav';
+@use "main";
+@use "theme";
+@use "nav";
 
 h2 {
   font-size: 120%;
@@ -102,7 +102,7 @@ button {
   user-select: none;
 
   &:hover {
-    @media (hover:hover) {
+    @media (hover: hover) {
       border-color: rgb(0, 170, 255);
     }
   }
@@ -140,7 +140,6 @@ button {
     font-size: 100%;
     margin-bottom: 2px;
   }
-
 }
 
 .modifiers {
@@ -188,7 +187,7 @@ span.good {
 
 .evil .name,
 span.evil {
-  color: theme.$evil
+  color: theme.$evil;
 }
 
 .error {

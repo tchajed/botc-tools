@@ -10,13 +10,18 @@ function splitColumns<T>(xs: T[], numColumns: number): T[][] {
   return columns;
 }
 
-export function Columns(props: { numColumns: number, children: ReactNode[] }): JSX.Element {
+export function Columns(props: {
+  numColumns: number;
+  children: ReactNode[];
+}): JSX.Element {
   const cols = splitColumns(Children.toArray(props.children), props.numColumns);
-  return <>
-    {cols.map((col, i) =>
-      <div className="column" key={i}>
-        {col}
-      </div>
-    )}
-  </>;
+  return (
+    <>
+      {cols.map((col, i) => (
+        <div className="column" key={i}>
+          {col}
+        </div>
+      ))}
+    </>
+  );
 }

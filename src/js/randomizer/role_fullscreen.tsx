@@ -4,8 +4,8 @@ import { CharacterIconElement, characterClass } from "../views";
 import { getCharacter } from "../botc/roles";
 
 export function FullscreenRole(props: {
-  fsRole: string | null,
-  setFsRole: (r: null) => void,
+  fsRole: string | null;
+  setFsRole: (r: null) => void;
 }): JSX.Element {
   const id = props.fsRole;
   if (id == null) {
@@ -17,10 +17,12 @@ export function FullscreenRole(props: {
     props.setFsRole(null);
   }
 
-  return <div className="fullscreen" onClick={handleClick}>
-    <div className={classnames(characterClass(char), 'character')}>
-      <CharacterIconElement {...char} />
-      <span className='name'>{char.name}</span>
+  return (
+    <div className="fullscreen" onClick={handleClick}>
+      <div className={classnames(characterClass(char), "character")}>
+        <CharacterIconElement {...char} />
+        <span className="name">{char.name}</span>
+      </div>
     </div>
-  </div>;
+  );
 }

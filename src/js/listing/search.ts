@@ -6,15 +6,15 @@ const FAVORITES: number[] = (() => {
   // 811 Lunatic's Asylum
   // 23 Stringing 'Em Along Redux
   // 81 High Stakes Betting
-  const favorites = "19,178,180,181,10,1273,1245,83,4,2,435"
-  return favorites.split(",").map(s => parseInt(s));
-})()
+  const favorites = "19,178,180,181,10,1273,1245,83,4,2,435";
+  return favorites.split(",").map((s) => parseInt(s));
+})();
 
 function normalize(title: string): string {
   return title.toLowerCase().replaceAll(/ +/g, " ").replaceAll(/[']/g, "");
 }
 
-type Tuple = { n1: number, n2: string };
+type Tuple = { n1: number; n2: string };
 
 function lexCompare(x: Tuple, y: Tuple): number {
   if (x.n1 != y.n1) {
@@ -27,12 +27,12 @@ function matchPriority(s: ScriptData, q: string): number {
   if (s.title.startsWith(q)) {
     return -100;
   }
-  const title = normalize(s.title)
+  const title = normalize(s.title);
   const normq = normalize(q);
   if (title.startsWith(normq)) {
     return -99;
   }
-  if (title.split(" ").some(w => w.startsWith(normq))) {
+  if (title.split(" ").some((w) => w.startsWith(normq))) {
     return -97;
   }
   if (title.includes(normq)) {
@@ -45,16 +45,19 @@ function measure(s: ScriptData, q: string): Tuple {
   return { n1: matchPriority(s, q), n2: s.title };
 }
 
-export function queryMatches(scripts: ScriptData[], query: string): ScriptData[] {
+export function queryMatches(
+  scripts: ScriptData[],
+  query: string
+): ScriptData[] {
   let matches: ScriptData[];
   if (query == "") {
-    matches = scripts.filter(s => FAVORITES.includes(s.pk));
+    matches = scripts.filter((s) => FAVORITES.includes(s.pk));
   } else {
     const q = normalize(query);
     if (q == "") {
       matches = scripts;
     } else {
-      matches = scripts.filter(s => normalize(s.title).includes(q));
+      matches = scripts.filter((s) => normalize(s.title).includes(q));
     }
   }
   matches.sort((s1, s2) => {

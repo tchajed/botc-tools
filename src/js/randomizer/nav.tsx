@@ -1,7 +1,7 @@
 import classnames from "classnames";
 import React, { PropsWithChildren } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import '../icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../icons";
 import { Page, pageUrl } from "../routing";
 
 function filename(path: string): string {
@@ -17,14 +17,19 @@ function filename(path: string): string {
   return filename;
 }
 
-function PageLink(props: PropsWithChildren<{ currentPage: string, id: number, page: Page }>): JSX.Element {
+function PageLink(
+  props: PropsWithChildren<{ currentPage: string; id: number; page: Page }>
+): JSX.Element {
   const { currentPage, id, page } = props;
   const current = currentPage == page || currentPage == page + ".html";
-  return <a
-    className={classnames("nav-item", { current })}
-    href={pageUrl(page, id.toString())}>
-    {props.children}
-  </a>
+  return (
+    <a
+      className={classnames("nav-item", { current })}
+      href={pageUrl(page, id.toString())}
+    >
+      {props.children}
+    </a>
+  );
 }
 
 export function Nav(props: { scriptId: number }): JSX.Element {
@@ -32,12 +37,26 @@ export function Nav(props: { scriptId: number }): JSX.Element {
 
   const currentPage = filename(window.location.pathname);
 
-  return <div id="nav">
-    <div className="nav-header">
-      <a className="nav-item" href="./"><FontAwesomeIcon icon="house" />&nbsp; Scripts</a>
-      <PageLink currentPage={currentPage} id={id} page="roles"><FontAwesomeIcon icon="list" />&nbsp; Roles</PageLink>
-      <PageLink currentPage={currentPage} id={id} page="nightsheet"><FontAwesomeIcon icon="moon" />&nbsp; Night</PageLink>
-      <PageLink currentPage={currentPage} id={id} page="randomize"><FontAwesomeIcon icon="dice" />&nbsp; Assign </PageLink>
+  return (
+    <div id="nav">
+      <div className="nav-header">
+        <a className="nav-item" href="./">
+          <FontAwesomeIcon icon="house" />
+          &nbsp; Scripts
+        </a>
+        <PageLink currentPage={currentPage} id={id} page="roles">
+          <FontAwesomeIcon icon="list" />
+          &nbsp; Roles
+        </PageLink>
+        <PageLink currentPage={currentPage} id={id} page="nightsheet">
+          <FontAwesomeIcon icon="moon" />
+          &nbsp; Night
+        </PageLink>
+        <PageLink currentPage={currentPage} id={id} page="randomize">
+          <FontAwesomeIcon icon="dice" />
+          &nbsp; Assign{" "}
+        </PageLink>
+      </div>
     </div>
-  </div>;
+  );
 }

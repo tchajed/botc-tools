@@ -1,11 +1,20 @@
-import fs from 'fs';
-import { Command, Option } from 'commander';
-import cliProgress from 'cli-progress';
-import { allIcons, downloadIcons, findNotDownloaded, saveIcons } from './images';
-import { downloadCharacterData } from './character_json';
-import { getScript } from './get_script';
-import { fetchAllScripts } from './all_scripts';
-import { downloadRoles, findNotDownloadedIcons, getRoles } from './script_tool_images';
+import fs from "fs";
+import { Command, Option } from "commander";
+import cliProgress from "cli-progress";
+import {
+  allIcons,
+  downloadIcons,
+  findNotDownloaded,
+  saveIcons,
+} from "./images";
+import { downloadCharacterData } from "./character_json";
+import { getScript } from "./get_script";
+import { fetchAllScripts } from "./all_scripts";
+import {
+  downloadRoles,
+  findNotDownloadedIcons,
+  getRoles,
+} from "./script_tool_images";
 
 const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435,811";
 
@@ -29,7 +38,7 @@ async function downloadImages(imgDir: string) {
   });
   bar.stop();
 
-  console.log("rescaling images")
+  console.log("rescaling images");
   await saveIcons(downloads, imgDir);
 }
 
@@ -43,7 +52,9 @@ async function downloadScriptToolIcons(dataDir: string, iconsDir: string) {
   console.log(`downloading ${roles.length} icons`);
   const bar = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
   bar.start(roles.length, 0);
-  await downloadRoles(roles, iconsDir, (n) => { bar.increment(n); });
+  await downloadRoles(roles, iconsDir, (n) => {
+    bar.increment(n);
+  });
   bar.stop();
 }
 
@@ -54,22 +65,27 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string) {
   if (scripts == "favorites") {
     scripts = FAVORITE_SCRIPTS;
   }
-  const ids = scripts.split(",").map(s => s.trim()).filter(s => s != "");
+  const ids = scripts
+    .split(",")
+    .map((s) => s.trim())
+    .filter((s) => s != "");
 
-  await Promise.all(ids.map(async (id) => {
-    const destFile = `${scriptsDir}/${id}.json`;
-    if (fs.existsSync(destFile)) {
-      console.log(`already have script ${id}.json`);
-      return;
-    }
-    const script = await getScript(id);
-    if (script == null) {
-      console.error(`could not download ${id}`);
-      return;
-    }
-    await fs.promises.writeFile(destFile, JSON.stringify(script));
-    console.log(`downloaded ${id} - ${script.title}`);
-  }));
+  await Promise.all(
+    ids.map(async (id) => {
+      const destFile = `${scriptsDir}/${id}.json`;
+      if (fs.existsSync(destFile)) {
+        console.log(`already have script ${id}.json`);
+        return;
+      }
+      const script = await getScript(id);
+      if (script == null) {
+        console.error(`could not download ${id}`);
+        return;
+      }
+      await fs.promises.writeFile(destFile, JSON.stringify(script));
+      console.log(`downloaded ${id} - ${script.title}`);
+    })
+  );
 }
 
 async function downloadAllScripts(staticDir: string) {
@@ -99,11 +115,15 @@ async function cleanAssets(assetsDir: string) {
 async function main() {
   const program = new Command();
 
-  program.version("0.3.0")
+  program
+    .version("0.3.0")
     .description("Download assets for BotC sheets")
-    .addOption(new Option(
-      "--all", "Download all assets (shorthand for --json --icons --all-scripts)",
-    ).implies({ json: true, icons: true, allScripts: true }))
+    .addOption(
+      new Option(
+        "--all",
+        "Download all assets (shorthand for --json --icons --all-scripts)"
+      ).implies({ json: true, icons: true, allScripts: true })
+    )
     .option("--clean", "Delete any existing assets")
     .option("--json", "Download JSON game data")
     .option("--img", "Download images")
@@ -115,8 +135,16 @@ async function main() {
 
   const options = program.opts();
 
-  if (// if nothing is selected, fetch everything by default
-    !(options.json || options.img || options.scripts !== undefined || options.allScripts || options.icons)) {
+  if (
+    // if nothing is selected, fetch everything by default
+    !(
+      options.json ||
+      options.img ||
+      options.scripts !== undefined ||
+      options.allScripts ||
+      options.icons
+    )
+  ) {
     options.json = true;
     // options.img = true;
     options.icons = true;

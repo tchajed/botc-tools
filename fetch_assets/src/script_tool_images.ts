@@ -1,6 +1,6 @@
-import sharp from 'sharp';
-import axios from 'axios';
-import fs from 'fs';
+import sharp from "sharp";
+import axios from "axios";
+import fs from "fs";
 
 interface Role {
   id: string; // actually is the name
@@ -25,11 +25,11 @@ async function makeSquare(data: ArrayBuffer): Promise<sharp.Sharp> {
   img = img.resize({
     width: 177,
     height: 177,
-    fit: 'contain',
-    position: 'centre',
+    fit: "contain",
+    position: "centre",
     // fill with transparent background
     background: { r: 0, g: 0, b: 0, alpha: 0 },
-  })
+  });
   return img;
 }
 
@@ -49,10 +49,14 @@ function roleIconFile(r: Role): string {
 }
 
 export function findNotDownloadedIcons(rs: Role[], imgDir: string): Role[] {
-  return rs.filter(r => !fs.existsSync(`${imgDir}/${roleIconFile(r)}`));
+  return rs.filter((r) => !fs.existsSync(`${imgDir}/${roleIconFile(r)}`));
 }
 
-export async function downloadRoles(rs: Role[], imgDir: string, progressCb: (number) => void) {
+export async function downloadRoles(
+  rs: Role[],
+  imgDir: string,
+  progressCb: (number) => void
+) {
   const promises: Promise<void>[] = [];
   for (const r of rs) {
     const img = await makeSquare(await downloadRole(r));
