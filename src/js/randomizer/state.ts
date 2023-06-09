@@ -1,52 +1,35 @@
 import { Ranking } from "./bag";
+import localforage from 'localforage';
 
 export interface State {
   scriptTitle: string,
   numPlayers: number;
   ranking: Ranking;
   selection: string[];
+  lastSave: Date;
 }
 
-function serializeState(s: State): string {
-  return JSON.stringify({
-    scriptTitle: s.scriptTitle,
-    numPlayers: s.numPlayers,
-    ranking: s.ranking,
-    selection: s.selection,
+export function initStorage() {
+  localforage.config({
+    name: 'botc-tools',
+    storeName: 'botc_tools',
   });
 }
 
-function parseState(json: string): State | null {
-  const s = JSON.parse(json);
-  if ("scriptTitle" in s && "numPlayers" in s && "ranking" in s && "selection" in s) {
-    return {
-      scriptTitle: s["scriptTitle"],
-      numPlayers: s["numPlayers"],
-      ranking: s["ranking"],
-      selection: Array.from(s["selection"]),
-    }
-  }
-  return null;
-}
-
-export function loadState(title: string): State | undefined {
-  const json = window.localStorage.getItem("state");
-  if (!json) { return; }
-  const s = parseState(json);
-  if (!s) { return; }
-  if (s.scriptTitle != title) {
-    window.localStorage.removeItem("state");
-    return;
-  }
+export async function loadState(id: number): Promise<State | null> {
+  const s = await localforage.getItem<State>(`assign.${id}`);
   return s;
 }
 
-export function storeState(state: {
-  scriptTitle: string;
-  numPlayers: number;
-  ranking: Ranking, selection: Set<string>;
-}) {
+export async function storeState(id: number,
+  state: {
+    scriptTitle: string;
+    numPlayers: number;
+    ranking: Ranking,
+    selection: Set<string>;
+  }): Promise<void> {
   let selection = Array.from(state.selection);
-  let s = serializeState({ ...state, selection });
-  window.localStorage.setItem("state", s);
+  let lastSave = new Date();
+  let s: State = { ...state, selection, lastSave };
+  await localforage.setItem(`assign.${id}`, s);
 }

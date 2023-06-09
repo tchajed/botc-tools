@@ -4,7 +4,7 @@ import { createSelectionReducer, CharacterSelection, initialSelection } from './
 import { SetupModifiers } from './setup_help';
 import { randomRanking, SelectedCharacters, sortBag } from './bag';
 import { CharacterContext } from './character_context';
-import { State, loadState, storeState } from './state';
+import { State, initStorage, loadState, storeState } from './state';
 import { FullscreenRole } from './role_fullscreen';
 import { History } from './history';
 import { Nav } from './nav';
@@ -25,16 +25,19 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
 
   // load state from local storage
   useEffect(() => {
-    const s = loadState(script.title);
-    if (!s) { return; }
-    setNumPlayers(s.numPlayers);
-    setRanking(s.ranking);
-    selDispatch({ type: "set all", ids: s.selection });
+    initStorage();
+    loadState(script.id).then(s => {
+      if (!s) { return; }
+      setNumPlayers(s.numPlayers);
+      setRanking(s.ranking);
+      selDispatch({ type: "set all", ids: s.selection });
+    });
   }, []);
 
   // keep local storage up-to-date
   useEffect(() => {
-    storeState({ scriptTitle: script.title, numPlayers, ranking, selection });
+    storeState(script.id,
+      { scriptTitle: script.title, numPlayers, ranking, selection });
   }, [numPlayers, ranking, selection]);
 
   useEffect(() => {
@@ -52,14 +55,6 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
       if (state.selection !== undefined) {
         selDispatch({ type: "set all", ids: state.selection });
       }
-    });
-
-    window.addEventListener("hashchange", () => {
-      // without some action the page won't change, even though the selected
-      // script has changed
-      //
-      // reloading dynamically is a little hard and not worth it
-      window.location.reload();
     });
 
     // note: this was supposed to reset zoom in landscape mode, but it doesn't
