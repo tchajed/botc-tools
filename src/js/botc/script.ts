@@ -16,7 +16,7 @@ export interface NightOrders {
 }
 
 export function getCharacterList(characters: string[]): CharacterInfo[] {
-  let chars: CharacterInfo[] = [];
+  const chars: CharacterInfo[] = [];
   for (const id of characters) {
     const character = roles.get(id);
     if (character === undefined) {
@@ -30,8 +30,8 @@ export function getCharacterList(characters: string[]): CharacterInfo[] {
 }
 
 function getNightOrders(characters: CharacterInfo[]): NightOrders {
-  let firstNightChars: CharacterInfo[] = [MinionInfo, DemonInfo];
-  let otherNightChars: CharacterInfo[] = [];
+  const firstNightChars: CharacterInfo[] = [MinionInfo, DemonInfo];
+  const otherNightChars: CharacterInfo[] = [];
 
   for (const character of characters) {
     if (character.firstNight) {

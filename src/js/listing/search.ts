@@ -28,7 +28,7 @@ function matchPriority(s: ScriptData, q: string): number {
     return -100;
   }
   const title = normalize(s.title)
-  let normq = normalize(q);
+  const normq = normalize(q);
   if (title.startsWith(normq)) {
     return -99;
   }
@@ -50,7 +50,7 @@ export function queryMatches(scripts: ScriptData[], query: string): ScriptData[]
   if (query == "") {
     matches = scripts.filter(s => FAVORITES.includes(s.pk));
   } else {
-    let q = normalize(query);
+    const q = normalize(query);
     if (q == "") {
       matches = scripts;
     } else {

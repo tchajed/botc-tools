@@ -30,7 +30,7 @@ export function randomRanking(characters: CharacterInfo[]): Ranking {
     randomOrder.push(`legion-${i}`);
   }
   shuffleArray(randomOrder);
-  let r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
+  const r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
   return r;
 }
 
@@ -134,7 +134,7 @@ function BagHeader(props: {
   history: History<Partial<State>>,
   setHistory: SetHistory,
 }): JSX.Element {
-  let { ranking, selection } = props;
+  const { ranking, selection } = props;
   return <div className="bag-header">
     <h2>Bag</h2>
     <div className="bag-btns">

@@ -10,8 +10,8 @@ http.globalAgent.maxSockets = 10;
  * @param params The query to run.
  * @param continueParam The name of the parameter that specifies how to resume queries.
  */
-async function completeQuery(params: any, continueParam: string,
-  continueVal: string | null = null): Promise<any[]> {
+async function completeQuery(params: object, continueParam: string,
+  continueVal: string | null = null): Promise<object[]> {
   if (continueVal !== null) {
     params[continueParam] = continueVal;
   }
@@ -22,13 +22,13 @@ async function completeQuery(params: any, continueParam: string,
       format: "json",
     }
   });
-  let { data } = await query_api.get("api.php", { params });
+  const { data } = await query_api.get("api.php", { params });
   if (!('continue' in data)) {
     // terminated
     return [data.query];
   }
   // need to recursively get remaining results
-  let rest = await completeQuery(params, continueParam, data.continue[continueParam]);
+  const rest = await completeQuery(params, continueParam, data.continue[continueParam]);
   // insert the original results at the front of the list
   rest.unshift(data.query);
   return rest;
@@ -53,9 +53,14 @@ export function allIcons(): Promise<Icon[]> {
     aifrom: "Icon_",
     aito: "J",
   }, "aicontinue").then((results) => {
-    var images: Icon[] = [];
+    const images: Icon[] = [];
     for (const r of results) {
-      images.push(...r.allimages);
+      if ('allimages' in r) {
+        const newImages = r['allimages'];
+        if (newImages instanceof Array) {
+          images.push(...newImages);
+        }
+      }
     }
     return images;
   });
@@ -63,7 +68,7 @@ export function allIcons(): Promise<Icon[]> {
 
 export function findNotDownloaded(icons: Icon[], imgDir: string): Icon[] {
   return icons.filter(icon => {
-    let fileName = iconFileName(icon);
+    const fileName = iconFileName(icon);
     return !fs.existsSync(`${imgDir}/${fileName}`);
   });
 }
@@ -76,10 +81,10 @@ interface DownloadedIcon {
 /** Download a list of icons and return the raw data in memory.  */
 export async function downloadIcons(
   icons: Icon[],
-  progressCb: (number) => any):
+  progressCb: (number) => void):
   Promise<DownloadedIcon[]> {
   async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
-    let { data } = await axios.get(icon.url, {
+    const { data } = await axios.get(icon.url, {
       responseType: "arraybuffer",
       responseEncoding: "binary",
       maxRate: 3000 * 1024, // 3MB/s
@@ -87,9 +92,9 @@ export async function downloadIcons(
     return data;
   }
 
-  var downloads: DownloadedIcon[] = [];
+  const downloads: DownloadedIcon[] = [];
   while (icons.length > 0) {
-    var nextBatch = await Promise.all(icons.splice(0, 10).map(icon =>
+    const nextBatch = await Promise.all(icons.splice(0, 10).map(icon =>
       downloadIcon(icon).then(data => {
         progressCb(1);
         return { icon, data };
@@ -102,7 +107,7 @@ export async function downloadIcons(
 
 async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
   let img = sharp(data);
-  let meta = await img.metadata();
+  const meta = await img.metadata();
   const size = 401;
   if (meta.height && meta.width && meta.height > size) {
     img = img.extract({

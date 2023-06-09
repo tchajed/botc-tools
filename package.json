@@ -10,7 +10,8 @@
     "fetch-assets": "ts-node fetch_assets/src/main.ts",
     "start": "parcel serve",
     "build": "parcel build --public-url '.'",
-    "postbuild": "workbox generateSW"
+    "postbuild": "workbox generateSW",
+    "lint": "eslint src fetch_assets test"
   },
   "version": "0.1.0",
   "description": "BotC storyteller tools",

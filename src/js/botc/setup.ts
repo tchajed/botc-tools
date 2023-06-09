@@ -15,7 +15,7 @@ export function zeroDistribution(): Distribution {
 }
 
 export function distributionForCount(numPlayers: number): Distribution {
-  let dist = zeroDistribution();
+  const dist = zeroDistribution();
   dist.demon = 1;
   if (numPlayers == 5 || numPlayers == 6) {
     dist.outsider = numPlayers - 5;
@@ -29,7 +29,7 @@ export function distributionForCount(numPlayers: number): Distribution {
 }
 
 export function actualDistribution(characters: CharacterInfo[]): Distribution {
-  let dist = zeroDistribution();
+  const dist = zeroDistribution();
   for (const c of characters) {
     dist[c.roleType]++;
   }
@@ -39,7 +39,7 @@ export function actualDistribution(characters: CharacterInfo[]): Distribution {
 /** Get the number of characters of each type taking into account an extra demon
  * (Riot) for each nominal minion. */
 export function effectiveDistribution(numPlayers: number, characters: CharacterInfo[]): Distribution {
-  let dist = zeroDistribution();
+  const dist = zeroDistribution();
   const targetDist = distributionForCount(numPlayers);
   let isLegion = false;
   for (const c of characters) {
@@ -54,7 +54,7 @@ export function effectiveDistribution(numPlayers: number, characters: CharacterI
     // all other players are legion
     //
     // the minion count is going to be wrong but avoid adding too many characters
-    let demonCount = numPlayers - dist.townsfolk - dist.outsider - dist.minion;
+    const demonCount = numPlayers - dist.townsfolk - dist.outsider - dist.minion;
     if (demonCount > 0) {
       dist.demon = demonCount;
     }
@@ -120,11 +120,11 @@ export function goesInBag(char: CardInfo): boolean {
 }
 
 function applyModification(old_dist: Distribution, mod: SetupModification): Distribution[] {
-  let dist: Distribution = { ...old_dist };
+  const dist: Distribution = { ...old_dist };
   switch (mod.type) {
     case "outsider_count": {
       return mod.delta.map(delta => {
-        let newDist = { ...old_dist };
+        const newDist = { ...old_dist };
         newDist.townsfolk -= delta;
         newDist.outsider += delta;
         return newDist;
@@ -160,7 +160,7 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
       return [dist];
     }
     case "legion": {
-      let dists: Distribution[] = [];
+      const dists: Distribution[] = [];
       const numPlayers = old_dist.townsfolk + old_dist.outsider + old_dist.minion + old_dist.demon;
       const oldGoodCount = old_dist.townsfolk + old_dist.outsider;
       for (const demonCount of [oldGoodCount, oldGoodCount - 1]) {
@@ -179,7 +179,7 @@ function applyModification(old_dist: Distribution, mod: SetupModification): Dist
 }
 
 function clampedValid(dist: Distribution, characters: CharacterInfo[]): boolean {
-  let totalDist = actualDistribution(characters);
+  const totalDist = actualDistribution(characters);
   // allow arbitrary number of demons for clamping purposes (for Riot, Legion)
   totalDist.demon = 15;
   return Object.keys(dist).every(roleType => {
@@ -188,7 +188,7 @@ function clampedValid(dist: Distribution, characters: CharacterInfo[]): boolean 
 }
 
 export function uniqueDistributions(dists: Distribution[]): Distribution[] {
-  let uniqueDists: Distribution[] = [];
+  const uniqueDists: Distribution[] = [];
   for (const dist of dists) {
     if (uniqueDists.some(d => sameDistribution(d, dist))) {
       // duplicate
@@ -213,7 +213,7 @@ export function modifiedDistribution(
 }
 
 export function modifyingCharacters(selection: Set<string>): CharacterInfo[] {
-  let modified: CharacterInfo[] = [];
+  const modified: CharacterInfo[] = [];
   selection.forEach(id => {
     if (id in SetupChanges) {
       modified.push(getCharacter(id));
@@ -265,8 +265,8 @@ export function splitSelectedChars(
     bag: BagCharacter[],
     outsideBag: CardInfo[],
   } {
-  let selected = characters.filter(char => selection.has(char.id));
-  let bag: BagCharacter[] = selected.filter(c => goesInBag(c));
+  const selected = characters.filter(char => selection.has(char.id));
+  const bag: BagCharacter[] = selected.filter(c => goesInBag(c));
   const dist = distributionForCount(numPlayers);
   const riot = bag.find(c => c.id == "riot");
   if (riot) {
@@ -284,7 +284,7 @@ export function splitSelectedChars(
     }
   }
 
-  let outsideBag = selected.filter(char => !goesInBag(char));
+  const outsideBag = selected.filter(char => !goesInBag(char));
   outsideBag.sort((c1, c2) => c1.name.localeCompare(c2.name));
   return { bag, outsideBag };
 }

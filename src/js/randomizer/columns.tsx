@@ -2,9 +2,9 @@ import React, { ReactNode, Children } from "react";
 
 function splitColumns<T>(xs: T[], numColumns: number): T[][] {
   const numPerColumn = Math.ceil(xs.length / numColumns);
-  let columns: T[][] = [];
+  const columns: T[][] = [];
   while (xs.length > 0) {
-    let col = xs.splice(0, numPerColumn);
+    const col = xs.splice(0, numPerColumn);
     columns.push(col);
   }
   return columns;

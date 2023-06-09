@@ -9,7 +9,7 @@ async function init() {
   window.addEventListener('hashchange', () => {
     window.location.reload();
   })
-  let script = new Script(await selectedScript());
+  const script = new Script(await selectedScript());
   document.title = `${script.title} roles sheet`;
   const app = document.getElementById("app");
   if (!app) { return; }

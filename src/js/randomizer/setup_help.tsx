@@ -32,7 +32,7 @@ export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
 }
 
 function ModificationExplanation(props: { mod: SetupModification }): JSX.Element {
-  let { mod } = props;
+  const { mod } = props;
   switch (mod.type) {
     case "outsider_count": {
       const change = Math.abs(mod.delta);
@@ -69,15 +69,15 @@ export function SetupModifiers(props: {
   numPlayers: number,
   selection: Selection
 }) {
-  let { numPlayers, selection } = props;
+  const { numPlayers, selection } = props;
   const characters = useContext(CharacterContext);
   const modified = modifyingCharacters(selection, characters);
   const newDistributions = targetDistributions(numPlayers,
     modified, characters);
 
   const selected = characters.filter(c => selection.has(c.id));
-  let actual = effectiveDistribution(numPlayers, selected);
-  let distributionCorrect = newDistributions.some(dist => sameDistribution(dist, actual));
+  const actual = effectiveDistribution(numPlayers, selected);
+  const distributionCorrect = newDistributions.some(dist => sameDistribution(dist, actual));
 
   let goalDistributionElement: JSX.Element = <>{newDistributions
     .map((dist, i) => <Distr dist={dist} key={i} />)
@@ -125,13 +125,13 @@ export function BagSetupHelp(props: {
   numPlayers: number,
   selection: Selection,
 }): JSX.Element {
-  let { numPlayers, selection } = props;
+  const { numPlayers, selection } = props;
   const characters = useContext(CharacterContext);
   const modified = modifyingCharacters(selection, characters);
   const targets = targetDistributions(numPlayers,
     modified, characters);
   const selected = characters.filter(c => selection.has(c.id));
-  let actual = effectiveDistribution(numPlayers, selected);
+  const actual = effectiveDistribution(numPlayers, selected);
 
   const { bag } = splitSelectedChars(characters, selection, numPlayers);
 

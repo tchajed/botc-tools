@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from './nightsheet/app';
 
 async function init() {
-  let script = new Script(await selectedScript());
+  const script = new Script(await selectedScript());
   document.title = `${script.title} night sheets`;
   const app = document.getElementById("app");
   if (!app) { return; }

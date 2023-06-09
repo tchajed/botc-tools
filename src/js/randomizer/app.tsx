@@ -77,7 +77,7 @@ function Randomizer({ script }: { script: Script }): JSX.Element {
     modifyingCharacters(selection),
     characters,
   );
-  let selectedCharInfo: CharacterInfo[] = [...selection].map(id => getCharacter(id));
+  const selectedCharInfo: CharacterInfo[] = [...selection].map(id => getCharacter(id));
   const actual = effectiveDistribution(numPlayers, selectedCharInfo);
   const rolesNotNeeded = roleTypesDefinitelyDone(targetDists, actual);
   const acrobat = roles.get('acrobat');

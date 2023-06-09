@@ -7,7 +7,7 @@ async function init() {
   const app = document.getElementById("app");
   if (!app) { return; }
 
-  let scripts = await getScripts();
+  const scripts = await getScripts();
 
   const root = createRoot(app);
   root.render(<React.StrictMode>

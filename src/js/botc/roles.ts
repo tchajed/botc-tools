@@ -105,7 +105,7 @@ function versionToEdition(version: string): Edition {
 }
 
 function createRoleData(): Map<string, CharacterInfo> {
-  let roles: Map<string, CharacterInfo> = new Map();
+  const roles: Map<string, CharacterInfo> = new Map();
 
   for (const role of script_roles) {
     const id = nameToId(role.id);

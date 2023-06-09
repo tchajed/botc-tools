@@ -23,7 +23,7 @@ export function CharacterIconElement(props: {
   name: string,
   id: string
 }): JSX.Element {
-  let { id } = props;
+  const { id } = props;
   if (!iconPath(id)) {
     return <></>;
   }

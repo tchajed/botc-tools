@@ -11,7 +11,7 @@ const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435,811";
 
 async function downloadImages(imgDir: string) {
   console.log("fetching list of images");
-  var icons = await allIcons();
+  let icons = await allIcons();
   icons = findNotDownloaded(icons, imgDir);
 
   if (icons.length == 0) {
@@ -47,22 +47,22 @@ async function downloadScriptToolIcons(dataDir: string, iconsDir: string) {
   bar.stop();
 }
 
-async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, assetsDir: string) {
+async function downloadScripts(scriptsOpt: string | null, scriptsDir: string) {
   fs.mkdirSync(scriptsDir, { recursive: true });
 
-  var scripts: string = scriptsOpt || "";
+  let scripts: string = scriptsOpt || "";
   if (scripts == "favorites") {
     scripts = FAVORITE_SCRIPTS;
   }
-  let ids = scripts.split(",").map(s => s.trim()).filter(s => s != "");
+  const ids = scripts.split(",").map(s => s.trim()).filter(s => s != "");
 
   await Promise.all(ids.map(async (id) => {
-    let destFile = `${scriptsDir}/${id}.json`;
+    const destFile = `${scriptsDir}/${id}.json`;
     if (fs.existsSync(destFile)) {
       console.log(`already have script ${id}.json`);
       return;
     }
-    let script = await getScript(id);
+    const script = await getScript(id);
     if (script == null) {
       console.error(`could not download ${id}`);
       return;
@@ -74,7 +74,7 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
 
 async function downloadAllScripts(staticDir: string) {
   fs.mkdirSync(staticDir, { recursive: true });
-  let path = `${staticDir}/scripts.json`;
+  const path = `${staticDir}/scripts.json`;
   if (fs.existsSync(path)) {
     console.log("already have scripts.json");
     return;
@@ -150,7 +150,7 @@ async function main() {
   }
 
   if (options.scripts !== undefined) {
-    await downloadScripts(options.scripts, scriptsDir, assetsDir);
+    await downloadScripts(options.scripts, scriptsDir);
   }
 
   if (options.allScripts) {

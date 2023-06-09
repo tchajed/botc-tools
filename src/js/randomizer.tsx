@@ -5,7 +5,7 @@ import { selectedScript } from './select_script';
 import { App } from './randomizer/app';
 
 async function init() {
-  let script = new Script(await selectedScript());
+  const script = new Script(await selectedScript());
   document.title = `${script.title} role select`;
   const app = document.getElementById("app");
   if (!app) { return; }

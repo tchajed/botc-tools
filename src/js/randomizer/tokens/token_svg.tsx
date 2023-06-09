@@ -13,7 +13,7 @@ import { BagCharacter } from '../../botc/setup';
  */
 function splitLines(ability: string): string[] {
   const LINE_MAX = [25, 29, 29, 32, 35];
-  let lines: string[] = [];
+  const lines: string[] = [];
   let line = "";
   let rest = ability;
   while (rest.length > 0) {

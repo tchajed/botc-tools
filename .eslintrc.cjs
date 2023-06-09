@@ -12,8 +12,15 @@ module.exports = {
     {
       "files": ["*.ts", "*.tsx"],
       "rules": {
-        // ignore these for now, will fix them together later
-        "prefer-const": 'off',
+        "no-unused-vars": "off",
+        // allow unused vars that start with _
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          {
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+          }
+        ]
       },
     }
   ],

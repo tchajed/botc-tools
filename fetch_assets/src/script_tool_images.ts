@@ -10,28 +10,16 @@ interface Role {
 
 const BASE_URL = "https://script.bloodontheclocktower.com";
 
-/** Rescale to a square 124x124 icon, from the default 124x177. Unfortunately
- * this cuts off some landscape icons, so we can't use it. */
-async function rescaleIcon(data: ArrayBuffer, fabled: boolean): Promise<sharp.Sharp> {
-  let img = sharp(data);
-  let meta = await img.metadata();
-  const size = 124;
-  if (!fabled && meta.width && meta.width > size && meta.height >= size) {
-    img = img.extract({
-      left: Math.floor((meta.width - size) / 2),
-      top: Math.floor((meta.height - size) / 2),
-      width: size,
-      height: size,
-    })
-  }
-  // even if not fabled we still want to wrap the image in sharp.Sharp to save
-  // it
-  return img;
-}
-
+/** Make an icon square by adding padding.
+ *
+ * TODO: make this smarter by first truncating any extra fully-transparent
+ * margin and only then padding to square. Currently most icons end up with a
+ * border all the way around, but there are landscape icons (eg, for fabled)
+ * that need exactly this treatment.
+ */
 async function makeSquare(data: ArrayBuffer): Promise<sharp.Sharp> {
   let img = sharp(data);
-  let meta = await img.metadata();
+  const meta = await img.metadata();
   if (meta.width > meta.height) {
     const extra = (meta.width - meta.height) / 2;
     img = img.extend({
@@ -76,7 +64,7 @@ export async function downloadRoles(rs: Role[], imgDir: string, progressCb: (num
 }
 
 export async function getRoles(dataDir: string): Promise<Role[]> {
-  let rolesFile = await fs.promises.readFile(`${dataDir}/roles.json`);
-  let roles: Role[] = JSON.parse(rolesFile.toString());
+  const rolesFile = await fs.promises.readFile(`${dataDir}/roles.json`);
+  const roles: Role[] = JSON.parse(rolesFile.toString());
   return roles;
 }

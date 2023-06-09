@@ -29,9 +29,9 @@ export async function storeState(id: number,
     ranking: Ranking,
     selection: Set<string>;
   }): Promise<void> {
-  let selection = Array.from(state.selection);
-  let lastSave = new Date();
-  let s: State = { ...state, id, selection, lastSave };
+  const selection = Array.from(state.selection);
+  const lastSave = new Date();
+  const s: State = { ...state, id, selection, lastSave };
   await localforage.setItem(`assign.${id}`, s);
 }
 

@@ -159,7 +159,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
 
   useEffect(() => {
     window.onhashchange = () => {
-      let newQuery = hashQuery();
+      const newQuery = hashQuery();
       if (newQuery != "" && searchNormalize(newQuery) != searchNormalize(query)) {
         setQuery(newQuery);
       }

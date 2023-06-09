@@ -12,7 +12,7 @@ interface Resp {
 const MAX_PAGES = 300;
 
 async function getPage(page: number): Promise<{ count: number, data: ScriptData[], next: boolean }> {
-  let resp = await axios.get("https://botc-scripts.azurewebsites.net/api/scripts/",
+  const resp = await axios.get("https://botc-scripts.azurewebsites.net/api/scripts/",
     {
       maxRate: 3000 * 1024, // 3MB/s
       params: {
@@ -29,9 +29,9 @@ async function getPage(page: number): Promise<{ count: number, data: ScriptData[
 }
 
 export async function fetchAllScripts(): Promise<ScriptData[]> {
-  var results: ScriptData[] = [];
+  const results: ScriptData[] = [];
   const bar = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
-  for (var page = 1; page < MAX_PAGES; page++) {
+  for (let page = 1; page < MAX_PAGES; page++) {
     const { count, data, next } = await getPage(page);
     results.push(...data);
 

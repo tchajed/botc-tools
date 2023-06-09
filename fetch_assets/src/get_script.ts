@@ -40,7 +40,7 @@ function idsFromContents(content: ContentRow[]): string[] {
 }
 
 async function getScriptResp(id: string): Promise<ScriptInstanceResp | ScriptJsonResp | null> {
-  let resp = await axios.get(`${apiBase}/scripts/${id}/?format=json`).catch((err) => {
+  const resp = await axios.get(`${apiBase}/scripts/${id}/?format=json`).catch((err) => {
     if (err.response && err.response.status == 404) {
       return null;
     } else {
@@ -53,18 +53,18 @@ async function getScriptResp(id: string): Promise<ScriptInstanceResp | ScriptJso
     // version of a script and thus not the top-level script object which is
     // 2110 as of writing this content). In these cases we can still try to
     // infer the metadata from a {id: "_meta"} in the character list.
-    let resp = await axios.get(`${apiBase}/scripts/${id}/json?format=json`);
-    let data: ScriptJsonResp = resp.data;
+    const resp = await axios.get(`${apiBase}/scripts/${id}/json?format=json`);
+    const data: ScriptJsonResp = resp.data;
     return data;
   }
-  let data: ScriptInstanceResp = resp.data;
+  const data: ScriptInstanceResp = resp.data;
   return data;
 }
 
 export function parseScriptInstance(data: ScriptInstanceResp): ScriptData {
   // I haven't seen this required but maybe sometimes the root metadata is
   // missing.
-  let meta = metaFromContents(data.content) || { name: "", author: "" };
+  const meta = metaFromContents(data.content) || { name: "", author: "" };
   return {
     pk: data.pk,
     title: data.name || meta.name,
@@ -75,14 +75,14 @@ export function parseScriptInstance(data: ScriptInstanceResp): ScriptData {
 }
 
 export async function getScript(id: string): Promise<ScriptData | null> {
-  let data = await getScriptResp(id);
+  const data = await getScriptResp(id);
   if (data == null) {
     return null;
   }
   if (data instanceof Array) {
-    let contents = data;
+    const contents = data;
     // just a contents array
-    let meta = metaFromContents(contents);
+    const meta = metaFromContents(contents);
     if (meta == null) {
       return null;
     }

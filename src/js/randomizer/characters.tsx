@@ -7,7 +7,7 @@ import { actualDistribution } from "../botc/setup";
 import { CharacterIconElement, characterClass } from "../views";
 
 function RoleLabel(props: { roleType: string }): JSX.Element {
-  let letter = props.roleType.charAt(0).toUpperCase();
+  const letter = props.roleType.charAt(0).toUpperCase();
   return <span className='role-label'>{letter}</span>;
 }
 
@@ -26,9 +26,9 @@ export function CharacterCard(props: {
   selected?: boolean,
   notNeeded?: boolean,
 }): JSX.Element {
-  let { character } = props;
-  let { roleType } = character;
-  let needsLabel = ["outsider", "minion"].includes(roleType);
+  const { character } = props;
+  const { roleType } = character;
+  const needsLabel = ["outsider", "minion"].includes(roleType);
   return <div
     className={classnames(
       characterClass(character),
@@ -61,7 +61,7 @@ export type SelAction =
  * If the script has a lone demon, it is automatically added.
  */
 export function initialSelection(characters: CharacterInfo[]): Set<string> {
-  let sel = new Set<string>();
+  const sel = new Set<string>();
   const totalDistribution = actualDistribution(characters);
   if (totalDistribution.demon == 1) {
     for (const c of characters) {
@@ -89,7 +89,7 @@ export function createSelectionReducer(characters: CharacterInfo[])
     }
   }
   return (selection: Selection, action: SelAction) => {
-    let newSelection = new Set(selection);
+    const newSelection = new Set(selection);
     switch (action.type) {
       case "toggle": {
         if (newSelection.has(action.id)) {
@@ -122,7 +122,7 @@ interface SelectionVar {
 
 export function CharacterSelection(props: SelectionVar & { doneRoles: string[] }): JSX.Element {
   const chars = useContext(CharacterContext);
-  let { selection, selDispatch: dispatch } = props;
+  const { selection, selDispatch: dispatch } = props;
 
   return <div>
     {["townsfolk", "outsider", "minion", "demon"].map(roleType =>

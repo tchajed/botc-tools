@@ -49,7 +49,7 @@ async function main() {
 
   await page.tap(`xpath///*[@id = 'minus-player-btn']`);
 
-  const pickChar = async function (name, bag: boolean = false) {
+  const pickChar = async function (name, bag = false) {
     const charsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' characters ')]`;
     const bagCharsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' selected-characters ')]`;
     const charSel = bag ? bagCharsX : charsX;
