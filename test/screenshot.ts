@@ -21,6 +21,7 @@ async function main() {
   };
 
   const screenshot = async (name: string) => {
+    await wait(200);
     await page.screenshot({
       path: `test/screenshots/${name}.png`,
     });
@@ -60,22 +61,18 @@ async function main() {
   await pickChar("Saint");
   await pickChar("Ravenkeeper");
   await scrollPage(100);
-  await wait(100);
   await screenshot('assign/1-incomplete');
 
   await pickChar("Librarian");
   await pickChar("Fortune Teller");
-  await wait(100);
   await screenshot('assign/2-complete');
 
   await scrollPage(1150);
-  await wait(100);
   await screenshot('assign/3-bag');
 
   await page.setViewport({ width: iPhone.viewport.height, height: iPhone.viewport.width, hasTouch: true });
 
   await pickChar("Imp", true);
-  await wait(100);
   await screenshot('assign/4-show-char');
 
   await browser.close();
