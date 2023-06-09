@@ -1,5 +1,4 @@
 import { Jinx, getJinxList } from "./jinx";
-import { getCharacter } from "./roles";
 import { CharacterInfo, DemonInfo, MinionInfo, nameToId, roles } from "./roles";
 
 export interface ScriptData {
@@ -16,7 +15,7 @@ export interface NightOrders {
   otherNights: CharacterInfo[];
 }
 
-function getCharacterList(characters: string[]): CharacterInfo[] {
+export function getCharacterList(characters: string[]): CharacterInfo[] {
   var chars: CharacterInfo[] = [];
   for (const id of characters) {
     const character = roles.get(id);
@@ -52,19 +51,14 @@ function getNightOrders(characters: CharacterInfo[]): NightOrders {
   }
 }
 
-function isTeensyville(characters: CharacterInfo[]): boolean {
+export function isTeensyville(characters: CharacterInfo[]): boolean {
   const numTownsfolk = characters.filter(c => c.roleType == "townsfolk").length;
   // normal scripts have 13 townsfolk while teensyville is 6
   return numTownsfolk < 10;
 }
 
-export function scriptIsTeensyville(s: ScriptData): boolean {
-  const numTownsfolk = s.characters.filter(id => {
-    const r = roles.get(nameToId(id));
-    if (!r) { return false; }
-    return r.roleType == "townsfolk";
-  }).length;
-  return numTownsfolk < 10;
+export function onlyBaseThree(characters: CharacterInfo[]): boolean {
+  return characters.every(c => c.edition != "other" || c.roleType == "travellers");
 }
 
 export class Script {

@@ -20,7 +20,7 @@ function Character({ character }: { character: CharacterInfo }): JSX.Element {
 }
 
 function pluralRole(roleType: string): string {
-  return ["townsfolk", "fabled"].includes(roleType) ? roleType : roleType + "s"
+  return ["townsfolk", "fabled", "travellers"].includes(roleType) ? roleType : roleType + "s"
 }
 
 function RoleTypeRow(props: { roleType: string }): JSX.Element {

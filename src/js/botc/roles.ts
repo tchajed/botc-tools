@@ -32,19 +32,24 @@ interface NightAction {
 const RoleTypes = ["townsfolk", "outsider", "minion", "demon", "fabled", "travellers"] as const;
 export type RoleType = typeof RoleTypes[number];
 
+const Editions = ["tb", "snv", "bmr", "other"] as const;
+export type Edition = typeof Editions[number];
+
 export class CharacterInfo {
   readonly id: string;
   readonly name: string;
   readonly roleType: RoleType;
+  readonly edition: Edition;
   ability: string | null;
 
   firstNight: NightAction | null;
   otherNights: NightAction | null;
 
-  constructor(id: string, name: string, roleType: RoleType) {
+  constructor(id: string, name: string, roleType: RoleType, edition: Edition) {
     this.id = id;
     this.name = name;
     this.roleType = roleType;
+    this.edition = edition;
     this.ability = null;
     this.firstNight = null;
     this.otherNights = null;
@@ -70,13 +75,13 @@ export class CharacterInfo {
   }
 }
 
-export const MinionInfo: CharacterInfo = new CharacterInfo("MINION", "Minion Info", "minion");
+export const MinionInfo: CharacterInfo = new CharacterInfo("MINION", "Minion Info", "minion", "other");
 MinionInfo.firstNight = {
   details: "If there are 7 or more players: Wake all Minions. Show the THIS IS THE DEMON token. Point to the Demon.",
   index: nightsheet.firstNight.indexOf("MINION"),
 };
 
-export const DemonInfo: CharacterInfo = new CharacterInfo("DEMON", "Demon Info", "demon");
+export const DemonInfo: CharacterInfo = new CharacterInfo("DEMON", "Demon Info", "demon", "other");
 DemonInfo.firstNight = {
   details: `If there are 7 or more players: Wake the Demon.
   Show the THESE ARE YOUR MINIONS token. Point to all Minions.
@@ -88,6 +93,17 @@ export function nameToId(name: string): string {
   return name.toLowerCase().replaceAll(/[ '-_]/g, "");
 }
 
+function versionToEdition(version: string): Edition {
+  if (version == "1 - Trouble Brewing") {
+    return "tb";
+  } else if (version == "2 - Bad Moon Rising") {
+    return "bmr";
+  } else if (version == "3 - Sects and Violets") {
+    return "snv";
+  }
+  return "other";
+}
+
 function createRoleData(): Map<string, CharacterInfo> {
   var roles: Map<string, CharacterInfo> = new Map();
 
@@ -97,7 +113,9 @@ function createRoleData(): Map<string, CharacterInfo> {
     const roleType = role.roleType;
     const validRole = RoleTypes.find((r) => r == roleType);
     if (validRole) {
-      const info = new CharacterInfo(id, name, validRole);
+      const info = new CharacterInfo(
+        id, name, validRole, versionToEdition(role.version),
+      );
       roles.set(id, info);
     } else {
       console.warn(`invalid role ${roleType} for ${id}`);

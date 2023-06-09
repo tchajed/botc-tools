@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../icons';
 import { pageUrl } from '../routing';
-import { ScriptData, scriptIsTeensyville } from '../botc/script';
+import { ScriptData, getCharacterList, isTeensyville, onlyBaseThree } from '../botc/script';
 import { queryMatches, searchNormalize } from './search';
+
+const BaseThree = [178, 180, 181];
 
 function UpdateBar(): JSX.Element {
   // Set disabled class to hide the bar.
@@ -49,14 +51,17 @@ function ScriptTable(props: { scripts: ScriptData[] }): JSX.Element {
 
 function ScriptRow(props: { script: ScriptData }): JSX.Element {
   const { pk, title } = props.script;
+  const chars = getCharacterList(props.script.characters);
   let id = (pk || 0).toString();
   return <tr>
     <td className="title-cell">
       <a href={pageUrl("roles", id)}>
         {title}
       </a>
-      {scriptIsTeensyville(props.script) &&
-        <>&nbsp;<span className="teensy-label">teensy</span></>}
+      {isTeensyville(chars) &&
+        <>&nbsp;<span className="script-label">teensy</span></>}
+      {onlyBaseThree(chars) && !BaseThree.includes(pk) &&
+        <>&nbsp;<span className="script-label">base3</span></>}
     </td>
     <td className="roles-cell">
       <a className="btn-link" href={pageUrl("roles", id)}>
@@ -93,9 +98,9 @@ function GitHubLink(): JSX.Element {
 }
 
 export function App(props: { scripts: ScriptData[] }): JSX.Element {
-  const baseThree = props.scripts.filter(s => [178, 180, 181].includes(s.pk));
+  const baseThree = props.scripts.filter(s => BaseThree.includes(s.pk));
   baseThree.sort((s1, s2) => s1.pk - s2.pk);
-  const custom = props.scripts.filter(s => ![178, 180, 181].includes(s.pk));
+  const custom = props.scripts.filter(s => !BaseThree.includes(s.pk));
 
   function removePrefix(s: string, prefix: string): string {
     if (s.startsWith(prefix)) {
