@@ -9,6 +9,7 @@ module.exports = {
   ],
   maximumFileSizeToCacheInBytes: 5000000, // 5MB
   ignoreURLParametersMatching: [/^id$/, /^utm_/],
+  dontCacheBustURLsMatching: /.*\.[a-f0-9]{8}\..*/,
   runtimeCaching: [
     {
       urlPattern: /^https:\/\/fonts\.googleapis\.com/,
@@ -35,4 +36,5 @@ module.exports = {
   swDest: "dist/service-worker.js",
   clientsClaim: false,
   skipWaiting: false,
+  offlineGoogleAnalytics: true,
 };
