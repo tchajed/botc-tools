@@ -5,7 +5,7 @@ module.exports = {
     "**/*.{html,js,css}",
     // images
     "**/*.{png,webp,svg,ico}",
-    "**/*.{json,woff,woff2,webmanifest}",
+    "**/*.{json.gz,woff,woff2,webmanifest}",
   ],
   maximumFileSizeToCacheInBytes: 5000000, // 5MB
   ignoreURLParametersMatching: [/^id$/, /^utm_/],

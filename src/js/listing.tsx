@@ -1,15 +1,17 @@
-import allScripts from '../../assets/scripts.json';
-
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './listing/app';
+import { getScripts } from './get_scripts';
 
-function init() {
+async function init() {
   const app = document.getElementById("app");
   if (!app) { return; }
+
+  let scripts = await getScripts();
+
   const root = createRoot(app);
   root.render(<React.StrictMode>
-    <App scripts={allScripts.scripts} />
+    <App scripts={scripts} />
   </React.StrictMode>);
 }
 

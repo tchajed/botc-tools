@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import '../icons';
 import { pageUrl } from '../routing';
-
-interface Script {
-  id: string,
-  title: string,
-}
+import { ScriptData } from '../botc/script';
+import { queryMatches, searchNormalize } from './search';
 
 function UpdateBar(): JSX.Element {
   // Set disabled class to hide the bar.
@@ -38,17 +35,18 @@ function HelpText(): JSX.Element {
   </ul>
 }
 
-function ScriptTable(props: { scripts: Script[] }): JSX.Element {
+function ScriptTable(props: { scripts: ScriptData[] }): JSX.Element {
   return <table>
     <tbody>
       {props.scripts.map(script =>
-        <ScriptRow script={script} key={script.id} />)}
+        <ScriptRow script={script} key={script.pk} />)}
     </tbody>
   </table>
 }
 
-function ScriptRow(props: { script: Script }): JSX.Element {
-  const { id, title } = props.script;
+function ScriptRow(props: { script: ScriptData }): JSX.Element {
+  const { pk, title } = props.script;
+  let id = (pk || 0).toString();
   return <tr>
     <td className="title-cell">
       <a href={pageUrl("roles", id)}>
@@ -89,14 +87,41 @@ function GitHubLink(): JSX.Element {
   </a>
 }
 
-export function App(props: { scripts: Script[] }): JSX.Element {
-  const baseThree = props.scripts.filter(s => ["178", "180", "181"].includes(s.id));
-  const custom = props.scripts.filter(s => !["178", "180", "181"].includes(s.id));
-  custom.sort((s1, s2) => s1.title.localeCompare(s2.title));
+export function App(props: { scripts: ScriptData[] }): JSX.Element {
+  const baseThree = props.scripts.filter(s => [178, 180, 181].includes(s.pk));
+  const custom = props.scripts.filter(s => ![178, 180, 181].includes(s.pk));
+
+  function removePrefix(s: string, prefix: string): string {
+    if (s.startsWith(prefix)) {
+      return s.substring(prefix.length);
+    }
+    return s;
+  }
+
+  function hashQuery(): string {
+    return decodeURI(removePrefix(window.location.hash, "#"));
+  }
+
+  const [query, setQuery] = useState(hashQuery());
 
   useEffect(() => {
     window['reloadSafe'] = true;
   }, []);
+
+  useEffect(() => {
+    window.onhashchange = () => {
+      var newQuery = hashQuery();
+      if (newQuery != "" && searchNormalize(newQuery) != searchNormalize(query)) {
+        setQuery(newQuery);
+      }
+    }
+  }, [query]);
+
+  function queryChange(v: React.ChangeEvent<any>) {
+    const newQuery = v.target.value;
+    setQuery(newQuery);
+    window.location.hash = searchNormalize(newQuery);
+  }
 
   return <div>
     <div className="main">
@@ -105,7 +130,11 @@ export function App(props: { scripts: Script[] }): JSX.Element {
       <h2>Base 3</h2>
       <ScriptTable scripts={baseThree} />
       <h2>Custom</h2>
-      <ScriptTable scripts={custom} />
+      <div id="search">
+        <input id="search-query" value={query} onChange={queryChange} />
+        &nbsp;<span className="icon"><FontAwesomeIcon icon="search" /></span>
+      </div>
+      <ScriptTable scripts={queryMatches(custom, query)} />
 
       <br /><br />
       <HelpText />

@@ -6,6 +6,23 @@
   max-width: 550px;
 }
 
+#search {
+  font-size: 120%;
+
+  span.icon {
+    color: gray;
+  }
+
+  input {
+    font-size: inherit;
+    width: 10rem;
+  }
+}
+
+h2 {
+  margin-bottom: 1rem;
+}
+
 $link-color: rgb(16, 93, 216);
 
 a,

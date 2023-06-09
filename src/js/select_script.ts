@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ScriptData } from "./botc/script";
+import { getScripts } from "./get_scripts";
 
 function selectedScriptId(): string {
   if (window.location.hash != "") {
@@ -17,6 +18,10 @@ function selectedScriptId(): string {
 
 export async function selectedScript(): Promise<ScriptData> {
   let id = selectedScriptId();
-  let script = await axios.get(`./scripts/${id}.json`);
-  return script.data;
+  let scripts = await getScripts();
+  let script = scripts.find(s => s.pk.toString() == id);
+  if (!script) {
+    throw new Error(`unknown script id ${id}`);
+  }
+  return script;
 }
