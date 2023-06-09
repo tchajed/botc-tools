@@ -218,6 +218,15 @@ export function uniqueDistributions(dists: Distribution[]): Distribution[] {
   return uniqueDists;
 }
 
+function distNumPlayers(dist: Distribution): number {
+  return dist.townsfolk + dist.outsider + dist.minion + dist.demon;
+}
+
+function sameNumPlayers(dist: Distribution, dists: Distribution[]): Distribution[] {
+  const numPlayers = distNumPlayers(dist);
+  return dists.filter(d => distNumPlayers(d) == numPlayers);
+}
+
 export function modifiedDistribution(
   dist: Distribution,
   mods: SetupModification[],
@@ -230,7 +239,11 @@ export function modifiedDistribution(
   for (var dist of dists) {
     clampDistribution(dist, characters);
   }
-  return uniqueDistributions(dists);
+  // only take distributions that end up with the right number of players
+  // (useful after clamping)
+  dists = sameNumPlayers(dist, dists);
+  dists = uniqueDistributions(dists);
+  return dists;
 }
 
 export function modifyingCharacters(selection: Set<string>): CharacterInfo[] {
