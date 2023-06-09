@@ -19,7 +19,10 @@ function filename(path: string): string {
 
 function PageLink(props: PropsWithChildren<{ currentPage: string, id: number, page: Page }>): JSX.Element {
   const { currentPage, id, page } = props;
-  return <a className={classnames("nav-item", { current: currentPage == page + ".html" })} href={pageUrl(page, id.toString())}>
+  const current = currentPage == page || currentPage == page + ".html";
+  return <a
+    className={classnames("nav-item", { current })}
+    href={pageUrl(page, id.toString())}>
     {props.children}
   </a>
 }
