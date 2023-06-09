@@ -42,7 +42,7 @@ jobs:
       - name: Yarn setup
         run: yarn install --frozen-lockfile
       - name: Fetch assets
-        run: yarn fetch-assets --all --all-scripts
+        run: yarn fetch-assets
       - name: Build site
         run: yarn build
       - name: Upload artifact

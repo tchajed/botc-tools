@@ -3,8 +3,7 @@ import { Command, Option } from 'commander';
 import cliProgress from 'cli-progress';
 import { allIcons, downloadIcons, findNotDownloaded, saveIcons } from './images';
 import { downloadCharacterData } from './character_json';
-import { ScriptData, getScript } from './get_script';
-import path from 'path';
+import { getScript } from './get_script';
 import { fetchAllScripts } from './all_scripts';
 import { downloadRoles, findNotDownloadedIcons, getRoles } from './script_tool_images';
 
@@ -48,26 +47,6 @@ async function downloadScriptToolIcons(dataDir: string, iconsDir: string) {
   bar.stop();
 }
 
-async function makeIndex(scriptsDir: string, destFile: string) {
-  const files = fs.readdirSync(scriptsDir).map(name => {
-    let contents = fs.promises.readFile(`${scriptsDir}/${name}`, {
-      encoding: "utf-8",
-    });
-    return { name, contents };
-  });
-  let listing: { id: string, title: string }[] = [];
-  for (const file of files) {
-    let id = path.basename(file.name, ".json");
-    let script: ScriptData = JSON.parse(await file.contents);
-    let title = script.title;
-    listing.push({ id, title });
-  }
-  listing.sort((s1, s2) => parseInt(s1.id) - parseInt(s2.id));
-  await fs.promises.writeFile(destFile, JSON.stringify({
-    scripts: listing,
-  }));
-}
-
 async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, assetsDir: string) {
   fs.mkdirSync(scriptsDir, { recursive: true });
 
@@ -91,8 +70,6 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string, as
     await fs.promises.writeFile(destFile, JSON.stringify(script));
     console.log(`downloaded ${id} - ${script.title}`);
   }));
-
-  makeIndex(scriptsDir, `${assetsDir}/scripts.json`);
 }
 
 async function downloadAllScripts(staticDir: string) {
@@ -108,24 +85,15 @@ async function downloadAllScripts(staticDir: string) {
 }
 
 async function cleanAssets(assetsDir: string) {
-  async function removeIfPresent(path: string, options?: fs.RmOptions) {
-    if (fs.existsSync(path)) {
-      return fs.promises.rm(path, options);
-    }
-  }
-
-  const dataDir = `${assetsDir}/data`;
-  const imgDir = `${assetsDir}/img`;
-  const iconDir = `${assetsDir}/icons`;
-  const staticDir = `${assetsDir}/static`;
-
-  await Promise.all([
-    removeIfPresent(dataDir, { recursive: true }),
-    removeIfPresent(staticDir, { recursive: true }),
-    removeIfPresent(imgDir, { recursive: true }),
-    removeIfPresent(iconDir, { recursive: true }),
-    removeIfPresent(`${assetsDir}/scripts.json`),
-  ]);
+  await Promise.all(
+    fs.readdirSync(assetsDir).map(async (name) => {
+      // the only non-ignored files
+      if ([".gitignore", "globals.d.ts"].includes(name)) {
+        return;
+      }
+      await fs.promises.rm(`${assetsDir}/${name}`, { recursive: true });
+    })
+  );
 }
 
 async function main() {
@@ -134,8 +102,8 @@ async function main() {
   program.version("0.3.0")
     .description("Download assets for BotC sheets")
     .addOption(new Option(
-      "--all", "Download all assets (shorthand for --json --img --icons --scripts favorites)",
-    ).implies({ json: true, img: true, icons: true, scripts: 'favorites' }))
+      "--all", "Download all assets (shorthand for --json --icons --all-scripts)",
+    ).implies({ json: true, icons: true, allScripts: true }))
     .option("--clean", "Delete any existing assets")
     .option("--json", "Download JSON game data")
     .option("--img", "Download images")
@@ -150,9 +118,10 @@ async function main() {
   if (// if nothing is selected, fetch everything by default
     !(options.json || options.img || options.scripts !== undefined || options.allScripts || options.icons)) {
     options.json = true;
-    options.img = true;
+    // options.img = true;
     options.icons = true;
-    options.scripts = "favorites";
+    // options.scripts = "favorites";
+    options.allScripts = true;
   }
 
   const assetsDir = options.out;
@@ -164,7 +133,6 @@ async function main() {
 
   if (options.clean) {
     await cleanAssets(assetsDir);
-    return;
   }
 
   if (options.json) {
