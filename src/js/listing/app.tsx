@@ -105,7 +105,7 @@ function ScriptRow(props: { script: ScriptData }): JSX.Element {
         </a>
       </td>
       <td className="nightsheet-cell">
-        <a className="btn-link" href={pageUrl("nightsheet", pk)}>
+        <a className="btn-link" href={pageUrl("night", pk)}>
           <div className="btn">
             <FontAwesomeIcon icon="moon" />
             &nbsp; Night
@@ -113,7 +113,7 @@ function ScriptRow(props: { script: ScriptData }): JSX.Element {
         </a>
       </td>
       <td className="randomizer-cell">
-        <a className="btn-link" href={pageUrl("randomize", pk)}>
+        <a className="btn-link" href={pageUrl("assign", pk)}>
           <div className="btn">
             <FontAwesomeIcon icon="dice" />
             &nbsp; Assign
@@ -236,7 +236,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
           <div className="forward-link">
             <a
               className="btn-link"
-              href={pageUrl("randomize", lastScript.id.toString())}
+              href={pageUrl("assign", lastScript.id.toString())}
             >
               <div className="btn">
                 <span className="script-title">{lastScript.scriptTitle}</span>

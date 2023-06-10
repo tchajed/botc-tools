@@ -13,7 +13,7 @@ function getUrlPage(): Page | null {
   const page = params.get("page");
   if (
     page !== undefined &&
-    (page == "roles" || page == "nightsheet" || page == "randomize")
+    (page == "roles" || page == "night" || page == "assign")
   ) {
     return page;
   }
@@ -28,10 +28,10 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
       case "roles":
         document.title = `${script.title} - roles`;
         break;
-      case "nightsheet":
+      case "night":
         document.title = `${script.title} - night order`;
         break;
-      case "randomize":
+      case "assign":
         document.title = `${script.title} - assign roles`;
         break;
     }
@@ -52,14 +52,14 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
             key="roles"
           />
           <NightOrder
-            active={currentPage == "nightsheet"}
+            active={currentPage == "night"}
             script={script}
-            key="nightsheet"
+            key="night"
           />
           <Randomizer
-            active={currentPage == "randomize"}
+            active={currentPage == "assign"}
             script={script}
-            key="randomize"
+            key="assign"
           />
         </div>
       </div>

@@ -65,8 +65,8 @@ export function Nav(props: {
         <PageLink
           currentPage={currentPage}
           id={id}
-          page="nightsheet"
-          onClick={createOnClick("nightsheet")}
+          page="night"
+          onClick={createOnClick("night")}
         >
           <FontAwesomeIcon icon="moon" />
           &nbsp; Night
@@ -74,8 +74,8 @@ export function Nav(props: {
         <PageLink
           currentPage={currentPage}
           id={id}
-          page="randomize"
-          onClick={createOnClick("randomize")}
+          page="assign"
+          onClick={createOnClick("assign")}
         >
           <FontAwesomeIcon icon="dice" />
           &nbsp; Assign{" "}
