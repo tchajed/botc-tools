@@ -9,8 +9,8 @@ import {
   splitSelectedChars,
   uniqueDistributions,
 } from "../botc/setup";
+import { characterClass } from "../components/character_icon";
 import "../icons";
-import { characterClass } from "../views";
 import { CharacterContext } from "./character_context";
 import { Selection } from "./characters";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

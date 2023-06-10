@@ -5,9 +5,6 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 
 async function init() {
-  window.addEventListener("hashchange", () => {
-    window.location.reload();
-  });
   const script = new Script(await selectedScript());
   document.title = `${script.title} roles sheet`;
   const app = document.getElementById("app");

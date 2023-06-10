@@ -1,5 +1,5 @@
 import { BagCharacter } from "../../botc/setup";
-import { iconPath } from "../../views";
+import { iconPath } from "../../components/character_icon";
 import React from "react";
 
 /** Split an ability text into multiple lines. The algorithm is a simple greedy

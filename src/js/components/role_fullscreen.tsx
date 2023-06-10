@@ -1,5 +1,5 @@
 import { getCharacter } from "../botc/roles";
-import { CharacterIconElement, characterClass } from "../views";
+import { CharacterIconElement, characterClass } from "./character_icon";
 import classnames from "classnames";
 import React from "react";
 

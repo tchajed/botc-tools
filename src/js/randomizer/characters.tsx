@@ -1,6 +1,9 @@
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { actualDistribution } from "../botc/setup";
-import { CharacterIconElement, characterClass } from "../views";
+import {
+  CharacterIconElement,
+  characterClass,
+} from "../components/character_icon";
 import { CharacterContext } from "./character_context";
 import { Columns } from "./columns";
 import classnames from "classnames";

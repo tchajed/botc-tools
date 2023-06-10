@@ -1,6 +1,6 @@
 import { distributionForCount, zeroDistribution } from "../botc/setup";
 import "../icons";
-import { Distr } from "./setup_help";
+import { Distr } from "../randomizer/setup_help";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dispatch, SetStateAction } from "react";
 import React from "react";
