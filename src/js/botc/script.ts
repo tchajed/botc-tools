@@ -16,7 +16,7 @@ export interface NightOrders {
 }
 
 export function getCharacterList(characters: string[]): CharacterInfo[] {
-  var chars: CharacterInfo[] = [];
+  const chars: CharacterInfo[] = [];
   for (const id of characters) {
     const character = roles.get(id);
     if (character === undefined) {
@@ -30,8 +30,8 @@ export function getCharacterList(characters: string[]): CharacterInfo[] {
 }
 
 function getNightOrders(characters: CharacterInfo[]): NightOrders {
-  var firstNightChars: CharacterInfo[] = [MinionInfo, DemonInfo];
-  var otherNightChars: CharacterInfo[] = [];
+  const firstNightChars: CharacterInfo[] = [MinionInfo, DemonInfo];
+  const otherNightChars: CharacterInfo[] = [];
 
   for (const character of characters) {
     if (character.firstNight) {
@@ -42,24 +42,35 @@ function getNightOrders(characters: CharacterInfo[]): NightOrders {
     }
   }
 
-  firstNightChars.sort((info1, info2) => (info1.firstNight?.index || 0) - (info2.firstNight?.index || 0));
-  otherNightChars.sort((info1, info2) => (info1.otherNights?.index || 0) - (info2.otherNights?.index || 0));
+  firstNightChars.sort(
+    (info1, info2) =>
+      (info1.firstNight?.index || 0) - (info2.firstNight?.index || 0)
+  );
+  otherNightChars.sort(
+    (info1, info2) =>
+      (info1.otherNights?.index || 0) - (info2.otherNights?.index || 0)
+  );
 
   return {
     firstNight: firstNightChars,
     otherNights: otherNightChars,
-  }
+  };
 }
 
 export function isTeensyville(characters: CharacterInfo[]): boolean {
-  const numTownsfolk = characters.filter(c => c.roleType == "townsfolk").length;
+  const numTownsfolk = characters.filter(
+    (c) => c.roleType == "townsfolk"
+  ).length;
   // normal scripts have 13 townsfolk while teensyville is 6
   return numTownsfolk < 10;
 }
 
 export function onlyBaseThree(characters: CharacterInfo[]): boolean {
-  return characters.every(c =>
-    c.edition != "other" || c.roleType == "travellers" || c.roleType == "fabled"
+  return characters.every(
+    (c) =>
+      c.edition != "other" ||
+      c.roleType == "travellers" ||
+      c.roleType == "fabled"
   );
 }
 
@@ -76,7 +87,7 @@ export class Script {
     this.title = data.title;
 
     // normalize
-    for (var i = 0; i < data.characters.length; i++) {
+    for (let i = 0; i < data.characters.length; i++) {
       data.characters[i] = nameToId(data.characters[i]);
     }
 

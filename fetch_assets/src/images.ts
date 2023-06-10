@@ -1,7 +1,7 @@
-import axios from 'axios';
-import sharp from 'sharp';
-import http from 'http';
-import fs from 'fs';
+import axios from "axios";
+import fs from "fs";
+import http from "http";
+import sharp from "sharp";
 
 http.globalAgent.maxSockets = 10;
 
@@ -10,25 +10,32 @@ http.globalAgent.maxSockets = 10;
  * @param params The query to run.
  * @param continueParam The name of the parameter that specifies how to resume queries.
  */
-async function completeQuery(params: any, continueParam: string,
-  continueVal: string | null = null): Promise<any[]> {
+async function completeQuery(
+  params: object,
+  continueParam: string,
+  continueVal: string | null = null
+): Promise<object[]> {
   if (continueVal !== null) {
     params[continueParam] = continueVal;
   }
   const query_api = axios.create({
-    baseURL: 'https://wiki.bloodontheclocktower.com/',
+    baseURL: "https://wiki.bloodontheclocktower.com/",
     params: {
       action: "query",
       format: "json",
-    }
+    },
   });
-  let { data } = await query_api.get("api.php", { params });
-  if (!('continue' in data)) {
+  const { data } = await query_api.get("api.php", { params });
+  if (!("continue" in data)) {
     // terminated
     return [data.query];
   }
   // need to recursively get remaining results
-  let rest = await completeQuery(params, continueParam, data.continue[continueParam]);
+  const rest = await completeQuery(
+    params,
+    continueParam,
+    data.continue[continueParam]
+  );
   // insert the original results at the front of the list
   rest.unshift(data.query);
   return rest;
@@ -36,9 +43,9 @@ async function completeQuery(params: any, continueParam: string,
 
 interface Icon {
   // like Icon_pithag.png
-  name: string,
+  name: string;
   // like https://wiki.bloodontheclocktower.com/images/6/6b/Icon_pithag.png
-  url: string,
+  url: string;
 }
 
 /** Fetch the list of all icons on the wiki through the MediaWiki API. */
@@ -47,23 +54,31 @@ export function allIcons(): Promise<Icon[]> {
   //
   // Use curl to get an idea of the data format:
   // 'https://wiki.bloodontheclocktower.com/api.php?action=query&list=allimages&ailimit=10&aifrom=Icon_&aito=J&format=json'
-  return completeQuery({
-    list: "allimages",
-    ailimit: "max",
-    aifrom: "Icon_",
-    aito: "J",
-  }, "aicontinue").then((results) => {
-    var images: Icon[] = [];
+  return completeQuery(
+    {
+      list: "allimages",
+      ailimit: "max",
+      aifrom: "Icon_",
+      aito: "J",
+    },
+    "aicontinue"
+  ).then((results) => {
+    const images: Icon[] = [];
     for (const r of results) {
-      images.push(...r.allimages);
+      if ("allimages" in r) {
+        const newImages = r["allimages"];
+        if (newImages instanceof Array) {
+          images.push(...newImages);
+        }
+      }
     }
     return images;
   });
 }
 
 export function findNotDownloaded(icons: Icon[], imgDir: string): Icon[] {
-  return icons.filter(icon => {
-    let fileName = iconFileName(icon);
+  return icons.filter((icon) => {
+    const fileName = iconFileName(icon);
     return !fs.existsSync(`${imgDir}/${fileName}`);
   });
 }
@@ -76,10 +91,10 @@ interface DownloadedIcon {
 /** Download a list of icons and return the raw data in memory.  */
 export async function downloadIcons(
   icons: Icon[],
-  progressCb: (number) => any):
-  Promise<DownloadedIcon[]> {
+  progressCb: (number) => void
+): Promise<DownloadedIcon[]> {
   async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
-    let { data } = await axios.get(icon.url, {
+    const { data } = await axios.get(icon.url, {
       responseType: "arraybuffer",
       responseEncoding: "binary",
       maxRate: 3000 * 1024, // 3MB/s
@@ -87,14 +102,16 @@ export async function downloadIcons(
     return data;
   }
 
-  var downloads: DownloadedIcon[] = [];
+  const downloads: DownloadedIcon[] = [];
   while (icons.length > 0) {
-    var nextBatch = await Promise.all(icons.splice(0, 10).map(icon =>
-      downloadIcon(icon).then(data => {
-        progressCb(1);
-        return { icon, data };
-      })
-    ));
+    const nextBatch = await Promise.all(
+      icons.splice(0, 10).map((icon) =>
+        downloadIcon(icon).then((data) => {
+          progressCb(1);
+          return { icon, data };
+        })
+      )
+    );
     downloads.push(...nextBatch);
   }
   return downloads;
@@ -102,7 +119,7 @@ export async function downloadIcons(
 
 async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
   let img = sharp(data);
-  let meta = await img.metadata();
+  const meta = await img.metadata();
   const size = 401;
   if (meta.height && meta.width && meta.height > size) {
     img = img.extract({
@@ -110,12 +127,12 @@ async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
       top: Math.round((meta.height - size) / 2),
       width: size,
       height: size,
-    })
+    });
   }
   return img.resize({
     width: 200,
     height: 200,
-    fit: 'inside',
+    fit: "inside",
   });
 }
 
@@ -128,8 +145,10 @@ function iconFileName(icon: Icon): string {
 
 /** Resize and save icons that are already in memory. */
 export async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
-  await Promise.all(downloads.map(dl => {
-    const path = `${imgDir}/${iconFileName(dl.icon)}`;
-    return rescaleIcon(dl.data).then(img => img.toFile(path));
-  }));
+  await Promise.all(
+    downloads.map((dl) => {
+      const path = `${imgDir}/${iconFileName(dl.icon)}`;
+      return rescaleIcon(dl.data).then((img) => img.toFile(path));
+    })
+  );
 }

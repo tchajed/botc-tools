@@ -3,7 +3,7 @@ name: Build and deploy
 on:
   push:
     branches:
-      - 'main'
+      - "main"
   pull_request:
   workflow_dispatch:
 

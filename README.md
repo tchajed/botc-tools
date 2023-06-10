@@ -23,6 +23,9 @@ features](FEATURES.md) for more, as well as some screenshots.
 
 Run `yarn` to get the dependencies.
 
+We provide scripts `yarn lint` for linting (using eslint) and `yarn fmt` for
+formatting (using prettier).
+
 ## Downloading the assets
 
 ```sh
@@ -38,6 +41,6 @@ yarn fetch-assets --clean
 
 ## Running the web site
 
-Use `yarn parcel` to run a development server.
+Use `yarn start` to run a development server.
 
 To build an optimized, static version of the site to `dist/`, run `yarn build`.

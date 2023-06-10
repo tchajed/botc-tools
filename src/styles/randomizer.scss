@@ -1,6 +1,6 @@
-@use 'main';
-@use 'theme';
-@use 'nav';
+@use "main";
+@use "theme";
+@use "nav";
 
 h2 {
   font-size: 120%;
@@ -38,13 +38,13 @@ button {
       background-color: rgb(200, 200, 200);
     }
   }
-}
 
-button:disabled {
-  opacity: 50%;
+  &:disabled {
+    opacity: 50%;
 
-  &:hover {
-    background-color: rgb(233, 233, 237);
+    &:hover {
+      background-color: rgb(233, 233, 237);
+    }
   }
 }
 
@@ -102,7 +102,7 @@ button:disabled {
   user-select: none;
 
   &:hover {
-    @media (hover:hover) {
+    @media (hover: hover) {
       border-color: rgb(0, 170, 255);
     }
   }
@@ -140,7 +140,6 @@ button:disabled {
     font-size: 100%;
     margin-bottom: 2px;
   }
-
 }
 
 .modifiers {
@@ -177,15 +176,8 @@ button:disabled {
 $img-size: 40px;
 
 .img-container {
-  display: inline;
   height: $img-size;
-  overflow: hidden;
   padding-right: 1rem;
-}
-
-img.char-icon {
-  height: $img-size;
-  width: $img-size;
 }
 
 .good .name,
@@ -195,7 +187,7 @@ span.good {
 
 .evil .name,
 span.evil {
-  color: theme.$evil
+  color: theme.$evil;
 }
 
 .error {
@@ -250,11 +242,6 @@ span.evil {
   .img-container {
     width: 90px;
     height: 90px;
-  }
-
-  img.char-icon {
-    height: 100%;
-    width: 100%;
   }
 }
 

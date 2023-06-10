@@ -1,4 +1,3 @@
-import axios from "axios";
 import { ScriptData } from "./botc/script";
 import { getScripts } from "./get_scripts";
 
@@ -8,7 +7,7 @@ function selectedScriptId(): string {
     return id;
   }
   const params = new URLSearchParams(window.location.search);
-  const id = params.get('id');
+  const id = params.get("id");
   if (id) {
     return id;
   }
@@ -17,9 +16,9 @@ function selectedScriptId(): string {
 }
 
 export async function selectedScript(): Promise<ScriptData> {
-  let id = selectedScriptId();
-  let scripts = await getScripts();
-  let script = scripts.find(s => s.pk.toString() == id);
+  const id = selectedScriptId();
+  const scripts = await getScripts();
+  const script = scripts.find((s) => s.pk.toString() == id);
   if (!script) {
     throw new Error(`unknown script id ${id}`);
   }

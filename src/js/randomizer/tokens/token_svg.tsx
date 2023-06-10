@@ -1,7 +1,6 @@
-import React from 'react';
-import { iconPath } from '../../views';
-import { BagCharacter } from '../../botc/setup';
-
+import { BagCharacter } from "../../botc/setup";
+import { iconPath } from "../../components/character_icon";
+import React from "react";
 
 /** Split an ability text into multiple lines. The algorithm is a simple greedy
  * one, with hard-coded constants for how many characters should go on each line
@@ -13,9 +12,9 @@ import { BagCharacter } from '../../botc/setup';
  */
 function splitLines(ability: string): string[] {
   const LINE_MAX = [25, 29, 29, 32, 35];
-  var lines: string[] = [];
-  var line = "";
-  var rest = ability;
+  const lines: string[] = [];
+  let line = "";
+  let rest = ability;
   while (rest.length > 0) {
     const match = /[ \n]/.exec(rest);
     if (match == null) {
@@ -34,16 +33,20 @@ function splitLines(ability: string): string[] {
   if (line != "") {
     lines.push(line);
   }
-  return lines.map(l => l.trimEnd());
+  return lines.map((l) => l.trimEnd());
 }
 
-export function TokenSvg(props: { character: BagCharacter, x: number, y: number }): JSX.Element {
+export function TokenSvg(props: {
+  character: BagCharacter;
+  x: number;
+  y: number;
+}): JSX.Element {
   const { character } = props;
   const { name, ability } = character;
 
   const abilityLines = splitLines(ability || "");
 
-  var firstYoff = "0";
+  let firstYoff = "0";
   if (abilityLines.length <= 2) {
     firstYoff = "1.2em";
   } else if (abilityLines.length >= 5) {
@@ -51,24 +54,44 @@ export function TokenSvg(props: { character: BagCharacter, x: number, y: number 
   }
 
   // icon is placed first so text goes on top
-  return <g transform={`translate(${props.x}, ${props.y})`}>
-    <circle
-      style={{ fill: "#e0e0e0", stroke: "none", "strokeWidth": 2 }}
-      cx="120"
-      cy="120"
-      r="120" />
-    <image href={iconPath(character.id)}
-      x="120" y="150"
-      height="90" width="90" transform="translate(-45, -45)"></image>
-    <text style={{ "fontSize": "13px", "fontFamily": "'Barlow'" }}
-      x="120" y="50" textAnchor="middle" >
-      {abilityLines.map((line, i) => {
-        return <tspan x="120" dy={i == 0 ? firstYoff : "1.2em"} key={i}>{line}</tspan>;
-      })}
-    </text>
-    <text style={{ "fontSize": "24px", "fontWeight": 700, "fontFamily": "'Barlow'" }}
-      x="120" y="215" textAnchor='middle'>
-      {name.toUpperCase()}
-    </text>
-  </g>
+  return (
+    <g transform={`translate(${props.x}, ${props.y})`}>
+      <circle
+        style={{ fill: "#e0e0e0", stroke: "none", strokeWidth: 2 }}
+        cx="120"
+        cy="120"
+        r="120"
+      />
+      <image
+        href={iconPath(character.id)}
+        x="120"
+        y="150"
+        height="90"
+        width="90"
+        transform="translate(-45, -45)"
+      ></image>
+      <text
+        style={{ fontSize: "13px", fontFamily: "'Barlow'" }}
+        x="120"
+        y="50"
+        textAnchor="middle"
+      >
+        {abilityLines.map((line, i) => {
+          return (
+            <tspan x="120" dy={i == 0 ? firstYoff : "1.2em"} key={i}>
+              {line}
+            </tspan>
+          );
+        })}
+      </text>
+      <text
+        style={{ fontSize: "24px", fontWeight: 700, fontFamily: "'Barlow'" }}
+        x="120"
+        y="215"
+        textAnchor="middle"
+      >
+        {name.toUpperCase()}
+      </text>
+    </g>
+  );
 }

@@ -1,15 +1,14 @@
-import script_jinxes from '../../../assets/data/jinx.json';
-
-import { nameToId } from './roles';
+import script_jinxes from "../../../assets/data/jinx.json";
+import { nameToId } from "./roles";
 
 export interface Jinx {
-  readonly character1: string,
-  readonly character2: string,
-  readonly description: string,
+  readonly character1: string;
+  readonly character2: string;
+  readonly description: string;
 }
 
 export function getJinxList(characters: string[]): Jinx[] {
-  var js: Jinx[] = [];
+  const js: Jinx[] = [];
   for (const jinx1 of script_jinxes) {
     const character1 = nameToId(jinx1.id);
     if (!characters.includes(character1)) {
@@ -21,7 +20,9 @@ export function getJinxList(characters: string[]): Jinx[] {
         continue;
       }
       js.push({
-        character1, character2, description: jinx2.reason,
+        character1,
+        character2,
+        description: jinx2.reason,
       });
     }
   }

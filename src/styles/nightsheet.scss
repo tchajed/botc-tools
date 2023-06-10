@@ -1,6 +1,6 @@
-@use 'main';
-@use 'theme';
-@use 'nav';
+@use "main";
+@use "theme";
+@use "nav";
 
 h1 {
   display: inline-block;
@@ -10,7 +10,6 @@ h1 {
     float: left;
 
     &.other-nights {
-
       // the other-nights title is a header only for printing (since it goes on
       // the second page)
       @media not print {
@@ -26,7 +25,6 @@ h1 {
     float: right;
     margin-right: 1rem;
   }
-
 }
 
 td.details-cell {
@@ -34,12 +32,16 @@ td.details-cell {
   padding: 0 8px;
 }
 
-tr.good td.details-cell:not(.empty) {
-  border-left: 2.5px solid theme.$good;
+td.details-cell:not(.empty) {
+  border-left: 2.5px solid;
 }
 
-tr.evil td.details-cell:not(.empty) {
-  border-left: 2.5px solid theme.$evil;
+tr.good td.details-cell {
+  border-color: theme.$good;
+}
+
+tr.evil td.details-cell {
+  border-color: theme.$evil;
 }
 
 .jinxes {

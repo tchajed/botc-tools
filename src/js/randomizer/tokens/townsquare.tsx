@@ -1,12 +1,12 @@
-import React, { useEffect, useRef } from 'react';
-import { renderToString } from 'react-dom/server';
-import { Canvg } from 'canvg';
-import { BagCharacter } from '../../botc/setup';
-import { charKey } from '../bag';
-import { TokenSvg } from './token_svg';
+import { BagCharacter } from "../../botc/setup";
+import { charKey } from "../bag";
+import { TokenSvg } from "./token_svg";
+import { Canvg } from "canvg";
+import React, { useEffect, useRef } from "react";
+import { renderToString } from "react-dom/server";
 
 function degToRad(deg: number): number {
-  return deg * Math.PI / 180;
+  return (deg * Math.PI) / 180;
 }
 
 function sinDeg(deg: number): number {
@@ -24,17 +24,29 @@ function playerAngle(usableDeg: number, n: number, i: number): number {
   return start + increment * i;
 }
 
-function playerPosition(usableDeg: number, r: number, n: number, i: number): { x: number, y: number } {
+function playerPosition(
+  usableDeg: number,
+  r: number,
+  n: number,
+  i: number
+): { x: number; y: number } {
   const theta = playerAngle(usableDeg, n, i);
   return { x: r * cosDeg(theta), y: r * sinDeg(theta) };
 }
 
-function boundingRect(poss: { x: number, y: number }[]): { xmin: number, xmax: number, ymin: number, ymax: number } {
-  const xs = poss.map(p => p.x);
-  const ys = poss.map(p => p.y);
+function boundingRect(poss: { x: number; y: number }[]): {
+  xmin: number;
+  xmax: number;
+  ymin: number;
+  ymax: number;
+} {
+  const xs = poss.map((p) => p.x);
+  const ys = poss.map((p) => p.y);
   return {
-    xmin: Math.min(...xs), xmax: Math.max(...xs),
-    ymin: Math.min(...ys), ymax: Math.max(...ys)
+    xmin: Math.min(...xs),
+    xmax: Math.max(...xs),
+    ymin: Math.min(...ys),
+    ymax: Math.max(...ys),
   };
 }
 
@@ -43,19 +55,21 @@ export function Townsquare(props: { bag: BagCharacter[] }): JSX.Element {
 
   const n = bag.length;
   if (n == 1) {
-    return <svg>
-      <TokenSvg x={0} y={0} character={bag[0]} />
-    </svg>
+    return (
+      <svg>
+        <TokenSvg x={0} y={0} character={bag[0]} />
+      </svg>
+    );
   }
 
-  var usableDeg = 270;
+  let usableDeg = 270;
   if (n <= 6) {
     usableDeg = 180;
   }
   if (n == 7) {
     usableDeg = 230;
   }
-  var radius = 0;
+  let radius = 0;
   if (2 <= n && n < 9) {
     radius = 500;
   } else if (9 <= n && n <= 11) {
@@ -63,7 +77,7 @@ export function Townsquare(props: { bag: BagCharacter[] }): JSX.Element {
   } else if (n > 11) {
     radius = 750;
   }
-  const positions = [...Array(n).keys()].map(i =>
+  const positions = [...Array(n).keys()].map((i) =>
     playerPosition(usableDeg, radius, n, i)
   );
   const bounds = boundingRect(positions);
@@ -73,22 +87,30 @@ export function Townsquare(props: { bag: BagCharacter[] }): JSX.Element {
   // a little padding is neededto cover the token width
   const width = bounds.xmax - bounds.xmin + 240 + xPadding * 2;
   const height = bounds.ymax - bounds.ymin;
-  return <svg id="townsquare" width={3000} height={3000}
-    viewBox={`${bounds.xmin - xPadding} ${bounds.ymin} ${width} ${height}`}>
-    {bag.map((c, i) => {
-      const { x, y } = positions[i];
-      return <TokenSvg key={charKey(c)} x={x} y={y} character={c} />;
-    })}
-  </svg>
+  return (
+    <svg
+      id="townsquare"
+      width={3000}
+      height={3000}
+      viewBox={`${bounds.xmin - xPadding} ${bounds.ymin} ${width} ${height}`}
+    >
+      {bag.map((c, i) => {
+        const { x, y } = positions[i];
+        return <TokenSvg key={charKey(c)} x={x} y={y} character={c} />;
+      })}
+    </svg>
+  );
 }
 
-async function svgToPng(svgText: string): Promise<{ blob: Blob | null, dataURL: string }> {
+async function svgToPng(
+  svgText: string
+): Promise<{ blob: Blob | null; dataURL: string }> {
   const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   const v = Canvg.fromString(ctx, svgText);
   v.start();
   await v.ready();
-  const blob = await new Promise<Blob | null>(r => canvas.toBlob(r));
+  const blob = await new Promise<Blob | null>((r) => canvas.toBlob(r));
   const dataURL = canvas.toDataURL("image/png");
   v.stop();
   return { blob, dataURL };
@@ -101,13 +123,16 @@ export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
 
   function copyImageToClipboard(blob: Blob) {
     // not supported by Firefox
-    if ('ClipboardItem' in window) {
+    if ("ClipboardItem" in window) {
       const data = [new ClipboardItem({ [blob.type]: blob })];
-      window.navigator.clipboard.write(data).then(() => {
-        // TODO: would be nice to have a toast here
-      }, (err) => {
-        console.warn(`could not copy to clipboard: ${err}`);
-      });
+      window.navigator.clipboard.write(data).then(
+        () => {
+          // TODO: would be nice to have a toast here
+        },
+        (err) => {
+          console.warn(`could not copy to clipboard: ${err}`);
+        }
+      );
     }
   }
 
