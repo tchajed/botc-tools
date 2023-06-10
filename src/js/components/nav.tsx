@@ -1,5 +1,5 @@
 import "../icons";
-import { Page, pageUrl } from "../routing";
+import { Page, pageUrl, saveScroll } from "../routing";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import React, { PropsWithChildren } from "react";
@@ -40,6 +40,7 @@ export function Nav(props: {
       `${window.location.origin}/script.html?page=${dest}&id=${id}`
     );
     return (e) => {
+      saveScroll(currentPage);
       props.setCurrentPage(dest);
       window.history.pushState(null, "", newUrl);
       e.preventDefault();

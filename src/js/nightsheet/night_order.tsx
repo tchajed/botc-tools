@@ -6,9 +6,10 @@ import {
   CharacterIconElement,
 } from "../components/character_icon";
 import { Jinxes } from "../components/jinxes";
+import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import classnames from "classnames";
-import React from "react";
+import React, { useEffect } from "react";
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",
@@ -124,6 +125,12 @@ export function NightOrder({
   script: Script;
   active: boolean;
 }): JSX.Element {
+  useEffect(() => {
+    if (active) {
+      restoreScroll("night");
+    }
+  }, []);
+
   return (
     <div className={visibleClass(active)}>
       <Sheet script={script} firstNight={true} />

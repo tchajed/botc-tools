@@ -125,21 +125,3 @@ tr.evil .name-cell {
   position: absolute;
   width: 1px;
 }
-
-.not-visible {
-  display: none;
-}
-
-// TODO: need some trick for removing from the document flow
-
-// .visible {
-//   visibility: visible;
-//   opacity: 1;
-//   transition: opacity 2s linear;
-// }
-//
-// .not-visible {
-//   visibility: hidden;
-//   opacity: 0;
-//   transition: visibility 0s 2s, opacity 2s linear;
-// }
