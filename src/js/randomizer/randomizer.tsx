@@ -9,6 +9,7 @@ import {
 } from "../botc/setup";
 import { NumPlayerSelector } from "../components/num_players";
 import { FullscreenRole } from "../components/role_fullscreen";
+import { visibleClass } from "../tabs";
 import { randomRanking, SelectedCharacters, sortBag } from "./bag";
 import { CharacterContext } from "./character_context";
 import {
@@ -22,7 +23,13 @@ import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare";
 import React, { useEffect, useReducer, useState } from "react";
 
-export function Randomizer({ script }: { script: Script }): JSX.Element {
+export function Randomizer({
+  script,
+  active,
+}: {
+  script: Script;
+  active: boolean;
+}): JSX.Element {
   const { characters } = script;
   const [numPlayers, setNumPlayers] = useState<number>(
     script.teensyville ? 5 : 8
@@ -66,7 +73,8 @@ export function Randomizer({ script }: { script: Script }): JSX.Element {
 
   // register all of our event listeners
   useEffect(() => {
-    // TODO: this needs to be disabled if the randomizer is not the current page
+    // TODO: this needs to be cleanly removed/added when component is unounted,
+    // to avoid adding redundant event handlers
     window.addEventListener("popstate", (ev) => {
       const state: Partial<State> = ev.state;
       if (!state) {
@@ -113,32 +121,34 @@ export function Randomizer({ script }: { script: Script }): JSX.Element {
 
   return (
     <CharacterContext.Provider value={characters}>
-      <h1>{script.title}</h1>
-      <NumPlayerSelector
-        teenysville={script.teensyville}
-        {...{ numPlayers, setNumPlayers }}
-      />
-      <SetupModifiers numPlayers={numPlayers} selection={selection} />
-      <CharacterSelection
-        selection={selection}
-        selDispatch={selDispatch}
-        doneRoles={rolesNotNeeded}
-      />
-      <hr className="separator" />
-      <SelectedCharacters
-        {...{
-          selection,
-          ranking,
-          numPlayers,
-          setRanking,
-          selDispatch,
-          setFsRole,
-          history,
-          setHistory,
-        }}
-      />
-      {bag.length == numPlayers && <TownsquareImage bag={bag} />}
-      <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
+      <div className={visibleClass(active)}>
+        <h1>{script.title}</h1>
+        <NumPlayerSelector
+          teenysville={script.teensyville}
+          {...{ numPlayers, setNumPlayers }}
+        />
+        <SetupModifiers numPlayers={numPlayers} selection={selection} />
+        <CharacterSelection
+          selection={selection}
+          selDispatch={selDispatch}
+          doneRoles={rolesNotNeeded}
+        />
+        <hr className="separator" />
+        <SelectedCharacters
+          {...{
+            selection,
+            ranking,
+            numPlayers,
+            setRanking,
+            selDispatch,
+            setFsRole,
+            history,
+            setHistory,
+          }}
+        />
+        {bag.length == numPlayers && <TownsquareImage bag={bag} />}
+        <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
+      </div>
     </CharacterContext.Provider>
   );
 }

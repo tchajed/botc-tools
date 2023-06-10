@@ -1,5 +1,5 @@
 import { Script } from "../botc/script";
-import { Nav } from "../randomizer/nav";
+import { Nav } from "../components/nav";
 import { CharacterSheet } from "./character_sheet";
 import React, { useEffect } from "react";
 

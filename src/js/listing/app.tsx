@@ -30,7 +30,7 @@ function UpdateBar(): JSX.Element {
 
 function HelpText(): JSX.Element {
   const buttonHelp = [
-    <li>
+    <li key="roles">
       <span className="btn-link">
         <span className="btn">
           <FontAwesomeIcon icon="list" />
@@ -39,24 +39,22 @@ function HelpText(): JSX.Element {
       </span>
       &nbsp; is a character sheet
     </li>,
-    <li>
+    <li key="night">
       <span className="btn-link">
-        {" "}
         <span className="btn">
           <FontAwesomeIcon icon="moon" />
           &nbsp; Night
         </span>
-      </span>{" "}
+      </span>
       &nbsp; has the night sheets
     </li>,
-    <li>
+    <li key="assign">
       <span className="btn-link">
-        {" "}
         <span className="btn">
           <FontAwesomeIcon icon="dice" />
           &nbsp; Assign
         </span>
-      </span>{" "}
+      </span>
       &nbsp; helps the ST select & assign roles
     </li>,
   ];
@@ -145,7 +143,7 @@ function ScriptList(props: { scripts: ScriptData[] }): JSX.Element {
     <ul className="script">
       {props.scripts.map((script) => {
         return (
-          <li>
+          <li key={script.pk}>
             <FontAwesomeIcon icon="table-list" />
             &nbsp;
             <ScriptTitleTags script={script} />

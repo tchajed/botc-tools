@@ -5,6 +5,7 @@ import {
   characterClass,
 } from "../components/character_icon";
 import { Jinxes } from "../components/jinxes";
+import { visibleClass } from "../tabs";
 import React from "react";
 
 function Ability(props: { ability: string | null }): JSX.Element {
@@ -75,12 +76,18 @@ function CharacterList(props: { characters: CharacterInfo[] }): JSX.Element {
   );
 }
 
-export function CharacterSheet({ script }: { script: Script }): JSX.Element {
+export function CharacterSheet({
+  script,
+  active,
+}: {
+  script: Script;
+  active: boolean;
+}): JSX.Element {
   return (
-    <>
+    <div className={visibleClass(active)}>
       <h1>{script.title}</h1>
       <CharacterList characters={script.characters} />
       <Jinxes script={script} />
-    </>
+    </div>
   );
 }

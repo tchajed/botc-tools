@@ -1,4 +1,4 @@
-import images from "../../assets/icons/*.webp";
+import images from "../../../assets/icons/*.webp";
 import React from "react";
 
 export function iconPath(id: string): string {
@@ -25,6 +25,9 @@ export function CharacterIconElement(props: {
 }): JSX.Element {
   const { id } = props;
   if (!iconPath(id)) {
+    if (!["MINION", "DEMON"].includes(id)) {
+      console.warn(`no icon for ${id}`);
+    }
     return <></>;
   }
   return (

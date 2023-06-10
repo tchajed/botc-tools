@@ -6,6 +6,7 @@ import {
   CharacterIconElement,
 } from "../components/character_icon";
 import { Jinxes } from "../components/jinxes";
+import { visibleClass } from "../tabs";
 import classnames from "classnames";
 import React from "react";
 
@@ -116,13 +117,19 @@ function Sheet({
 }
 
 /** The main component of the nightsheet. */
-export function NightOrder({ script }: { script: Script }): JSX.Element {
+export function NightOrder({
+  script,
+  active,
+}: {
+  script: Script;
+  active: boolean;
+}): JSX.Element {
   return (
-    <>
+    <div className={visibleClass(active)}>
       <Sheet script={script} firstNight={true} />
       <div className="page-divider-top"></div>
       <div className="page-divider-bottom"></div>
       <Sheet script={script} firstNight={false} />
-    </>
+    </div>
   );
 }

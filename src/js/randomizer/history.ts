@@ -1,5 +1,5 @@
-import { SelAction } from "./characters";
 import { Ranking } from "./bag";
+import { SelAction } from "./characters";
 import { State } from "./state";
 import { Dispatch, SetStateAction } from "react";
 

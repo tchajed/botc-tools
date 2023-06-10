@@ -2,9 +2,7 @@
   "name": "botc_sheet",
   "source": [
     "src/index.html",
-    "src/roles.html",
-    "src/nightsheet.html",
-    "src/randomize.html"
+    "src/script.html"
   ],
   "scripts": {
     "fetch-assets": "ts-node fetch_assets/src/main.ts",
