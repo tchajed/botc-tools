@@ -3,7 +3,7 @@ import { Nav } from "./components/nav";
 import { NightOrder } from "./nightsheet/night_order";
 import { Randomizer } from "./randomizer/randomizer";
 import { CharacterSheet } from "./roles/character_sheet";
-import { Page, clearSavedScroll } from "./routing";
+import { Page } from "./routing";
 import { selectedScript } from "./select_script";
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
@@ -24,6 +24,10 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
   const [currentPage, setCurrentPage] = useState<Page>(getUrlPage() || "roles");
 
   useEffect(() => {
+    window.history.scrollRestoration = "manual";
+  }, []);
+
+  useEffect(() => {
     switch (currentPage) {
       case "roles":
         document.title = `${script.title} - roles`;
@@ -36,13 +40,6 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
         break;
     }
   }, [currentPage]);
-
-  useEffect(() => {
-    // clear saved scroll position on the assumption we're changing scripts (we
-    // could remember which script it's for and invalidate more conservatively
-    // but this is a minor bit of state)
-    clearSavedScroll();
-  }, []);
 
   return (
     <React.StrictMode>

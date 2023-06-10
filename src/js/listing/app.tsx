@@ -7,7 +7,7 @@ import {
 } from "../botc/script";
 import "../icons";
 import { State, initStorage, latestScript } from "../randomizer/state";
-import { pageUrl } from "../routing";
+import { clearSavedScroll, pageUrl } from "../routing";
 import { queryMatches, searchNormalize } from "./search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
@@ -201,6 +201,13 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
 
   useEffect(() => {
     window["reloadSafe"] = true;
+  }, []);
+
+  useEffect(() => {
+    // clear saved scroll position on the assumption we're changing scripts (we
+    // could remember which script it's for and invalidate more conservatively
+    // but this is a minor bit of state)
+    clearSavedScroll();
   }, []);
 
   useEffect(() => {

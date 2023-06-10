@@ -9,6 +9,7 @@ import {
 } from "../botc/setup";
 import { NumPlayerSelector } from "../components/num_players";
 import { FullscreenRole } from "../components/role_fullscreen";
+import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { randomRanking, SelectedCharacters, sortBag } from "./bag";
 import { CharacterContext } from "./character_context";
@@ -55,6 +56,12 @@ export function Randomizer({
       setRanking(s.ranking);
       selDispatch({ type: "set all", ids: s.selection });
     });
+  }, []);
+
+  useEffect(() => {
+    if (active) {
+      restoreScroll("assign");
+    }
   }, []);
 
   // keep local storage up-to-date

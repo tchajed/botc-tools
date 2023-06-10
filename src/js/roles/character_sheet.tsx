@@ -5,8 +5,9 @@ import {
   characterClass,
 } from "../components/character_icon";
 import { Jinxes } from "../components/jinxes";
+import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
-import React from "react";
+import React, { useEffect } from "react";
 
 function Ability(props: { ability: string | null }): JSX.Element {
   const html = (props.ability || "").replace(
@@ -83,6 +84,12 @@ export function CharacterSheet({
   script: Script;
   active: boolean;
 }): JSX.Element {
+  useEffect(() => {
+    if (active) {
+      restoreScroll("roles");
+    }
+  }, []);
+
   return (
     <div className={visibleClass(active)}>
       <h1>{script.title}</h1>
