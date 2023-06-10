@@ -71,38 +71,27 @@ export function Randomizer({
     window.history.scrollRestoration = "manual";
   }, []);
 
+  const popState = (ev: PopStateEvent) => {
+    const state: Partial<State> = ev.state;
+    if (!state) {
+      return;
+    }
+    if (state.ranking !== undefined) {
+      setRanking(state.ranking);
+    }
+    if (state.selection !== undefined) {
+      selDispatch({ type: "set all", ids: state.selection });
+    }
+  };
+
   // register all of our event listeners
   useEffect(() => {
-    // TODO: this needs to be cleanly removed/added when component is unounted,
-    // to avoid adding redundant event handlers
-    window.addEventListener("popstate", (ev) => {
-      const state: Partial<State> = ev.state;
-      if (!state) {
-        return;
-      }
-      if (state.ranking !== undefined) {
-        setRanking(state.ranking);
-      }
-      if (state.selection !== undefined) {
-        selDispatch({ type: "set all", ids: state.selection });
-      }
-    });
+    window.addEventListener("popstate", popState);
 
-    // note: this was supposed to reset zoom in landscape mode, but it doesn't
-    // actually work
-    window.addEventListener("orientationchange", () => {
-      if ("orientation" in window.screen) {
-        if (window.screen.orientation.type.startsWith("landscape")) {
-          const viewportmeta = document.querySelector("meta[name=viewport]");
-          if (viewportmeta) {
-            viewportmeta.setAttribute(
-              "content",
-              "width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"
-            );
-          }
-        }
-      }
-    });
+    // cleanup function
+    return () => {
+      window.removeEventListener("popstate", popState);
+    };
   }, []);
 
   const targetDists = targetDistributions(
