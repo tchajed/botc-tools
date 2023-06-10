@@ -1,11 +1,14 @@
 @use "theme";
 
 #nav {
-  position: sticky;
-  top: 0;
   background-color: theme.$purple;
   padding: 1rem 5px;
   margin: 0 0 1rem 0;
+
+  position: sticky;
+  top: 0;
+  // make sure sticky bar covers everything
+  z-index: 1000;
 
   @media print {
     display: none;
