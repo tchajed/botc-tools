@@ -37,28 +37,39 @@ export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
   );
 }
 
+function arrayEq<T>(a1: T[], a2: T[]): boolean {
+  return a1.length == a2.length && a1.every((v, i) => a2[i] === v);
+}
+
 function ModificationExplanation(props: {
   mod: SetupModification;
 }): JSX.Element {
   const { mod } = props;
   switch (mod.type) {
     case "outsider_count": {
-      const change = Math.abs(mod.delta);
-      const sign = mod.delta > 0 ? <>+</> : <>&#x2212;</>;
-      const plural = change == 1 ? "" : "s";
-      return (
-        <span>
-          ({sign}
-          {change} outsider{plural})
-        </span>
-      );
+      if (mod.delta.length == 1) {
+        const delta = mod.delta[0];
+        const change = Math.abs(delta);
+        const sign = delta > 0 ? <>+</> : <>&#x2212;</>;
+        const plural = change == 1 ? "" : "s";
+        return (
+          <span>
+            ({sign} {change} outsider{plural})
+          </span>
+        );
+      }
+      if (arrayEq(mod.delta, [+1, -1])) {
+        return <span>(+1 or &#x2212;1 outsider)</span>;
+      }
+      if (arrayEq(mod.delta, [+1, 0, -1])) {
+        return <span>(might be +1 or &#x2212;1 outsider)</span>;
+      }
+      console.warn(`unhandled modifier ${mod}`);
+      return <span>(unknown)</span>;
     }
     case "drunk":
     case "marionette": {
       return <span>(+1 townsfolk, not distributed)</span>;
-    }
-    case "godfather": {
-      return <span>(+1 or &#x2212;1 outsider)</span>;
     }
     case "lilmonsta": {
       return <span>(+1 minion, not distributed)</span>;
@@ -77,9 +88,6 @@ function ModificationExplanation(props: {
         </span>
       );
     }
-    case "sentinel": {
-      return <span>(might be +1 or &#x2212;1 outsider)</span>;
-    }
     case "legion": {
       return (
         <span>
@@ -96,7 +104,7 @@ export function SetupModifiers(props: {
 }) {
   const { numPlayers, selection } = props;
   const characters = useContext(CharacterContext);
-  const modified = modifyingCharacters(selection, characters);
+  const modified = modifyingCharacters(selection);
   const newDistributions = targetDistributions(
     numPlayers,
     modified,
@@ -194,7 +202,7 @@ export function BagSetupHelp(props: {
 }): JSX.Element {
   const { numPlayers, selection } = props;
   const characters = useContext(CharacterContext);
-  const modified = modifyingCharacters(selection, characters);
+  const modified = modifyingCharacters(selection);
   const targets = targetDistributions(numPlayers, modified, characters);
   const selected = characters.filter((c) => selection.has(c.id));
   const actual = effectiveDistribution(numPlayers, selected);
