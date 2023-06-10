@@ -1,20 +1,6 @@
 @use "main";
 @use "nav";
 
-.main {
-  font-size: 11pt;
-
-  @media print {
-    font-size: 9pt;
-  }
-}
-
-@media (max-width: 500px) {
-  td {
-    border-bottom: 1px dotted #bbb;
-  }
-}
-
 $img-size: 30px;
 
 td.icon-cell {

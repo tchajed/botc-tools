@@ -1,3 +1,20 @@
 @use "nightsheet";
 @use "roles";
 @use "randomizer";
+
+.main {
+  max-width: 550px;
+  font-size: 13pt;
+}
+
+.main {
+  @media print {
+    font-size: 9pt;
+  }
+}
+
+@media (max-width: 500px) {
+  td {
+    border-bottom: 1px dotted #bbb;
+  }
+}

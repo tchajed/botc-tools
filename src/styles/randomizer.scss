@@ -7,11 +7,6 @@ h2 {
   margin: 0.5rem 0;
 }
 
-.main {
-  max-width: 550px;
-  font-size: 13pt;
-}
-
 #nav .nav-header {
   max-width: 550px;
 }
@@ -173,11 +168,11 @@ button {
   font-size: 90%;
 }
 
-$img-size: 40px;
+$img-size: 35px;
 
 .img-container {
   height: $img-size;
-  padding-right: 1rem;
+  margin-left: 5px;
 }
 
 .good .name,
