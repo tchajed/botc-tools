@@ -8,7 +8,7 @@ module.exports = {
     "**/*.{json,woff,woff2,webmanifest}",
   ],
   maximumFileSizeToCacheInBytes: 5000000, // 5MB
-  ignoreURLParametersMatching: [/^id$/, /^utm_/],
+  ignoreURLParametersMatching: [/^id$/, /^page$/, /^utm_/],
   dontCacheBustURLsMatching: /.*\.[a-f0-9]{8}\..*/,
   runtimeCaching: [
     {
