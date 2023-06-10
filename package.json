@@ -11,7 +11,8 @@
     "start": "parcel serve",
     "build": "parcel build --public-url '.'",
     "postbuild": "workbox generateSW",
-    "lint": "eslint src fetch_assets test"
+    "lint": "eslint src fetch_assets test",
+    "fmt": "prettier --write --list-different ."
   },
   "version": "0.1.0",
   "description": "BotC storyteller tools",
