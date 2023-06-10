@@ -32,7 +32,12 @@ export function CharacterIconElement(props: {
   }
   return (
     <div className="img-container">
-      <img className="char-icon" src={iconPath(id)} alt={props.name} />
+      <img
+        className="char-icon"
+        draggable={false}
+        src={iconPath(id)}
+        alt={props.name}
+      />
     </div>
   );
 }
