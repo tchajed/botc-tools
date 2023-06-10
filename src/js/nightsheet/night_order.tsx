@@ -129,7 +129,7 @@ export function NightOrder({
     if (active) {
       restoreScroll("night");
     }
-  }, []);
+  }, [active]);
 
   return (
     <div className={visibleClass(active)}>

@@ -62,7 +62,7 @@ export function Randomizer({
     if (active) {
       restoreScroll("assign");
     }
-  }, []);
+  }, [active]);
 
   // keep local storage up-to-date
   useEffect(() => {

@@ -88,7 +88,7 @@ export function CharacterSheet({
     if (active) {
       restoreScroll("roles");
     }
-  }, []);
+  }, [active]);
 
   return (
     <div className={visibleClass(active)}>
