@@ -1,6 +1,6 @@
-import React from "react";
 import { CharacterInfo, roles } from "../src/js/botc/roles";
 import { TokenSvg } from "../src/js/randomizer/tokens/token_svg";
+import React from "react";
 
 /** An SVG with all character tokens, rendered in a nice grid. */
 function TokenGrid(props: {

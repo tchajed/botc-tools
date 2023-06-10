@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
 import { Ranking } from "./bag";
 import { SelAction } from "./characters";
 import { State } from "./state";
+import { Dispatch, SetStateAction } from "react";
 
 const MAX_SIZE = 20;
 

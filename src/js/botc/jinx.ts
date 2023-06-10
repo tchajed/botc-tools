@@ -1,5 +1,4 @@
 import script_jinxes from "../../../assets/data/jinx.json";
-
 import { nameToId } from "./roles";
 
 export interface Jinx {

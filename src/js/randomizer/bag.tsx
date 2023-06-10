@@ -1,13 +1,13 @@
-import React, { Dispatch, PropsWithChildren, useContext } from "react";
 import { CharacterInfo } from "../botc/roles";
 import { BagCharacter, splitSelectedChars } from "../botc/setup";
-import { CharacterCard, SelAction, Selection } from "./characters";
-import { CharacterContext } from "./character_context";
-import { State } from "./state";
-import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BagSetupHelp } from "./setup_help";
 import "../icons";
+import { CharacterContext } from "./character_context";
+import { CharacterCard, SelAction, Selection } from "./characters";
+import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
+import { BagSetupHelp } from "./setup_help";
+import { State } from "./state";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { Dispatch, PropsWithChildren, useContext } from "react";
 
 export type Ranking = { [key: string]: number };
 

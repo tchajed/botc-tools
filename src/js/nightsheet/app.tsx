@@ -1,10 +1,9 @@
 import { CharacterInfo, getCharacter } from "../botc/roles";
 import { NightOrders, Script } from "../botc/script";
-
+import { Nav } from "../randomizer/nav";
+import { characterClass, iconPath, CharacterIconElement } from "../views";
 import classnames from "classnames";
 import React from "react";
-import { characterClass, iconPath, CharacterIconElement } from "../views";
-import { Nav } from "../randomizer/nav";
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",

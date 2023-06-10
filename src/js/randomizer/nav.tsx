@@ -1,8 +1,8 @@
-import classnames from "classnames";
-import React, { PropsWithChildren } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../icons";
 import { Page, pageUrl } from "../routing";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classnames from "classnames";
+import React, { PropsWithChildren } from "react";
 
 function filename(path: string): string {
   let filename = path;

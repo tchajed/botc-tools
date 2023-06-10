@@ -1,7 +1,7 @@
-import React from "react";
-import classnames from "classnames";
-import { CharacterIconElement, characterClass } from "../views";
 import { getCharacter } from "../botc/roles";
+import { CharacterIconElement, characterClass } from "../views";
+import classnames from "classnames";
+import React from "react";
 
 export function FullscreenRole(props: {
   fsRole: string | null;

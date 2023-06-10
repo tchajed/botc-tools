@@ -1,18 +1,5 @@
-import React, { useEffect, useReducer, useState } from "react";
+import { CharacterInfo, getCharacter } from "../botc/roles";
 import { Script } from "../botc/script";
-import {
-  createSelectionReducer,
-  CharacterSelection,
-  initialSelection,
-} from "./characters";
-import { SetupModifiers } from "./setup_help";
-import { randomRanking, SelectedCharacters, sortBag } from "./bag";
-import { CharacterContext } from "./character_context";
-import { State, initStorage, loadState, storeState } from "./state";
-import { FullscreenRole } from "./role_fullscreen";
-import { History } from "./history";
-import { Nav } from "./nav";
-import { NumPlayerSelector } from "./num_players";
 import {
   effectiveDistribution,
   modifyingCharacters,
@@ -20,8 +7,21 @@ import {
   splitSelectedChars,
   targetDistributions,
 } from "../botc/setup";
-import { CharacterInfo, getCharacter } from "../botc/roles";
+import { randomRanking, SelectedCharacters, sortBag } from "./bag";
+import { CharacterContext } from "./character_context";
+import {
+  createSelectionReducer,
+  CharacterSelection,
+  initialSelection,
+} from "./characters";
+import { History } from "./history";
+import { Nav } from "./nav";
+import { NumPlayerSelector } from "./num_players";
+import { FullscreenRole } from "./role_fullscreen";
+import { SetupModifiers } from "./setup_help";
+import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare";
+import React, { useEffect, useReducer, useState } from "react";
 
 function Randomizer({ script }: { script: Script }): JSX.Element {
   const { characters } = script;

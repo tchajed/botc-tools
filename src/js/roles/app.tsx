@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
-import { CharacterIconElement, characterClass } from "../views";
-import { Nav } from "../randomizer/nav";
 import { Jinxes } from "../nightsheet/app";
+import { Nav } from "../randomizer/nav";
+import { CharacterIconElement, characterClass } from "../views";
+import React, { useEffect } from "react";
 
 function Ability(props: { ability: string | null }): JSX.Element {
   const html = (props.ability || "").replace(

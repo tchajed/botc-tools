@@ -1,10 +1,10 @@
-import axios from "axios";
-import cliProgress from "cli-progress";
 import {
   ScriptData,
   ScriptInstanceResp,
   parseScriptInstance,
 } from "./get_script";
+import axios from "axios";
+import cliProgress from "cli-progress";
 
 interface Resp {
   count: number;

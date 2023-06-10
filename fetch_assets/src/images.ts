@@ -1,7 +1,7 @@
 import axios from "axios";
-import sharp from "sharp";
-import http from "http";
 import fs from "fs";
+import http from "http";
+import sharp from "sharp";
 
 http.globalAgent.maxSockets = 10;
 

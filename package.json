@@ -22,6 +22,7 @@
     "@parcel/resolver-glob": "^2.9.1",
     "@parcel/transformer-sass": "^2.9.1",
     "@parcel/transformer-webmanifest": "2.9.1",
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
     "@types/node": "^20.1.4",
     "@types/react": "^18.2.7",
     "@types/react-dom": "^18.2.4",

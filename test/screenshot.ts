@@ -1,6 +1,6 @@
+import * as fs from "fs";
 import puppeteer from "puppeteer";
 import { KnownDevices } from "puppeteer";
-import * as fs from "fs";
 
 const iPhone = KnownDevices["iPhone 11"];
 

@@ -1,6 +1,5 @@
 import { Script } from "./botc/script";
 import { App } from "./roles/app";
-
 import { selectedScript } from "./select_script";
 import React from "react";
 import { createRoot } from "react-dom/client";

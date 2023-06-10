@@ -1,6 +1,3 @@
-import classnames from "classnames";
-import React, { useContext } from "react";
-import { Selection } from "./characters";
 import {
   SetupModification,
   SetupChanges,
@@ -12,10 +9,13 @@ import {
   splitSelectedChars,
   uniqueDistributions,
 } from "../botc/setup";
-import { CharacterContext } from "./character_context";
-import { characterClass } from "../views";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../icons";
+import { characterClass } from "../views";
+import { CharacterContext } from "./character_context";
+import { Selection } from "./characters";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import classnames from "classnames";
+import React, { useContext } from "react";
 
 export function Distr({ dist }: { dist: Distribution }): JSX.Element {
   return (

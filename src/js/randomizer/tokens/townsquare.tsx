@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { renderToString } from "react-dom/server";
-import { Canvg } from "canvg";
 import { BagCharacter } from "../../botc/setup";
 import { charKey } from "../bag";
 import { TokenSvg } from "./token_svg";
+import { Canvg } from "canvg";
+import React, { useEffect, useRef } from "react";
+import { renderToString } from "react-dom/server";
 
 function degToRad(deg: number): number {
   return (deg * Math.PI) / 180;

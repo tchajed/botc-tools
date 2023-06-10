@@ -1,9 +1,8 @@
 import { Script } from "./botc/script";
+import { App } from "./nightsheet/app";
 import { selectedScript } from "./select_script";
-
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { App } from "./nightsheet/app";
 
 async function init() {
   const script = new Script(await selectedScript());

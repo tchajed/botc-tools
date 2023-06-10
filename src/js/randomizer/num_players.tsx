@@ -1,9 +1,9 @@
-import { Dispatch, SetStateAction } from "react";
 import { distributionForCount, zeroDistribution } from "../botc/setup";
-import { Distr } from "./setup_help";
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../icons";
+import { Distr } from "./setup_help";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dispatch, SetStateAction } from "react";
+import React from "react";
 
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
   const dist =

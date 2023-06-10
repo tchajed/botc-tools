@@ -1,4 +1,5 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import {
   faShuffle,
   faTrash,
@@ -23,7 +24,6 @@ import {
   faCircle,
   faTableList,
 } from "@fortawesome/free-solid-svg-icons";
-import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 library.add(
   faShuffle,

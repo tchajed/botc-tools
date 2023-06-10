@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../icons";
-import { pageUrl } from "../routing";
+import { nameToId } from "../botc/roles";
 import {
   ScriptData,
   getCharacterList,
   isTeensyville,
   onlyBaseThree,
 } from "../botc/script";
-import { queryMatches, searchNormalize } from "./search";
-import { nameToId } from "../botc/roles";
+import "../icons";
 import { State, initStorage, latestScript } from "../randomizer/state";
+import { pageUrl } from "../routing";
+import { queryMatches, searchNormalize } from "./search";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useState } from "react";
 
 const BaseThree = [178, 180, 181];
 

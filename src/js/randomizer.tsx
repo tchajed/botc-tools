@@ -1,8 +1,8 @@
+import { Script } from "./botc/script";
+import { App } from "./randomizer/app";
+import { selectedScript } from "./select_script";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Script } from "./botc/script";
-import { selectedScript } from "./select_script";
-import { App } from "./randomizer/app";
 
 async function init() {
   const script = new Script(await selectedScript());

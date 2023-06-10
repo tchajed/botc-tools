@@ -1,27 +1,30 @@
-// Script Tool roles
-//
-// Provides roleType but not abilities (these are in images which are assembled
-// to form the script PDF).
-//
-// Official characters from https://script.bloodontheclocktower.com/
-import script_roles from "../../../assets/data/roles.json";
-// Script Tool "night sheet"
-//
-// Gives a global ordering for all characters, for first night and other nights.
-import nightsheet from "../../../assets/data/nightsheet.json";
-
-// clocktower.online (old online website) roles
-//
-// Unofficial, but quite up-to-date. Has abilities and storyteller instructions
-// ("reminders") for first and other nights. The reminder text is unofficial;
-// the wiki has detailed "how to run" instructions but not concise ones suitable
-// for a night sheet. There are also night orderings here, but they're ignored
-// in favor of the official script tool.
+/* Script Tool roles
+ *
+ * Provides roleType but not abilities (these are in images which are assembled
+ * to form the script PDF).
+ *
+ * Official characters from https://script.bloodontheclocktower.com/
+ * clocktower.online (old online website) roles
+ *
+ * Unofficial, but quite up-to-date. Has abilities and storyteller instructions
+ * ("reminders") for first and other nights. The reminder text is unofficial;
+ * the wiki has detailed "how to run" instructions but not concise ones suitable
+ * for a night sheet. There are also night orderings here, but they're ignored
+ * in favor of the official script tool.
+ */
 import botc_roles from "../../../assets/data/botc_online_roles.json";
 
-// Custom overrides provided by this app. Most of these are simplifications to
-// the night sheet to surface more important instructions, but this also
-// includes fabled abilities which are otherwise not available anywhere.
+/* Script Tool "night sheet"
+ *
+ * Gives a global ordering for all characters, for first night and other nights.
+ */
+import nightsheet from "../../../assets/data/nightsheet.json";
+import script_roles from "../../../assets/data/roles.json";
+
+/* Custom overrides provided by this app. Most of these are simplifications to
+ * the night sheet to surface more important instructions, but this also
+ * includes fabled abilities which are otherwise not available anywhere.
+ */
 import { overrides } from "./overrides";
 
 interface NightAction {
