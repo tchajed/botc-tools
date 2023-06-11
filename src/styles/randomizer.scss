@@ -91,7 +91,7 @@ button {
   border: 2px solid #eee;
   background: #eee;
   border-radius: 0.25rem;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
   margin: 0.5rem 0;
   cursor: pointer;
   user-select: none;
@@ -172,7 +172,7 @@ $img-size: 35px;
 
 .img-container {
   height: $img-size;
-  margin-left: 5px;
+  width: $img-size;
 }
 
 .good .name,

@@ -44,6 +44,7 @@ export function CharacterCard(props: {
     >
       {needsLabel && <RoleLabel roleType={roleType} />}
       <CharacterIconElement {...character} />
+      &nbsp;&nbsp;
       <span className="name">{character.name}</span>
     </div>
   );
