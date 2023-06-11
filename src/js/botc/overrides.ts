@@ -13,8 +13,14 @@ const overrideList: { [key: string]: Override } = {
   philosopher: {
     nights: "",
   },
+  washerwoman: {
+    firstNight: "Show a Townsfolk token and two players.",
+  },
+  librarian: {
+    firstNight: "Show an Outsider token and two players.",
+  },
   investigator: {
-    firstNight: "",
+    firstNight: "Show a Minion token and two players.",
   },
   chef: {
     firstNight: "Show the number of pairs of neighboring evil players.",
