@@ -6,7 +6,10 @@ const FAVORITES: number[] = (() => {
   // 811 Lunatic's Asylum
   // 23 Stringing 'Em Along Redux
   // 81 High Stakes Betting
-  const favorites = "19,178,180,181,10,1273,1245,83,4,2,435,811";
+  // 2 Catfishing
+  // 1245 Trust
+  // 394 Whose Cult is it Anyway?
+  const favorites = "19,178,180,181,10,1273,83,4,435,811,81,394";
   return favorites.split(",").map((s) => parseInt(s));
 })();
 
