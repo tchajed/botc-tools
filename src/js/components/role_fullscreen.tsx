@@ -21,6 +21,7 @@ export function FullscreenRole(props: {
     <div className="fullscreen" onClick={handleClick}>
       <div className={classnames(characterClass(char), "character")}>
         <CharacterIconElement {...char} />
+        &nbsp;&nbsp;
         <span className="name">{char.name}</span>
       </div>
     </div>
