@@ -12,7 +12,7 @@ import {
 import { characterClass } from "../components/character_icon";
 import "../icons";
 import { CharacterContext } from "./character_context";
-import { Selection } from "./characters";
+import { Selection } from "./selection";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import React, { useContext } from "react";
@@ -54,7 +54,8 @@ function ModificationExplanation(props: {
         const plural = change == 1 ? "" : "s";
         return (
           <span>
-            ({sign} {change} outsider{plural})
+            ({sign}
+            {change} outsider{plural})
           </span>
         );
       }

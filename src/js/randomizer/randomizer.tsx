@@ -13,12 +13,9 @@ import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { randomRanking, SelectedCharacters, sortBag } from "./bag";
 import { CharacterContext } from "./character_context";
-import {
-  createSelectionReducer,
-  CharacterSelection,
-  initialSelection,
-} from "./characters";
+import { CharacterSelection } from "./characters";
 import { History } from "./history";
+import { createSelectionReducer, initialSelection } from "./selection";
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare";
