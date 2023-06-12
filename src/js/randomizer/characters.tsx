@@ -94,10 +94,14 @@ function addToSet<T>(s: Set<T>, toAdd: Set<T>) {
 export function createSelectionReducer(
   characters: CharacterInfo[]
 ): (selection: Selection, action: SelAction) => Selection {
-  const fabled = new Set<string>();
+  const required = new Set<string>();
+  const demons = characters.filter((c) => c.roleType == "demon");
+  if (demons.length == 1) {
+    required.add(demons[0].id);
+  }
   for (const c of characters) {
     if (c.roleType == "fabled") {
-      fabled.add(c.id);
+      required.add(c.id);
     }
   }
   return (selection: Selection, action: SelAction) => {
@@ -112,16 +116,16 @@ export function createSelectionReducer(
             newSelection.add("damsel");
           }
         }
-        addToSet(newSelection, fabled);
+        addToSet(newSelection, required);
         return newSelection;
       }
       case "set all": {
         const newSelection = new Set(action.ids);
-        addToSet(newSelection, fabled);
+        addToSet(newSelection, required);
         return newSelection;
       }
       case "clear": {
-        return new Set(fabled);
+        return new Set(required);
       }
     }
   };

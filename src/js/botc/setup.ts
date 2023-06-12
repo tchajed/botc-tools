@@ -249,6 +249,11 @@ export function targetDistributions(
     modifying.map((c) => SetupChanges[c.id]),
     characters
   );
+  // fallback for some edge cases (specifically High Stakes Betting where
+  // without Riot there are no valid setups)
+  if (newDistributions.length == 0) {
+    return [baseDistribution];
+  }
   return newDistributions;
 }
 
