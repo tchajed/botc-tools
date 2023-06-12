@@ -1,5 +1,4 @@
 import { CharacterInfo, RoleType } from "../botc/roles";
-import { actualDistribution } from "../botc/setup";
 import {
   CharacterIconElement,
   characterClass,
@@ -65,26 +64,27 @@ export type SelAction =
       type: "clear";
     };
 
-/** Get the characters that should be initially selected.
+/** Get the characters that must be selected.
  *
  * If the script has a lone demon, it is automatically added.
  */
-export function initialSelection(characters: CharacterInfo[]): Set<string> {
-  const sel = new Set<string>();
-  const totalDistribution = actualDistribution(characters);
-  if (totalDistribution.demon == 1) {
-    for (const c of characters) {
-      if (c.roleType == "demon") {
-        sel.add(c.id);
-      }
-    }
+export function requiredSelection(characters: CharacterInfo[]): Set<string> {
+  const required = new Set<string>();
+  const demons = characters.filter((c) => c.roleType == "demon");
+  const hasAtheist = characters.some((c) => c.id == "atheist");
+  if (demons.length == 1 && !hasAtheist) {
+    required.add(demons[0].id);
   }
   for (const c of characters) {
     if (c.roleType == "fabled") {
-      sel.add(c.id);
+      required.add(c.id);
     }
   }
-  return sel;
+  return required;
+}
+
+export function initialSelection(characters: CharacterInfo[]): Set<string> {
+  return requiredSelection(characters);
 }
 
 function addToSet<T>(s: Set<T>, toAdd: Set<T>) {
@@ -94,16 +94,7 @@ function addToSet<T>(s: Set<T>, toAdd: Set<T>) {
 export function createSelectionReducer(
   characters: CharacterInfo[]
 ): (selection: Selection, action: SelAction) => Selection {
-  const required = new Set<string>();
-  const demons = characters.filter((c) => c.roleType == "demon");
-  if (demons.length == 1) {
-    required.add(demons[0].id);
-  }
-  for (const c of characters) {
-    if (c.roleType == "fabled") {
-      required.add(c.id);
-    }
-  }
+  const required = requiredSelection(characters);
   return (selection: Selection, action: SelAction) => {
     const newSelection = new Set(selection);
     switch (action.type) {
