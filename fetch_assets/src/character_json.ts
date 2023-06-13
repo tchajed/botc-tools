@@ -25,7 +25,6 @@ export async function downloadCharacterData(assetsPath: string) {
         responseType: "arraybuffer",
         responseEncoding: "binary",
       });
-      console.log(`downloaded ${file.name}`);
       return fs.promises.writeFile(destFile, data);
     })
   );
