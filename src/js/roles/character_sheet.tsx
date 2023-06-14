@@ -9,13 +9,18 @@ import { FullscreenRole } from "../components/role_fullscreen";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import React, { useEffect, useState } from "react";
+import reactStringReplace from "react-string-replace";
 
 function Ability(props: { ability: string | null }): JSX.Element {
-  const html = (props.ability || "").replace(
-    /\[[^]*\]/g,
-    "<strong>$&</strong>"
+  // bold any setup text in brackets (eg, [+2 Outsiders])
+  const html = reactStringReplace(
+    props.ability || "",
+    /(\[[^]*\])/g,
+    (match, i) => {
+      return <strong key={`bold-${i}`}>{match}</strong>;
+    }
   );
-  return <span dangerouslySetInnerHTML={{ __html: html }}></span>;
+  return <span>{html}</span>;
 }
 
 function Character(props: {
