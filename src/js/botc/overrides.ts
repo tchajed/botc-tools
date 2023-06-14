@@ -11,7 +11,10 @@ export interface Override {
 
 const overrideList: { [key: string]: Override } = {
   philosopher: {
-    nights: "",
+    nights:
+      `The Philosopher might pick a good character. If they chose a character:` +
+      `<tab>Give them that ability.
+      <tab>If the character is in play, make them drunk.`,
   },
   washerwoman: {
     firstNight: "Show a Townsfolk token and two players.",
