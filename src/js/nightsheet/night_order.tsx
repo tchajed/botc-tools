@@ -9,8 +9,9 @@ import { Jinxes } from "../components/jinxes";
 import { Selection } from "../randomizer/selection";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
+import { ToggleAllRoles, isActive } from "./toggle_roles";
 import classnames from "classnames";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",
@@ -98,18 +99,6 @@ function CharacterList(props: {
   const { orders, firstNight } = props;
   const order = firstNight ? orders.firstNight : orders.otherNights;
 
-  function isActive(id: string): boolean {
-    if (!props.selection) {
-      // not filtering at all, everyone is active
-      return true;
-    }
-    // always active
-    if (id == "MINION" || id == "DEMON") {
-      return true;
-    }
-    return props.selection.has(id);
-  }
-
   return (
     <table className="night-sheet">
       <tbody>
@@ -119,7 +108,7 @@ function CharacterList(props: {
               <CharacterRow
                 character={c}
                 firstNight={firstNight}
-                selected={isActive(c.id)}
+                selected={isActive(props.selection, c.id)}
                 key={c.id}
               />
             );
@@ -127,32 +116,6 @@ function CharacterList(props: {
         })}
       </tbody>
     </table>
-  );
-}
-
-function ToggleAllRoles(props: {
-  showAll: boolean;
-  setShowAll: (boolean) => void;
-  validSetup: boolean;
-}): JSX.Element {
-  function onChange(e: ChangeEvent<HTMLInputElement>) {
-    props.setShowAll(e.target.checked);
-  }
-
-  return (
-    <div className="all-roles-sheet">
-      <div className="all-toggle">
-        <label>
-          show all roles
-          <input
-            type="checkbox"
-            checked={props.showAll || !props.validSetup}
-            onChange={onChange}
-            disabled={!props.validSetup}
-          ></input>
-        </label>
-      </div>
-    </div>
   );
 }
 
