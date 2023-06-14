@@ -5,9 +5,10 @@ import {
   characterClass,
 } from "../components/character_icon";
 import { Jinxes } from "../components/jinxes";
+import { FullscreenRole } from "../components/role_fullscreen";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 function Ability(props: { ability: string | null }): JSX.Element {
   const html = (props.ability || "").replace(
@@ -17,13 +18,19 @@ function Ability(props: { ability: string | null }): JSX.Element {
   return <span dangerouslySetInnerHTML={{ __html: html }}></span>;
 }
 
-function Character({ character }: { character: CharacterInfo }): JSX.Element {
+function Character(props: {
+  character: CharacterInfo;
+  onClick: React.MouseEventHandler<HTMLElement>;
+}): JSX.Element {
+  const { character } = props;
   return (
     <tr className={characterClass(character)}>
-      <td className="icon-cell">
+      <td className="icon-cell" onClick={props.onClick}>
         <CharacterIconElement {...character} />
       </td>
-      <td className="name-cell">{character.name}</td>
+      <td className="name-cell" onClick={props.onClick}>
+        {character.name}
+      </td>
       <td className="ability-cell">
         <Ability ability={character.ability} />
       </td>
@@ -50,7 +57,10 @@ function RoleTypeRow(props: { roleType: string }): JSX.Element {
   );
 }
 
-function CharacterList(props: { characters: CharacterInfo[] }): JSX.Element {
+function CharacterList(props: {
+  characters: CharacterInfo[];
+  setFsRole: (id: string) => void;
+}): JSX.Element {
   const rows: (CharacterInfo | RoleType)[] = [];
   const rolesSeen: { [key: string]: boolean } = {};
   for (const c of props.characters) {
@@ -60,8 +70,9 @@ function CharacterList(props: { characters: CharacterInfo[] }): JSX.Element {
     }
     rows.push(c);
   }
+
   return (
-    <table>
+    <table className="character-list">
       <tbody>
         {rows.map((c_or_role) => {
           if (typeof c_or_role == "string") {
@@ -69,7 +80,13 @@ function CharacterList(props: { characters: CharacterInfo[] }): JSX.Element {
             return <RoleTypeRow roleType={roleType} key={`role-${roleType}`} />;
           } else {
             const c = c_or_role;
-            return <Character character={c} key={`char-${c.id}`} />;
+            return (
+              <Character
+                onClick={() => props.setFsRole(c.id)}
+                character={c}
+                key={`char-${c.id}`}
+              />
+            );
           }
         })}
       </tbody>
@@ -80,9 +97,11 @@ function CharacterList(props: { characters: CharacterInfo[] }): JSX.Element {
 export function CharacterSheet({
   script,
   active,
+  completeSetup,
 }: {
   script: Script;
   active: boolean;
+  completeSetup: boolean;
 }): JSX.Element {
   useEffect(() => {
     if (active) {
@@ -90,11 +109,21 @@ export function CharacterSheet({
     }
   }, [active]);
 
+  const [fsRole, setFsRole] = useState<string | null>(null);
+
+  // if we don't have a complete setup, setting the current role should be disabled and do nothing
+  const showRole = completeSetup
+    ? setFsRole
+    : () => {
+        return;
+      };
+
   return (
     <div className={visibleClass(active)}>
       <h1>{script.title}</h1>
-      <CharacterList characters={script.characters} />
+      <CharacterList characters={script.characters} setFsRole={showRole} />
       <Jinxes script={script} />
+      <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
     </div>
   );
 }

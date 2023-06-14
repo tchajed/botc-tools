@@ -39,7 +39,7 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
   );
 
   const { bag } = splitSelectedChars(characters, selection, numPlayers);
-  const validSetup = bag.length == numPlayers;
+  const completeSetup = bag.length == numPlayers;
   // heuristic for whether any attempt has been made to set roles:
   // if this is false, the toggle button isn't even shown
   const anySetup = bag.length >= 4;
@@ -74,13 +74,14 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
           <CharacterSheet
             active={currentPage == "roles"}
             script={script}
+            completeSetup={completeSetup}
             key="roles"
           />
           <NightOrder
             active={currentPage == "night"}
             script={script}
             selection={selection}
-            validSetup={validSetup}
+            validSetup={completeSetup}
             anySetup={anySetup}
             key="night"
           />
