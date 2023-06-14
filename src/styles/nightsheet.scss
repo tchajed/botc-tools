@@ -85,6 +85,16 @@ h1 {
   border-top: 2.5px dotted black;
 }
 
+.token-name {
+  cursor: pointer;
+}
+
+.card-text {
+  display: inline-block;
+  max-width: 500px, 70vw;
+  text-align: center;
+}
+
 .all-roles-sheet {
   position: fixed;
   right: 8px;

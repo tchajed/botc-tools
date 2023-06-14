@@ -6,12 +6,14 @@ import {
   CharacterIconElement,
 } from "../components/character_icon";
 import { Jinxes } from "../components/jinxes";
+import { CardInfo, CharacterCard } from "../randomizer/characters";
 import { Selection } from "../randomizer/selection";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { ToggleAllRoles, isActive } from "./toggle_roles";
 import classnames from "classnames";
 import React, { useEffect, useState } from "react";
+import reactStringReplace from "react-string-replace";
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",
@@ -35,30 +37,53 @@ function Header(props: { title: string; firstNight: boolean }): JSX.Element {
   );
 }
 
-function Details(props: { details: string }): JSX.Element {
+function Details(props: {
+  char: CardInfo;
+  details: string;
+  setCard: SetFullscreenCard;
+}): JSX.Element {
   let details: string = props.details;
   details = details.replace(/If [^.]*:/g, "\n$&\n");
   details = details.trim();
-  details = details.replace(/\n/g, "<br/>");
+
+  let el = reactStringReplace(details, /(\n)/g, () => <br />);
   if (window.innerWidth > 500) {
-    details = details.replace(/<tab>/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+    el = reactStringReplace(el, /(<tab>)/g, () => (
+      <>&nbsp;&nbsp;&nbsp;&nbsp;</>
+    ));
   } else {
-    details = details.replace(/<tab>/g, "•&nbsp;");
+    el = reactStringReplace(el, /(<tab>)/g, () => <>•&nbsp;</>);
   }
   for (const tokenName of tokenNames) {
-    details = details.replace(tokenName, `<strong>${tokenName}</strong>`);
+    const handleClick = () => {
+      props.setCard({
+        tokenText: tokenName,
+        character:
+          tokenName == "THIS CHARACTER SELECTED YOU" ? props.char : null,
+      });
+    };
     let altTokenName =
       tokenName.charAt(0).toUpperCase() + tokenName.substring(1).toLowerCase();
     altTokenName = `'${altTokenName}'`;
-    details = details.replace(altTokenName, `<strong>${tokenName}</strong>`);
+    el = reactStringReplace(el, altTokenName, () => (
+      <strong onClick={handleClick} className="token-name">
+        {tokenName}
+      </strong>
+    ));
+    el = reactStringReplace(el, tokenName, () => (
+      <strong onClick={handleClick} className="token-name">
+        {tokenName}
+      </strong>
+    ));
   }
-  return <span dangerouslySetInnerHTML={{ __html: details }}></span>;
+  return <span>{el}</span>;
 }
 
 function CharacterRow(props: {
   character: CharacterInfo;
   firstNight: boolean;
   selected: boolean;
+  setCard: SetFullscreenCard;
 }): JSX.Element {
   const { character, firstNight } = props;
   const details = character.nightDetails(firstNight)?.details || "";
@@ -85,7 +110,7 @@ function CharacterRow(props: {
           empty: details.length == 0,
         })}
       >
-        <Details details={details} />
+        <Details char={character} details={details} setCard={props.setCard} />
       </td>
     </tr>
   );
@@ -95,6 +120,7 @@ function CharacterList(props: {
   orders: NightOrders;
   firstNight: boolean;
   selection: Selection | null;
+  setCard: SetFullscreenCard;
 }): JSX.Element {
   const { orders, firstNight } = props;
   const order = firstNight ? orders.firstNight : orders.otherNights;
@@ -109,6 +135,7 @@ function CharacterList(props: {
                 character={c}
                 firstNight={firstNight}
                 selected={isActive(props.selection, c.id)}
+                setCard={props.setCard}
                 key={c.id}
               />
             );
@@ -123,10 +150,12 @@ function Sheet({
   script,
   firstNight,
   selection,
+  setCard,
 }: {
   script: Script;
   firstNight: boolean;
   selection: Selection | null;
+  setCard: SetFullscreenCard;
 }): JSX.Element {
   return (
     <div>
@@ -135,8 +164,44 @@ function Sheet({
         orders={script.orders}
         firstNight={firstNight}
         selection={selection}
+        setCard={setCard}
       />
       <Jinxes script={script} />
+    </div>
+  );
+}
+
+interface InfoCard {
+  tokenText: string;
+  character: CardInfo | null;
+}
+
+type SetFullscreenCard = (card: InfoCard | null) => void;
+
+function FullscreenCard({
+  card,
+  setCard,
+}: {
+  card: InfoCard | null;
+  setCard: SetFullscreenCard;
+}): JSX.Element {
+  if (card == null) {
+    return <div className="fullscreen hidden"></div>;
+  }
+
+  function handleClick() {
+    setCard(null);
+  }
+
+  return (
+    <div className="fullscreen" onClick={handleClick}>
+      <div className="contents">
+        <div className="card-text">
+          <strong>{card.tokenText}</strong>
+        </div>
+
+        {card.character && <CharacterCard character={card.character} />}
+      </div>
     </div>
   );
 }
@@ -162,6 +227,7 @@ export function NightOrder({
   }, [active]);
 
   const [showAll, setShowAll] = useState(false);
+  const [fullscreenCard, setFullscreenCard] = useState<InfoCard | null>(null);
 
   let newSelection: Selection | null = selection;
   if (showAll || !validSetup) {
@@ -170,10 +236,20 @@ export function NightOrder({
 
   return (
     <div className={visibleClass(active)}>
-      <Sheet script={script} firstNight={true} selection={newSelection} />
+      <Sheet
+        script={script}
+        firstNight={true}
+        selection={newSelection}
+        setCard={setFullscreenCard}
+      />
       <div className="page-divider-top"></div>
       <div className="page-divider-bottom"></div>
-      <Sheet script={script} firstNight={false} selection={newSelection} />
+      <Sheet
+        script={script}
+        firstNight={false}
+        selection={newSelection}
+        setCard={setFullscreenCard}
+      />
       {anySetup && (
         <ToggleAllRoles
           showAll={showAll}
@@ -181,6 +257,7 @@ export function NightOrder({
           validSetup={validSetup}
         />
       )}
+      <FullscreenCard card={fullscreenCard} setCard={setFullscreenCard} />
     </div>
   );
 }
