@@ -69,6 +69,12 @@ const overrideList: { [key: string]: Override } = {
   towncrier: {
     otherNights: "Give a 'yes' or 'no' for if a Minion nominated today.",
   },
+  snakecharmer: {
+    nights: `The Snake Charmer points to a player. If that player is the Demon:<tab>swap the Demon and Snake Charmer character and alignments.
+<tab>Wake each player and show them YOU ARE and their new role and alignment.
+The new Snake Charmer is poisoned.
+    `,
+  },
 
   // new roles not in BotC online
   knight: {
