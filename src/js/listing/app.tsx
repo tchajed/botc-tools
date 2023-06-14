@@ -5,6 +5,7 @@ import {
   isTeensyville,
   onlyBaseThree,
 } from "../botc/script";
+import { isSafari } from "../detect";
 import "../icons";
 import { State, initStorage, latestScript } from "../randomizer/state";
 import { clearSavedScroll, pageUrl } from "../routing";
@@ -234,7 +235,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
 
   // on Safari the search box already has a magnifying glass icon so avoid
   // adding a redundant one
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  const showSearchIcon = !isSafari();
 
   return (
     <div>
@@ -265,7 +266,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
             value={query}
             onChange={queryChange}
           />
-          {!isSafari && (
+          {showSearchIcon && (
             <>
               &nbsp;
               <span className="icon">

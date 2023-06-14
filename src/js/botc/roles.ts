@@ -104,9 +104,9 @@ export const DemonInfo: CharacterInfo = new CharacterInfo(
   "other"
 );
 DemonInfo.firstNight = {
-  details: `If there are 7 or more players: Wake the Demon.
-  Show the THESE ARE YOUR MINIONS token. Point to all Minions.
-  Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
+  details: `If there are 7 or more players:<tab>Wake the Demon.
+  <tab>Show the THESE ARE YOUR MINIONS token. Point to all Minions.
+  <tab>Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
   index: nightsheet.firstNight.indexOf("DEMON"),
 };
 
