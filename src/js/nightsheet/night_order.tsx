@@ -44,16 +44,21 @@ function Details(props: {
 }): JSX.Element {
   let details: string = props.details;
   details = details.replace(/If [^.]*:/g, "\n$&\n");
+  // replace quoted tokens with standard all-caps strings for replacement
+  for (const tokenName of tokenNames) {
+    const altToken = new RegExp(`'${tokenName}'`, "gi");
+    details = details.replaceAll(altToken, tokenName);
+  }
   details = details.trim();
 
-  let el = reactStringReplace(details, /(\n)/g, () => <br />);
-  if (window.innerWidth > 500) {
-    el = reactStringReplace(el, /(<tab>)/g, () => (
-      <>&nbsp;&nbsp;&nbsp;&nbsp;</>
-    ));
-  } else {
-    el = reactStringReplace(el, /(<tab>)/g, () => <>•&nbsp;</>);
-  }
+  let el = reactStringReplace(details, /(\n)/g, (_match, i) => <br key={i} />);
+  const tabEl = window.innerWidth > 500 ? <>&emsp;</> : <>•&nbsp;</>;
+  let tabNum = 0;
+  el = reactStringReplace(el, /(<tab>)/g, () => {
+    tabNum++;
+    return <React.Fragment key={`tab-${tabNum}`}>{tabEl}</React.Fragment>;
+  });
+  let tokenNum = 0;
   for (const tokenName of tokenNames) {
     const handleClick = () => {
       props.setCard({
@@ -62,21 +67,18 @@ function Details(props: {
           tokenName == "THIS CHARACTER SELECTED YOU" ? props.char : null,
       });
     };
-    let altTokenName =
-      tokenName.charAt(0).toUpperCase() + tokenName.substring(1).toLowerCase();
-    altTokenName = `'${altTokenName}'`;
-    el = reactStringReplace(el, altTokenName, () => (
-      <strong onClick={handleClick} className="token-name">
+    el = reactStringReplace(el, tokenName, (_match, i) => (
+      <strong
+        onClick={handleClick}
+        className="token-name"
+        key={`token-${tokenNum}-${i}`}
+      >
         {tokenName}
       </strong>
     ));
-    el = reactStringReplace(el, tokenName, () => (
-      <strong onClick={handleClick} className="token-name">
-        {tokenName}
-      </strong>
-    ));
+    tokenNum++;
   }
-  return <span>{el}</span>;
+  return <span key={props.char.id}>{el}</span>;
 }
 
 function CharacterRow(props: {
