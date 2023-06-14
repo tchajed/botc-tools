@@ -5,6 +5,7 @@ import {
   iconPath,
   CharacterIconElement,
 } from "../components/character_icon";
+import { Fullscreen } from "../components/fullscreen_modal";
 import { Jinxes } from "../components/jinxes";
 import { CardInfo, CharacterCard } from "../randomizer/characters";
 import { Selection } from "../randomizer/selection";
@@ -187,24 +188,21 @@ function FullscreenCard({
   card: InfoCard | null;
   setCard: SetFullscreenCard;
 }): JSX.Element {
-  if (card == null) {
-    return <div className="fullscreen hidden"></div>;
-  }
-
-  function handleClick() {
-    setCard(null);
-  }
-
   return (
-    <div className="fullscreen" onClick={handleClick}>
-      <div className="contents">
-        <div className="card-text">
-          <strong>{card.tokenText}</strong>
-        </div>
-
-        {card.character && <CharacterCard character={card.character} />}
-      </div>
-    </div>
+    <Fullscreen
+      data={card}
+      setData={setCard}
+      render={(card) => {
+        return (
+          <>
+            <div className="card-text">
+              <strong>{card.tokenText}</strong>
+            </div>
+            {card.character && <CharacterCard character={card.character} />}
+          </>
+        );
+      }}
+    />
   );
 }
 
