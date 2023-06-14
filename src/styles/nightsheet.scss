@@ -10,6 +10,7 @@ h1 {
     float: left;
 
     &.other-nights {
+
       // the other-nights title is a header only for printing (since it goes on
       // the second page)
       @media not print {
@@ -86,15 +87,14 @@ h1 {
 
 .all-roles-sheet {
   position: fixed;
-  right: 5px;
-  bottom: 0;
+  right: 8px;
+  bottom: 8px;
   // make sure sticky bar covers everything
   z-index: 1000;
   line-height: 2rem;
   vertical-align: middle;
   background-color: #eee;
   border: 2px solid darken(#eee, 20);
-  border-bottom: none;
   border-radius: 0.25rem;
   width: 10rem;
   align-items: right;
