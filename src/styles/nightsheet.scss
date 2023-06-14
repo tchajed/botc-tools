@@ -27,21 +27,33 @@ h1 {
   }
 }
 
-td.details-cell {
-  font-size: 10pt;
-  padding: 0 8px;
-}
+.night-sheet {
+  tr {
+    // only for opacity, doesn't animate hiding rows entirely
+    transition: all 0.5s;
+  }
 
-td.details-cell:not(.empty) {
-  border-left: 2.5px solid;
-}
+  tr.inactive {
+    display: none;
+    // opacity: 70%;
+  }
 
-tr.good td.details-cell {
-  border-color: theme.$good;
-}
+  td.details-cell {
+    font-size: 10pt;
+    padding: 0 8px;
+  }
 
-tr.evil td.details-cell {
-  border-color: theme.$evil;
+  td.details-cell:not(.empty) {
+    border-left: 2.5px solid;
+  }
+
+  tr.good td.details-cell {
+    border-color: theme.$good;
+  }
+
+  tr.evil td.details-cell {
+    border-color: theme.$evil;
+  }
 }
 
 .jinxes {
@@ -70,4 +82,21 @@ tr.evil td.details-cell {
 
 .page-divider-bottom {
   border-top: 2.5px dotted black;
+}
+
+.all-roles-sheet {
+  position: fixed;
+  right: 5px;
+  bottom: 0;
+  // make sure sticky bar covers everything
+  z-index: 1000;
+  line-height: 2rem;
+  vertical-align: middle;
+  background-color: #eee;
+  border: 2px solid darken(#eee, 20);
+  border-bottom: none;
+  border-radius: 0.25rem;
+  width: 10rem;
+  align-items: right;
+  text-align: center;
 }

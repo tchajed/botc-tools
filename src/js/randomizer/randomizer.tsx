@@ -15,28 +15,29 @@ import { randomRanking, SelectedCharacters, sortBag } from "./bag";
 import { CharacterContext } from "./character_context";
 import { CharacterSelection } from "./characters";
 import { History } from "./history";
-import { createSelectionReducer, initialSelection } from "./selection";
+import { Selection, SelAction } from "./selection";
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export function Randomizer({
   script,
   active,
+  selection,
+  selDispatch,
+  numPlayers,
+  setNumPlayers,
 }: {
   script: Script;
   active: boolean;
+  selection: Selection;
+  selDispatch: React.Dispatch<SelAction>;
+  numPlayers: number;
+  setNumPlayers: (number) => void;
 }): JSX.Element {
   const { characters } = script;
-  const [numPlayers, setNumPlayers] = useState<number>(
-    script.teensyville ? 5 : 8
-  );
   const [ranking, setRanking] = useState(randomRanking(characters));
-  const [selection, selDispatch] = useReducer(
-    createSelectionReducer(characters),
-    initialSelection(characters)
-  );
   const [fsRole, setFsRole] = useState<string | null>(null);
   const [history, setHistory] = useState({ back: [], forward: [] } as History<
     Partial<State>

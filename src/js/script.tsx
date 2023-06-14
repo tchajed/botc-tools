@@ -1,11 +1,16 @@
 import { Script } from "./botc/script";
+import { splitSelectedChars } from "./botc/setup";
 import { Nav } from "./components/nav";
 import { NightOrder } from "./nightsheet/night_order";
 import { Randomizer } from "./randomizer/randomizer";
+import {
+  createSelectionReducer,
+  initialSelection,
+} from "./randomizer/selection";
 import { CharacterSheet } from "./roles/character_sheet";
 import { Page } from "./routing";
 import { selectedScript } from "./select_script";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { createRoot } from "react-dom/client";
 
 function getUrlPage(): Page | null {
@@ -22,6 +27,22 @@ function getUrlPage(): Page | null {
 
 function ScriptApp({ script }: { script: Script }): JSX.Element {
   const [currentPage, setCurrentPage] = useState<Page>(getUrlPage() || "roles");
+  const characters = script.characters;
+
+  // mostly randomizer state (but influences night sheet)
+  const [numPlayers, setNumPlayers] = useState<number>(
+    script.teensyville ? 5 : 8
+  );
+  const [selection, selDispatch] = useReducer(
+    createSelectionReducer(characters),
+    initialSelection(characters)
+  );
+
+  const { bag } = splitSelectedChars(characters, selection, numPlayers);
+  const validSetup = bag.length == numPlayers;
+  // heuristic for whether any attempt has been made to set roles:
+  // if this is false, the toggle button isn't even shown
+  const anySetup = bag.length >= 4;
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
@@ -58,11 +79,18 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
           <NightOrder
             active={currentPage == "night"}
             script={script}
+            selection={selection}
+            validSetup={validSetup}
+            anySetup={anySetup}
             key="night"
           />
           <Randomizer
             active={currentPage == "assign"}
             script={script}
+            selection={selection}
+            selDispatch={selDispatch}
+            numPlayers={numPlayers}
+            setNumPlayers={setNumPlayers}
             key="assign"
           />
         </div>

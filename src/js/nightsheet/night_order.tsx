@@ -6,10 +6,11 @@ import {
   CharacterIconElement,
 } from "../components/character_icon";
 import { Jinxes } from "../components/jinxes";
+import { Selection } from "../randomizer/selection";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import classnames from "classnames";
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 const tokenNames = new Set([
   "THIS IS THE DEMON",
@@ -56,11 +57,16 @@ function Details(props: { details: string }): JSX.Element {
 function CharacterRow(props: {
   character: CharacterInfo;
   firstNight: boolean;
+  selected: boolean;
 }): JSX.Element {
   const { character, firstNight } = props;
   const details = character.nightDetails(firstNight)?.details || "";
   return (
-    <tr className={characterClass(character)}>
+    <tr
+      className={classnames(characterClass(character), {
+        inactive: !props.selected,
+      })}
+    >
       <td className="icon-cell">
         <CharacterIconElement {...character} />
       </td>
@@ -87,16 +93,35 @@ function CharacterRow(props: {
 function CharacterList(props: {
   orders: NightOrders;
   firstNight: boolean;
+  selection: Selection | null;
 }): JSX.Element {
   const { orders, firstNight } = props;
   const order = firstNight ? orders.firstNight : orders.otherNights;
+
+  function isActive(id: string): boolean {
+    if (!props.selection) {
+      // not filtering at all, everyone is active
+      return true;
+    }
+    // always active
+    if (id == "MINION" || id == "DEMON") {
+      return true;
+    }
+    return props.selection.has(id);
+  }
+
   return (
-    <table>
+    <table className="night-sheet">
       <tbody>
         {order.map((c) => {
           if (c.nightDetails(firstNight)) {
             return (
-              <CharacterRow character={c} firstNight={firstNight} key={c.id} />
+              <CharacterRow
+                character={c}
+                firstNight={firstNight}
+                selected={isActive(c.id)}
+                key={c.id}
+              />
             );
           }
         })}
@@ -105,17 +130,49 @@ function CharacterList(props: {
   );
 }
 
+function ToggleAllRoles(props: {
+  showAll: boolean;
+  setShowAll: (boolean) => void;
+  validSetup: boolean;
+}): JSX.Element {
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
+    props.setShowAll(e.target.checked);
+  }
+
+  return (
+    <div className="all-roles-sheet">
+      <div className="all-toggle">
+        <label>
+          show all roles
+          <input
+            type="checkbox"
+            checked={props.showAll || !props.validSetup}
+            onChange={onChange}
+            disabled={!props.validSetup}
+          ></input>
+        </label>
+      </div>
+    </div>
+  );
+}
+
 function Sheet({
   script,
   firstNight,
+  selection,
 }: {
   script: Script;
   firstNight: boolean;
+  selection: Selection | null;
 }): JSX.Element {
   return (
     <div>
       <Header title={script.title} firstNight={firstNight} />
-      <CharacterList orders={script.orders} firstNight={firstNight} />
+      <CharacterList
+        orders={script.orders}
+        firstNight={firstNight}
+        selection={selection}
+      />
       <Jinxes script={script} />
     </div>
   );
@@ -125,9 +182,15 @@ function Sheet({
 export function NightOrder({
   script,
   active,
+  selection,
+  validSetup,
+  anySetup,
 }: {
   script: Script;
   active: boolean;
+  selection: Selection;
+  validSetup: boolean;
+  anySetup: boolean;
 }): JSX.Element {
   useEffect(() => {
     if (active) {
@@ -135,12 +198,26 @@ export function NightOrder({
     }
   }, [active]);
 
+  const [showAll, setShowAll] = useState(false);
+
+  let newSelection: Selection | null = selection;
+  if (showAll || !validSetup) {
+    newSelection = null; // means show all
+  }
+
   return (
     <div className={visibleClass(active)}>
-      <Sheet script={script} firstNight={true} />
+      <Sheet script={script} firstNight={true} selection={newSelection} />
       <div className="page-divider-top"></div>
       <div className="page-divider-bottom"></div>
-      <Sheet script={script} firstNight={false} />
+      <Sheet script={script} firstNight={false} selection={newSelection} />
+      {anySetup && (
+        <ToggleAllRoles
+          showAll={showAll}
+          setShowAll={setShowAll}
+          validSetup={validSetup}
+        />
+      )}
     </div>
   );
 }
