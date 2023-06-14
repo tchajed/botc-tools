@@ -212,33 +212,18 @@ span.evil {
 }
 
 .fullscreen {
-  position: fixed;
-  // needs to go on top of nav
-  z-index: 1001;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  border: 20px solid white;
-  background-color: white;
-  overflow: hidden;
-
   .character {
-    // center
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-
-    font-size: 250%;
+    margin-left: auto;
+    margin-right: auto;
     border-radius: 8px;
     padding: 10%;
-  }
+    max-width: 70vw;
 
-  // make the image larger
-  .img-container {
-    width: 90px;
-    height: 90px;
+    // make the image larger
+    .img-container {
+      min-width: 90px;
+      min-height: 90px;
+    }
   }
 }
 

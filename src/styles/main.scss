@@ -125,3 +125,28 @@ tr.evil .name-cell {
   position: absolute;
   width: 1px;
 }
+
+.fullscreen {
+  position: fixed;
+  // needs to go on top of nav
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  overflow: hidden;
+
+  .contents {
+    position: relative;
+    // center
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: 250%;
+  }
+}
