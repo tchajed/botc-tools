@@ -5,7 +5,7 @@ import React, { useRef, useEffect } from "react";
 
 const TWOPI = 2 * Math.PI;
 
-export function drawCharactersArc(
+export async function drawCharactersArc(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   characters: BagCharacter[],
   arcAngle: number,
@@ -13,16 +13,19 @@ export function drawCharactersArc(
 ) {
   const startAngle = (TWOPI - arcAngle) / 2;
   const anglePerChar = arcAngle / (characters.length - 1);
-  characters.forEach((char, i) => {
-    ctx.save();
-    const theta = startAngle + i * anglePerChar;
-    ctx.rotate(theta);
-    ctx.translate(0, radius);
-    ctx.rotate(-theta);
-    ctx.translate(-120, -120);
-    drawToken(ctx, char);
-    ctx.restore();
-  });
+  await Promise.all(
+    characters.map((char, i) => {
+      ctx.save();
+      const theta = startAngle + i * anglePerChar;
+      ctx.rotate(theta);
+      ctx.translate(0, radius);
+      ctx.rotate(-theta);
+      ctx.translate(-120, -120);
+      const r = drawToken(ctx, char);
+      ctx.restore();
+      return r;
+    })
+  );
   return;
 }
 
@@ -50,16 +53,16 @@ function townsquareRadius(numPlayers: number): number {
   return radius;
 }
 
-function drawTownsquare(
+async function drawTownsquare(
   canvas: HTMLCanvasElement | OffscreenCanvas,
   bag: BagCharacter[]
-) {
+): Promise<void> {
   const numPlayers = bag.length;
   const arcAngle = townsquareArcAngle(numPlayers);
   const radius = townsquareRadius(numPlayers);
 
   // set up a high-resolution canvas
-  setCanvasResolution(canvas, radius * 2 + 20, radius * 2 + 20, 2);
+  setCanvasResolution(canvas, radius * 2 + 20, radius * 2, 2);
   // set a fixed, small display size
   if (canvas instanceof HTMLCanvasElement) {
     canvas.style.width = "600px";
@@ -73,7 +76,7 @@ function drawTownsquare(
   }
   ctx.translate(radius + 10, radius + 10);
   ctx.scale(0.8, 0.8);
-  drawCharactersArc(ctx, bag, arcAngle, radius);
+  await drawCharactersArc(ctx, bag, arcAngle, radius);
 }
 
 export function TownsquareCanvas(props: { bag: BagCharacter[] }): JSX.Element {
@@ -88,4 +91,50 @@ export function TownsquareCanvas(props: { bag: BagCharacter[] }): JSX.Element {
   }, []);
 
   return React.createElement("canvas", { ref });
+}
+
+export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
+  // dummy width and height will be set by drawTownsquare
+  const canvas = new OffscreenCanvas(0, 0);
+
+  const img: React.MutableRefObject<HTMLImageElement | null> = useRef(null);
+
+  function copyImageToClipboard(blob: Blob) {
+    // not supported by Firefox
+    if ("ClipboardItem" in window) {
+      const data = [new ClipboardItem({ [blob.type]: blob })];
+      window.navigator.clipboard.write(data).then(
+        () => {
+          // TODO: would be nice to have a toast here
+        },
+        (err) => {
+          console.warn(`could not copy to clipboard: ${err}`);
+        }
+      );
+    }
+  }
+
+  // This component returns an empty <img> and then asynchronously converts it
+  // to a blob. In order to make this work we need a ref so that this effect can
+  // reference the generated HTML element directly.
+  useEffect(() => {
+    drawTownsquare(canvas, props.bag).then(() => {
+      canvas.convertToBlob().then((blob) => {
+        const dataURL = URL.createObjectURL(blob);
+        if (img.current) {
+          img.current.src = dataURL;
+          if (blob) {
+            img.current.onclick = () => copyImageToClipboard(blob);
+          }
+        }
+      });
+    });
+  }, []);
+
+  return React.createElement("img", {
+    className: "townsquare",
+    height: 300,
+    width: 300,
+    ref: img,
+  });
 }

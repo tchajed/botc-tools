@@ -53,12 +53,12 @@ function splitLinesCircle(
 export function drawToken(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   character: BagCharacter
-) {
+): Promise<void> {
   // clear just the circle we're going to draw to
   ctx.save();
   ctx.fillStyle = "#ffffff";
   ctx.beginPath();
-  ctx.arc(120, 120, 118, 0, 2 * Math.PI);
+  ctx.arc(120, 120, 122, 0, 2 * Math.PI);
   ctx.fill();
   ctx.restore();
 
@@ -98,13 +98,16 @@ export function drawToken(
   img.src = iconPath(character.id);
   // make sure asynchronous draw uses the current transform
   const tform = ctx.getTransform();
-  img.onload = () => {
-    const size = 60;
-    ctx.save();
-    ctx.setTransform(tform);
-    ctx.drawImage(img, 120 - size / 2, 125, size, size);
-    ctx.restore();
-  };
+  const r = new Promise<void>((resolve) => {
+    img.onload = () => {
+      const size = 60;
+      ctx.save();
+      ctx.setTransform(tform);
+      ctx.drawImage(img, 120 - size / 2, 125, size, size);
+      ctx.restore();
+      resolve();
+    };
+  });
 
   // draw the character name
   ctx.font = "bold 24px Barlow";
@@ -115,6 +118,8 @@ export function drawToken(
   // convert to an angle, and add some padding for space between letters
   const angle = portionOfCircumference * 2 * Math.PI * 1.3;
   drawTextAlongArc(ctx, name, 120, 120, 110, angle);
+
+  return r;
 }
 
 export function TokenCanvas(props: { character: BagCharacter }): JSX.Element {
