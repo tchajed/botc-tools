@@ -51,7 +51,7 @@ function splitLinesCircle(
 }
 
 export function drawToken(
-  ctx: CanvasRenderingContext2D,
+  ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   character: BagCharacter
 ) {
   // clear just the circle we're going to draw to

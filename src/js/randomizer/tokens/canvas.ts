@@ -1,6 +1,6 @@
 // inspired by https://codepen.io/acharyaharsh/pen/nQdmMy but heavily tweaked
 export function drawTextAlongArc(
-  ctx: CanvasRenderingContext2D,
+  ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   str: string,
   centerX: number,
   centerY: number,
@@ -27,15 +27,17 @@ export function drawTextAlongArc(
 }
 
 export function setCanvasResolution(
-  can: HTMLCanvasElement,
+  canvas: HTMLCanvasElement | OffscreenCanvas,
   w: number,
   h: number,
   ratio?: number
 ) {
   const pixelRatio = ratio || window.devicePixelRatio || 1;
-  can.width = w * pixelRatio;
-  can.height = h * pixelRatio;
-  can.style.width = w + "px";
-  can.style.height = h + "px";
-  can.getContext("2d")?.scale(pixelRatio, pixelRatio);
+  canvas.width = w * pixelRatio;
+  canvas.height = h * pixelRatio;
+  if (canvas instanceof HTMLCanvasElement) {
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+  }
+  canvas.getContext("2d")?.scale(pixelRatio, pixelRatio);
 }
