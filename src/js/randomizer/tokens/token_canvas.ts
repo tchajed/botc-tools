@@ -1,52 +1,66 @@
 import { BagCharacter } from "../../botc/setup";
 import { iconPath } from "../../components/character_icon";
-import { splitLines } from "./token_svg";
+import { drawTextAlongArc, setCanvasResolution } from "./canvas";
 import React, { useEffect, useRef } from "react";
 
-// inspired by https://codepen.io/acharyaharsh/pen/nQdmMy but heavily tweaked
-function drawTextAlongArc(
-  ctx: CanvasRenderingContext2D,
-  str: string,
-  centerX: number,
-  centerY: number,
+function splitLinesCircle(
+  // measure the width of some text
+  width: (text: string) => number,
+  abilityText: string,
   radius: number,
-  angle: number
-) {
-  ctx.save();
-  ctx.translate(centerX, centerY);
-  // ctx.rotate((2 * Math.PI) / 4);
-  const sweepAngle = (angle / str.length) * (str.length - 1);
-  // center the arc of the text
-  ctx.rotate(sweepAngle / 2);
-  for (const char of str) {
-    ctx.save();
-    // go straight up in the current rotation
-    ctx.translate(0, radius);
-    // center text at (0, 0) in the new coordinate system
-    ctx.fillText(char, -ctx.measureText(char).width / 2, 0);
-    ctx.restore();
-    // rotate the whole canvas (persistently across loop iterations)
-    ctx.rotate(-angle / str.length);
+  yStart: number,
+  yDelta: number
+): string[] {
+  let text = abilityText;
+  let y = yStart - 1.5 * yDelta;
+  const lines: string[] = [];
+  while (text.length > 0) {
+    const lineWidth =
+      2 * Math.sqrt(radius * radius - (radius - y) * (radius - y)) * 0.9;
+    // the current line is text.slice(0, i);
+    let i = -1;
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      const nextSplit = text.indexOf(" ", i + 1);
+      // if there are no more spaces, just use the rest of the text
+      if (nextSplit < 0) {
+        if (width(text) >= lineWidth) {
+          // don't change i
+          break;
+        } else {
+          i = text.length;
+          break;
+        }
+      }
+      // we are proposing to set i to nextSplit + 1; if that would overflow the
+      // current line, then just take up to i
+      if (width(text.slice(0, nextSplit + 1)) >= lineWidth) {
+        break;
+      } else {
+        i = nextSplit + 1;
+      }
+    }
+    if (width(text.slice(0, i)) >= lineWidth) {
+      console.warn(`${text.slice(0, i)} overflows ${i}`);
+    }
+    lines.push(text.slice(0, i).trim());
+    text = text.slice(i);
+    y += yDelta;
   }
-  ctx.restore();
+  return lines;
 }
 
-function setCanvasResolution(
-  can: HTMLCanvasElement,
-  w: number,
-  h: number,
-  ratio?: number
+export function drawToken(
+  ctx: CanvasRenderingContext2D,
+  character: BagCharacter
 ) {
-  const pixelRatio = ratio || window.devicePixelRatio || 1;
-  can.width = w * pixelRatio;
-  can.height = h * pixelRatio;
-  can.style.width = w + "px";
-  can.style.height = h + "px";
-  can.getContext("2d")?.scale(pixelRatio, pixelRatio);
-}
-
-function drawToken(ctx: CanvasRenderingContext2D, character: BagCharacter) {
-  ctx.clearRect(0, 0, 245, 245);
+  // clear just the circle we're going to draw to
+  ctx.save();
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  ctx.arc(120, 120, 118, 0, 2 * Math.PI);
+  ctx.fill();
+  ctx.restore();
 
   // draw the circle
   ctx.save();
@@ -62,21 +76,34 @@ function drawToken(ctx: CanvasRenderingContext2D, character: BagCharacter) {
   // draw the ability text
   const { ability } = character;
   // TODO: split based on measured text width and circle width
-  const abilityLines = splitLines(ability || "");
+  const yStart = 50;
+  const yDelta = 20;
+  const abilityLines = splitLinesCircle(
+    (text) => ctx.measureText(text).width,
+    ability || "",
+    120,
+    yStart,
+    yDelta
+  );
   ctx.save();
   ctx.font = "13px Barlow";
   abilityLines.forEach((line, i) => {
     const width = ctx.measureText(line).width;
-    ctx.fillText(line, 120 - width / 2, 50 + 20 * i);
+    ctx.fillText(line, 120 - width / 2, yStart + yDelta * i);
   });
   ctx.restore();
 
   // create an image with the icon and draw to ctx when ready
   const img = new Image();
   img.src = iconPath(character.id);
+  // make sure asynchronous draw uses the current transform
+  const tform = ctx.getTransform();
   img.onload = () => {
     const size = 60;
+    ctx.save();
+    ctx.setTransform(tform);
     ctx.drawImage(img, 120 - size / 2, 125, size, size);
+    ctx.restore();
   };
 
   // draw the character name
