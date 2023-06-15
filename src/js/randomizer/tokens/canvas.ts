@@ -9,19 +9,24 @@ export function drawTextAlongArc(
 ) {
   ctx.save();
   ctx.translate(centerX, centerY);
-  // ctx.rotate((2 * Math.PI) / 4);
-  const sweepAngle = (angle / str.length) * (str.length - 1);
+  const totalWidth = ctx.measureText(str).width;
   // center the arc of the text
-  ctx.rotate(sweepAngle / 2);
-  for (const char of str) {
+  ctx.rotate(angle / 2);
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
     ctx.save();
+    // rotate to this character's position, with a compensation for its
+    // halfwidth since it is rendered in the center
+    const charCompensation = ctx.measureText(char).width / 2;
+    ctx.rotate(
+      (-angle * ctx.measureText(str.slice(0, i)).width) / totalWidth -
+        charCompensation / radius
+    );
     // go straight up in the current rotation
     ctx.translate(0, radius);
     // center text at (0, 0) in the new coordinate system
-    ctx.fillText(char, -ctx.measureText(char).width / 2, 0);
+    ctx.fillText(char, -charCompensation, 0);
     ctx.restore();
-    // rotate the whole canvas (persistently across loop iterations)
-    ctx.rotate(-angle / str.length);
   }
   ctx.restore();
 }
