@@ -99,15 +99,15 @@ function CharacterList(props: {
   );
 }
 
-export function CharacterSheet({
-  script,
-  active,
-  completeSetup,
-}: {
+/**
+ * The top-level component for the roles tab.
+ */
+export function CharacterSheet(props: {
   script: Script;
   active: boolean;
   completeSetup: boolean;
 }): JSX.Element {
+  const { script, active, completeSetup } = props;
   useEffect(() => {
     if (active) {
       restoreScroll("roles");
@@ -116,7 +116,8 @@ export function CharacterSheet({
 
   const [fsRole, setFsRole] = useState<string | null>(null);
 
-  // if we don't have a complete setup, setting the current role should be disabled and do nothing
+  // if we don't have a complete setup, setting the current role should be
+  // disabled and do nothing
   const showRole = completeSetup
     ? setFsRole
     : () => {

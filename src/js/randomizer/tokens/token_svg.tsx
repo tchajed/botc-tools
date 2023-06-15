@@ -10,7 +10,7 @@ import React from "react";
  * More seriously the text should really be vertically centered to accomodate
  * really long ability texts.
  */
-function splitLines(ability: string): string[] {
+export function splitLines(ability: string): string[] {
   const LINE_MAX = [25, 29, 29, 32, 35];
   const lines: string[] = [];
   let line = "";
