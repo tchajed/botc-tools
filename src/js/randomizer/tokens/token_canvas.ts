@@ -50,6 +50,33 @@ function splitLinesCircle(
   return lines;
 }
 
+function decideAbilitySplit(
+  width: (text: string) => number,
+  abilityText: string,
+  radius: number,
+  yStart: number,
+  yDelta: number
+): { lines: string[]; yStart: number; yDelta: number } {
+  function tryStart(yStart: number): {
+    lines: string[];
+    yStart: number;
+    yDelta: number;
+  } {
+    const lines = splitLinesCircle(width, abilityText, radius, yStart, yDelta);
+    return { lines, yStart, yDelta };
+  }
+  let s = tryStart(yStart + yDelta);
+  if (s.lines.length <= 2) {
+    return s;
+  }
+  s = tryStart(yStart);
+  if (s.lines.length <= 4) {
+    return s;
+  }
+  s = tryStart(yStart - yDelta);
+  return s;
+}
+
 export function drawToken(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   character: BagCharacter
@@ -75,15 +102,16 @@ export function drawToken(
 
   // draw the ability text
   const { ability } = character;
-  // TODO: split based on measured text width and circle width
-  const yStart = 50;
-  const yDelta = 20;
-  const abilityLines = splitLinesCircle(
+  const {
+    lines: abilityLines,
+    yStart,
+    yDelta,
+  } = decideAbilitySplit(
     (text) => ctx.measureText(text).width,
     ability || "",
     120,
-    yStart,
-    yDelta
+    50,
+    20
   );
   ctx.save();
   ctx.font = "13px Barlow";
@@ -122,7 +150,10 @@ export function drawToken(
   return r;
 }
 
-export function TokenCanvas(props: { character: BagCharacter }): JSX.Element {
+export function TokenCanvas(props: {
+  character: BagCharacter;
+  size: number;
+}): JSX.Element {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -133,6 +164,8 @@ export function TokenCanvas(props: { character: BagCharacter }): JSX.Element {
     // don't rely on devicePixelRatio since we want a high-resolution image for
     // export
     setCanvasResolution(canvas, 240, 240, 2);
+    canvas.style.width = `${props.size}px`;
+    canvas.style.height = `${props.size}px`;
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       return;
