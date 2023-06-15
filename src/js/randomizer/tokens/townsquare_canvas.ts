@@ -31,13 +31,14 @@ export async function drawCharactersArc(
 
 function townsquareArcAngle(numPlayers: number): number {
   let circleFraction = 0;
-  if (numPlayers <= 6) {
+  if (numPlayers <= 5) {
     circleFraction = 1 / 2;
   } else if (numPlayers >= 10) {
     circleFraction = 3 / 4;
   } else {
-    circleFraction = 1 / 2 + (1 / 4) * ((numPlayers - 6) / (10 - 6));
+    circleFraction = 1 / 2 + (1 / 4) * ((numPlayers - 5) / (10 - 5));
   }
+  console.log(`circleFraction: ${circleFraction}`);
   return circleFraction * TWOPI;
 }
 
@@ -62,11 +63,21 @@ async function drawTownsquare(
   const radius = townsquareRadius(numPlayers);
 
   // set up a high-resolution canvas
-  setCanvasResolution(canvas, radius * 2 + 20, radius * 2, 2);
+  const margin = 10;
+  // remove some whitespace due to a missing part of the arc
+  // TODO: couldn't get this calculation right
+  const unneededHeight = 100;
+  setCanvasResolution(
+    canvas,
+    radius * 2 + margin * 2,
+    radius * 2 + margin * 2 - unneededHeight,
+    2
+  );
+  const aspectRatio = canvas.height / canvas.width;
   // set a fixed, small display size
   if (canvas instanceof HTMLCanvasElement) {
     canvas.style.width = "600px";
-    canvas.style.height = "600px";
+    canvas.style.height = `${600 * aspectRatio}`;
   }
 
   // draw the tokens
@@ -74,8 +85,8 @@ async function drawTownsquare(
   if (!ctx) {
     return;
   }
-  ctx.translate(radius + 10, radius + 10);
-  ctx.scale(0.8, 0.8);
+  ctx.translate(radius + margin, radius + margin);
+  ctx.scale(0.75, 0.75);
   await drawCharactersArc(ctx, bag, arcAngle, radius);
 }
 
@@ -133,8 +144,7 @@ export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
 
   return React.createElement("img", {
     className: "townsquare",
-    height: 300,
-    width: 300,
+    width: "70%",
     ref: img,
   });
 }

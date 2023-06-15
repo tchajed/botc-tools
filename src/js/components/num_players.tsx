@@ -50,7 +50,7 @@ export function NumPlayerSelector(props: {
         </label>
         <button
           id="plus-player-btn"
-          title="add one players"
+          title="add one player"
           disabled={numPlayers >= maxPlayers}
           onClick={handleIncDec(+1)}
         >
