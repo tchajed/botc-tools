@@ -2,7 +2,7 @@ import { distributionForCount, zeroDistribution } from "../botc/setup";
 import "../icons";
 import { Distr } from "../randomizer/setup_help";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Dispatch, SetStateAction } from "react";
+import { SetStateAction } from "react";
 import React from "react";
 
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
@@ -15,7 +15,7 @@ function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
 
 export function NumPlayerSelector(props: {
   numPlayers: number;
-  setNumPlayers: Dispatch<SetStateAction<number>>;
+  setNumPlayers: React.Dispatch<SetStateAction<number>>;
   teenysville: boolean;
 }): JSX.Element {
   const { numPlayers } = props;

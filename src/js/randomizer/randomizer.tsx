@@ -20,7 +20,7 @@ import { Selection, SelAction } from "./selection";
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare_canvas";
-import React, { useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 
 export function Randomizer({
   script,
@@ -35,7 +35,7 @@ export function Randomizer({
   selection: Selection;
   selDispatch: React.Dispatch<SelAction>;
   numPlayers: number;
-  setNumPlayers: (number) => void;
+  setNumPlayers: React.Dispatch<SetStateAction<number>>;
 }): JSX.Element {
   const { characters } = script;
   const [ranking, setRanking] = useState(randomRanking(characters));
