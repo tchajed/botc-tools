@@ -81,7 +81,10 @@ async function drawTownsquare(
   }
 
   // draw the tokens
-  const ctx = canvas.getContext("2d");
+  const ctx:
+    | CanvasRenderingContext2D
+    | OffscreenCanvasRenderingContext2D
+    | null = canvas.getContext("2d");
   if (!ctx) {
     return;
   }
