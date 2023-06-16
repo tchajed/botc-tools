@@ -67,7 +67,7 @@ async function main() {
   await pickChar("Fortune Teller");
   await screenshot("assign/2-complete");
 
-  await scrollPage(1150);
+  await scrollPage(1050);
   await screenshot("assign/3-bag");
 
   await page.setViewport({
