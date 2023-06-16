@@ -187,6 +187,15 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   const [query, setQuery] = useState(hashQuery());
   const [lastScript, setLastScript] = useState<State | null>(null);
 
+  // arbitrary state that changes periodically, to force a re-render
+  const [elapsedMinutes, setElapsedMinutes] = useState(0);
+  useEffect(() => {
+    const i = setInterval(() => {
+      setElapsedMinutes((m) => m + 1);
+    }, 1 * 60 * 1000);
+    return () => clearInterval(i);
+  }, []);
+
   useEffect(() => {
     initStorage();
     latestScript().then((s) => {
@@ -198,7 +207,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
         setLastScript(s);
       }
     });
-  }, []);
+  }, [elapsedMinutes]);
 
   useEffect(() => {
     window["reloadSafe"] = true;
