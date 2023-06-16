@@ -168,11 +168,12 @@ button {
 .distribution-help {
   position: sticky;
   display: inline-block;
-  margin-left: -5px;
-  top: 4.5rem;
+  top: 5rem;
   z-index: 999;
   background-color: white;
   border-radius: 0.25rem;
+  border: 1px solid #666;
+  box-shadow: 0px 3px 3px 0;
   padding: 5px;
 }
 
@@ -235,5 +236,7 @@ span.evil {
 }
 
 .townsquare {
-  border: 1px solid black;
+  border: 1px solid #444;
+  border-radius: 0.5rem;
+  box-shadow: 1px 5px 5px 0 #444;
 }
