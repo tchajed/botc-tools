@@ -1,6 +1,20 @@
 @use "main";
 @use "nav";
 
+.qr-link {
+  float: right;
+  font-size: 16pt;
+  line-height: 30pt;
+}
+
+.qr-url {
+  font-size: 16pt;
+
+  a {
+    text-decoration: underline;
+  }
+}
+
 $img-size: 30px;
 
 td.icon-cell {

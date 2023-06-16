@@ -10,6 +10,7 @@ h1 {
     float: left;
 
     &.other-nights {
+
       // the other-nights title is a header only for printing (since it goes on
       // the second page)
       @media not print {
@@ -96,6 +97,8 @@ h1 {
 
 .all-roles-sheet {
   position: fixed;
+  // TODO can this be relative to the main viewport? (only matters on wide
+  // widths)
   right: 8px;
   bottom: 8px;
   // make sure this switch covers everything

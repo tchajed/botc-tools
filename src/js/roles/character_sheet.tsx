@@ -4,12 +4,56 @@ import {
   CharacterIconElement,
   characterClass,
 } from "../components/character_icon";
+import { Fullscreen } from "../components/fullscreen_modal";
 import { Jinxes } from "../components/jinxes";
 import { FullscreenRole } from "../components/role_fullscreen";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
+import QRCode from "react-qr-code";
 import reactStringReplace from "react-string-replace";
+
+function QrLink(props: {
+  url: string;
+  setUrl: (url: string) => void;
+}): JSX.Element {
+  const { url } = props;
+  const handleClick = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+    props.setUrl(url);
+    navigator.clipboard.writeText(url);
+    ev.preventDefault();
+  };
+  return (
+    <a href={url} onClick={handleClick}>
+      <FontAwesomeIcon icon="qrcode" />
+    </a>
+  );
+}
+
+function FullscreenQr(props: {
+  url: string | null;
+  setUrl: (url: string | null) => void;
+}): JSX.Element {
+  return (
+    <Fullscreen
+      data={props.url}
+      setData={props.setUrl}
+      render={(url) => {
+        const displayUrl = url.replace(/^https?:\/\//, "");
+        return (
+          <div>
+            <QRCode size={256} value={url} />
+            <br />
+            <div className="qr-url">
+              <a href={url}>{displayUrl}</a>
+            </div>
+          </div>
+        );
+      }}
+    />
+  );
+}
 
 function Ability(props: { ability: string | null }): JSX.Element {
   // bold any setup text in brackets (eg, [+2 Outsiders])
@@ -124,12 +168,21 @@ export function CharacterSheet(props: {
         return;
       };
 
+  const [qrUrl, setQrUrl] = useState<string | null>(null);
+  const qrDest = `${window.location.origin}/script.html?id=${script.id}`;
+
   return (
     <div className={visibleClass(active)}>
-      <h1>{script.title}</h1>
+      <h1>
+        {script.title}
+        <div className="qr-link">
+          <QrLink url={qrDest} setUrl={setQrUrl} />
+        </div>
+      </h1>
       <CharacterList characters={script.characters} setFsRole={showRole} />
       <Jinxes script={script} />
       <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
+      <FullscreenQr url={qrUrl} setUrl={setQrUrl} />
     </div>
   );
 }

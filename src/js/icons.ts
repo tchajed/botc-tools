@@ -23,6 +23,7 @@ import {
   faChevronRight,
   faCircle,
   faTableList,
+  faQrcode,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -48,7 +49,8 @@ library.add(
   faChevronLeft,
   faChevronRight,
   faCircle,
-  faTableList
+  faTableList,
+  faQrcode
 );
 
 export default {};
