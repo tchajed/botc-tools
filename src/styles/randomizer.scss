@@ -79,7 +79,7 @@ button {
   }
 }
 
-.characters {
+.columns {
   display: flex;
 }
 
@@ -184,6 +184,12 @@ button {
   padding: 0.5rem;
   font-size: 14pt;
   color: white;
+}
+
+.bluffs-toggle {
+  background-color: #eee;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }
 
 .role-label {

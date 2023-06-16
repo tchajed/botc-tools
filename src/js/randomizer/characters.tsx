@@ -65,7 +65,7 @@ export function CharacterSelection(
   return (
     <div>
       {["townsfolk", "outsider", "minion", "demon"].map((roleType) => (
-        <div className="characters" key={`${roleType}-roles`}>
+        <div className="columns" key={`${roleType}-roles`}>
           <Columns numColumns={2}>
             {chars
               .filter((char) => char.roleType == roleType)

@@ -20,7 +20,26 @@ import { Selection, SelAction } from "./selection";
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare_canvas";
-import React, { SetStateAction, useEffect, useState } from "react";
+import classnames from "classnames";
+import React, { ChangeEvent, SetStateAction, useEffect, useState } from "react";
+
+function BluffsToggleBtn(props: {
+  selectBluffs: boolean;
+  setSelectBluffs: (b: boolean) => void;
+}): JSX.Element {
+  const { selectBluffs } = props;
+  function onChange(e: ChangeEvent<HTMLInputElement>) {
+    props.setSelectBluffs(e.target.checked);
+  }
+  return (
+    <label
+      className={classnames("bluffs-toggle", selectBluffs ? "selected" : "")}
+    >
+      choose bluffs
+      <input type="checkbox" checked={selectBluffs} onChange={onChange} />
+    </label>
+  );
+}
 
 export function Randomizer({
   script,
@@ -43,6 +62,7 @@ export function Randomizer({
   const [history, setHistory] = useState({ back: [], forward: [] } as History<
     Partial<State>
   >);
+  const [selectBluffs, setSelectBluffs] = useState(false);
 
   // load state from local storage
   useEffect(() => {
@@ -123,9 +143,16 @@ export function Randomizer({
           {...{ numPlayers, setNumPlayers }}
         />
         <SetupModifiers numPlayers={numPlayers} selection={selection} />
-        <RandomSetupButton
-          {...{ numPlayers, selection, selDispatch, history, setHistory }}
-        />
+        <div className="columns">
+          <div className="column">
+            <RandomSetupButton
+              {...{ numPlayers, selection, selDispatch, history, setHistory }}
+            />
+          </div>
+          <div className="column">
+            <BluffsToggleBtn {...{ selectBluffs, setSelectBluffs }} />
+          </div>
+        </div>
         <CharacterSelection
           selection={selection}
           selDispatch={selDispatch}

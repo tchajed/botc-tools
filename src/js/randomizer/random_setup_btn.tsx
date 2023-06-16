@@ -38,15 +38,13 @@ export function RandomSetupButton(props: {
   };
 
   return (
-    <div>
-      <button
-        className="button setup-btn"
-        onClick={handleClick}
-        disabled={!haveNewSelection}
-      >
-        <FontAwesomeIcon icon="magic-wand-sparkles" />
-        &nbsp; random setup
-      </button>
-    </div>
+    <button
+      className="button setup-btn"
+      onClick={handleClick}
+      disabled={!haveNewSelection}
+    >
+      <FontAwesomeIcon icon="magic-wand-sparkles" />
+      &nbsp; random setup
+    </button>
   );
 }
