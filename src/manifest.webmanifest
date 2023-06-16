@@ -9,6 +9,7 @@
   "background_color": "#e0e0e0",
   "theme_color": "#593286",
   "orientation": "portrait-primary",
+  "handle_links": "preferred",
   "icons": [
     {
       "src": "../icons/favicon.ico",
