@@ -44,9 +44,6 @@ const overrideList: { [key: string]: Override } = {
     nights: `The Cerenovus chooses a player and character. Wake the target.
     Show THIS CHARACTER SELECTED YOU, the Cerenovus token, and the madness character.`,
   },
-  sailor: {
-    nights: "",
-  },
   poisoner: {
     nights: "The Poisoner picks a player to poison.",
   },
