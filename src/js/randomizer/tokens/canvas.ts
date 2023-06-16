@@ -24,8 +24,8 @@ export function drawTextAlongArc(
     );
     // go straight up in the current rotation
     ctx.translate(0, radius);
-    // center text at (0, 0) in the new coordinate system
-    ctx.fillText(char, -charCompensation, 0);
+    ctx.textAlign = "center";
+    ctx.fillText(char, 0, 0);
     ctx.restore();
   }
   ctx.restore();

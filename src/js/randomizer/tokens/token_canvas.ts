@@ -115,9 +115,10 @@ export function drawToken(
   );
   ctx.save();
   ctx.font = "13px Barlow";
+  ctx.textAlign = "center";
+  // ctx.textBaseline = "middle";
   abilityLines.forEach((line, i) => {
-    const width = ctx.measureText(line).width;
-    ctx.fillText(line, 120 - width / 2, yStart + yDelta * i);
+    ctx.fillText(line, 120, yStart + yDelta * i);
   });
   ctx.restore();
 

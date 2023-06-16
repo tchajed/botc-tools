@@ -141,7 +141,9 @@ export function Randomizer({
             setHistory,
           }}
         />
-        {bag.length == numPlayers && <TownsquareImage bag={bag} />}
+        {bag.length == numPlayers && (
+          <TownsquareImage title={script.title} bag={bag} />
+        )}
         <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
       </div>
     </CharacterContext.Provider>

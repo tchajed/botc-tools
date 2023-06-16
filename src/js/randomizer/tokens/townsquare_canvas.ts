@@ -5,8 +5,12 @@ import React, { useRef, useEffect } from "react";
 
 const TWOPI = 2 * Math.PI;
 
+type RenderingContext2D =
+  | CanvasRenderingContext2D
+  | OffscreenCanvasRenderingContext2D;
+
 export async function drawCharactersArc(
-  ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
+  ctx: RenderingContext2D,
   characters: BagCharacter[],
   arcAngle: number,
   radius: number
@@ -27,6 +31,21 @@ export async function drawCharactersArc(
     })
   );
   return;
+}
+
+function drawTitle(
+  ctx: RenderingContext2D,
+  title: string,
+  x: number,
+  y: number
+) {
+  ctx.save();
+  ctx.font = "24pt Barlow";
+  ctx.fillStyle = "#606060";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "bottom";
+  ctx.fillText(title, x, y);
+  ctx.restore();
 }
 
 function townsquareArcAngle(numPlayers: number): number {
@@ -56,7 +75,8 @@ function townsquareRadius(numPlayers: number): number {
 
 async function drawTownsquare(
   canvas: HTMLCanvasElement | OffscreenCanvas,
-  bag: BagCharacter[]
+  bag: BagCharacter[],
+  title?: string
 ): Promise<void> {
   const numPlayers = bag.length;
   const arcAngle = townsquareArcAngle(numPlayers);
@@ -65,8 +85,7 @@ async function drawTownsquare(
   // set up a high-resolution canvas
   const margin = 10;
   // remove some whitespace due to a missing part of the arc
-  // TODO: couldn't get this calculation right
-  const unneededHeight = 100;
+  const unneededHeight = radius * (1 - Math.cos((TWOPI - arcAngle) / 2)) - 100;
   setCanvasResolution(
     canvas,
     radius * 2 + margin * 2,
@@ -81,19 +100,25 @@ async function drawTownsquare(
   }
 
   // draw the tokens
-  const ctx:
-    | CanvasRenderingContext2D
-    | OffscreenCanvasRenderingContext2D
-    | null = canvas.getContext("2d");
+  const ctx: RenderingContext2D | null = canvas.getContext("2d");
   if (!ctx) {
     return;
   }
   ctx.translate(radius + margin, radius + margin);
   ctx.scale(0.75, 0.75);
   await drawCharactersArc(ctx, bag, arcAngle, radius);
+
+  // draw the title
+  const titleY = radius * Math.cos((TWOPI - arcAngle) / 2) + 120;
+  if (title) {
+    drawTitle(ctx, title, 0, titleY);
+  }
 }
 
-export function TownsquareCanvas(props: { bag: BagCharacter[] }): JSX.Element {
+export function TownsquareCanvas(props: {
+  title: string;
+  bag: BagCharacter[];
+}): JSX.Element {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -101,13 +126,16 @@ export function TownsquareCanvas(props: { bag: BagCharacter[] }): JSX.Element {
       return;
     }
     const canvas = ref.current;
-    drawTownsquare(canvas, props.bag);
+    drawTownsquare(canvas, props.bag, props.title);
   }, []);
 
   return React.createElement("canvas", { ref });
 }
 
-export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
+export function TownsquareImage(props: {
+  title: string;
+  bag: BagCharacter[];
+}): JSX.Element {
   // dummy width and height will be set by drawTownsquare
   const canvas = new OffscreenCanvas(0, 0);
 
@@ -132,7 +160,7 @@ export function TownsquareImage(props: { bag: BagCharacter[] }): JSX.Element {
   // to a blob. In order to make this work we need a ref so that this effect can
   // reference the generated HTML element directly.
   useEffect(() => {
-    drawTownsquare(canvas, props.bag).then(() => {
+    drawTownsquare(canvas, props.bag, props.title).then(() => {
       canvas.convertToBlob().then((blob) => {
         const dataURL = URL.createObjectURL(blob);
         if (img.current) {
