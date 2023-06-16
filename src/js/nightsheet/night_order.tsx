@@ -23,6 +23,13 @@ const tokenNames = new Set([
   "YOU ARE",
   "THIS CHARACTER SELECTED YOU",
   "THIS PLAYER IS",
+  "THIS CHARACTER IS IN PLAY",
+]);
+
+const showPlayerTokens = new Set([
+  "THIS CHARACTER SELECTED YOU",
+  "THIS PLAYER IS",
+  "THIS CHARACTER IS IN PLAY",
 ]);
 
 function Header(props: { title: string; firstNight: boolean }): JSX.Element {
@@ -64,8 +71,7 @@ function Details(props: {
     const handleClick = () => {
       props.setCard({
         tokenText: tokenName,
-        character:
-          tokenName == "THIS CHARACTER SELECTED YOU" ? props.char : null,
+        character: showPlayerTokens.has(tokenName) ? props.char : null,
       });
     };
     el = reactStringReplace(el, tokenName, (_match, i) => (

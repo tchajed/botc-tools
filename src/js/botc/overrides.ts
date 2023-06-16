@@ -78,6 +78,13 @@ const overrideList: { [key: string]: Override } = {
 The new Snake Charmer is poisoned.
     `,
   },
+  // use new more-specific token texts
+  damsel: {
+    firstNight: `Wake all the Minions, show them THIS CHARACTER IS IN PLAY and the Damsel token.`,
+  },
+  king: {
+    firstNight: `Wake the Demon, show them THIS PLAYER IS and point to the King player.`,
+  },
 
   // new roles not in BotC online
   knight: {
