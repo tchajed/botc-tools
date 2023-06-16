@@ -214,6 +214,10 @@ export function uniqueDistributions(dists: Distribution[]): Distribution[] {
   return uniqueDists;
 }
 
+export function modifiesSetup(id: string): boolean {
+  return id in SetupChanges;
+}
+
 export function modifiedDistribution(
   dist: Distribution,
   mods: SetupModification[],
@@ -230,7 +234,7 @@ export function modifiedDistribution(
 export function modifyingCharacters(selection: Set<string>): CharacterInfo[] {
   const modified: CharacterInfo[] = [];
   selection.forEach((id) => {
-    if (id in SetupChanges) {
+    if (modifiesSetup(id)) {
       modified.push(getCharacter(id));
     }
   });

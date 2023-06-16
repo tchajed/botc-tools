@@ -1,3 +1,4 @@
+import { randomCompleteSelection } from "../botc/random_setup";
 import { CharacterInfo, getCharacter } from "../botc/roles";
 import { Script } from "../botc/script";
 import {
@@ -14,13 +15,60 @@ import { visibleClass } from "../tabs";
 import { randomRanking, SelectedCharacters, sortBag } from "./bag";
 import { CharacterContext } from "./character_context";
 import { CharacterSelection } from "./characters";
-import { History } from "./history";
+import { History, SetHistory, pureHistoryApply } from "./history";
 import { Selection, SelAction } from "./selection";
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 // import { TownsquareImage } from "./tokens/townsquare";
 import { TownsquareImage } from "./tokens/townsquare_canvas";
-import React, { useEffect, useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useContext, useEffect, useState } from "react";
+
+function RandomSetupButton(props: {
+  numPlayers: number;
+  selection: Selection;
+  selDispatch: React.Dispatch<SelAction>;
+  setHistory: SetHistory;
+}): JSX.Element {
+  const characters = useContext(CharacterContext);
+  const { numPlayers, selection, selDispatch } = props;
+
+  const randomSelection = randomCompleteSelection(
+    numPlayers,
+    characters,
+    selection
+  );
+  const haveNewSelection =
+    randomSelection != null && randomSelection.size != selection.size;
+
+  const handleClick = () => {
+    if (!haveNewSelection) {
+      return;
+    }
+    pureHistoryApply(props.setHistory, {
+      type: "replace",
+      state: { selection: [...selection.values()] },
+    });
+    selDispatch({ type: "set all", ids: [...randomSelection.values()] });
+    pureHistoryApply(props.setHistory, {
+      type: "push",
+      state: { selection: [...randomSelection.values()] },
+    });
+  };
+
+  return (
+    <div>
+      <button
+        className="button setup-btn"
+        onClick={handleClick}
+        disabled={!haveNewSelection}
+      >
+        <FontAwesomeIcon icon="magic-wand-sparkles" />
+        &nbsp; random setup
+      </button>
+    </div>
+  );
+}
 
 export function Randomizer({
   script,
@@ -123,6 +171,9 @@ export function Randomizer({
           {...{ numPlayers, setNumPlayers }}
         />
         <SetupModifiers numPlayers={numPlayers} selection={selection} />
+        <RandomSetupButton
+          {...{ numPlayers, selection, selDispatch, history, setHistory }}
+        />
         <CharacterSelection
           selection={selection}
           selDispatch={selDispatch}

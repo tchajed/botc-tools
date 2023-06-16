@@ -57,7 +57,6 @@ function townsquareArcAngle(numPlayers: number): number {
   } else {
     circleFraction = 1 / 2 + (1 / 4) * ((numPlayers - 5) / (10 - 5));
   }
-  console.log(`circleFraction: ${circleFraction}`);
   return circleFraction * TWOPI;
 }
 

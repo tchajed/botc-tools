@@ -24,6 +24,7 @@ import {
   faCircle,
   faTableList,
   faQrcode,
+  faMagicWandSparkles,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -50,7 +51,8 @@ library.add(
   faChevronRight,
   faCircle,
   faTableList,
-  faQrcode
+  faQrcode,
+  faMagicWandSparkles
 );
 
 export default {};
