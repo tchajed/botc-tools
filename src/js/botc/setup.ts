@@ -101,7 +101,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   lilmonsta: { type: "lilmonsta", notInBag: true },
   marionette: { type: "marionette", notInBag: true },
   godfather: outsiders(+1, -1),
-  sentinel: outsiders(+1, 0, -1),
+  sentinel: outsiders(0, +1, -1),
   huntsman: { type: "huntsman" },
   riot: { type: "riot" },
   legion: { type: "legion" },

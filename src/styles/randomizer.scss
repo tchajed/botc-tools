@@ -161,6 +161,21 @@ button {
   }
 }
 
+.modifiers {
+  display: inline;
+}
+
+.distribution-help {
+  position: sticky;
+  display: inline-block;
+  margin-left: -5px;
+  top: 4.5rem;
+  z-index: 999;
+  background-color: white;
+  border-radius: 0.25rem;
+  padding: 5px;
+}
+
 .role-label {
   position: absolute;
   top: 1px;
@@ -201,14 +216,6 @@ span.evil {
 
 .selected-characters {
   display: flex;
-}
-
-.bold {
-  font-weight: bold;
-}
-
-.hidden {
-  display: none;
 }
 
 .fullscreen {

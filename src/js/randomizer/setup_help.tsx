@@ -178,20 +178,22 @@ export function SetupModifiers(props: {
           </div>
         );
       })}
-      <div>
-        <span className="label">goal</span>
-        <FontAwesomeIcon icon="location-crosshairs" />
-        {goalDistributionElement}
-      </div>
-      <div>
-        <span className="label">current</span>
-        <FontAwesomeIcon icon="down-long" />
-        <Distr dist={actual} />
-        {distributionCorrect && (
-          <span className="success">
-            <FontAwesomeIcon icon="circle-check" />
-          </span>
-        )}
+      <div className="distribution-help">
+        <div>
+          <span className="label">goal</span>
+          <FontAwesomeIcon icon="location-crosshairs" />
+          {goalDistributionElement}
+        </div>
+        <div>
+          <span className="label">current</span>
+          <FontAwesomeIcon icon="down-long" />
+          <Distr dist={actual} />
+          {distributionCorrect && (
+            <span className="success">
+              <FontAwesomeIcon icon="circle-check" />
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
