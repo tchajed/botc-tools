@@ -79,18 +79,27 @@ function ClearSelectionBtn(
   props: PropsWithChildren<{
     selection: Selection;
     selDispatch: Dispatch<SelAction>;
+    ranking: Ranking;
+    setRanking: Dispatch<Ranking>;
     setHistory: SetHistory;
   }>
 ): JSX.Element {
+  const characters = useContext(CharacterContext);
+
   function handleClick() {
     pureHistoryApply(props.setHistory, {
       type: "replace",
-      state: { selection: [...props.selection] },
+      state: { selection: [...props.selection], ranking: { ...props.ranking } },
     });
     props.selDispatch({ type: "clear" });
+
+    // also shuffle the ranking (in case we're setting up a new game)
+    const newRanking = randomRanking(characters);
+    props.setRanking(newRanking);
+
     pureHistoryApply(props.setHistory, {
       type: "push",
-      state: { selection: [] },
+      state: { selection: [], ranking: { ...newRanking } },
     });
   }
   return (
@@ -191,6 +200,8 @@ function BagHeader(props: {
         <ClearSelectionBtn
           selection={selection}
           selDispatch={props.selDispatch}
+          ranking={ranking}
+          setRanking={props.setRanking}
           setHistory={props.setHistory}
         >
           <FontAwesomeIcon icon="trash" />
