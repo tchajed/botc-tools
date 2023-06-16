@@ -1,13 +1,9 @@
 import { BagCharacter } from "../../botc/setup";
-import { setCanvasResolution } from "./canvas";
+import { RenderingContext2D, setCanvasResolution } from "./canvas";
 import { drawToken } from "./token_canvas";
 import React, { useRef, useEffect } from "react";
 
 const TWOPI = 2 * Math.PI;
-
-type RenderingContext2D =
-  | CanvasRenderingContext2D
-  | OffscreenCanvasRenderingContext2D;
 
 export async function drawCharactersArc(
   ctx: RenderingContext2D,
@@ -99,7 +95,9 @@ async function drawTownsquare(
   }
 
   // draw the tokens
-  const ctx: RenderingContext2D | null = canvas.getContext("2d");
+  const ctx: RenderingContext2D | null = canvas.getContext(
+    "2d"
+  ) as RenderingContext2D | null;
   if (!ctx) {
     return;
   }

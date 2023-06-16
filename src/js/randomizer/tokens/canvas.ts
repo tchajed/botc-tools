@@ -1,3 +1,7 @@
+export type RenderingContext2D =
+  | CanvasRenderingContext2D
+  | OffscreenCanvasRenderingContext2D;
+
 // inspired by https://codepen.io/acharyaharsh/pen/nQdmMy but heavily tweaked
 export function drawTextAlongArc(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
@@ -44,5 +48,7 @@ export function setCanvasResolution(
     canvas.style.width = w + "px";
     canvas.style.height = h + "px";
   }
-  canvas.getContext("2d")?.scale(pixelRatio, pixelRatio);
+  // NOTE: yarn tsc needs this type ascription, but it works in VS Code
+  const ctx = canvas.getContext("2d") as RenderingContext2D | null;
+  ctx?.scale(pixelRatio, pixelRatio);
 }
