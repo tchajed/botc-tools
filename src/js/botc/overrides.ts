@@ -124,6 +124,21 @@ At night*, each visitor learns how many visitors are evil, but 1 gets false info
     ability: `Name a good character. If in play, they can only
 die by execution, but evil players learn which player it is.`,
   },
+  angel: {
+    ability: `Something bad might happen to whoever is most responsible for the death of a new player.`,
+  },
+  toymaker: {
+    ability: `The Demon may choose not to attack & must do this at least once per game. Evil players get normal starting info.`,
+  },
+  buddhist: {
+    ability: `For the first 2 minutes of each day, veteran players may not talk.`,
+  },
+  hellslibrarian: {
+    ability: `Something bad might happen to whoever talks when the Storyteller has asked for silence.`,
+  },
+  fiddler: {
+    ability: `Once per game, the Demon secretly chooses an opposing player: all players choose which of these 2 players win.`,
+  },
 };
 
 function getOverride(id: string): Override {
