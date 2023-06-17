@@ -2,7 +2,7 @@ import { Selection } from "./../randomizer/selection";
 import { CharacterInfo, getCharacter } from "./roles";
 import {
   Distribution,
-  actualDistribution,
+  effectiveDistribution,
   modifyingCharacters,
   sameDistribution,
   targetDistributions,
@@ -12,9 +12,12 @@ function randomChoice<T>(a: T[]): T {
   return a[Math.floor(Math.random() * a.length)];
 }
 
-function selectionDistribution(selection: Selection): Distribution {
+function effectiveSelection(
+  numPlayers: number,
+  selection: Selection
+): Distribution {
   const selectedChars = [...selection.values()].map((id) => getCharacter(id));
-  return actualDistribution(selectedChars);
+  return effectiveDistribution(numPlayers, selectedChars);
 }
 
 function nextRandomChar(
@@ -28,7 +31,7 @@ function nextRandomChar(
     characters
   );
 
-  const currentDist = selectionDistribution(selection);
+  const currentDist = effectiveSelection(numPlayers, selection);
 
   // already have avalid setup
   if (newDists.some((dist) => sameDistribution(dist, currentDist))) {
@@ -38,8 +41,12 @@ function nextRandomChar(
   const available = characters.filter((c) => !selection.has(c.id));
 
   const randomOfRoleType = (roleType: string) => {
+    const roles = available.filter((c) => c.roleType == roleType);
+    if (roles.length == 0) {
+      return "fail";
+    }
     return {
-      id: randomChoice(available.filter((c) => c.roleType == roleType)).id,
+      id: randomChoice(roles).id,
     };
   };
 
