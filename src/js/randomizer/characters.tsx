@@ -1,4 +1,4 @@
-import { NightAction, RoleType } from "../botc/roles";
+import { CharacterInfo, NightAction, RoleType } from "../botc/roles";
 import {
   CharacterIconElement,
   characterClass,
@@ -28,6 +28,7 @@ export function CharacterCard(props: {
   character: CardInfo;
   onClick?: React.MouseEventHandler<HTMLElement>;
   selected?: boolean;
+  bluffSelected?: boolean;
   notNeeded?: boolean;
 }): JSX.Element {
   const { character } = props;
@@ -39,6 +40,7 @@ export function CharacterCard(props: {
         characterClass(character),
         "character",
         { selected: props.selected },
+        { "bluff-selected": props.bluffSelected },
         { "not-needed": props.notNeeded }
       )}
       onClick={props.onClick}
@@ -57,10 +59,29 @@ interface SelectionVar {
 }
 
 export function CharacterSelection(
-  props: SelectionVar & { doneRoles: string[] }
+  props: SelectionVar & { doneRoles: string[] } & {
+    selectBluffs: boolean;
+    bluffs: Selection;
+    bluffsDispatch: (a: SelAction) => void;
+  }
 ): JSX.Element {
   const chars = useContext(CharacterContext);
-  const { selection, selDispatch: dispatch } = props;
+  const { selection, selDispatch } = props;
+  const { bluffsDispatch } = props;
+
+  function handleClick(
+    char: CharacterInfo
+  ): (ev: React.MouseEvent<HTMLElement>) => void {
+    return () => {
+      if (props.selectBluffs) {
+        bluffsDispatch({ type: "toggle", id: char.id });
+        selDispatch({ type: "deselect", id: char.id });
+      } else {
+        selDispatch({ type: "toggle", id: char.id });
+        bluffsDispatch({ type: "deselect", id: char.id });
+      }
+    };
+  }
 
   return (
     <div>
@@ -78,8 +99,9 @@ export function CharacterSelection(
                     character={char}
                     key={char.id}
                     selected={selected}
+                    bluffSelected={props.bluffs.has(char.id)}
                     notNeeded={notNeeded}
-                    onClick={() => dispatch({ type: "toggle", id: char.id })}
+                    onClick={handleClick(char)}
                   />
                 );
               })}

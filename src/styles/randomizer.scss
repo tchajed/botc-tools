@@ -106,6 +106,10 @@ button {
     border-color: rgb(153, 0, 255);
   }
 
+  &.bluff-selected {
+    border-color: rgb(255, 0, 81);
+  }
+
   &.not-needed {
     opacity: 60%;
   }

@@ -16,12 +16,18 @@ import { CharacterContext } from "./character_context";
 import { CharacterSelection } from "./characters";
 import { History } from "./history";
 import { RandomSetupButton } from "./random_setup_btn";
-import { Selection, SelAction } from "./selection";
+import { Selection, SelAction, bluffsReducer } from "./selection";
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare_canvas";
 import classnames from "classnames";
-import React, { ChangeEvent, SetStateAction, useEffect, useState } from "react";
+import React, {
+  ChangeEvent,
+  SetStateAction,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 
 function BluffsToggleBtn(props: {
   selectBluffs: boolean;
@@ -63,6 +69,7 @@ export function Randomizer({
     Partial<State>
   >);
   const [selectBluffs, setSelectBluffs] = useState(false);
+  const [bluffs, bluffsDispatch] = useReducer(bluffsReducer, new Set<string>());
 
   // load state from local storage
   useEffect(() => {
@@ -156,6 +163,9 @@ export function Randomizer({
         <CharacterSelection
           selection={selection}
           selDispatch={selDispatch}
+          selectBluffs={selectBluffs}
+          bluffs={bluffs}
+          bluffsDispatch={bluffsDispatch}
           doneRoles={rolesNotNeeded}
         />
         <hr className="separator" />

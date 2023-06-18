@@ -12,6 +12,10 @@ export type SelAction =
       id: string;
     }
   | {
+      type: "deselect";
+      id: string;
+    }
+  | {
       type: "set all";
       ids: string[];
     }
@@ -61,6 +65,10 @@ function requiredSelectionReducer(required: Set<string>): SelectionReducer {
         addToSet(newSelection, required);
         return newSelection;
       }
+      case "deselect": {
+        newSelection.delete(action.id);
+        return newSelection;
+      }
       case "set all": {
         const newSelection = new Set(action.ids);
         addToSet(newSelection, required);
@@ -95,7 +103,6 @@ export function createSelectionReducer(
   };
 }
 
-export function createBluffSelectionReducer(): SelectionReducer {
-  const required = new Set<string>();
-  return requiredSelectionReducer(required);
-}
+export const bluffsReducer: SelectionReducer = requiredSelectionReducer(
+  new Set()
+);
