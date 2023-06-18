@@ -1,0 +1,16 @@
+name: refresh
+on:
+  schedule:
+    # run every Saturday at 10am UTC
+    - cron: "0 10 * * SAT"
+  # call manually to update scripts
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rebuild website with new scripts
+        uses: ./.github/workflows/refresh.yml
+        with:
+          clean-scripts: false
