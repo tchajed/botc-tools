@@ -53,7 +53,7 @@ one of the usual Outsiders or might replace a townsfolk.
 Below the list of characters the assignment tool shows what tokens are in the
 "bag" (or really townsquare, since they are already ordered randomly):
 
-![Screenshot showing assigned roles](screenshots/townsquare.png)
+![Screenshot showing assigned roles](screenshots/bag.png)
 
 Notice that the Drunk is listed because it's in play, but it won't be distributed to anybody. There are also four buttons:
 
@@ -65,7 +65,9 @@ Notice that the Drunk is listed because it's in play, but it won't be distribute
 The selections and random order are persisted so if you restart you won't lose
 them. (The undo/redo history currently isn't, but that can be implemented as well.)
 
-Finally below the characters there's a circle of tokens half-visible. These are
+![Screenshot showing townsquare grimoire setup](screenshots/grimoire.png)
+
+Finally we have an image that shows the initial Grimoire setup. These are
 the tokens for the in-play roles, rendered as an image. On my iPad I drag these
 out of the website and into a drawing app (Concepts), which then serves as a
 Grimoire where I can track reminders and communicate with players by writing.

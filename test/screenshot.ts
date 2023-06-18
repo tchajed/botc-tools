@@ -70,6 +70,10 @@ async function main() {
   await scrollPage(1050);
   await screenshot("assign/3-bag");
 
+  await scrollPage(1400);
+  await wait(200);
+  await screenshot("assign/4-grimoire");
+
   await page.setViewport({
     width: iPhone.viewport.height,
     height: iPhone.viewport.width,
@@ -77,7 +81,7 @@ async function main() {
   });
 
   await pickChar("Imp", true);
-  await screenshot("assign/4-show-char");
+  await screenshot("assign/5-show-char");
 
   await browser.close();
 }

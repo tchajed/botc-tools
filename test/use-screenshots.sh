@@ -8,8 +8,9 @@ cd "$DIR/.."
 cp test/screenshots/roles-top.png screenshots/roles.png
 cp test/screenshots/night.png screenshots/night.png
 cp test/screenshots/assign/2-complete.png screenshots/assign.png
-cp test/screenshots/assign/3-bag.png screenshots/townsquare.png
-cp test/screenshots/assign/4-show-char.png screenshots/character.png
+cp test/screenshots/assign/3-bag.png screenshots/bag.png
+cp test/screenshots/assign/4-grimoire.png screenshots/grimoire.png
+cp test/screenshots/assign/5-show-char.png screenshots/character.png
 
 for file in screenshots/*.png; do
   (
