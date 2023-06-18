@@ -1,4 +1,4 @@
-name: Build and deploy
+name: build
 
 on:
   push:
@@ -45,7 +45,7 @@ jobs:
         run: yarn fetch-assets
       - name: Build site
         run: yarn build
-      - name: Upload artifact
+      - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v1
         if: github.ref == 'refs/heads/main'
         with:

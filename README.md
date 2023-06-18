@@ -1,5 +1,7 @@
 # BotC storyteller tools
 
+[![build](https://github.com/tchajed/botc-tools/actions/workflows/deploy.yml/badge.svg)](https://github.com/tchajed/botc-tools/actions/workflows/deploy.yml)
+
 Tools for the storyteller in Blood on the Clocktower, for supporting in-person games.
 
 **Role assignment:** Select roles for a script and randomize them. Helps set up
@@ -10,8 +12,9 @@ script, with instructions for each characters, similar in style to the base 3
 scripts. These print nicely, with a page for the first night and another for
 other nights.
 
-**Role sheet:** A replacement for the script tool's role sheet (for players)
-that uses the new icons. On mobile this is already quite usable.
+**Role sheet:** A replacement for the script tool's character sheet (for players)
+that is useful to the storyteller, and a useful replacement for existing
+options on mobile.
 
 ## Role assignment features
 
