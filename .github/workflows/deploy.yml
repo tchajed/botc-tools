@@ -28,8 +28,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: true
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -49,7 +47,7 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Fetch assets
         run: yarn fetch-assets
-      - name: Clean if needed
+      - name: Clean if requested
         run: rm -f assets/static/scripts.json
         if: ${{ inputs.clean-scripts }}
       - name: Build site
