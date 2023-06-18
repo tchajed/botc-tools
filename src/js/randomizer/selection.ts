@@ -19,6 +19,8 @@ export type SelAction =
       type: "clear";
     };
 
+export type SelectionReducer = (sel: Selection, a: SelAction) => Selection;
+
 /** Get the characters that must be selected.
  *
  * If the script has a lone demon, it is automatically added.
@@ -46,10 +48,7 @@ function addToSet<T>(s: Set<T>, toAdd: Set<T>) {
   toAdd.forEach((x) => s.add(x));
 }
 
-export function createSelectionReducer(
-  characters: CharacterInfo[]
-): (selection: Selection, action: SelAction) => Selection {
-  const required = requiredSelection(characters);
+function requiredSelectionReducer(required: Set<string>): SelectionReducer {
   return (selection: Selection, action: SelAction) => {
     const newSelection = new Set(selection);
     switch (action.type) {
@@ -58,9 +57,6 @@ export function createSelectionReducer(
           newSelection.delete(action.id);
         } else {
           newSelection.add(action.id);
-          if (action.id == "huntsman") {
-            newSelection.add("damsel");
-          }
         }
         addToSet(newSelection, required);
         return newSelection;
@@ -75,4 +71,31 @@ export function createSelectionReducer(
       }
     }
   };
+}
+
+function addMandatorySelections(selection: Selection) {
+  // Huntsman [+ Damsel]
+  if (selection.has("huntsman")) {
+    selection.add("damsel");
+  }
+  // Choirboy [+ King]
+  if (selection.has("choirboy")) {
+    selection.add("king");
+  }
+}
+
+export function createSelectionReducer(
+  characters: CharacterInfo[]
+): SelectionReducer {
+  const reduce = requiredSelectionReducer(requiredSelection(characters));
+  return (sel, a) => {
+    const newSel = reduce(sel, a);
+    addMandatorySelections(newSel);
+    return newSel;
+  };
+}
+
+export function createBluffSelectionReducer(): SelectionReducer {
+  const required = new Set<string>();
+  return requiredSelectionReducer(required);
 }
