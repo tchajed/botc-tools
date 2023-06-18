@@ -7,11 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  cleanup:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Rebuild website with new scripts
-        uses: ./.github/workflows/deploy.yml
-        with:
-          clean-scripts: false
+  rebuild-with-clean:
+    uses: ./.github/workflows/deploy.yml
+    with:
+      clean-scripts: false
