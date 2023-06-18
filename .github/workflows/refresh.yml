@@ -12,6 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Rebuild website with new scripts
-        uses: ./.github/workflows/refresh.yml
+        uses: ./.github/workflows/deploy.yml
         with:
           clean-scripts: false
