@@ -27,7 +27,7 @@ import script_roles from "../../../assets/data/roles.json";
  */
 import { overrides } from "./overrides";
 
-interface NightAction {
+export interface NightAction {
   details: string;
   index: number;
 }
@@ -45,6 +45,9 @@ export type RoleType = (typeof RoleTypes)[number];
 const Editions = ["tb", "snv", "bmr", "other"] as const;
 export type Edition = (typeof Editions)[number];
 
+// TODO: this is the only class in use, perhaps it would be good to make it a
+// mere interface and handle these methods some other way (currently it creates
+// some awkwardness when we need CardInfo & {demonNum: number}).
 export class CharacterInfo {
   readonly id: string;
   readonly name: string;

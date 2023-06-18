@@ -1,4 +1,4 @@
-import { RoleType } from "../botc/roles";
+import { NightAction, RoleType } from "../botc/roles";
 import {
   CharacterIconElement,
   characterClass,
@@ -20,6 +20,8 @@ export interface CardInfo {
   name: string;
   ability: string | null;
   roleType: RoleType;
+  firstNight: NightAction | null;
+  otherNights: NightAction | null;
 }
 
 export function CharacterCard(props: {

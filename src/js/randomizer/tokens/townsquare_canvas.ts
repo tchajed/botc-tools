@@ -5,6 +5,36 @@ import React, { useRef, useEffect } from "react";
 
 const TWOPI = 2 * Math.PI;
 
+// Draw n circled at (0, 0). The circle accommodates two digits.
+function drawCircledNumber(
+  ctx: RenderingContext2D,
+  n: number,
+  bgColor: string
+) {
+  ctx.save();
+
+  // set text properties to measure the circle size
+  ctx.font = "16pt Barlow";
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
+
+  ctx.save();
+  ctx.beginPath();
+  const r = ctx.measureText("88").width / 2;
+  ctx.arc(0, 0, r * 1.1, 0, 2 * Math.PI);
+
+  // add fill and stroke to this circle
+  ctx.fillStyle = bgColor;
+  ctx.fill();
+  ctx.fillStyle = "#000000";
+  ctx.stroke();
+  ctx.restore();
+
+  // hard-code black text
+  ctx.fillText(`${n}`, 0, 0);
+  ctx.restore();
+}
+
 export async function drawCharactersArc(
   ctx: RenderingContext2D,
   characters: BagCharacter[],
@@ -13,6 +43,18 @@ export async function drawCharactersArc(
 ) {
   const startAngle = (TWOPI - arcAngle) / 2;
   const anglePerChar = arcAngle / (characters.length - 1);
+  const firstNightOrder = characters.filter((c) => c.firstNight != null);
+  firstNightOrder.sort((c1, c2) =>
+    c1.firstNight == null || c2.firstNight == null
+      ? 0
+      : c1.firstNight.index - c2.firstNight.index
+  );
+  const otherNightsOrder = characters.filter((c) => c.otherNights != null);
+  otherNightsOrder.sort((c1, c2) =>
+    c1.otherNights == null || c2.otherNights == null
+      ? 0
+      : c1.otherNights.index - c2.otherNights.index
+  );
   await Promise.all(
     characters.map((char, i) => {
       ctx.save();
@@ -22,6 +64,22 @@ export async function drawCharactersArc(
       ctx.rotate(-theta);
       ctx.translate(-120, -120);
       const r = drawToken(ctx, char);
+
+      let idx = firstNightOrder.findIndex((c) => c === char);
+      if (idx > 0) {
+        ctx.save();
+        ctx.translate(0, 120);
+        drawCircledNumber(ctx, idx, "#ffd876");
+        ctx.restore();
+      }
+
+      idx = otherNightsOrder.findIndex((c) => c === char);
+      if (idx > 0) {
+        ctx.save();
+        ctx.translate(240, 120);
+        drawCircledNumber(ctx, idx, "#ffd876");
+        ctx.restore();
+      }
       ctx.restore();
       return r;
     })
