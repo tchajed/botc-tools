@@ -9,13 +9,17 @@ will work offline.
 
 ## Roles sheet
 
-![Screenshot showing roles sheet](screenshots/roles.png)
+<img src="screenshots/roles.webp"
+alt="Screenshot showing roles sheet"
+width="400">
 
 The roles sheet works better on mobile than using the script tool's PDFs.
 
 ## Night sheet
 
-![Screenshot showing night order](screenshots/night.png)
+<img src="screenshots/night.webp"
+alt="Screenshot showing night"
+width="400">
 
 On mobile or iPad, the night sheet is a handy reference while running a game. It
 can also be printed out. This night sheet gives detailed Storyteller reminders
@@ -30,7 +34,9 @@ assigning roles for an in-person game.
 The app understands roles that modify setup and tells you when the setup is
 correct:
 
-![Screenshot showing assignment feedback](screenshots/assign.png)
+<img src="screenshots/assign.webp"
+alt="Screenshot showing assignment feedback"
+width="400">
 
 In the screenshot above, we've selected a 7 player game which has base 5/0/1/1
 for townsfolk/outsiders/minions/demon. The Drunk requires selecting an
@@ -53,9 +59,12 @@ one of the usual Outsiders or might replace a townsfolk.
 Below the list of characters the assignment tool shows what tokens are in the
 "bag" (or really townsquare, since they are already ordered randomly):
 
-![Screenshot showing assigned roles](screenshots/bag.png)
+<img src="screenshots/bag.webp"
+alt="Screenshot showing assigned roles"
+width="400">
 
-Notice that the Drunk is listed because it's in play, but it won't be distributed to anybody. There are also four buttons:
+Notice that the Drunk is listed because it's in play, but it won't be
+distributed to anybody. There are also four buttons:
 
 - Shuffle the roles, if you want to re-randomize setup.
 - Clear the current selections.
@@ -65,7 +74,9 @@ Notice that the Drunk is listed because it's in play, but it won't be distribute
 The selections and random order are persisted so if you restart you won't lose
 them. (The undo/redo history currently isn't, but that can be implemented as well.)
 
-![Screenshot showing townsquare grimoire setup](screenshots/grimoire.png)
+<img src="screenshots/grimoire.webp"
+alt="Screenshot showing townsquare grimoire setup"
+width="400">
 
 Finally we have an image that shows the initial Grimoire setup. These are
 the tokens for the in-play roles, rendered as an image. On my iPad I drag these
@@ -81,6 +92,8 @@ Once you've set up the game, you also have to tell players their roles. Clicking
 on a role in the bag list will make it full screen, and you can show that to
 each player in turn:
 
-![Screenshot showing character assignment screen](screenshots/character.png)
+<img src="screenshots/character.webp"
+alt="Screenshot showing character assignment screen"
+width="400">
 
 This also really helps with setup.

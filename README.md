@@ -11,7 +11,7 @@ scripts. These print nicely, with a page for the first night and another for
 other nights.
 
 **Role sheet:** A replacement for the script tool's role sheet (for players)
-that uses the new icons. Planned is to implement a two-column layout. On mobile this is already quite usable.
+that uses the new icons. On mobile this is already quite usable.
 
 ## Role assignment features
 

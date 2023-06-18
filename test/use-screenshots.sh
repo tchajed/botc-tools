@@ -14,8 +14,10 @@ cp test/screenshots/assign/5-show-char.png screenshots/character.png
 
 for file in screenshots/*.png; do
   (
-    mogrify -resize '50%' "$file"
-    optipng -quiet "$file"
+    mogrify -resize '75%' "$file"
+    name="$(basename "$file" .png)"
+    convert "$file" "screenshots/$name.webp"
+    rm "$file"
   ) &
 done
 wait
