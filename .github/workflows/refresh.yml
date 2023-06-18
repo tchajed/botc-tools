@@ -6,6 +6,12 @@ on:
   # call manually to update scripts
   workflow_dispatch:
 
+# permissions required to do a Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   rebuild-with-clean:
     uses: ./.github/workflows/deploy.yml
