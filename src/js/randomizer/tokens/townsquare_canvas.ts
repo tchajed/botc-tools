@@ -65,19 +65,19 @@ export async function drawCharactersArc(
       ctx.translate(-120, -120);
       const r = drawToken(ctx, char);
 
-      let idx = firstNightOrder.findIndex((c) => c === char);
-      if (idx > 0) {
+      let idx = firstNightOrder.findIndex((c) => c.id === char.id);
+      if (idx >= 0) {
         ctx.save();
         ctx.translate(0, 120);
-        drawCircledNumber(ctx, idx, "#ffd876");
+        drawCircledNumber(ctx, idx + 1, "#ffd876");
         ctx.restore();
       }
 
-      idx = otherNightsOrder.findIndex((c) => c === char);
-      if (idx > 0) {
+      idx = otherNightsOrder.findIndex((c) => c.id === char.id);
+      if (idx >= 0) {
         ctx.save();
         ctx.translate(240, 120);
-        drawCircledNumber(ctx, idx, "#ffd876");
+        drawCircledNumber(ctx, idx + 1, "#ffd876");
         ctx.restore();
       }
       ctx.restore();
