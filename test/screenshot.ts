@@ -111,6 +111,9 @@ async function main() {
   await page.waitForSelector(".townsquare");
   await screenshot("assign/4-grimoire");
 
+  await page.tap(`xpath///*[contains(text(), 'Bluffs')]`);
+  await screenshot("assign/5-show-bluffs");
+
   await page.setViewport({
     width: iPhone.viewport.height,
     height: iPhone.viewport.width,
@@ -118,7 +121,7 @@ async function main() {
   });
 
   await pickChar("Imp", true);
-  await screenshot("assign/5-show-char");
+  await screenshot("assign/6-show-char");
 
   await browser.close();
 }

@@ -96,4 +96,10 @@ each player in turn:
 alt="Screenshot showing character assignment screen"
 width="400">
 
+You can also show the demon their bluffs:
+
+<img src="screenshots/bluffs.webp"
+alt="Screenshot showing bluffs for demon"
+width="400">
+
 This also really helps with setup.

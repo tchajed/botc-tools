@@ -62,5 +62,5 @@ yarn test-screenshots
 ./test/use-screenshots.sh
 ```
 
-`test-screenshots` takes some options, to run on a local development server and
-to grab a subset of screenshots.
+`test-screenshots` takes some options, run it with `yarn test-screenshots
+--help` to see them.
