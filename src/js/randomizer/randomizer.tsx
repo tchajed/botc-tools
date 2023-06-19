@@ -12,6 +12,7 @@ import { FullscreenRole } from "../components/role_fullscreen";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { randomRanking, SelectedCharacters, sortBag } from "./bag";
+import { BluffsToggleBtn } from "./bluffs";
 import { CharacterContext } from "./character_context";
 import { CharacterSelection } from "./characters";
 import { History } from "./history";
@@ -25,32 +26,7 @@ import {
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare_canvas";
-import classnames from "classnames";
-import React, {
-  ChangeEvent,
-  SetStateAction,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
-
-function BluffsToggleBtn(props: {
-  selectBluffs: boolean;
-  setSelectBluffs: (b: boolean) => void;
-}): JSX.Element {
-  const { selectBluffs } = props;
-  function onChange(e: ChangeEvent<HTMLInputElement>) {
-    props.setSelectBluffs(e.target.checked);
-  }
-  return (
-    <label
-      className={classnames("bluffs-toggle", selectBluffs ? "selected" : "")}
-    >
-      choose bluffs
-      <input type="checkbox" checked={selectBluffs} onChange={onChange} />
-    </label>
-  );
-}
+import React, { SetStateAction, useEffect, useReducer, useState } from "react";
 
 export function Randomizer({
   script,

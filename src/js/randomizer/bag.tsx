@@ -1,6 +1,7 @@
 import { CharacterInfo, getCharacter } from "../botc/roles";
 import { BagCharacter, splitSelectedChars } from "../botc/setup";
 import "../icons";
+import { BluffList } from "./bluffs";
 import { CharacterContext } from "./character_context";
 import { CardInfo, CharacterCard } from "./characters";
 import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
@@ -279,20 +280,14 @@ export function SelectedCharacters(
   );
 }
 function OtherCharacters(props: { characters: CardInfo[]; bluffs: Selection }) {
-  const { characters, bluffs } = props;
-  const bluffList = [...bluffs.values()].map((id) => getCharacter(id));
-  // TODO: ideally would be script order
-  bluffList.sort((c1, c2) => c1.name.localeCompare(c2.name));
+  const { characters } = props;
   return (
     <div className="column-smaller">
       {characters.length > 0 && <h2>Others</h2>}
       {characters.map((char) => (
         <CharacterCard character={char} key={char.id} />
       ))}
-      {bluffs.size > 0 && <h2>Bluffs</h2>}
-      {bluffList.map((char) => (
-        <CharacterCard character={char} key={char.id} />
-      ))}
+      <BluffList bluffs={props.bluffs} />
     </div>
   );
 }
