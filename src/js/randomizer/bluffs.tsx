@@ -56,7 +56,7 @@ export function BluffList(props: { bluffs: Selection }): JSX.Element {
 
   const handleClick = () => {
     if (bluffs.size > 0) {
-      setShowBluffs([...bluffs.values()].map((id) => getCharacter(id)));
+      setShowBluffs(bluffList);
     }
   };
 
