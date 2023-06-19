@@ -1,4 +1,4 @@
-import { CharacterInfo, getCharacter } from "../botc/roles";
+import { CharacterInfo } from "../botc/roles";
 import { BagCharacter, splitSelectedChars } from "../botc/setup";
 import "../icons";
 import { BluffList } from "./bluffs";
