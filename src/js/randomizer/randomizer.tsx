@@ -15,7 +15,7 @@ import { randomRanking, SelectedCharacters, sortBag } from "./bag";
 import { BluffsToggleBtn } from "./bluffs";
 import { CharacterContext } from "./character_context";
 import { CharacterSelection } from "./characters";
-import { History, historyApply, restoreState } from "./history";
+import { History, restoreState } from "./history";
 import { RandomSetupButton } from "./random_setup_btn";
 import {
   Selection,

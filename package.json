@@ -6,6 +6,7 @@
   ],
   "scripts": {
     "fetch-assets": "ts-node fetch_assets/src/main.ts",
+    "test-screenshots": "ts-node test/screenshot.ts",
     "start": "parcel serve",
     "build": "parcel build --public-url '.'",
     "postbuild": "workbox generateSW",

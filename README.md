@@ -47,3 +47,20 @@ yarn fetch-assets --clean
 Use `yarn start` to run a development server.
 
 To build an optimized, static version of the site to `dist/`, run `yarn build`.
+
+## Testing
+
+There is currently no testing framework setup. This is not intentional, I just
+haven't figured out how to set one up that works with Parcel. (A contribution
+that sets up testing would be very useful! I think Karma + Mocha will work.)
+
+There is infrastructure for some automated browser screenshots:
+
+```sh
+yarn test-screenshots
+# copy screenshots for FEATURES.md
+./test/use-screenshots.sh
+```
+
+`test-screenshots` takes some options, to run on a local development server and
+to grab a subset of screenshots.

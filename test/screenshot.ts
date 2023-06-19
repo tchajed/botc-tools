@@ -1,5 +1,6 @@
+import { Command } from "commander";
 import * as fs from "fs";
-import puppeteer from "puppeteer";
+import puppeteer, { Browser, Page } from "puppeteer";
 import { KnownDevices } from "puppeteer";
 
 const iPhone = KnownDevices["iPhone 11"];
@@ -8,11 +9,30 @@ function wait(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-async function main() {
+async function launchBrowser(): Promise<{ browser: Browser; page: Page }> {
   const browser = await puppeteer.launch({ headless: "new" });
   const page = await browser.newPage();
   await page.emulate(iPhone);
   await page.setViewport(iPhone.viewport);
+  return { browser, page };
+}
+
+function matchesFilter(name: string, filter: string) {
+  return filter == "" || name.includes(filter);
+}
+
+async function main() {
+  const { browser, page } = await launchBrowser();
+
+  const program = new Command();
+  program
+    .version("0.1.0")
+    .description("Take screenshots of app for testing and documentation")
+    .option("--url <url>", "app url to screenshot", "https://botc-tools.xyz")
+    .option("--filter <filter>", "take screenshots containing this string", "");
+  program.parse();
+
+  const options = program.opts();
 
   const scrollPage = async (y: number) => {
     await page.evaluate((y) => {
@@ -21,16 +41,26 @@ async function main() {
   };
 
   const screenshot = async (name: string) => {
-    await wait(200);
-    await page.screenshot({
-      path: `test/screenshots/${name}.png`,
-    });
+    if (matchesFilter(name, options.filter)) {
+      await wait(200);
+      await page.screenshot({
+        path: `test/screenshots/${name}.png`,
+      });
+    }
   };
   if (!fs.existsSync("test/screenshots")) {
     await fs.promises.mkdir("test/screenshots/assign", { recursive: true });
   }
 
-  await page.goto("https://botc-tools.xyz");
+  let url: string = options.url;
+  if (url.startsWith("localhost")) {
+    url = `http://${url}`;
+  }
+  if (url.startsWith("botc-tools.xyz")) {
+    url = `https://${url}`;
+  }
+  await page.goto(url);
+  await page.waitForSelector(".main");
   await screenshot("home");
 
   await page.click("xpath///a[contains(., 'Trouble Brewing')]");
@@ -45,12 +75,13 @@ async function main() {
   await screenshot("night");
 
   await page.click("xpath///a[contains(., 'Assign')]");
-  await page.waitForSelector(".main");
+  await page.waitForSelector(".columns");
 
+  // reduce player count to 7
   await page.tap(`xpath///*[@id = 'minus-player-btn']`);
 
   const pickChar = async function (name, bag = false) {
-    const charsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' characters ')]`;
+    const charsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' columns ')]`;
     const bagCharsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' selected-characters ')]`;
     const charSel = bag ? bagCharsX : charsX;
     await page.tap(`xpath///${charSel}//span[contains(text(), '${name}')]`);
@@ -65,13 +96,19 @@ async function main() {
 
   await pickChar("Librarian");
   await pickChar("Fortune Teller");
+
+  await page.tap(`xpath///*[contains(text(), 'choose bluffs')]`);
+  await pickChar("Investigator");
+  await pickChar("Empath");
+  await pickChar("Undertaker");
+
   await screenshot("assign/2-complete");
 
   await scrollPage(1050);
   await screenshot("assign/3-bag");
 
   await scrollPage(1400);
-  await wait(200);
+  await page.waitForSelector(".townsquare");
   await screenshot("assign/4-grimoire");
 
   await page.setViewport({
