@@ -12,15 +12,21 @@ import { FullscreenRole } from "../components/role_fullscreen";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { randomRanking, SelectedCharacters, sortBag } from "./bag";
+import { BluffsToggleBtn } from "./bluffs";
 import { CharacterContext } from "./character_context";
 import { CharacterSelection } from "./characters";
-import { History } from "./history";
+import { History, historyApply, restoreState } from "./history";
 import { RandomSetupButton } from "./random_setup_btn";
-import { Selection, SelAction } from "./selection";
+import {
+  Selection,
+  SelAction,
+  bluffsReducer,
+  CharacterSelectionVars,
+} from "./selection";
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare_canvas";
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useReducer, useState } from "react";
 
 export function Randomizer({
   script,
@@ -43,6 +49,8 @@ export function Randomizer({
   const [history, setHistory] = useState({ back: [], forward: [] } as History<
     Partial<State>
   >);
+  const [selectBluffs, setSelectBluffs] = useState(false);
+  const [bluffs, bluffsDispatch] = useReducer(bluffsReducer, new Set<string>());
 
   // load state from local storage
   useEffect(() => {
@@ -54,6 +62,7 @@ export function Randomizer({
       setNumPlayers(s.numPlayers);
       setRanking(s.ranking);
       selDispatch({ type: "set all", ids: s.selection });
+      bluffsDispatch({ type: "set all", ids: s.bluffs });
     });
   }, []);
 
@@ -70,8 +79,9 @@ export function Randomizer({
       numPlayers,
       ranking,
       selection,
+      bluffs,
     });
-  }, [numPlayers, ranking, selection]);
+  }, [numPlayers, ranking, selection, bluffs]);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
@@ -79,14 +89,8 @@ export function Randomizer({
 
   const popState = (ev: PopStateEvent) => {
     const state: Partial<State> = ev.state;
-    if (!state) {
-      return;
-    }
-    if (state.ranking !== undefined) {
-      setRanking(state.ranking);
-    }
-    if (state.selection !== undefined) {
-      selDispatch({ type: "set all", ids: state.selection });
+    if (state) {
+      restoreState(setRanking, selDispatch, bluffsDispatch, state);
     }
   };
 
@@ -114,6 +118,17 @@ export function Randomizer({
   const { bag } = splitSelectedChars(characters, selection, numPlayers);
   sortBag(bag, ranking);
 
+  const selectionVars: CharacterSelectionVars = {
+    selection: {
+      chars: selection,
+      dispatch: selDispatch,
+    },
+    bluffs: {
+      chars: bluffs,
+      dispatch: bluffsDispatch,
+    },
+  };
+
   return (
     <CharacterContext.Provider value={characters}>
       <div className={visibleClass(active)}>
@@ -123,22 +138,28 @@ export function Randomizer({
           {...{ numPlayers, setNumPlayers }}
         />
         <SetupModifiers numPlayers={numPlayers} selection={selection} />
-        <RandomSetupButton
-          {...{ numPlayers, selection, selDispatch, history, setHistory }}
-        />
+        <div className="columns">
+          <div className="column">
+            <RandomSetupButton
+              {...{ numPlayers, selection, selDispatch, history, setHistory }}
+            />
+          </div>
+          <div className="column">
+            <BluffsToggleBtn {...{ selectBluffs, setSelectBluffs }} />
+          </div>
+        </div>
         <CharacterSelection
-          selection={selection}
-          selDispatch={selDispatch}
+          {...selectionVars}
+          selectBluffs={selectBluffs}
           doneRoles={rolesNotNeeded}
         />
         <hr className="separator" />
         <SelectedCharacters
+          {...selectionVars}
           {...{
-            selection,
             ranking,
             numPlayers,
             setRanking,
-            selDispatch,
             setFsRole,
             history,
             setHistory,

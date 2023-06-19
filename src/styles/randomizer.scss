@@ -79,7 +79,7 @@ button {
   }
 }
 
-.characters {
+.columns {
   display: flex;
 }
 
@@ -104,6 +104,10 @@ button {
 
   &.selected {
     border-color: rgb(153, 0, 255);
+  }
+
+  &.bluff-selected {
+    border-color: rgb(255, 0, 81);
   }
 
   &.not-needed {
@@ -186,6 +190,12 @@ button {
   color: white;
 }
 
+.bluffs-toggle {
+  background-color: #eee;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+}
+
 .role-label {
   position: absolute;
   top: 1px;
@@ -229,6 +239,10 @@ span.evil {
 }
 
 .fullscreen {
+  .bluffs {
+    font-size: 70%;
+  }
+
   .character {
     margin-left: auto;
     margin-right: auto;
@@ -238,8 +252,8 @@ span.evil {
 
     // make the image larger
     .img-container {
-      min-width: 90px;
-      min-height: 90px;
+      min-width: 70px;
+      min-height: 70px;
     }
   }
 }

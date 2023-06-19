@@ -1,11 +1,11 @@
-import { NightAction, RoleType } from "../botc/roles";
+import { CharacterInfo, NightAction, RoleType } from "../botc/roles";
 import {
   CharacterIconElement,
   characterClass,
 } from "../components/character_icon";
 import { CharacterContext } from "./character_context";
 import { Columns } from "./columns";
-import { Selection, SelAction } from "./selection";
+import { CharacterSelectionVars } from "./selection";
 import classnames from "classnames";
 import React, { useContext } from "react";
 
@@ -28,6 +28,7 @@ export function CharacterCard(props: {
   character: CardInfo;
   onClick?: React.MouseEventHandler<HTMLElement>;
   selected?: boolean;
+  bluffSelected?: boolean;
   notNeeded?: boolean;
 }): JSX.Element {
   const { character } = props;
@@ -39,6 +40,7 @@ export function CharacterCard(props: {
         characterClass(character),
         "character",
         { selected: props.selected },
+        { "bluff-selected": props.bluffSelected },
         { "not-needed": props.notNeeded }
       )}
       onClick={props.onClick}
@@ -51,26 +53,37 @@ export function CharacterCard(props: {
   );
 }
 
-interface SelectionVar {
-  selection: Selection;
-  selDispatch: (a: SelAction) => void;
-}
-
 export function CharacterSelection(
-  props: SelectionVar & { doneRoles: string[] }
+  props: CharacterSelectionVars & { doneRoles: string[] } & {
+    selectBluffs: boolean;
+  }
 ): JSX.Element {
   const chars = useContext(CharacterContext);
-  const { selection, selDispatch: dispatch } = props;
+  const { selection, bluffs } = props;
+
+  function handleClick(
+    char: CharacterInfo
+  ): (ev: React.MouseEvent<HTMLElement>) => void {
+    return () => {
+      if (props.selectBluffs) {
+        bluffs.dispatch({ type: "toggle", id: char.id });
+        selection.dispatch({ type: "deselect", id: char.id });
+      } else {
+        selection.dispatch({ type: "toggle", id: char.id });
+        bluffs.dispatch({ type: "deselect", id: char.id });
+      }
+    };
+  }
 
   return (
     <div>
       {["townsfolk", "outsider", "minion", "demon"].map((roleType) => (
-        <div className="characters" key={`${roleType}-roles`}>
+        <div className="columns" key={`${roleType}-roles`}>
           <Columns numColumns={2}>
             {chars
               .filter((char) => char.roleType == roleType)
               .map((char) => {
-                const selected = selection.has(char.id);
+                const selected = selection.chars.has(char.id);
                 const notNeeded =
                   !selected && props.doneRoles.includes(roleType);
                 return (
@@ -78,8 +91,9 @@ export function CharacterSelection(
                     character={char}
                     key={char.id}
                     selected={selected}
+                    bluffSelected={bluffs.chars.has(char.id)}
                     notNeeded={notNeeded}
-                    onClick={() => dispatch({ type: "toggle", id: char.id })}
+                    onClick={handleClick(char)}
                   />
                 );
               })}

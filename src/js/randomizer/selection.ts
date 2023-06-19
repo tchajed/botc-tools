@@ -12,12 +12,18 @@ export type SelAction =
       id: string;
     }
   | {
+      type: "deselect";
+      id: string;
+    }
+  | {
       type: "set all";
       ids: string[];
     }
   | {
       type: "clear";
     };
+
+export type SelectionReducer = (sel: Selection, a: SelAction) => Selection;
 
 /** Get the characters that must be selected.
  *
@@ -46,10 +52,7 @@ function addToSet<T>(s: Set<T>, toAdd: Set<T>) {
   toAdd.forEach((x) => s.add(x));
 }
 
-export function createSelectionReducer(
-  characters: CharacterInfo[]
-): (selection: Selection, action: SelAction) => Selection {
-  const required = requiredSelection(characters);
+function requiredSelectionReducer(required: Set<string>): SelectionReducer {
   return (selection: Selection, action: SelAction) => {
     const newSelection = new Set(selection);
     switch (action.type) {
@@ -58,11 +61,12 @@ export function createSelectionReducer(
           newSelection.delete(action.id);
         } else {
           newSelection.add(action.id);
-          if (action.id == "huntsman") {
-            newSelection.add("damsel");
-          }
         }
         addToSet(newSelection, required);
+        return newSelection;
+      }
+      case "deselect": {
+        newSelection.delete(action.id);
         return newSelection;
       }
       case "set all": {
@@ -76,3 +80,39 @@ export function createSelectionReducer(
     }
   };
 }
+
+function addMandatorySelections(selection: Selection) {
+  // Huntsman [+ Damsel]
+  if (selection.has("huntsman")) {
+    selection.add("damsel");
+  }
+  // Choirboy [+ King]
+  if (selection.has("choirboy")) {
+    selection.add("king");
+  }
+}
+
+export function createSelectionReducer(
+  characters: CharacterInfo[]
+): SelectionReducer {
+  const reduce = requiredSelectionReducer(requiredSelection(characters));
+  return (sel, a) => {
+    const newSel = reduce(sel, a);
+    addMandatorySelections(newSel);
+    return newSel;
+  };
+}
+
+export const bluffsReducer: SelectionReducer = requiredSelectionReducer(
+  new Set()
+);
+
+export type SelectionVar = {
+  chars: Selection;
+  dispatch: (a: SelAction) => void;
+};
+
+export type CharacterSelectionVars = {
+  selection: SelectionVar;
+  bluffs: SelectionVar;
+};

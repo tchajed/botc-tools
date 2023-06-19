@@ -84,9 +84,9 @@ export type SetupModification =
   | { type: "riot" }
   // most players are legion (choice of number of evil, and requires duplicate
   // characters in bag)
-  | { type: "legion" };
-
-// Atheist is complicated (setup is arbitrary but all good).
+  | { type: "legion" }
+  // Atheist is complicated (setup is arbitrary but all good).
+  | { type: "atheist" };
 
 function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
@@ -105,6 +105,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   huntsman: { type: "huntsman" },
   riot: { type: "riot" },
   legion: { type: "legion" },
+  atheist: { type: "atheist" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -119,6 +120,10 @@ export function goesInBag(char: CardInfo): boolean {
     return true;
   }
   return !mod.notInBag;
+}
+
+function distTotal(dist: Distribution): number {
+  return dist.townsfolk + dist.outsider + dist.minion + dist.demon;
 }
 
 function applyModification(
@@ -166,11 +171,7 @@ function applyModification(
     }
     case "legion": {
       const dists: Distribution[] = [];
-      const numPlayers =
-        old_dist.townsfolk +
-        old_dist.outsider +
-        old_dist.minion +
-        old_dist.demon;
+      const numPlayers = distTotal(old_dist);
       const oldGoodCount = old_dist.townsfolk + old_dist.outsider;
       for (const demonCount of [oldGoodCount, oldGoodCount - 1]) {
         const goodCount = numPlayers - demonCount;
@@ -184,6 +185,20 @@ function applyModification(
             outsider: goodCount - numTownsfolk,
           });
         }
+      }
+      return dists;
+    }
+    case "atheist": {
+      const dists: Distribution[] = [];
+      const numPlayers = distTotal(old_dist);
+      // allow 0-5; clamping will remove the invalid ones
+      for (let outsiderCount = 0; outsiderCount <= 5; outsiderCount++) {
+        dists.push({
+          townsfolk: numPlayers - outsiderCount,
+          outsider: outsiderCount,
+          minion: 0,
+          demon: 0,
+        });
       }
       return dists;
     }
