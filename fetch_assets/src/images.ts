@@ -118,7 +118,7 @@ export async function downloadIcons(
 }
 
 async function rescaleIcon(data: ArrayBuffer): Promise<sharp.Sharp> {
-  let img = sharp(data);
+  let img = sharp(Buffer.from(data));
   const meta = await img.metadata();
   const size = 401;
   if (meta.height && meta.width && meta.height > size) {

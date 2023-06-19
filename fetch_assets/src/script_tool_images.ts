@@ -17,7 +17,7 @@ const BASE_URL = "https://script.bloodontheclocktower.com";
  *
  */
 async function makeSquare(data: ArrayBuffer): Promise<sharp.Sharp> {
-  let img = sharp(data);
+  let img = sharp(Buffer.from(data));
   // remove existing border
   img = img.trim();
   // contain puts the image into exactly these dimensions, filling with a
