@@ -5,12 +5,7 @@ import { BluffList } from "./bluffs";
 import { CharacterContext } from "./character_context";
 import { CardInfo, CharacterCard } from "./characters";
 import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
-import {
-  CharacterSelectionVars,
-  SelAction,
-  Selection,
-  SelectionVar,
-} from "./selection";
+import { CharacterSelectionVars, SelAction, Selection } from "./selection";
 import { BagSetupHelp } from "./setup_help";
 import { State } from "./state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -83,24 +78,26 @@ function ShuffleBagBtn(
 
 function ClearSelectionBtn(
   props: PropsWithChildren<{
-    selection: SelectionVar;
+    sels: CharacterSelectionVars;
     ranking: Ranking;
     setRanking: Dispatch<Ranking>;
     setHistory: SetHistory;
   }>
 ): JSX.Element {
   const characters = useContext(CharacterContext);
-  const { selection } = props;
+  const { selection, bluffs } = props.sels;
 
   function handleClick() {
     pureHistoryApply(props.setHistory, {
       type: "replace",
       state: {
         selection: [...selection.chars],
+        bluffs: [...bluffs.chars],
         ranking: { ...props.ranking },
       },
     });
     selection.dispatch({ type: "clear" });
+    bluffs.dispatch({ type: "clear" });
 
     // also shuffle the ranking (in case we're setting up a new game)
     const newRanking = randomRanking(characters);
@@ -108,14 +105,14 @@ function ClearSelectionBtn(
 
     pureHistoryApply(props.setHistory, {
       type: "push",
-      state: { selection: [], ranking: { ...newRanking } },
+      state: { selection: [], bluffs: [], ranking: { ...newRanking } },
     });
   }
   return (
     <button
       id="clear-btn"
       className="btn"
-      disabled={selection.chars.size == 0}
+      disabled={selection.chars.size + bluffs.chars.size == 0}
       onClick={handleClick}
       title="Clear"
     >
@@ -127,22 +124,22 @@ function ClearSelectionBtn(
 function HistoryBtns(props: {
   setRanking: (r: Ranking) => void;
   selDispatch: Dispatch<SelAction>;
+  bluffsDispatch: Dispatch<SelAction>;
   history: History<Partial<State>>;
   setHistory: SetHistory;
 }): JSX.Element {
   const { history, setHistory } = props;
 
-  function handleUndo() {
-    historyApply(props.setRanking, props.selDispatch, history, setHistory, {
-      type: "pop",
-    });
-  }
-
-  function handleRedo() {
-    historyApply(props.setRanking, props.selDispatch, history, setHistory, {
-      type: "forward",
-    });
-  }
+  const histUndoRedo = (direction: "undo" | "redo") => {
+    historyApply(
+      props.setRanking,
+      props.selDispatch,
+      props.bluffsDispatch,
+      history,
+      setHistory,
+      { type: direction == "undo" ? "pop" : "forward" }
+    );
+  };
 
   const canUndo = history.back.length > 0;
   const canRedo = history.forward.length > 0;
@@ -156,7 +153,7 @@ function HistoryBtns(props: {
         id="undo-btn"
         className="btn"
         disabled={!canUndo}
-        onClick={handleUndo}
+        onClick={() => histUndoRedo("undo")}
         title="Undo"
       >
         <FontAwesomeIcon icon="undo" />
@@ -168,7 +165,7 @@ function HistoryBtns(props: {
         id="redo-btn"
         className="btn"
         disabled={!canRedo}
-        onClick={handleRedo}
+        onClick={() => histUndoRedo("redo")}
         title="Redo"
       >
         <FontAwesomeIcon icon="redo" />
@@ -178,7 +175,7 @@ function HistoryBtns(props: {
 }
 
 function BagHeader(props: {
-  selection: SelectionVar;
+  sels: CharacterSelectionVars;
   ranking: Ranking;
   bagSize: number;
   setRanking: (r: Ranking) => void;
@@ -186,7 +183,7 @@ function BagHeader(props: {
   history: History<Partial<State>>;
   setHistory: SetHistory;
 }): JSX.Element {
-  const { ranking, selection } = props;
+  const { ranking, sels } = props;
   return (
     <div className="bag-header">
       <h2>Bag</h2>
@@ -206,14 +203,18 @@ function BagHeader(props: {
           Clear
         </label>
         <ClearSelectionBtn
-          selection={selection}
+          sels={sels}
           ranking={ranking}
           setRanking={props.setRanking}
           setHistory={props.setHistory}
         >
           <FontAwesomeIcon icon="trash" />
         </ClearSelectionBtn>
-        <HistoryBtns {...props} selDispatch={selection.dispatch} />
+        <HistoryBtns
+          {...props}
+          selDispatch={sels.selection.dispatch}
+          bluffsDispatch={sels.bluffs.dispatch}
+        />
       </div>
     </div>
   );
@@ -259,7 +260,11 @@ export function SelectedCharacters(
     <div>
       <div className="selected-characters">
         <div className="column">
-          <BagHeader bagSize={bag.length} {...props} />
+          <BagHeader
+            sels={{ selection, bluffs }}
+            bagSize={bag.length}
+            {...props}
+          />
           <div>
             <BagSetupHelp
               numPlayers={props.numPlayers}

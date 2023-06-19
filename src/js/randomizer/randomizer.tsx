@@ -15,7 +15,7 @@ import { randomRanking, SelectedCharacters, sortBag } from "./bag";
 import { BluffsToggleBtn } from "./bluffs";
 import { CharacterContext } from "./character_context";
 import { CharacterSelection } from "./characters";
-import { History } from "./history";
+import { History, historyApply, restoreState } from "./history";
 import { RandomSetupButton } from "./random_setup_btn";
 import {
   Selection,
@@ -89,14 +89,8 @@ export function Randomizer({
 
   const popState = (ev: PopStateEvent) => {
     const state: Partial<State> = ev.state;
-    if (!state) {
-      return;
-    }
-    if (state.ranking !== undefined) {
-      setRanking(state.ranking);
-    }
-    if (state.selection !== undefined) {
-      selDispatch({ type: "set all", ids: state.selection });
+    if (state) {
+      restoreState(setRanking, selDispatch, bluffsDispatch, state);
     }
   };
 

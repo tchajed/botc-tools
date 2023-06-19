@@ -91,21 +91,34 @@ export function pureHistoryApply<T>(
   setHistory((h) => historyStep(h, a).h);
 }
 
+export function restoreState(
+  setRanking: (r: Ranking) => void,
+  selectionDispatch: (a: SelAction) => void,
+  bluffsDispatch: (a: SelAction) => void,
+  state: Partial<State>
+) {
+  if (state.ranking) {
+    setRanking(state.ranking);
+  }
+  if (state.selection) {
+    selectionDispatch({ type: "set all", ids: state.selection });
+  }
+  if (state.bluffs) {
+    bluffsDispatch({ type: "set all", ids: state.bluffs });
+  }
+}
+
 export function historyApply(
   setRanking: (r: Ranking) => void,
   selectionDispatch: (a: SelAction) => void,
+  bluffsDispatch: (a: SelAction) => void,
   h: History<Partial<State>>,
   setHistory: SetHistory,
   a: HistoryAction<Partial<State>>
 ) {
   const { h: newH, state } = historyStep(h, a);
   if (state) {
-    if (state.ranking) {
-      setRanking(state.ranking);
-    }
-    if (state.selection) {
-      selectionDispatch({ type: "set all", ids: state.selection });
-    }
+    restoreState(setRanking, selectionDispatch, bluffsDispatch, state);
   }
   setHistory(newH);
 }
