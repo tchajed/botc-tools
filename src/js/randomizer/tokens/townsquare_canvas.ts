@@ -150,7 +150,7 @@ async function drawTownsquare(
     canvas,
     radius * 2 + margin * 2,
     radius * 2 + margin * 2 - unneededHeight,
-    2
+    3
   );
   const aspectRatio = canvas.height / canvas.width;
   // set a fixed, small display size
