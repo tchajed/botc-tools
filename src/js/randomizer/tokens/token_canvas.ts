@@ -170,7 +170,8 @@ export function drawToken(
 
 export function TokenCanvas(props: {
   character: BagCharacter;
-  size: number;
+  size: string;
+  maxSize?: string;
 }): JSX.Element {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -182,8 +183,12 @@ export function TokenCanvas(props: {
     // don't rely on devicePixelRatio since we want a high-resolution image for
     // export
     setCanvasResolution(canvas, 240, 240, 2);
-    canvas.style.width = `${props.size}px`;
-    canvas.style.height = `${props.size}px`;
+    canvas.style.width = `${props.size}`;
+    canvas.style.height = `${props.size}`;
+    const maxSize = props.maxSize || "100vw";
+    canvas.style.maxWidth = maxSize;
+    canvas.style.maxHeight = maxSize;
+
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       return;

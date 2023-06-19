@@ -1,7 +1,6 @@
 import { getCharacter } from "../botc/roles";
-import { CharacterIconElement, characterClass } from "./character_icon";
+import { TokenCanvas } from "../randomizer/tokens/token_canvas";
 import { Fullscreen } from "./fullscreen_modal";
-import classnames from "classnames";
 import React from "react";
 
 export function FullscreenRole(props: {
@@ -14,13 +13,7 @@ export function FullscreenRole(props: {
       setData={props.setFsRole}
       render={(id) => {
         const char = getCharacter(id);
-        return (
-          <div className={classnames(characterClass(char), "character")}>
-            <CharacterIconElement {...char} />
-            &nbsp;&nbsp;
-            <span className="name">{char.name}</span>
-          </div>
-        );
+        return <TokenCanvas character={char} size="90%" maxSize="400px" />;
       }}
     />
   );

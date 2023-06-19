@@ -8,7 +8,7 @@ export function AllTokens(): JSX.Element {
   return (
     <div className="main">
       {characters.map((char) => {
-        return <TokenCanvas character={char} key={char.id} size={120} />;
+        return <TokenCanvas character={char} key={char.id} size={"120px"} />;
       })}
     </div>
   );
