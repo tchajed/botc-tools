@@ -9,14 +9,17 @@ function splitLinesCircle(
   abilityText: string,
   radius: number,
   yStart: number,
-  yDelta: number
+  yDelta: number,
+  widthFraction = 1
 ): string[] {
   let text = abilityText;
-  let y = yStart - 1.5 * yDelta;
+  let y = yStart - yDelta / 2;
   const lines: string[] = [];
   while (text.length > 0) {
     const lineWidth =
-      2 * Math.sqrt(radius * radius - (radius - y) * (radius - y)) * 0.9;
+      2 *
+      Math.sqrt(radius * radius - (radius - y) * (radius - y)) *
+      widthFraction;
     // the current line is text.slice(0, i);
     let i = -1;
     // eslint-disable-next-line no-constant-condition
@@ -57,12 +60,22 @@ function decideAbilitySplit(
   yStart: number,
   yDelta: number
 ): { lines: string[]; yStart: number; yDelta: number } {
-  function tryStart(yStart: number): {
+  function tryStart(
+    yStart: number,
+    widthFraction = 1
+  ): {
     lines: string[];
     yStart: number;
     yDelta: number;
   } {
-    const lines = splitLinesCircle(width, abilityText, radius, yStart, yDelta);
+    const lines = splitLinesCircle(
+      width,
+      abilityText,
+      radius,
+      yStart,
+      yDelta,
+      widthFraction
+    );
     return { lines, yStart, yDelta };
   }
   let s = tryStart(yStart + yDelta);
@@ -71,6 +84,10 @@ function decideAbilitySplit(
   }
   s = tryStart(yStart);
   if (s.lines.length <= 4) {
+    // check if we're creating an orphaned word
+    if (s.lines[s.lines.length - 1].split(" ").length == 1) {
+      return tryStart(yStart, 0.9);
+    }
     return s;
   }
   s = tryStart(yStart - yDelta);
@@ -101,6 +118,10 @@ export function drawToken(
   ctx.restore();
 
   // draw the ability text
+  ctx.save();
+  ctx.font = "13px Barlow";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   const { ability } = character;
   const {
     lines: abilityLines,
@@ -113,10 +134,6 @@ export function drawToken(
     50,
     20
   );
-  ctx.save();
-  ctx.font = "13px Barlow";
-  ctx.textAlign = "center";
-  // ctx.textBaseline = "middle";
   abilityLines.forEach((line, i) => {
     ctx.fillText(line, 120, yStart + yDelta * i);
   });
