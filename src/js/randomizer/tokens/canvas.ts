@@ -52,3 +52,14 @@ export function setCanvasResolution(
   const ctx = canvas.getContext("2d") as RenderingContext2D | null;
   ctx?.scale(pixelRatio, pixelRatio);
 }
+
+// angle is interpreted counter-clockwise relative to the usual (1, 0) vector
+export function moveToAngle(
+  ctx: RenderingContext2D,
+  radius: number,
+  angle_deg: number
+) {
+  ctx.rotate((-angle_deg * Math.PI) / 180);
+  ctx.translate(radius, 0);
+  ctx.rotate((angle_deg * Math.PI) / 180);
+}

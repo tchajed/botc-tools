@@ -1,5 +1,5 @@
 import { BagCharacter } from "../../botc/setup";
-import { RenderingContext2D, setCanvasResolution } from "./canvas";
+import { RenderingContext2D, moveToAngle, setCanvasResolution } from "./canvas";
 import { drawToken } from "./token_canvas";
 import React, { useRef, useEffect } from "react";
 
@@ -14,7 +14,7 @@ function drawCircledNumber(
   ctx.save();
 
   // set text properties to measure the circle size
-  ctx.font = "16pt Barlow";
+  ctx.font = "bold 18pt Barlow";
   ctx.textBaseline = "middle";
   ctx.textAlign = "center";
 
@@ -25,8 +25,8 @@ function drawCircledNumber(
 
   // add fill and stroke to this circle
   ctx.fillStyle = bgColor;
+  ctx.strokeStyle = "1px dotted #000000";
   ctx.fill();
-  ctx.fillStyle = "#000000";
   ctx.stroke();
   ctx.restore();
 
@@ -65,10 +65,15 @@ export async function drawCharactersArc(
       ctx.translate(-120, -120);
       const r = drawToken(ctx, char);
 
+      const numberRadius = 124;
+      const angle = 45;
+
       let idx = firstNightOrder.findIndex((c) => c.id === char.id);
       if (idx >= 0) {
         ctx.save();
-        ctx.translate(0, 120);
+        // move to center of circle first
+        ctx.translate(120, 120);
+        moveToAngle(ctx, numberRadius, angle);
         drawCircledNumber(ctx, idx + 1, "#ffd876");
         ctx.restore();
       }
@@ -76,7 +81,9 @@ export async function drawCharactersArc(
       idx = otherNightsOrder.findIndex((c) => c.id === char.id);
       if (idx >= 0) {
         ctx.save();
-        ctx.translate(240, 120);
+        // move to center of circle first
+        ctx.translate(120, 120);
+        moveToAngle(ctx, numberRadius, 180 - angle);
         drawCircledNumber(ctx, idx + 1, "#ffd876");
         ctx.restore();
       }
@@ -230,7 +237,7 @@ export function TownsquareImage(props: {
 
   return React.createElement("img", {
     className: "townsquare",
-    width: "70%",
+    width: "80%",
     ref: img,
   });
 }
