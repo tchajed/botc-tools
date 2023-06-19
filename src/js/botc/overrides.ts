@@ -82,6 +82,19 @@ The new Snake Charmer is poisoned.
   king: {
     firstNight: `Wake the Demon, show them THIS PLAYER IS and point to the King player.`,
   },
+  marionette: {
+    firstNight:
+      `Select one of the good players next to the Demon and mark them ` +
+      `with Is the Marionette. Wake the Demon and show them THIS PLAYER IS ` +
+      `and the Marionette token.`,
+  },
+  exorcist: {
+    otherNights:
+      `The Exorcist points to a player, different from the previous night. If that player is the Demon: ` +
+      `<tab>Wake the Demon.
+      <tab>Show THIS PLAYER IS and the Exorcist.
+      <tab>The Demon does not act tonight.`,
+  },
 
   // new roles not in BotC online
   knight: {
