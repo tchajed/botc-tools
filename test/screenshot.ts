@@ -2,6 +2,7 @@ import { Command } from "commander";
 import * as fs from "fs";
 import puppeteer, { Browser, Page } from "puppeteer";
 import { KnownDevices } from "puppeteer";
+import sharp from "sharp";
 
 const iPhone = KnownDevices["iPhone 11"];
 
@@ -21,6 +22,50 @@ function matchesFilter(name: string, filter: string) {
   return filter == "" || name.includes(filter);
 }
 
+async function setLandscape(page: Page) {
+  await page.setViewport({
+    width: iPhone.viewport.height,
+    height: iPhone.viewport.width,
+    hasTouch: true,
+  });
+}
+
+async function copyScreenshot(testName: string, destName: string) {
+  const src = `test/screenshots/${testName}.png`;
+  const dest = `screenshots/${destName}.webp`;
+  if (!fs.existsSync(src)) {
+    console.error(`missing screenshot ${src}`);
+    return;
+  }
+  const img = sharp(src);
+  const meta = await img.metadata();
+  if (meta.width && meta.height) {
+    img.resize({
+      width: meta.width * 0.75,
+      height: meta.height * 0.75,
+      fit: "inside",
+    });
+  }
+  await img.toFile(dest);
+}
+
+async function copyScreenshots() {
+  const screenshots = [
+    ["roles-top", "roles"],
+    ["night", "night"],
+    ["assign/2-complete", "assign"],
+    ["assign/3-bag", "bag"],
+    ["assign/4-grimoire", "grimoire"],
+    ["assign/5-show-bluffs", "bluffs"],
+    ["assign/6-show-char", "character"],
+  ];
+  await Promise.all(
+    screenshots.map(([testName, destName]) => {
+      return copyScreenshot(testName, destName);
+    })
+  );
+}
+
 async function main() {
   const { browser, page } = await launchBrowser();
 
@@ -28,11 +73,17 @@ async function main() {
   program
     .version("0.1.0")
     .description("Take screenshots of app for testing and documentation")
+    .option("--use", "copy to screenshots/ for FEATURES.md", false)
     .option("--url <url>", "app url to screenshot", "https://botc-tools.xyz")
     .option("--filter <filter>", "take screenshots containing this string", "");
   program.parse();
 
   const options = program.opts();
+
+  if (options.use) {
+    await copyScreenshots();
+    return;
+  }
 
   const scrollPage = async (y: number) => {
     await page.evaluate((y) => {
@@ -111,15 +162,10 @@ async function main() {
   await page.waitForSelector(".townsquare");
   await screenshot("assign/4-grimoire");
 
-  await page.tap(`xpath///*[contains(text(), 'Bluffs')]`);
+  await pickChar("Empath", true);
   await screenshot("assign/5-show-bluffs");
 
-  await page.setViewport({
-    width: iPhone.viewport.height,
-    height: iPhone.viewport.width,
-    hasTouch: true,
-  });
-
+  await setLandscape(page);
   await pickChar("Imp", true);
   await screenshot("assign/6-show-char");
 

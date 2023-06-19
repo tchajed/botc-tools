@@ -58,8 +58,6 @@ There is infrastructure for some automated browser screenshots:
 
 ```sh
 yarn test-screenshots
-# copy screenshots for FEATURES.md
-./test/use-screenshots.sh
 ```
 
 `test-screenshots` takes some options, run it with `yarn test-screenshots

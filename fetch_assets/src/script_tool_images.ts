@@ -57,7 +57,7 @@ export async function downloadRoles(
   imgDir: string,
   progressCb: (number) => void
 ) {
-  const promises: Promise<void>[] = [];
+  const promises: Promise<sharp.OutputInfo>[] = [];
   for (const r of rs) {
     const img = await makeSquare(await downloadRole(r));
     progressCb(1);
