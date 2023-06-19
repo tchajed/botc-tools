@@ -2,6 +2,7 @@ import { CharacterInfo, getCharacter } from "../botc/roles";
 import { Fullscreen } from "../components/fullscreen_modal";
 import { CharacterCard } from "./characters";
 import { Selection } from "./selection";
+import { TokenCanvas } from "./tokens/token_canvas";
 import classnames from "classnames";
 import React, { ChangeEvent } from "react";
 
@@ -34,9 +35,11 @@ function FullscreenBluffs(props: {
       render={(bluffs) => {
         return (
           <div className="bluffs">
-            <span className="bold">THESE CHARACTERS ARE NOT IN PLAY:</span>
+            <div className="bold" style={{ marginBottom: "1rem" }}>
+              THESE CHARACTERS <br /> ARE NOT IN PLAY:
+            </div>
             {bluffs.map((char) => (
-              <CharacterCard character={char} key={char.id} />
+              <TokenCanvas character={char} key={char.id} size="25vh" />
             ))}
           </div>
         );
