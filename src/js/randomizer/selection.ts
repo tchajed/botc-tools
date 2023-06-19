@@ -106,3 +106,13 @@ export function createSelectionReducer(
 export const bluffsReducer: SelectionReducer = requiredSelectionReducer(
   new Set()
 );
+
+export type SelectionVar = {
+  chars: Selection;
+  dispatch: (a: SelAction) => void;
+};
+
+export type CharacterSelectionVars = {
+  selection: SelectionVar;
+  bluffs: SelectionVar;
+};

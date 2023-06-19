@@ -16,7 +16,12 @@ import { CharacterContext } from "./character_context";
 import { CharacterSelection } from "./characters";
 import { History } from "./history";
 import { RandomSetupButton } from "./random_setup_btn";
-import { Selection, SelAction, bluffsReducer } from "./selection";
+import {
+  Selection,
+  SelAction,
+  bluffsReducer,
+  CharacterSelectionVars,
+} from "./selection";
 import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
 import { TownsquareImage } from "./tokens/townsquare_canvas";
@@ -141,6 +146,17 @@ export function Randomizer({
   const { bag } = splitSelectedChars(characters, selection, numPlayers);
   sortBag(bag, ranking);
 
+  const selectionVars: CharacterSelectionVars = {
+    selection: {
+      chars: selection,
+      dispatch: selDispatch,
+    },
+    bluffs: {
+      chars: bluffs,
+      dispatch: bluffsDispatch,
+    },
+  };
+
   return (
     <CharacterContext.Provider value={characters}>
       <div className={visibleClass(active)}>
@@ -161,21 +177,17 @@ export function Randomizer({
           </div>
         </div>
         <CharacterSelection
-          selection={selection}
-          selDispatch={selDispatch}
+          {...selectionVars}
           selectBluffs={selectBluffs}
-          bluffs={bluffs}
-          bluffsDispatch={bluffsDispatch}
           doneRoles={rolesNotNeeded}
         />
         <hr className="separator" />
         <SelectedCharacters
+          {...selectionVars}
           {...{
-            selection,
             ranking,
             numPlayers,
             setRanking,
-            selDispatch,
             setFsRole,
             history,
             setHistory,

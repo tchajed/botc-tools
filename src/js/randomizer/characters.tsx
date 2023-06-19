@@ -5,7 +5,7 @@ import {
 } from "../components/character_icon";
 import { CharacterContext } from "./character_context";
 import { Columns } from "./columns";
-import { Selection, SelAction } from "./selection";
+import { CharacterSelectionVars } from "./selection";
 import classnames from "classnames";
 import React, { useContext } from "react";
 
@@ -53,32 +53,24 @@ export function CharacterCard(props: {
   );
 }
 
-interface SelectionVar {
-  selection: Selection;
-  selDispatch: (a: SelAction) => void;
-}
-
 export function CharacterSelection(
-  props: SelectionVar & { doneRoles: string[] } & {
+  props: CharacterSelectionVars & { doneRoles: string[] } & {
     selectBluffs: boolean;
-    bluffs: Selection;
-    bluffsDispatch: (a: SelAction) => void;
   }
 ): JSX.Element {
   const chars = useContext(CharacterContext);
-  const { selection, selDispatch } = props;
-  const { bluffsDispatch } = props;
+  const { selection, bluffs } = props;
 
   function handleClick(
     char: CharacterInfo
   ): (ev: React.MouseEvent<HTMLElement>) => void {
     return () => {
       if (props.selectBluffs) {
-        bluffsDispatch({ type: "toggle", id: char.id });
-        selDispatch({ type: "deselect", id: char.id });
+        bluffs.dispatch({ type: "toggle", id: char.id });
+        selection.dispatch({ type: "deselect", id: char.id });
       } else {
-        selDispatch({ type: "toggle", id: char.id });
-        bluffsDispatch({ type: "deselect", id: char.id });
+        selection.dispatch({ type: "toggle", id: char.id });
+        bluffs.dispatch({ type: "deselect", id: char.id });
       }
     };
   }
@@ -91,7 +83,7 @@ export function CharacterSelection(
             {chars
               .filter((char) => char.roleType == roleType)
               .map((char) => {
-                const selected = selection.has(char.id);
+                const selected = selection.chars.has(char.id);
                 const notNeeded =
                   !selected && props.doneRoles.includes(roleType);
                 return (
@@ -99,7 +91,7 @@ export function CharacterSelection(
                     character={char}
                     key={char.id}
                     selected={selected}
-                    bluffSelected={props.bluffs.has(char.id)}
+                    bluffSelected={bluffs.chars.has(char.id)}
                     notNeeded={notNeeded}
                     onClick={handleClick(char)}
                   />

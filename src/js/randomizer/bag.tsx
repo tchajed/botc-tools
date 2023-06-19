@@ -1,10 +1,15 @@
-import { CharacterInfo } from "../botc/roles";
+import { CharacterInfo, getCharacter } from "../botc/roles";
 import { BagCharacter, splitSelectedChars } from "../botc/setup";
 import "../icons";
 import { CharacterContext } from "./character_context";
-import { CharacterCard } from "./characters";
+import { CardInfo, CharacterCard } from "./characters";
 import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
-import { SelAction, Selection } from "./selection";
+import {
+  CharacterSelectionVars,
+  SelAction,
+  Selection,
+  SelectionVar,
+} from "./selection";
 import { BagSetupHelp } from "./setup_help";
 import { State } from "./state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -77,21 +82,24 @@ function ShuffleBagBtn(
 
 function ClearSelectionBtn(
   props: PropsWithChildren<{
-    selection: Selection;
-    selDispatch: Dispatch<SelAction>;
+    selection: SelectionVar;
     ranking: Ranking;
     setRanking: Dispatch<Ranking>;
     setHistory: SetHistory;
   }>
 ): JSX.Element {
   const characters = useContext(CharacterContext);
+  const { selection } = props;
 
   function handleClick() {
     pureHistoryApply(props.setHistory, {
       type: "replace",
-      state: { selection: [...props.selection], ranking: { ...props.ranking } },
+      state: {
+        selection: [...selection.chars],
+        ranking: { ...props.ranking },
+      },
     });
-    props.selDispatch({ type: "clear" });
+    selection.dispatch({ type: "clear" });
 
     // also shuffle the ranking (in case we're setting up a new game)
     const newRanking = randomRanking(characters);
@@ -106,7 +114,7 @@ function ClearSelectionBtn(
     <button
       id="clear-btn"
       className="btn"
-      disabled={props.selection.size == 0}
+      disabled={selection.chars.size == 0}
       onClick={handleClick}
       title="Clear"
     >
@@ -169,10 +177,9 @@ function HistoryBtns(props: {
 }
 
 function BagHeader(props: {
-  selection: Selection;
+  selection: SelectionVar;
   ranking: Ranking;
   bagSize: number;
-  selDispatch: Dispatch<SelAction>;
   setRanking: (r: Ranking) => void;
   setFsRole: (r: string) => void;
   history: History<Partial<State>>;
@@ -199,14 +206,13 @@ function BagHeader(props: {
         </label>
         <ClearSelectionBtn
           selection={selection}
-          selDispatch={props.selDispatch}
           ranking={ranking}
           setRanking={props.setRanking}
           setHistory={props.setHistory}
         >
           <FontAwesomeIcon icon="trash" />
         </ClearSelectionBtn>
-        <HistoryBtns {...props} />
+        <HistoryBtns {...props} selDispatch={selection.dispatch} />
       </div>
     </div>
   );
@@ -222,22 +228,22 @@ export function sortBag(bag: BagCharacter[], ranking: Ranking) {
   bag.sort((c1, c2) => ranking[charKey(c1)] - ranking[charKey(c2)]);
 }
 
-export function SelectedCharacters(props: {
-  selection: Selection;
-  ranking: Ranking;
-  numPlayers: number;
-  selDispatch: Dispatch<SelAction>;
-  setRanking: (r: Ranking) => void;
-  setFsRole: (r: string) => void;
-  history: History<Partial<State>>;
-  setHistory: SetHistory;
-}): JSX.Element {
+export function SelectedCharacters(
+  props: CharacterSelectionVars & {
+    ranking: Ranking;
+    numPlayers: number;
+    setRanking: (r: Ranking) => void;
+    setFsRole: (r: string) => void;
+    history: History<Partial<State>>;
+    setHistory: SetHistory;
+  }
+): JSX.Element {
   const characters = useContext(CharacterContext);
-  const { selection, ranking, setFsRole } = props;
+  const { selection, bluffs, ranking, setFsRole } = props;
 
   const { bag, outsideBag } = splitSelectedChars(
     characters,
-    selection,
+    selection.chars,
     props.numPlayers
   );
   sortBag(bag, ranking);
@@ -254,7 +260,10 @@ export function SelectedCharacters(props: {
         <div className="column">
           <BagHeader bagSize={bag.length} {...props} />
           <div>
-            <BagSetupHelp numPlayers={props.numPlayers} selection={selection} />
+            <BagSetupHelp
+              numPlayers={props.numPlayers}
+              selection={selection.chars}
+            />
           </div>
           {bag.map((char) => (
             <CharacterCard
@@ -264,13 +273,26 @@ export function SelectedCharacters(props: {
             />
           ))}
         </div>
-        <div className="column-smaller">
-          {outsideBag.length > 0 && <h2>Others</h2>}
-          {outsideBag.map((char) => (
-            <CharacterCard character={char} key={char.id} />
-          ))}
-        </div>
+        <OtherCharacters characters={outsideBag} bluffs={bluffs.chars} />
       </div>
+    </div>
+  );
+}
+function OtherCharacters(props: { characters: CardInfo[]; bluffs: Selection }) {
+  const { characters, bluffs } = props;
+  const bluffList = [...bluffs.values()].map((id) => getCharacter(id));
+  // TODO: ideally would be script order
+  bluffList.sort((c1, c2) => c1.name.localeCompare(c2.name));
+  return (
+    <div className="column-smaller">
+      {characters.length > 0 && <h2>Others</h2>}
+      {characters.map((char) => (
+        <CharacterCard character={char} key={char.id} />
+      ))}
+      {bluffs.size > 0 && <h2>Bluffs</h2>}
+      {bluffList.map((char) => (
+        <CharacterCard character={char} key={char.id} />
+      ))}
     </div>
   );
 }
