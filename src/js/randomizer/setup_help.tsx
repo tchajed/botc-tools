@@ -96,6 +96,9 @@ function ModificationExplanation(props: {
         </span>
       );
     }
+    case "atheist": {
+      return <span>(No evil)</span>;
+    }
   }
 }
 

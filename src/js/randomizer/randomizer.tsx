@@ -86,6 +86,7 @@ export function Randomizer({
       setNumPlayers(s.numPlayers);
       setRanking(s.ranking);
       selDispatch({ type: "set all", ids: s.selection });
+      bluffsDispatch({ type: "set all", ids: s.bluffs });
     });
   }, []);
 
@@ -102,8 +103,9 @@ export function Randomizer({
       numPlayers,
       ranking,
       selection,
+      bluffs,
     });
-  }, [numPlayers, ranking, selection]);
+  }, [numPlayers, ranking, selection, bluffs]);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
