@@ -26,8 +26,8 @@ features](FEATURES.md) for more, as well as some screenshots.
 
 Run `yarn` to get the dependencies.
 
-We provide scripts `yarn lint` for linting (using eslint) and `yarn fmt` for
-formatting (using prettier).
+We provide scripts `yarn lint` for linting (using eslint), `yarn fmt` for
+formatting (using prettier), and `yarn typecheck` to run TypeScript.
 
 ## Downloading the assets
 

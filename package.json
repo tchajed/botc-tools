@@ -10,7 +10,8 @@
     "build": "parcel build --public-url '.'",
     "postbuild": "workbox generateSW",
     "lint": "eslint src fetch_assets test",
-    "fmt": "prettier --write --list-different ."
+    "fmt": "prettier --write --list-different .",
+    "typecheck": "tsc --noEmit"
   },
   "version": "0.1.0",
   "description": "BotC storyteller tools",

@@ -2,8 +2,9 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
     "moduleResolution": "nodenext",
-    "target": "es2015",
+    "target": "es2016",
     "lib": ["dom", "es2021"],
     "strictFunctionTypes": true,
     "strictNullChecks": true,
