@@ -16,4 +16,4 @@ jobs:
   rebuild-with-clean:
     uses: ./.github/workflows/deploy.yml
     with:
-      clean-scripts: false
+      clean-scripts: true
