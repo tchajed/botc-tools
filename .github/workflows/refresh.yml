@@ -28,15 +28,14 @@ jobs:
           gh extension install actions/gh-actions-cache
 
           REPO=${{ github.repository }}
-          BRANCH="refs/head/main"
 
-          cacheKeysForPR=$(gh actions-cache list -R $REPO -B $BRANCH | cut -f 1 )
+          cacheKeysForPR=$(gh actions-cache list -R $REPO | cut -f 1 | grep 'assets' )
 
           ## Setting this to not fail the workflow while deleting cache keys.
           set +e
-          echo "Deleting caches..."
           for cacheKey in $cacheKeysForPR
           do
+              echo "deleting $cacheKey"
               gh actions-cache delete $cacheKey -R $REPO -B $BRANCH --confirm
           done
           echo "Done"
