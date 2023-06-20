@@ -9,6 +9,23 @@ export interface Distribution {
   demon: number;
 }
 
+const DistRoles: (keyof Distribution)[] = [
+  "townsfolk",
+  "outsider",
+  "minion",
+  "demon",
+];
+
+export function isDistRoleType(role: RoleType): role is keyof Distribution {
+  return ["townsfolk", "outsider", "minion", "demon"].includes(role);
+}
+
+function incRoleType(dist: Distribution, role: RoleType) {
+  if (isDistRoleType(role)) {
+    dist[role]++;
+  }
+}
+
 export function zeroDistribution(): Distribution {
   return { townsfolk: 0, outsider: 0, minion: 0, demon: 0 };
 }
@@ -30,7 +47,7 @@ export function distributionForCount(numPlayers: number): Distribution {
 export function actualDistribution(characters: CharacterInfo[]): Distribution {
   const dist = zeroDistribution();
   for (const c of characters) {
-    dist[c.roleType]++;
+    incRoleType(dist, c.roleType);
   }
   return dist;
 }
@@ -50,7 +67,7 @@ export function effectiveDistribution(
       dist.demon += targetDist.minion;
     }
     isLegion = isLegion || c.id == "legion";
-    dist[c.roleType]++;
+    incRoleType(dist, c.roleType);
   }
   if (isLegion) {
     // all other players are legion
@@ -212,7 +229,7 @@ function clampedValid(
   const totalDist = actualDistribution(characters);
   // allow arbitrary number of demons for clamping purposes (for Riot, Legion)
   totalDist.demon = 15;
-  return Object.keys(dist).every((roleType) => {
+  return DistRoles.every((roleType) => {
     return 0 <= dist[roleType] && dist[roleType] <= totalDist[roleType];
   });
 }
@@ -277,9 +294,7 @@ export function targetDistributions(
 }
 
 function differentRoleTypes(d1: Distribution, d2: Distribution): string[] {
-  return ["townsfolk", "outsider", "minion", "demon"].filter(
-    (roleType) => d1[roleType] != d2[roleType]
-  );
+  return DistRoles.filter((roleType) => d1[roleType] != d2[roleType]);
 }
 
 export function sameDistribution(d1: Distribution, d2: Distribution): boolean {
@@ -290,8 +305,7 @@ export function roleTypesDefinitelyDone(
   targets: Distribution[],
   d: Distribution
 ): RoleType[] {
-  const roles: RoleType[] = ["townsfolk", "outsider", "minion", "demon"];
-  return roles.filter((roleType) =>
+  return DistRoles.filter((roleType) =>
     targets.every((td) => d[roleType] >= td[roleType])
   );
 }

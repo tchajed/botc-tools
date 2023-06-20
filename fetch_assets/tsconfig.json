@@ -2,14 +2,13 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
-    "target": "es2015",
+    "target": "es2016",
     "module": "commonjs",
+    "forceConsistentCasingInFileNames": true,
     "lib": ["es2021"],
     "sourceMap": true,
     "esModuleInterop": true,
     "moduleResolution": "nodenext",
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true
+    "strict": true,
   }
 }

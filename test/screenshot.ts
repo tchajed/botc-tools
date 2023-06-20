@@ -131,7 +131,7 @@ async function main() {
   // reduce player count to 7
   await page.tap(`xpath///*[@id = 'minus-player-btn']`);
 
-  const pickChar = async function (name, bag = false) {
+  const pickChar = async function (name: string, bag = false) {
     const charsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' columns ')]`;
     const bagCharsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' selected-characters ')]`;
     const charSel = bag ? bagCharsX : charsX;

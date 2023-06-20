@@ -11,7 +11,7 @@ http.globalAgent.maxSockets = 10;
  * @param continueParam The name of the parameter that specifies how to resume queries.
  */
 async function completeQuery(
-  params: object,
+  params: { [key: string]: string },
   continueParam: string,
   continueVal: string | null = null
 ): Promise<object[]> {
@@ -91,7 +91,7 @@ interface DownloadedIcon {
 /** Download a list of icons and return the raw data in memory.  */
 export async function downloadIcons(
   icons: Icon[],
-  progressCb: (number) => void
+  progressCb: (inc: number) => void
 ): Promise<DownloadedIcon[]> {
   async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
     const { data } = await axios.get(icon.url, {

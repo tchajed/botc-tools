@@ -27,7 +27,7 @@ function PageLink(
 
 export function Nav(props: {
   currentPage: Page;
-  setCurrentPage: (Page) => void;
+  setCurrentPage: (p: Page) => void;
   scriptId: number;
 }): JSX.Element {
   const id = props.scriptId;

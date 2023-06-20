@@ -55,7 +55,7 @@ export function findNotDownloadedIcons(rs: Role[], imgDir: string): Role[] {
 export async function downloadRoles(
   rs: Role[],
   imgDir: string,
-  progressCb: (number) => void
+  progressCb: (inc: number) => void
 ) {
   const promises: Promise<sharp.OutputInfo>[] = [];
   for (const r of rs) {

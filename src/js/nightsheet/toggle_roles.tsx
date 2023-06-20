@@ -16,7 +16,7 @@ export function isActive(selection: Selection | null, id: string): boolean {
 
 export function ToggleAllRoles(props: {
   showAll: boolean;
-  setShowAll: (boolean) => void;
+  setShowAll: (x: boolean) => void;
   validSetup: boolean;
 }): JSX.Element {
   function onChange(e: ChangeEvent<HTMLInputElement>) {

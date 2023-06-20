@@ -210,7 +210,9 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   }, [elapsedMinutes]);
 
   useEffect(() => {
-    window["reloadSafe"] = true;
+    // explicit typecast since we want a dynamic global property to communicate
+    // with service worker
+    (window as { reloadSafe?: boolean })["reloadSafe"] = true;
   }, []);
 
   useEffect(() => {
