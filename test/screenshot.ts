@@ -41,8 +41,8 @@ async function copyScreenshot(testName: string, destName: string) {
   const meta = await img.metadata();
   if (meta.width && meta.height) {
     img.resize({
-      width: meta.width * 0.75,
-      height: meta.height * 0.75,
+      width: Math.floor(meta.width * 0.75),
+      height: Math.floor(meta.height * 0.75),
       fit: "inside",
     });
   }
@@ -67,8 +67,6 @@ async function copyScreenshots() {
 }
 
 async function main() {
-  const { browser, page } = await launchBrowser();
-
   const program = new Command();
   program
     .version("0.1.0")
@@ -84,6 +82,8 @@ async function main() {
     await copyScreenshots();
     return;
   }
+
+  const { browser, page } = await launchBrowser();
 
   const scrollPage = async (y: number) => {
     await page.evaluate((y) => {
