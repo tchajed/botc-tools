@@ -1,6 +1,7 @@
 import axios from "axios";
 
-/** Format for a saved script in assets/static/scripts/<pk>.json. */
+/** Format for a single saved script. assets/static/scripts.json is an array of
+`ScriptData`. */
 export interface ScriptData {
   pk: number;
   title: string;

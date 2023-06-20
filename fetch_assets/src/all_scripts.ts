@@ -12,9 +12,6 @@ interface Resp {
   results: ScriptInstanceResp[];
 }
 
-// give up after this
-const MAX_PAGES = 300;
-
 async function getPage(
   page: number
 ): Promise<{ count: number; data: ScriptData[]; next: boolean }> {
@@ -39,21 +36,38 @@ async function getPage(
 export async function fetchAllScripts(): Promise<ScriptData[]> {
   const results: ScriptData[] = [];
   const bar = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
-  for (let page = 1; page < MAX_PAGES; page++) {
-    const { count, data, next } = await getPage(page);
-    results.push(...data);
 
-    if (page == 1) {
-      bar.start(count, 0);
-    }
-    bar.update(results.length);
+  const { count, data, next } = await getPage(1);
+  results.push(...data);
+  // if there's one page of results we're done
+  if (!next) {
+    return results;
+  }
+  bar.start(count, results.length);
 
-    if (!next) {
-      bar.stop();
-      return results;
+  const numPages = Math.ceil(count / data.length);
+  const pageNums: number[] = [];
+  // we already fetched page 1
+  for (let pageNum = 2; pageNum <= numPages; pageNum++) {
+    pageNums.push(pageNum);
+  }
+  let done = false;
+  while (pageNums.length > 0 && !done) {
+    const nextGroup = pageNums.splice(0, 5);
+    const allPages = await Promise.all(
+      nextGroup.map(async (page) => {
+        const r = await getPage(page);
+        bar.increment(r.data.length);
+        return r;
+      })
+    );
+    for (const { data, next } of allPages) {
+      results.push(...data);
+      done = done || !next;
     }
   }
   bar.stop();
-  console.warn("aborting early");
+  // order by descending pk order
+  results.sort((a, b) => b.pk - a.pk);
   return results;
 }
