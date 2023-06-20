@@ -21,7 +21,7 @@ export function queryMatches(
   if (query == "") {
     matches = scripts.filter((s) => FAVORITES.includes(s.pk));
   } else {
-    matches = matchSorter(scripts, query, { keys: ["title"] });
+    matches = matchSorter(scripts, query, { keys: ["title", "author"] });
   }
   return matches;
 }
