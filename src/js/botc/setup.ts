@@ -103,7 +103,9 @@ export type SetupModification =
   // characters in bag)
   | { type: "legion" }
   // Atheist is complicated (setup is arbitrary but all good).
-  | { type: "atheist" };
+  | { type: "atheist" }
+  // No effect on distribution but list +the King in setup help
+  | { type: "choirboy" };
 
 function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
@@ -123,6 +125,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   riot: { type: "riot" },
   legion: { type: "legion" },
   atheist: { type: "atheist" },
+  choirboy: { type: "choirboy" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -180,6 +183,9 @@ function applyModification(
       // ...but we don't have to
       const sameDist = { ...old_dist };
       return [sameDist, dist];
+    }
+    case "choirboy": {
+      return [dist];
     }
     case "riot": {
       dist.demon += dist.minion;

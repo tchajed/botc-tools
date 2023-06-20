@@ -37,6 +37,15 @@ export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
   );
 }
 
+export function AtheistDistr({ dist }: { dist: Distribution }): JSX.Element {
+  return (
+    <span className="distribution">
+      <span className="good">{dist.townsfolk + dist.outsider}</span>/
+      <span className="evil">0</span>
+    </span>
+  );
+}
+
 function arrayEq<T>(a1: T[], a2: T[]): boolean {
   return a1.length == a2.length && a1.every((v, i) => a2[i] === v);
 }
@@ -62,7 +71,7 @@ function ModificationExplanation(props: {
       if (arrayEq(mod.delta, [+1, -1])) {
         return <span>(+1 or &#x2212;1 outsider)</span>;
       }
-      if (arrayEq(mod.delta, [+1, 0, -1])) {
+      if (arrayEq(mod.delta, [0, +1, -1])) {
         return <span>(might be +1 or &#x2212;1 outsider)</span>;
       }
       console.warn(`unhandled modifier ${mod}`);
@@ -79,6 +88,13 @@ function ModificationExplanation(props: {
       return (
         <span>
           (+the <span className="good">Damsel</span>)
+        </span>
+      );
+    }
+    case "choirboy": {
+      return (
+        <span>
+          (+the <span className="good">King</span>)
         </span>
       );
     }
@@ -163,6 +179,15 @@ export function SetupModifiers(props: {
           )}
       </>
     );
+  }
+  if (selection.has("atheist")) {
+    const atheistDistribution: Distribution = {
+      townsfolk: numPlayers,
+      outsider: 0,
+      minion: 0,
+      demon: 0,
+    };
+    goalDistributionElement = <AtheistDistr dist={atheistDistribution} />;
   }
 
   return (
