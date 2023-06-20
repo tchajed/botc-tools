@@ -82,6 +82,10 @@ function requiredSelectionReducer(required: Set<string>): SelectionReducer {
 }
 
 function addMandatorySelections(selection: Selection) {
+  if (selection.has("atheist")) {
+    // setup is arbitrary
+    return;
+  }
   // Huntsman [+ Damsel]
   if (selection.has("huntsman")) {
     selection.add("damsel");

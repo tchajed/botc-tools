@@ -113,7 +113,7 @@ function ModificationExplanation(props: {
       );
     }
     case "atheist": {
-      return <span>(No evil)</span>;
+      return <span>(No evil, setup is arbitrary)</span>;
     }
   }
 }
