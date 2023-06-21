@@ -12,14 +12,14 @@
   "handle_links": "preferred",
   "icons": [
     {
-      "src": "../icons/touch-icon.png?as=webp",
+      "src": "../icons/touch-icon.png?as=webp&height=256&width=256",
       "sizes": "256x256",
       "type": "image/webp",
       "purpose": "any"
     },
     {
-      "src": "../icons/touch-icon.png",
-      "sizes": "256x256",
+      "src": "../icons/touch-icon.png?height=512&width=512",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
