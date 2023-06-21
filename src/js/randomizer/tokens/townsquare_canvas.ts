@@ -1,5 +1,10 @@
 import { BagCharacter } from "../../botc/setup";
-import { RenderingContext2D, moveToAngle, setCanvasResolution } from "./canvas";
+import {
+  RenderingContext2D,
+  drawTextAlongArc,
+  moveToAngle,
+  setCanvasResolution,
+} from "./canvas";
 import { drawToken } from "./token_canvas";
 import React, { useRef, useEffect } from "react";
 
@@ -35,9 +40,27 @@ function drawCircledNumber(
   ctx.restore();
 }
 
+function drawPlayerName(ctx: RenderingContext2D, name?: string) {
+  if (!name) {
+    return;
+  }
+  ctx.save();
+  ctx.font = "16pt Barlow";
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
+  // the fraction of the circumference the text will take
+  const circumference = 2 * Math.PI * 120;
+  const portionOfCircumference = ctx.measureText(name).width / circumference;
+  // convert to an angle, and add some padding for space between letters
+  const angle = portionOfCircumference * 2 * Math.PI * 1.1;
+  drawTextAlongArc(ctx, name, 120, 120, 130, angle, true);
+  ctx.restore();
+}
+
 export async function drawCharactersArc(
   ctx: RenderingContext2D,
   characters: BagCharacter[],
+  players: string[],
   arcAngle: number,
   radius: number
 ) {
@@ -64,6 +87,7 @@ export async function drawCharactersArc(
       ctx.rotate(-theta);
       ctx.translate(-120, -120);
       const r = drawToken(ctx, char);
+      drawPlayerName(ctx, players[i]);
 
       const numberRadius = 124;
       const angle = 45;
@@ -126,7 +150,7 @@ function townsquareRadius(numPlayers: number): number {
   const perPlayerArc = arcAngle / (numPlayers - 1);
 
   // the gap between tokens should accommodate both radii plus a gap
-  const desiredTokenGap = 2 * 120 + 30;
+  const desiredTokenGap = 2 * 120 + 40;
   // the gap between tokens is perPlayerArc * radius; this inverts that
   // formula
   const radius = desiredTokenGap / perPlayerArc;
@@ -136,6 +160,7 @@ function townsquareRadius(numPlayers: number): number {
 async function drawTownsquare(
   canvas: HTMLCanvasElement | OffscreenCanvas,
   bag: BagCharacter[],
+  players: string[],
   title?: string
 ): Promise<void> {
   const numPlayers = bag.length;
@@ -168,7 +193,7 @@ async function drawTownsquare(
   }
   ctx.translate(radius + margin, radius + margin);
   ctx.scale(0.75, 0.75);
-  await drawCharactersArc(ctx, bag, arcAngle, radius);
+  await drawCharactersArc(ctx, bag, players, arcAngle, radius);
 
   // draw the title
   const titleY = radius * Math.cos((TWOPI - arcAngle) / 2) + 120;
@@ -180,6 +205,7 @@ async function drawTownsquare(
 export function TownsquareCanvas(props: {
   title: string;
   bag: BagCharacter[];
+  players: string[];
 }): JSX.Element {
   const ref = useRef<HTMLCanvasElement>(null);
 
@@ -188,7 +214,7 @@ export function TownsquareCanvas(props: {
       return;
     }
     const canvas = ref.current;
-    drawTownsquare(canvas, props.bag, props.title);
+    drawTownsquare(canvas, props.bag, props.players, props.title);
   }, []);
 
   return React.createElement("canvas", { ref });
@@ -197,6 +223,7 @@ export function TownsquareCanvas(props: {
 export function TownsquareImage(props: {
   title: string;
   bag: BagCharacter[];
+  players: string[];
 }): JSX.Element {
   // dummy width and height will be set by drawTownsquare
   const canvas = new OffscreenCanvas(0, 0);
@@ -222,7 +249,7 @@ export function TownsquareImage(props: {
   // to a blob. In order to make this work we need a ref so that this effect can
   // reference the generated HTML element directly.
   useEffect(() => {
-    drawTownsquare(canvas, props.bag, props.title).then(() => {
+    drawTownsquare(canvas, props.bag, props.players, props.title).then(() => {
       canvas.convertToBlob().then((blob) => {
         const dataURL = URL.createObjectURL(blob);
         if (img.current) {
