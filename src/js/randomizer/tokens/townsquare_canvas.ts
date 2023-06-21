@@ -134,6 +134,44 @@ function drawTitle(
   ctx.restore();
 }
 
+function setHeading(ctx: RenderingContext2D) {
+  ctx.font = "bold 20pt Barlow";
+  ctx.textBaseline = "top";
+  ctx.fillStyle = "#404040";
+}
+
+function headingHeight(ctx: RenderingContext2D): number {
+  ctx.save();
+  setHeading(ctx);
+  const metrics = ctx.measureText("M");
+  const height = metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+  ctx.restore();
+  return height;
+}
+
+function drawHeading(ctx: RenderingContext2D, text: string) {
+  ctx.save();
+  setHeading(ctx);
+  ctx.fillText(text, 0, 0);
+  ctx.restore();
+}
+
+async function drawCharactersRow(
+  ctx: RenderingContext2D,
+  characters: BagCharacter[]
+): Promise<void> {
+  const gapBetween = 10;
+  await Promise.all(
+    characters.map((char, i) => {
+      ctx.save();
+      ctx.translate(i * (120 * 2 + gapBetween), 0);
+      const r = drawToken(ctx, char);
+      ctx.restore();
+      return r;
+    })
+  );
+}
+
 async function drawBluffs(
   ctx: RenderingContext2D,
   bluffs: BagCharacter[]
@@ -142,26 +180,30 @@ async function drawBluffs(
     return;
   }
   // draw Bluffs heading
-  ctx.save();
-  ctx.font = "bold 20pt Barlow";
-  ctx.textBaseline = "top";
-  ctx.fillStyle = "#404040";
-  ctx.fillText("Bluffs", 0, 0);
-  const metrics = ctx.measureText("M");
-  const height = metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
-  const deltaY = height * 1.5;
-  ctx.restore();
+  drawHeading(ctx, "Bluffs");
+  const deltaY = headingHeight(ctx) * 1.5;
 
-  const gapBetween = 10;
-  await Promise.all(
-    bluffs.map((bluff, i) => {
-      ctx.save();
-      ctx.translate(i * (120 * 2 + gapBetween), deltaY);
-      const r = drawToken(ctx, bluff);
-      ctx.restore();
-      return r;
-    })
-  );
+  ctx.save();
+  ctx.translate(0, deltaY);
+  await drawCharactersRow(ctx, bluffs);
+  ctx.restore();
+}
+
+async function drawOutsideBag(
+  ctx: RenderingContext2D,
+  outsideBag: BagCharacter[]
+): Promise<void> {
+  if (outsideBag.length == 0) {
+    return;
+  }
+  // draw heading
+  drawHeading(ctx, "Others");
+  const deltaY = headingHeight(ctx) * 1.5;
+
+  ctx.save();
+  ctx.translate(0, deltaY);
+  await drawCharactersRow(ctx, outsideBag);
+  ctx.restore();
 }
 
 function townsquareArcAngle(numPlayers: number): number {
@@ -196,6 +238,9 @@ interface TownsquareData {
   bluffs: BagCharacter[];
 }
 
+const circleOtherGap = 100;
+const othersBluffGap = 30;
+
 async function drawTownsquare(
   canvas: HTMLCanvasElement | OffscreenCanvas,
   data: TownsquareData
@@ -208,11 +253,19 @@ async function drawTownsquare(
   // set up a high-resolution canvas
   const margin = 10;
   // remove some whitespace due to a missing part of the arc
-  // const unneededHeight = radius * (1 - Math.cos((TWOPI - arcAngle) / 2)) - 100;
+  const unneededHeight = radius * (1 - Math.cos((TWOPI - arcAngle) / 2)) - 100;
+  let heightAdjust = -unneededHeight;
+  if (data.outsideBag.length > 0 || data.bluffs.length > 0) {
+    // TODO: make these more precisely calculated
+    heightAdjust = circleOtherGap;
+    if (data.outsideBag.length > 0 && data.bluffs.length > 0) {
+      heightAdjust = circleOtherGap + othersBluffGap + 240;
+    }
+  }
   setCanvasResolution(
     canvas,
     radius * 2 + margin * 2,
-    radius * 2 + margin * 2 + 100,
+    radius * 2 + margin * 2 + heightAdjust,
     3
   );
   const aspectRatio = canvas.height / canvas.width;
@@ -222,7 +275,6 @@ async function drawTownsquare(
     canvas.style.height = `${600 * aspectRatio}`;
   }
 
-  // draw the tokens
   const ctx: RenderingContext2D | null = canvas.getContext(
     "2d"
   ) as RenderingContext2D | null;
@@ -230,17 +282,23 @@ async function drawTownsquare(
     return;
   }
   ctx.save();
+
   ctx.translate(radius + margin, radius + margin);
   ctx.scale(0.75, 0.75);
-  await drawCharactersArc(ctx, bag, players, arcAngle, radius);
 
-  // draw the title
   const titleY = radius * Math.cos((TWOPI - arcAngle) / 2) + 120;
   drawTitle(ctx, title, 0, titleY);
 
+  // draw the tokens
+  await drawCharactersArc(ctx, bag, players, arcAngle, radius);
+
   // draw other characters
   ctx.save();
-  ctx.translate(-radius - 60, titleY + 100);
+  ctx.translate(-radius - 60, titleY + circleOtherGap);
+  if (data.outsideBag.length > 0) {
+    await drawOutsideBag(ctx, data.outsideBag);
+    ctx.translate(0, 1.5 * headingHeight(ctx) + 240 + othersBluffGap);
+  }
   await drawBluffs(ctx, data.bluffs);
   ctx.restore();
 
