@@ -134,6 +134,36 @@ function drawTitle(
   ctx.restore();
 }
 
+async function drawBluffs(
+  ctx: RenderingContext2D,
+  bluffs: BagCharacter[]
+): Promise<void> {
+  if (bluffs.length == 0) {
+    return;
+  }
+  // draw Bluffs heading
+  ctx.save();
+  ctx.font = "bold 20pt Barlow";
+  ctx.textBaseline = "top";
+  ctx.fillStyle = "#404040";
+  ctx.fillText("Bluffs", 0, 0);
+  const metrics = ctx.measureText("M");
+  const height = metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+  const deltaY = height * 1.5;
+  ctx.restore();
+
+  const gapBetween = 10;
+  await Promise.all(
+    bluffs.map((bluff, i) => {
+      ctx.save();
+      ctx.translate(i * (120 * 2 + gapBetween), deltaY);
+      const r = drawToken(ctx, bluff);
+      ctx.restore();
+      return r;
+    })
+  );
+}
+
 function townsquareArcAngle(numPlayers: number): number {
   let circleFraction = 0;
   if (numPlayers <= 5) {
@@ -158,13 +188,17 @@ function townsquareRadius(numPlayers: number): number {
   return radius;
 }
 
+interface TownsquareData {
+  bag: BagCharacter[];
+  players: string[];
+  title: string;
+  outsideBag: BagCharacter[];
+  bluffs: BagCharacter[];
+}
+
 async function drawTownsquare(
   canvas: HTMLCanvasElement | OffscreenCanvas,
-  data: {
-    bag: BagCharacter[];
-    players: string[];
-    title: string;
-  }
+  data: TownsquareData
 ): Promise<void> {
   const { bag, players, title } = data;
   const numPlayers = bag.length;
@@ -174,11 +208,11 @@ async function drawTownsquare(
   // set up a high-resolution canvas
   const margin = 10;
   // remove some whitespace due to a missing part of the arc
-  const unneededHeight = radius * (1 - Math.cos((TWOPI - arcAngle) / 2)) - 100;
+  // const unneededHeight = radius * (1 - Math.cos((TWOPI - arcAngle) / 2)) - 100;
   setCanvasResolution(
     canvas,
     radius * 2 + margin * 2,
-    radius * 2 + margin * 2 - unneededHeight,
+    radius * 2 + margin * 2 + 100,
     3
   );
   const aspectRatio = canvas.height / canvas.width;
@@ -195,6 +229,7 @@ async function drawTownsquare(
   if (!ctx) {
     return;
   }
+  ctx.save();
   ctx.translate(radius + margin, radius + margin);
   ctx.scale(0.75, 0.75);
   await drawCharactersArc(ctx, bag, players, arcAngle, radius);
@@ -202,13 +237,17 @@ async function drawTownsquare(
   // draw the title
   const titleY = radius * Math.cos((TWOPI - arcAngle) / 2) + 120;
   drawTitle(ctx, title, 0, titleY);
+
+  // draw other characters
+  ctx.save();
+  ctx.translate(-radius - 60, titleY + 100);
+  await drawBluffs(ctx, data.bluffs);
+  ctx.restore();
+
+  ctx.restore();
 }
 
-export function TownsquareCanvas(props: {
-  title: string;
-  bag: BagCharacter[];
-  players: string[];
-}): JSX.Element {
+export function TownsquareCanvas(props: TownsquareData): JSX.Element {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -222,11 +261,7 @@ export function TownsquareCanvas(props: {
   return React.createElement("canvas", { ref });
 }
 
-export function TownsquareImage(props: {
-  title: string;
-  bag: BagCharacter[];
-  players: string[];
-}): JSX.Element {
+export function TownsquareImage(props: TownsquareData): JSX.Element {
   // dummy width and height will be set by drawTownsquare
   const canvas = new OffscreenCanvas(0, 0);
 
@@ -253,17 +288,13 @@ export function TownsquareImage(props: {
   }
 
   useEffect(() => {
-    drawTownsquare(canvas, {
-      bag: props.bag,
-      players: props.players,
-      title: props.title,
-    }).then(() => {
+    drawTownsquare(canvas, props).then(() => {
       canvas.convertToBlob().then((blob) => {
         const dataURL = URL.createObjectURL(blob);
         setImg({ dataURL, blob });
       });
     });
-  }, [props.bag, props.players, props.title]);
+  }, [props]);
 
   return React.createElement("img", {
     className: classnames("townsquare", { hidden: !img }),

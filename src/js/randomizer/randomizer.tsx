@@ -130,7 +130,11 @@ export function Randomizer({
   const actual = effectiveDistribution(numPlayers, selectedCharInfo);
   const rolesNotNeeded = roleTypesDefinitelyDone(targetDists, actual);
 
-  const { bag } = splitSelectedChars(characters, selection, numPlayers);
+  const { bag, outsideBag } = splitSelectedChars(
+    characters,
+    selection,
+    numPlayers
+  );
   sortBag(bag, ranking);
   const haveSetup = bag.length == numPlayers;
 
@@ -144,6 +148,9 @@ export function Randomizer({
       dispatch: bluffsDispatch,
     },
   };
+
+  const bluffList = [...bluffs.values()].map((id) => getCharacter(id));
+  bluffList.sort((c1, c2) => c1.name.localeCompare(c2.name));
 
   return (
     <CharacterContext.Provider value={characters}>
@@ -182,7 +189,13 @@ export function Randomizer({
           }}
         />
         {bag.length == numPlayers && (
-          <TownsquareImage title={script.title} bag={bag} players={players} />
+          <TownsquareImage
+            title={script.title}
+            bag={bag}
+            players={players}
+            outsideBag={outsideBag}
+            bluffs={bluffList}
+          />
         )}
         <PlayerNameInput
           {...{ numPlayers, players, setPlayers }}

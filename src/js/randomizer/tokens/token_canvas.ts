@@ -120,6 +120,7 @@ export function drawToken(
   // draw the ability text
   ctx.save();
   ctx.font = "13px Barlow";
+  ctx.fillStyle = "black";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   const { ability } = character;
@@ -158,6 +159,8 @@ export function drawToken(
   // draw the character name
   ctx.save();
   ctx.font = "bold 24px Barlow";
+  ctx.textBaseline = "bottom";
+  ctx.fillStyle = "black";
   const name = character.name.toUpperCase();
   // the fraction of the circumference the text will take
   const circumference = 2 * Math.PI * 120;
