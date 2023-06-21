@@ -19,7 +19,12 @@ export function BluffsToggleBtn(props: {
       className={classnames("bluffs-toggle", selectBluffs ? "selected" : "")}
     >
       choose bluffs
-      <input type="checkbox" checked={selectBluffs} onChange={onChange} />
+      <input
+        type="checkbox"
+        name="choose bluffs"
+        checked={selectBluffs}
+        onChange={onChange}
+      />
     </label>
   );
 }

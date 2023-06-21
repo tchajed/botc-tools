@@ -30,6 +30,7 @@ export function ToggleAllRoles(props: {
           show all roles
           <input
             type="checkbox"
+            name="show all roles"
             checked={props.showAll || !props.validSetup}
             onChange={onChange}
             disabled={!props.validSetup}
