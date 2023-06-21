@@ -37,7 +37,7 @@ export function PlayerNameInput(props: {
         cols={15}
         rows={Math.max(numPlayers, players.length)}
         onChange={debouncedHandleChange}
-        value={players.join("\n")}
+        defaultValue={players.join("\n")}
         spellCheck={false}
         autoCapitalize="on"
         autoComplete="off"

@@ -277,6 +277,11 @@ span.evil {
   margin-bottom: 1rem;
 }
 
+textarea {
+  user-select: auto;
+  -webkit-user-select: auto;
+}
+
 #player_names {
   font-family: inherit;
   font-size: inherit;
