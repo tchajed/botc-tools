@@ -160,10 +160,13 @@ function townsquareRadius(numPlayers: number): number {
 
 async function drawTownsquare(
   canvas: HTMLCanvasElement | OffscreenCanvas,
-  bag: BagCharacter[],
-  players: string[],
-  title?: string
+  data: {
+    bag: BagCharacter[];
+    players: string[];
+    title: string;
+  }
 ): Promise<void> {
+  const { bag, players, title } = data;
   const numPlayers = bag.length;
   const arcAngle = townsquareArcAngle(numPlayers);
   const radius = townsquareRadius(numPlayers);
@@ -198,9 +201,7 @@ async function drawTownsquare(
 
   // draw the title
   const titleY = radius * Math.cos((TWOPI - arcAngle) / 2) + 120;
-  if (title) {
-    drawTitle(ctx, title, 0, titleY);
-  }
+  drawTitle(ctx, title, 0, titleY);
 }
 
 export function TownsquareCanvas(props: {
@@ -215,7 +216,7 @@ export function TownsquareCanvas(props: {
       return;
     }
     const canvas = ref.current;
-    drawTownsquare(canvas, props.bag, props.players, props.title);
+    drawTownsquare(canvas, props);
   }, []);
 
   return React.createElement("canvas", { ref });
@@ -246,11 +247,17 @@ export function TownsquareImage(props: {
           console.warn(`could not copy to clipboard: ${err}`);
         }
       );
+    } else {
+      console.warn("image copy not supported by browser");
     }
   }
 
   useEffect(() => {
-    drawTownsquare(canvas, props.bag, props.players, props.title).then(() => {
+    drawTownsquare(canvas, {
+      bag: props.bag,
+      players: props.players,
+      title: props.title,
+    }).then(() => {
       canvas.convertToBlob().then((blob) => {
         const dataURL = URL.createObjectURL(blob);
         setImg({ dataURL, blob });
