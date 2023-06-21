@@ -261,7 +261,7 @@ export function TownsquareImage(props: {
   return React.createElement("img", {
     className: classnames("townsquare", { hidden: !img }),
     width: "80%",
-    src: img,
+    src: img ? img.dataURL : "",
     onClick: () => copyImageToClipboard(),
   });
 }
