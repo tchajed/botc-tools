@@ -286,7 +286,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
             </>
           )}
         </div>
-        {results.length == 0 && <span>No results</span>}
+        {allResults.length == 0 && <span>No results</span>}
         <ScriptList scripts={results} />
         {extraResults.length > 0 && (
           <span>... plus {extraResults.length} more</span>
