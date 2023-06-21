@@ -6,7 +6,8 @@ import {
   setCanvasResolution,
 } from "./canvas";
 import { drawToken } from "./token_canvas";
-import React, { useRef, useEffect } from "react";
+import classnames from "classnames";
+import React, { useRef, useEffect, useState } from "react";
 
 const TWOPI = 2 * Math.PI;
 
@@ -228,12 +229,15 @@ export function TownsquareImage(props: {
   // dummy width and height will be set by drawTownsquare
   const canvas = new OffscreenCanvas(0, 0);
 
-  const img: React.MutableRefObject<HTMLImageElement | null> = useRef(null);
+  const [img, setImg] = useState<{ dataURL: string; blob: Blob } | null>(null);
 
-  function copyImageToClipboard(blob: Blob) {
+  function copyImageToClipboard() {
+    if (!img) {
+      return;
+    }
     // not supported by Firefox
     if ("ClipboardItem" in window) {
-      const data = [new ClipboardItem({ [blob.type]: blob })];
+      const data = [new ClipboardItem({ [img.blob.type]: img.blob })];
       window.navigator.clipboard.write(data).then(
         () => {
           // TODO: would be nice to have a toast here
@@ -245,26 +249,19 @@ export function TownsquareImage(props: {
     }
   }
 
-  // This component returns an empty <img> and then asynchronously converts it
-  // to a blob. In order to make this work we need a ref so that this effect can
-  // reference the generated HTML element directly.
   useEffect(() => {
     drawTownsquare(canvas, props.bag, props.players, props.title).then(() => {
       canvas.convertToBlob().then((blob) => {
         const dataURL = URL.createObjectURL(blob);
-        if (img.current) {
-          img.current.src = dataURL;
-          if (blob) {
-            img.current.onclick = () => copyImageToClipboard(blob);
-          }
-        }
+        setImg({ dataURL, blob });
       });
     });
   }, [props.bag, props.players, props.title]);
 
   return React.createElement("img", {
-    className: "townsquare",
+    className: classnames("townsquare", { hidden: !img }),
     width: "80%",
-    ref: img,
+    src: img,
+    onClick: () => copyImageToClipboard(),
   });
 }
