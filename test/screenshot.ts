@@ -114,6 +114,14 @@ async function main() {
   await page.waitForSelector(".main");
   await screenshot("home");
 
+  await page.type("#search-query", "trouble brewing");
+  await screenshot("title-search");
+  await page.keyboard.press("Escape");
+
+  await page.type("#search-query", "hadikhia atheist marionette");
+  await screenshot("character-search");
+  await page.keyboard.press("Escape");
+
   await page.click("xpath///a[contains(., 'Trouble Brewing')]");
   await page.waitForSelector(".main");
   await screenshot("roles-top");
