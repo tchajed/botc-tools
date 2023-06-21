@@ -1,5 +1,6 @@
 import classnames from "classnames";
-import React from "react";
+import debounce from "lodash.debounce";
+import React, { useCallback, useEffect } from "react";
 
 export function PlayerNameInput(props: {
   numPlayers: number;
@@ -10,8 +11,18 @@ export function PlayerNameInput(props: {
   const { numPlayers, players } = props;
 
   function handleChange(ev: React.ChangeEvent<HTMLTextAreaElement>) {
-    props.setPlayers(ev.currentTarget.value.split("\n"));
+    props.setPlayers(ev.target.value.split("\n"));
   }
+
+  const debouncedHandleChange = useCallback(debounce(handleChange, 300), [
+    props,
+  ]);
+
+  useEffect(() => {
+    return () => {
+      debouncedHandleChange.cancel();
+    };
+  }, []);
 
   function handleClear() {
     props.setPlayers([]);
@@ -24,7 +35,7 @@ export function PlayerNameInput(props: {
         name="player names"
         cols={15}
         rows={Math.max(numPlayers, players.length)}
-        onChange={handleChange}
+        onChange={debouncedHandleChange}
         value={players.join("\n")}
         spellCheck={false}
         autoCapitalize="on"
