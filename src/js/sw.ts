@@ -45,7 +45,7 @@ if ("serviceWorker" in navigator) {
     // Implementing this is app-specific; some examples are:
     // https://open-ui.org/components/alert.research or
     // https://open-ui.org/components/toast.research
-    const updateAccepted = false;
+    const updateAccepted = true;
 
     if (updateAccepted) {
       wb.messageSkipWaiting();
