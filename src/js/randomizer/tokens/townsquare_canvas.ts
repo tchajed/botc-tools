@@ -260,7 +260,7 @@ export function TownsquareImage(props: {
         }
       });
     });
-  }, [props.bag, props.title]);
+  }, [props.bag, props.players, props.title]);
 
   return React.createElement("img", {
     className: "townsquare",
