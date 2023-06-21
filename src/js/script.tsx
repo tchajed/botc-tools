@@ -51,13 +51,13 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
   useEffect(() => {
     switch (currentPage) {
       case "roles":
-        document.title = `${script.title} - roles`;
+        document.title = `${script.title} - roles - BotC tools`;
         break;
       case "night":
-        document.title = `${script.title} - night order`;
+        document.title = `${script.title} - night order - BotC tools`;
         break;
       case "assign":
-        document.title = `${script.title} - assign roles`;
+        document.title = `${script.title} - assign roles - BotC tools`;
         break;
     }
   }, [currentPage]);
