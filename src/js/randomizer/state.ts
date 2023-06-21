@@ -1,7 +1,7 @@
 import { Ranking } from "./components/bag";
 import localforage from "localforage";
 
-export interface State {
+export interface ScriptState {
   scriptTitle: string;
   id: number;
   numPlayers: number;
@@ -11,6 +11,10 @@ export interface State {
   lastSave: Date;
 }
 
+export interface GlobalState {
+  players: string[];
+}
+
 export function initStorage() {
   localforage.config({
     name: "botc-tools",
@@ -18,8 +22,8 @@ export function initStorage() {
   });
 }
 
-export async function loadState(id: number): Promise<State | null> {
-  const s = await localforage.getItem<Partial<State>>(`assign.${id}`);
+export async function loadState(id: number): Promise<ScriptState | null> {
+  const s = await localforage.getItem<Partial<ScriptState>>(`assign.${id}`);
   if (!s) {
     return null;
   }
@@ -45,7 +49,7 @@ export async function storeState(
   }
 ): Promise<void> {
   const lastSave = new Date();
-  const s: State = {
+  const s: ScriptState = {
     ...state,
     id,
     selection: [...state.selection.values()],
@@ -55,13 +59,27 @@ export async function storeState(
   await localforage.setItem(`assign.${id}`, s);
 }
 
-export async function latestScript(): Promise<State | null> {
-  let newestState: State | null = null;
-  await localforage.iterate<State, void>((s) => {
+export async function latestScript(): Promise<ScriptState | null> {
+  let newestState: ScriptState | null = null;
+  await localforage.iterate<ScriptState, void>((s) => {
     if (newestState == null || s.lastSave > newestState.lastSave) {
       newestState = s;
     }
     return;
   });
   return newestState;
+}
+
+export async function loadGlobalState(): Promise<GlobalState> {
+  let state = await localforage.getItem<Partial<GlobalState>>("global");
+  if (!state) {
+    state = {};
+  }
+  return {
+    players: state.players || [],
+  };
+}
+
+export async function storeGlobalState(state: GlobalState): Promise<void> {
+  await localforage.setItem("global", state);
 }

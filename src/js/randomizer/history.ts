@@ -1,6 +1,6 @@
 import { Ranking } from "./components/bag";
 import { SelAction } from "./selection";
-import { State } from "./state";
+import { ScriptState } from "./state";
 import { Dispatch, SetStateAction } from "react";
 
 const MAX_SIZE = 20;
@@ -82,7 +82,9 @@ function historyStep<T>(
   }
 }
 
-export type SetHistory = Dispatch<SetStateAction<History<Partial<State>>>>;
+export type SetHistory = Dispatch<
+  SetStateAction<History<Partial<ScriptState>>>
+>;
 
 export function pureHistoryApply<T>(
   setHistory: Dispatch<SetStateAction<History<T>>>,
@@ -95,7 +97,7 @@ export function restoreState(
   setRanking: (r: Ranking) => void,
   selectionDispatch: (a: SelAction) => void,
   bluffsDispatch: (a: SelAction) => void,
-  state: Partial<State>
+  state: Partial<ScriptState>
 ) {
   if (state.ranking) {
     setRanking(state.ranking);
@@ -112,9 +114,9 @@ export function historyApply(
   setRanking: (r: Ranking) => void,
   selectionDispatch: (a: SelAction) => void,
   bluffsDispatch: (a: SelAction) => void,
-  h: History<Partial<State>>,
+  h: History<Partial<ScriptState>>,
   setHistory: SetHistory,
-  a: HistoryAction<Partial<State>>
+  a: HistoryAction<Partial<ScriptState>>
 ) {
   const { h: newH, state } = historyStep(h, a);
   if (state) {

@@ -9,7 +9,7 @@ import {
   pureHistoryApply,
 } from "../history";
 import { CharacterSelectionVars, SelAction, Selection } from "../selection";
-import { State } from "../state";
+import { ScriptState } from "../state";
 import { BluffList } from "./bluffs";
 import { CardInfo, CharacterCard } from "./characters";
 import { BagSetupHelp } from "./setup_help";
@@ -130,7 +130,7 @@ function HistoryBtns(props: {
   setRanking: (r: Ranking) => void;
   selDispatch: Dispatch<SelAction>;
   bluffsDispatch: Dispatch<SelAction>;
-  history: History<Partial<State>>;
+  history: History<Partial<ScriptState>>;
   setHistory: SetHistory;
 }): JSX.Element {
   const { history, setHistory } = props;
@@ -185,7 +185,7 @@ function BagHeader(props: {
   bagSize: number;
   setRanking: (r: Ranking) => void;
   setFsRole: (r: string) => void;
-  history: History<Partial<State>>;
+  history: History<Partial<ScriptState>>;
   setHistory: SetHistory;
 }): JSX.Element {
   const { ranking, sels } = props;
@@ -241,7 +241,7 @@ export function SelectedCharacters(
     numPlayers: number;
     setRanking: (r: Ranking) => void;
     setFsRole: (r: string) => void;
-    history: History<Partial<State>>;
+    history: History<Partial<ScriptState>>;
     setHistory: SetHistory;
   }
 ): JSX.Element {

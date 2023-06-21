@@ -2,6 +2,7 @@ import { CharacterContext } from "./character_context";
 import { randomRanking, SelectedCharacters, sortBag } from "./components/bag";
 import { BluffsToggleBtn } from "./components/bluffs";
 import { CharacterSelection } from "./components/characters";
+import { PlayerNameInput } from "./components/player_names";
 import { RandomSetupButton } from "./components/random_setup_btn";
 import { SetupModifiers } from "./components/setup_help";
 import { History, restoreState } from "./history";
@@ -11,7 +12,14 @@ import {
   bluffsReducer,
   CharacterSelectionVars,
 } from "./selection";
-import { State, initStorage, loadState, storeState } from "./state";
+import {
+  ScriptState,
+  initStorage,
+  loadGlobalState,
+  loadState,
+  storeGlobalState,
+  storeState,
+} from "./state";
 import { CharacterInfo, getCharacter } from "botc/roles";
 import { Script } from "botc/script";
 import {
@@ -47,10 +55,11 @@ export function Randomizer({
   const [ranking, setRanking] = useState(randomRanking(characters));
   const [fsRole, setFsRole] = useState<string | null>(null);
   const [history, setHistory] = useState({ back: [], forward: [] } as History<
-    Partial<State>
+    Partial<ScriptState>
   >);
   const [selectBluffs, setSelectBluffs] = useState(false);
   const [bluffs, bluffsDispatch] = useReducer(bluffsReducer, new Set<string>());
+  const [players, setPlayers] = useState<string[]>([]);
 
   // load state from local storage
   useEffect(() => {
@@ -63,6 +72,9 @@ export function Randomizer({
       setRanking(s.ranking);
       selDispatch({ type: "set all", ids: s.selection });
       bluffsDispatch({ type: "set all", ids: s.bluffs });
+    });
+    loadGlobalState().then((s) => {
+      setPlayers(s.players);
     });
   }, []);
 
@@ -82,13 +94,16 @@ export function Randomizer({
       bluffs,
     });
   }, [numPlayers, ranking, selection, bluffs]);
+  useEffect(() => {
+    storeGlobalState({ players });
+  }, [players]);
 
   useEffect(() => {
     window.history.scrollRestoration = "manual";
   }, []);
 
   const popState = (ev: PopStateEvent) => {
-    const state: Partial<State> = ev.state;
+    const state: Partial<ScriptState> = ev.state;
     if (state) {
       restoreState(setRanking, selDispatch, bluffsDispatch, state);
     }
@@ -168,6 +183,7 @@ export function Randomizer({
         {bag.length == numPlayers && (
           <TownsquareImage title={script.title} bag={bag} />
         )}
+        <PlayerNameInput {...{ numPlayers, players, setPlayers }} />
         <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
       </div>
     </CharacterContext.Provider>

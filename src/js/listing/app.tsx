@@ -7,7 +7,7 @@ import {
 } from "../botc/script";
 import { isSafari } from "../detect";
 import "../icons";
-import { State, initStorage, latestScript } from "../randomizer/state";
+import { ScriptState, initStorage, latestScript } from "../randomizer/state";
 import { clearSavedScroll, pageUrl } from "../routing";
 import { queryMatches, searchNormalize } from "./search";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -185,7 +185,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   }
 
   const [query, setQuery] = useState(hashQuery());
-  const [lastScript, setLastScript] = useState<State | null>(null);
+  const [lastScript, setLastScript] = useState<ScriptState | null>(null);
 
   // arbitrary state that changes periodically, to force a re-render
   const [elapsedMinutes, setElapsedMinutes] = useState(0);
