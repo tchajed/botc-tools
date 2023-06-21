@@ -20,8 +20,8 @@ button {
   border-style: none;
   padding: 0.1rem 0.3rem;
   border-radius: 0.25rem;
-  border: 2px solid rgb(212, 212, 212);
-  background-color: rgb(233, 233, 237);
+  border: 2px solid darken(white, 18%);
+  background-color: darken(white, 10%);
   color: black;
 
   font-size: 120%;
@@ -30,7 +30,7 @@ button {
 
   &:hover {
     @media (hover: hover) {
-      background-color: rgb(200, 200, 200);
+      background-color: darken(white, 22%);
     }
   }
 
@@ -38,7 +38,7 @@ button {
     opacity: 50%;
 
     &:hover {
-      background-color: rgb(233, 233, 237);
+      background-color: darken(white, 10%);
     }
   }
 }
