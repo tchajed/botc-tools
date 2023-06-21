@@ -149,6 +149,9 @@ die by execution, but evil players learn which player it is.`,
   fiddler: {
     ability: `Once per game, the Demon secretly chooses an opposing player: all players choose which of these 2 players win.`,
   },
+  fibbin: {
+    ability: `Once per game, 1 good player might get incorrect information.`,
+  },
 };
 
 function getOverride(id: string): Override {
