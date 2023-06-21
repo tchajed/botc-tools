@@ -156,6 +156,7 @@ export function drawToken(
   });
 
   // draw the character name
+  ctx.save();
   ctx.font = "bold 24px Barlow";
   const name = character.name.toUpperCase();
   // the fraction of the circumference the text will take
@@ -164,6 +165,7 @@ export function drawToken(
   // convert to an angle, and add some padding for space between letters
   const angle = portionOfCircumference * 2 * Math.PI * 1.3;
   drawTextAlongArc(ctx, name, 120, 120, 110, angle);
+  ctx.restore();
 
   return r;
 }

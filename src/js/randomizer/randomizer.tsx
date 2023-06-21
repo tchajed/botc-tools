@@ -132,6 +132,7 @@ export function Randomizer({
 
   const { bag } = splitSelectedChars(characters, selection, numPlayers);
   sortBag(bag, ranking);
+  const haveSetup = bag.length == numPlayers;
 
   const selectionVars: CharacterSelectionVars = {
     selection: {
@@ -181,9 +182,12 @@ export function Randomizer({
           }}
         />
         {bag.length == numPlayers && (
-          <TownsquareImage title={script.title} bag={bag} />
+          <TownsquareImage title={script.title} bag={bag} players={players} />
         )}
-        <PlayerNameInput {...{ numPlayers, players, setPlayers }} />
+        <PlayerNameInput
+          {...{ numPlayers, players, setPlayers }}
+          haveSetup={haveSetup}
+        />
         <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
       </div>
     </CharacterContext.Provider>

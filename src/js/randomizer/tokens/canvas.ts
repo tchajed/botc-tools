@@ -9,13 +9,18 @@ export function drawTextAlongArc(
   centerX: number,
   centerY: number,
   radius: number,
-  angle: number
+  angle: number,
+  top?: boolean
 ) {
   ctx.save();
   ctx.translate(centerX, centerY);
   const totalWidth = ctx.measureText(str).width;
   // center the arc of the text
-  ctx.rotate(angle / 2);
+  if (top) {
+    ctx.rotate(-angle / 2 + Math.PI);
+  } else {
+    ctx.rotate(angle / 2);
+  }
   for (let i = 0; i < str.length; i++) {
     const char = str[i];
     ctx.save();
@@ -23,11 +28,15 @@ export function drawTextAlongArc(
     // halfwidth since it is rendered in the center
     const charCompensation = ctx.measureText(char).width / 2;
     ctx.rotate(
-      (-angle * ctx.measureText(str.slice(0, i)).width) / totalWidth -
-        charCompensation / radius
+      (top ? 1 : -1) *
+        ((angle * ctx.measureText(str.slice(0, i)).width) / totalWidth +
+          charCompensation / radius)
     );
     // go straight up in the current rotation
     ctx.translate(0, radius);
+    if (top) {
+      ctx.rotate(Math.PI);
+    }
     ctx.textAlign = "center";
     ctx.fillText(char, 0, 0);
     ctx.restore();
