@@ -7,7 +7,7 @@ import {
 } from "../components/character_icon";
 import { Fullscreen } from "../components/fullscreen_modal";
 import { Jinxes } from "../components/jinxes";
-import { CardInfo, CharacterCard } from "../randomizer/characters";
+import { CardInfo, CharacterCard } from "../randomizer/components/characters";
 import { Selection } from "../randomizer/selection";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";

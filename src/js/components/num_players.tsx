@@ -1,9 +1,23 @@
-import { distributionForCount, zeroDistribution } from "../botc/setup";
 import "../icons";
-import { Distr } from "../randomizer/setup_help";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Distribution,
+  distributionForCount,
+  zeroDistribution,
+} from "botc/setup";
 import { SetStateAction } from "react";
 import React from "react";
+
+export function Distr({ dist }: { dist: Distribution }): JSX.Element {
+  return (
+    <span className="distribution">
+      <span className="good">{dist.townsfolk}</span>/
+      <span className="good">{dist.outsider}</span>/
+      <span className="evil">{dist.minion}</span>/
+      <span className="evil">{dist.demon}</span>
+    </span>
+  );
+}
 
 function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
   const dist =

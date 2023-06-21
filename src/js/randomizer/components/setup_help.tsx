@@ -1,3 +1,7 @@
+import "../../icons";
+import { CharacterContext } from "../character_context";
+import { Selection } from "../selection";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   SetupModification,
   SetupChanges,
@@ -8,25 +12,11 @@ import {
   targetDistributions,
   splitSelectedChars,
   uniqueDistributions,
-} from "../botc/setup";
-import { characterClass } from "../components/character_icon";
-import "../icons";
-import { CharacterContext } from "./character_context";
-import { Selection } from "./selection";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from "botc/setup";
 import classnames from "classnames";
+import { characterClass } from "components/character_icon";
+import { Distr } from "components/num_players";
 import React, { useContext } from "react";
-
-export function Distr({ dist }: { dist: Distribution }): JSX.Element {
-  return (
-    <span className="distribution">
-      <span className="good">{dist.townsfolk}</span>/
-      <span className="good">{dist.outsider}</span>/
-      <span className="evil">{dist.minion}</span>/
-      <span className="evil">{dist.demon}</span>
-    </span>
-  );
-}
 
 export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
   return (

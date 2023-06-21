@@ -1,11 +1,11 @@
-import { CharacterInfo, NightAction, RoleType } from "../botc/roles";
+import { CharacterInfo, NightAction, RoleType } from "../../botc/roles";
 import {
   CharacterIconElement,
   characterClass,
-} from "../components/character_icon";
-import { CharacterContext } from "./character_context";
-import { Columns } from "./columns";
-import { CharacterSelectionVars } from "./selection";
+} from "../../components/character_icon";
+import { CharacterContext } from "../character_context";
+import { Columns } from "../columns";
+import { CharacterSelectionVars } from "../selection";
 import classnames from "classnames";
 import React, { useContext } from "react";
 

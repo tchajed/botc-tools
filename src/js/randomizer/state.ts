@@ -1,4 +1,4 @@
-import { Ranking } from "./bag";
+import { Ranking } from "./components/bag";
 import localforage from "localforage";
 
 export interface State {

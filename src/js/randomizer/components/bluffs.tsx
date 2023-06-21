@@ -1,8 +1,8 @@
-import { CharacterInfo, getCharacter } from "../botc/roles";
-import { Fullscreen } from "../components/fullscreen_modal";
+import { CharacterInfo, getCharacter } from "../../botc/roles";
+import { Fullscreen } from "../../components/fullscreen_modal";
+import { Selection } from "../selection";
+import { TokenCanvas } from "../tokens/token_canvas";
 import { CharacterCard } from "./characters";
-import { Selection } from "./selection";
-import { TokenCanvas } from "./tokens/token_canvas";
 import classnames from "classnames";
 import React, { ChangeEvent } from "react";
 

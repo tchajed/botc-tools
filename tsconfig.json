@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "src/js",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,

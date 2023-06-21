@@ -1,5 +1,5 @@
 /** Encode the rules for BotC setup. */
-import { CardInfo } from "../randomizer/characters";
+import { CardInfo } from "../randomizer/components/characters";
 import { CharacterInfo, RoleType, getCharacter } from "./roles";
 
 export interface Distribution {

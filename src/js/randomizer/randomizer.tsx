@@ -1,32 +1,32 @@
-import { CharacterInfo, getCharacter } from "../botc/roles";
-import { Script } from "../botc/script";
-import {
-  effectiveDistribution,
-  modifyingCharacters,
-  roleTypesDefinitelyDone,
-  splitSelectedChars,
-  targetDistributions,
-} from "../botc/setup";
-import { NumPlayerSelector } from "../components/num_players";
-import { FullscreenRole } from "../components/role_fullscreen";
-import { restoreScroll } from "../routing";
-import { visibleClass } from "../tabs";
-import { randomRanking, SelectedCharacters, sortBag } from "./bag";
-import { BluffsToggleBtn } from "./bluffs";
 import { CharacterContext } from "./character_context";
-import { CharacterSelection } from "./characters";
+import { randomRanking, SelectedCharacters, sortBag } from "./components/bag";
+import { BluffsToggleBtn } from "./components/bluffs";
+import { CharacterSelection } from "./components/characters";
+import { RandomSetupButton } from "./components/random_setup_btn";
+import { SetupModifiers } from "./components/setup_help";
 import { History, restoreState } from "./history";
-import { RandomSetupButton } from "./random_setup_btn";
 import {
   Selection,
   SelAction,
   bluffsReducer,
   CharacterSelectionVars,
 } from "./selection";
-import { SetupModifiers } from "./setup_help";
 import { State, initStorage, loadState, storeState } from "./state";
-import { TownsquareImage } from "./tokens/townsquare_canvas";
+import { CharacterInfo, getCharacter } from "botc/roles";
+import { Script } from "botc/script";
+import {
+  effectiveDistribution,
+  modifyingCharacters,
+  roleTypesDefinitelyDone,
+  splitSelectedChars,
+  targetDistributions,
+} from "botc/setup";
+import { NumPlayerSelector } from "components/num_players";
+import { FullscreenRole } from "components/role_fullscreen";
+import { TownsquareImage } from "randomizer/tokens/townsquare_canvas";
 import React, { SetStateAction, useEffect, useReducer, useState } from "react";
+import { restoreScroll } from "routing";
+import { visibleClass } from "tabs";
 
 export function Randomizer({
   script,

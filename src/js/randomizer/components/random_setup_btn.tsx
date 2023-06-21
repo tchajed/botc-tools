@@ -1,7 +1,7 @@
-import { randomCompleteSelection } from "../botc/random_setup";
-import { CharacterContext } from "./character_context";
-import { SetHistory, pureHistoryApply } from "./history";
-import { Selection, SelAction } from "./selection";
+import { randomCompleteSelection } from "../../botc/random_setup";
+import { CharacterContext } from "../character_context";
+import { SetHistory, pureHistoryApply } from "../history";
+import { Selection, SelAction } from "../selection";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext } from "react";
 

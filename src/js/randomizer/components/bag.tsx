@@ -1,13 +1,18 @@
-import { CharacterInfo } from "../botc/roles";
-import { BagCharacter, splitSelectedChars } from "../botc/setup";
-import "../icons";
+import { CharacterInfo } from "../../botc/roles";
+import { BagCharacter, splitSelectedChars } from "../../botc/setup";
+import "../../icons";
+import { CharacterContext } from "../character_context";
+import {
+  History,
+  SetHistory,
+  historyApply,
+  pureHistoryApply,
+} from "../history";
+import { CharacterSelectionVars, SelAction, Selection } from "../selection";
+import { State } from "../state";
 import { BluffList } from "./bluffs";
-import { CharacterContext } from "./character_context";
 import { CardInfo, CharacterCard } from "./characters";
-import { History, SetHistory, historyApply, pureHistoryApply } from "./history";
-import { CharacterSelectionVars, SelAction, Selection } from "./selection";
 import { BagSetupHelp } from "./setup_help";
-import { State } from "./state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { Dispatch, PropsWithChildren, useContext } from "react";
 
