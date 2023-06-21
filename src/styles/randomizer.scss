@@ -184,10 +184,26 @@ button {
 
 .setup-btn {
   background-color: theme.$purple;
+
   border: none;
   padding: 0.5rem;
   font-size: 14pt;
   color: white;
+
+  &:hover {
+    cursor: pointer;
+
+    @media (hover: hover) {
+      background-color: lighten(theme.$purple, 20%);
+    }
+  }
+
+  &:disabled {
+    &:hover {
+      cursor: default;
+      background-color: theme.$purple;
+    }
+  }
 }
 
 .bluffs-toggle {
