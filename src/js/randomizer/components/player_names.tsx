@@ -1,6 +1,6 @@
 import classnames from "classnames";
 import debounce from "lodash.debounce";
-import React, { useCallback, useEffect } from "react";
+import React, { useMemo, useEffect } from "react";
 
 export function PlayerNameInput(props: {
   numPlayers: number;
@@ -14,9 +14,10 @@ export function PlayerNameInput(props: {
     props.setPlayers(ev.target.value.split("\n"));
   }
 
-  const debouncedHandleChange = useCallback(debounce(handleChange, 300), [
-    props,
-  ]);
+  const debouncedHandleChange = useMemo(
+    () => debounce(handleChange, 300),
+    [props.setPlayers]
+  );
 
   useEffect(() => {
     return () => {
