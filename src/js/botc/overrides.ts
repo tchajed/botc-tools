@@ -34,9 +34,9 @@ const overrideList: { [key: string]: Override } = {
   lunatic: {
     firstNight: `If 7 or more players: <tab>Show THESE ARE YOUR MINIONS. Point to "Minions".
     <tab>Show three bluffs.
-    <tab>Put the Lunatic to sleep. Wake the demon.
-    <tab>Show the YOU ARE token, and the Demon token.
-    <tab>Show THIS PLAYER IS and the Lunatic token, point to the Lunatic.
+    <tab>Put the Lunatic to sleep.
+    Wake the demon. Show the YOU ARE token, and the Demon token.
+    Show THIS PLAYER IS and the Lunatic token, point to the Lunatic.
     `,
     otherNights: "Do whatever is needed to simulate the demon.",
   },
