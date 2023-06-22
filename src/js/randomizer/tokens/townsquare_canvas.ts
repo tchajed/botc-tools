@@ -137,6 +137,7 @@ function drawTitle(
 function setHeading(ctx: RenderingContext2D) {
   ctx.font = "bold 20pt Barlow";
   ctx.textBaseline = "top";
+  ctx.textAlign = "center";
   ctx.fillStyle = "#404040";
 }
 
@@ -180,8 +181,11 @@ async function drawBluffs(
     return;
   }
   // draw Bluffs heading
+  ctx.save();
+  ctx.translate(120, 0);
   drawHeading(ctx, "Bluffs");
-  const deltaY = headingHeight(ctx) * 1.5;
+  ctx.restore();
+  const deltaY = headingHeight(ctx) * 1.2;
 
   ctx.save();
   ctx.translate(0, deltaY);
@@ -197,8 +201,11 @@ async function drawOutsideBag(
     return;
   }
   // draw heading
+  ctx.save();
+  ctx.translate(120, 0);
   drawHeading(ctx, "Others");
-  const deltaY = headingHeight(ctx) * 1.5;
+  ctx.restore();
+  const deltaY = headingHeight(ctx) * 1.2;
 
   ctx.save();
   ctx.translate(0, deltaY);
@@ -294,10 +301,10 @@ async function drawTownsquare(
 
   // draw other characters
   ctx.save();
-  ctx.translate(-radius - 60, titleY + circleOtherGap);
+  ctx.translate(-radius - 120, titleY + circleOtherGap);
   if (data.outsideBag.length > 0) {
     await drawOutsideBag(ctx, data.outsideBag);
-    ctx.translate(0, 1.5 * headingHeight(ctx) + 240 + othersBluffGap);
+    ctx.translate(0, 1.2 * headingHeight(ctx) + 240 + othersBluffGap);
   }
   await drawBluffs(ctx, data.bluffs);
   ctx.restore();
@@ -320,9 +327,6 @@ export function TownsquareCanvas(props: TownsquareData): JSX.Element {
 }
 
 export function TownsquareImage(props: TownsquareData): JSX.Element {
-  // dummy width and height will be set by drawTownsquare
-  const canvas = new OffscreenCanvas(0, 0);
-
   const [img, setImg] = useState<{ dataURL: string; blob: Blob } | null>(null);
 
   function copyImageToClipboard() {
@@ -346,6 +350,9 @@ export function TownsquareImage(props: TownsquareData): JSX.Element {
   }
 
   useEffect(() => {
+    // dummy width and height will be set by drawTownsquare
+    const canvas = new OffscreenCanvas(0, 0);
+
     drawTownsquare(canvas, props).then(() => {
       canvas.convertToBlob().then((blob) => {
         const dataURL = URL.createObjectURL(blob);
