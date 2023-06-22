@@ -91,14 +91,15 @@ export async function drawCharactersArc(
       drawPlayerName(ctx, players[i]);
 
       const numberRadius = 124;
-      const angle = 45;
+      const firstNightAngle = 90 + 45;
+      const otherNightsAngle = 45;
 
       let idx = firstNightOrder.findIndex((c) => c.id === char.id);
       if (idx >= 0) {
         ctx.save();
         // move to center of circle first
         ctx.translate(120, 120);
-        moveToAngle(ctx, numberRadius, angle);
+        moveToAngle(ctx, numberRadius, firstNightAngle);
         drawCircledNumber(ctx, idx + 1, "#ffd876");
         ctx.restore();
       }
@@ -108,7 +109,7 @@ export async function drawCharactersArc(
         ctx.save();
         // move to center of circle first
         ctx.translate(120, 120);
-        moveToAngle(ctx, numberRadius, 180 - angle);
+        moveToAngle(ctx, numberRadius, otherNightsAngle);
         drawCircledNumber(ctx, idx + 1, "#ffd876");
         ctx.restore();
       }
@@ -263,10 +264,9 @@ async function drawTownsquare(
   const unneededHeight = radius * (1 - Math.cos((TWOPI - arcAngle) / 2)) - 100;
   let heightAdjust = -unneededHeight;
   if (data.outsideBag.length > 0 || data.bluffs.length > 0) {
-    // TODO: make these more precisely calculated
-    heightAdjust = circleOtherGap;
+    heightAdjust = circleOtherGap + 60;
     if (data.outsideBag.length > 0 && data.bluffs.length > 0) {
-      heightAdjust = circleOtherGap + othersBluffGap + 240;
+      heightAdjust += othersBluffGap + 240;
     }
   }
   setCanvasResolution(
