@@ -114,6 +114,11 @@ The new Snake Charmer is poisoned.
     ability:
       "All players keep their eyes closed when voting & the vote tally is secret. Votes for you only count if you vote.",
   },
+  highpriestess: {
+    ability:
+      "Each night, learn which player the Storyteller believes you should talk to most.",
+    nights: "Point to a player the High Priestess should talk to.",
+  },
 
   // fabled do not have abilities in the botc online data
   spiritofivory: {
