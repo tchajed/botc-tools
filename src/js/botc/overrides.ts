@@ -56,10 +56,10 @@ const overrideList: { [key: string]: Override } = {
       "The Cult Leader might change alignment to match an alive neighbor. If it changed, tell the Cult Leader their new alignment.",
   },
   monk: {
-    nights: "The Monk protects a player from the Demon.",
+    otherNights: "The Monk protects a player from the Demon.",
   },
   innkeeper: {
-    nights:
+    otherNights:
       "The Innkeeper points to two players, who are both safe from the Demon. One is drunk.",
   },
   imp: {
@@ -166,16 +166,16 @@ function getOverride(id: string): Override {
 export const overrides = {
   all: overrideList,
   get: getOverride,
-  firstNight: (id: string): string | undefined => {
+  firstNight: (id: string): string | null => {
     const override = getOverride(id);
-    return override.nights ?? override.firstNight ?? undefined;
+    return override.nights ?? override.firstNight ?? null;
   },
-  otherNights: (id: string): string | undefined => {
+  otherNights: (id: string): string | null => {
     const override = getOverride(id);
-    return override.nights ?? override.otherNights ?? undefined;
+    return override.nights ?? override.otherNights ?? null;
   },
-  ability: (id: string): string | undefined => {
+  ability: (id: string): string | null => {
     const override = getOverride(id);
-    return override.ability ?? undefined;
+    return override.ability ?? null;
   },
 };

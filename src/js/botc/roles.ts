@@ -128,6 +128,32 @@ function versionToEdition(version: string): Edition {
   return "other";
 }
 
+function useOverride(id: string, info: CharacterInfo) {
+  info.ability = overrides.ability(id) ?? info.ability;
+  const firstNight = overrides.firstNight(id);
+  if (firstNight) {
+    const index = nightsheet.firstNight.indexOf(info.name);
+    if (index < 0) {
+      console.warn(`${id} not found in first night order`);
+    }
+    info.firstNight = {
+      index,
+      details: firstNight,
+    };
+  }
+  const otherNights = overrides.otherNights(id);
+  if (otherNights) {
+    const index = nightsheet.otherNight.indexOf(info.name);
+    if (index < 0) {
+      console.warn(`${id} not found in other night order`);
+    }
+    info.otherNights = {
+      index,
+      details: otherNights,
+    };
+  }
+}
+
 function createRoleData(): Map<string, CharacterInfo> {
   const roles: Map<string, CharacterInfo> = new Map();
 
@@ -158,7 +184,7 @@ function createRoleData(): Map<string, CharacterInfo> {
       continue;
     }
 
-    info.ability = overrides.ability(id) ?? role.ability;
+    info.ability = role.ability;
 
     if (role.firstNightReminder != "") {
       const index = nightsheet.firstNight.indexOf(info.name);
@@ -166,7 +192,7 @@ function createRoleData(): Map<string, CharacterInfo> {
         console.warn(`${id} not found in night sheet`);
       }
       info.firstNight = {
-        details: overrides.firstNight(id) ?? role.firstNightReminder,
+        details: role.firstNightReminder,
         index,
       };
     }
@@ -176,22 +202,21 @@ function createRoleData(): Map<string, CharacterInfo> {
         console.warn(`${id} not found in night sheet`);
       }
       info.otherNights = {
-        details: overrides.otherNights(id) ?? role.otherNightReminder,
+        details: role.otherNightReminder,
         index,
       };
     }
+    useOverride(id, info);
   }
 
   for (const id of Object.keys(overrides.all)) {
-    if (botc_roles.find((c) => c.id == id) === undefined) {
-      // an override for a character not in Clocktower Online
-      const info = roles.get(id);
-      if (info === undefined) {
-        console.error(`override info for unknown id ${id} `);
-        continue;
-      }
-      info.ability = overrides.get(id).ability ?? info.ability;
+    // an override for a character not in Clocktower Online
+    const info = roles.get(id);
+    if (info === undefined) {
+      console.error(`override info for unknown id ${id} `);
+      continue;
     }
+    useOverride(id, info);
   }
 
   roles.set("MINION", MinionInfo);
