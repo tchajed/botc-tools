@@ -2,7 +2,7 @@ name: refresh
 on:
   schedule:
     # run every day at 10am UTC
-    - cron: "0 10 * * SAT"
+    - cron: "0 10 * * *"
   # call manually to update scripts
   workflow_dispatch:
 
