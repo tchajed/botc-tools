@@ -91,6 +91,12 @@ async function main() {
     }, y);
   };
 
+  const scrollToSelector = async (selector: string) => {
+    await page.waitForSelector(selector);
+    const el = await page.$(selector);
+    await el?.scrollIntoView();
+  };
+
   const screenshot = async (name: string) => {
     if (matchesFilter(name, options.filter)) {
       await wait(200);
@@ -166,8 +172,7 @@ async function main() {
   await scrollPage(1050);
   await screenshot("assign/3-bag");
 
-  await scrollPage(1400);
-  await page.waitForSelector(".townsquare");
+  await scrollToSelector(".townsquare");
   await screenshot("assign/4-grimoire");
 
   await pickChar("Empath", true);
