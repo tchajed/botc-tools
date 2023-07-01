@@ -284,18 +284,37 @@ export function SelectedCharacters(
             />
           ))}
         </div>
-        <OtherCharacters characters={outsideBag} bluffs={bluffs.chars} />
+        <OtherCharacters
+          characters={outsideBag}
+          bluffs={bluffs.chars}
+          setFsRole={setFsRole}
+        />
       </div>
     </div>
   );
 }
-function OtherCharacters(props: { characters: CardInfo[]; bluffs: Selection }) {
-  const { characters } = props;
+function OtherCharacters(props: {
+  characters: CardInfo[];
+  bluffs: Selection;
+  setFsRole: (r: string) => void;
+}) {
+  const { characters, setFsRole } = props;
+
+  function handleClick(id: string): () => void {
+    return () => {
+      setFsRole(id);
+    };
+  }
+
   return (
     <div className="column-smaller">
       {characters.length > 0 && <h2>Others</h2>}
       {characters.map((char) => (
-        <CharacterCard character={char} key={char.id} />
+        <CharacterCard
+          character={char}
+          key={char.id}
+          onClick={handleClick(char.id)}
+        />
       ))}
       <BluffList bluffs={props.bluffs} />
     </div>
