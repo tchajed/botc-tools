@@ -43,6 +43,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   rebuild-with-clean:
     uses: ./.github/workflows/deploy.yml
-    with:
-      clean-scripts: true
     needs: ["cleanup"]
