@@ -25,6 +25,17 @@ function getUrlPage(): Page | null {
   return null;
 }
 
+// Add a meta property=name tag to the head of the document.
+function addMetaProperty(name: string, content: string) {
+  document.querySelectorAll(`meta[property="${name}"]`).forEach((e) => {
+    e.remove();
+  });
+  const meta = document.createElement("meta");
+  meta.setAttribute("property", name);
+  meta.content = content;
+  document.head.appendChild(meta);
+}
+
 function ScriptApp({ script }: { script: Script }): JSX.Element {
   const [currentPage, setCurrentPage] = useState<Page>(getUrlPage() || "roles");
   const characters = script.characters;
@@ -50,14 +61,33 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
 
   useEffect(() => {
     switch (currentPage) {
-      case "roles":
+      case "roles": {
         document.title = `${script.title} - roles - BotC tools`;
+        addMetaProperty("og:title", `${script.title} - roles`);
+        addMetaProperty(
+          "og:url",
+          `${document.location.origin}/scripts.html?id=${script.id}`
+        );
+        document.querySelector(`meta[name="description"]`)?.remove();
         break;
+      }
       case "night":
         document.title = `${script.title} - night order - BotC tools`;
+        addMetaProperty("og:title", `${script.title} - night order`);
+        addMetaProperty(
+          "og:url",
+          `${document.location.origin}/scripts.html?id=${script.id}&page=night`
+        );
+        document.querySelector(`meta[name="description"]`)?.remove();
         break;
       case "assign":
         document.title = `${script.title} - assign roles - BotC tools`;
+        addMetaProperty("og:title", `${script.title} - assign roles`);
+        addMetaProperty(
+          "og:url",
+          `${document.location.origin}/scripts.html?id=${script.id}&page=assign`
+        );
+        document.querySelector(`meta[name="description"]`)?.remove();
         break;
     }
   }, [currentPage]);
