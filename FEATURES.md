@@ -3,9 +3,11 @@
 The most important feature is that the app works offline. This should work
 automatically after first load in any browser. You can also "install" the
 website as if it were a native mobile app: on iOS or iPadOS, open it in Safari,
-click on the share icon, and select "Add to Home Screen". Opening the site from
-here will look and feel like any other app - it won't have any browser UI and
-will work offline.
+click on the share icon, and select "Add to Home Screen". On Android in Chrome
+you can click the "three dots" menu and click on "Add to Home Screen". Opening
+the site from here will look and feel like any other app - it won't have any
+browser UI and will work offline. Note that this is the same website and will
+have identical functionality.
 
 ## Roles sheet
 
