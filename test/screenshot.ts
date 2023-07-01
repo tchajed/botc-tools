@@ -91,7 +91,7 @@ async function main() {
     }, y);
   };
 
-  const scrollToSelector = async (selector: string) => {
+  const _scrollToSelector = async (selector: string) => {
     await page.waitForSelector(selector);
     const el = await page.$(selector);
     await el?.scrollIntoView();
@@ -145,10 +145,13 @@ async function main() {
   // reduce player count to 7
   await page.tap(`xpath///*[@id = 'minus-player-btn']`);
 
-  const pickChar = async function (name: string, bag = false) {
+  const pickChar = async function (
+    name: string,
+    where: "bag" | "chars" = "chars"
+  ) {
     const charsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' columns ')]`;
     const bagCharsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' selected-characters ')]`;
-    const charSel = bag ? bagCharsX : charsX;
+    const charSel = where == "bag" ? bagCharsX : charsX;
     await page.tap(`xpath///${charSel}//span[contains(text(), '${name}')]`);
   };
   await pickChar("Soldier");
@@ -172,14 +175,22 @@ async function main() {
   await scrollPage(1050);
   await screenshot("assign/3-bag");
 
-  await scrollToSelector(".townsquare");
+  await page.type(
+    "#player_names",
+    "Horatio\nThumbelina\nBriar Rose\nFrodo\nAragorn\nJuliette\nPolonius"
+  );
+  await page.tap(".townsquare");
+  await scrollPage(1500);
+
+  // need new townsquare to render
+  await wait(300);
   await screenshot("assign/4-grimoire");
 
-  await pickChar("Empath", true);
+  await pickChar("Empath", "bag");
   await screenshot("assign/5-show-bluffs");
 
   await setLandscape(page);
-  await pickChar("Imp", true);
+  await pickChar("Imp", "bag");
   await screenshot("assign/6-show-char");
 
   await browser.close();
