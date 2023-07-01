@@ -80,13 +80,17 @@ them. (The undo/redo history currently isn't, but that can be implemented as wel
 alt="Screenshot showing townsquare grimoire setup"
 width="400">
 
-Finally we have an image that shows the initial Grimoire setup. These are
-the tokens for the in-play roles, rendered as an image. On my iPad I drag these
-out of the website and into a drawing app (Concepts), which then serves as a
-Grimoire where I can track reminders and communicate with players by writing.
-This is my favorite feature of the app - it really speeds up setup, and it's
-much easier to run the game with all the characters and abilities clearly
-visible rather than just having hand-written names.
+Finally we have an image that shows the initial Grimoire setup. Player names are
+chosen by adding a list just below the image. The grimoire has tokens for every
+player, as well as in-play roles that aren't distributed (like Drunk and Fabled)
+and the bluffs as reminders for the storyteller.
+
+On my iPad I drag the grimoire image out of the website and into a drawing app
+(Concepts), which then serves as a Grimoire where I can track reminders and
+communicate with players by writing (you can instead click on the image to copy
+it). This is my favorite feature of the app - it really speeds up setup, and
+it's much easier to run the game with characters, abilities, and player names
+clearly visible.
 
 ---
 
