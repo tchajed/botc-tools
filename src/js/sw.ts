@@ -11,6 +11,8 @@ if ("serviceWorker" in navigator) {
     }
   });
 
+  const isReloadSafe = "reloadSafe" in window && window.reloadSafe;
+
   // This approach is from
   // https://developer.chrome.com/docs/workbox/handling-service-worker-updates/#do-you-need-to-show-a-prompt
   //
@@ -31,7 +33,7 @@ if ("serviceWorker" in navigator) {
       // tab is loaded under the control of the new service worker.
       // Depending on your web app, you may want to auto-save or
       // persist transient state before triggering the reload.
-      if ("reloadSafe" in window && window.reloadSafe) {
+      if (isReloadSafe) {
         window.location.reload();
       }
     });
@@ -61,4 +63,10 @@ if ("serviceWorker" in navigator) {
   setInterval(() => {
     wb.update();
   }, 20 /* min */ * 60 * 1000);
+
+  if (isReloadSafe) {
+    window.onload = () => {
+      wb.update();
+    };
+  }
 }
