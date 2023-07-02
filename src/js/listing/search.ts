@@ -10,7 +10,11 @@ const FAVORITES: number[] = (() => {
   // 2 Catfishing
   // 1245 Trust
   // 394 Whose Cult is it Anyway?
-  const favorites = "19,178,180,181,10,1273,83,4,435,811,81,394";
+  // 19 Laissez un Carnaval
+  // 2282 Chad Versus Virgin
+  // 2235 You're Not Evil, I'm Evil!
+  // 1273 Creme de la Creme
+  const favorites = "178,180,181,10,83,4,435,81,394,2282,2235";
   return favorites.split(",").map((s) => parseInt(s));
 })();
 
