@@ -22,24 +22,19 @@ import { FullscreenBluffs } from "randomizer/components/bluffs";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import reactStringReplace from "react-string-replace";
 
-const tokenNames = new Set([
+const tokenNames = [
   "THIS IS THE DEMON",
   "THESE ARE YOUR MINIONS",
   "THESE CHARACTERS ARE NOT IN PLAY",
-  "YOU ARE",
+  // make sure prefixes go first
   "YOU ARE EVIL",
   "YOU ARE GOOD",
+  "YOU ARE",
   "THIS CHARACTER SELECTED YOU",
   "THIS PLAYER IS",
   "THIS CHARACTER IS IN PLAY",
-]);
-// replacements are performed longest to shortest so prefixes are handled
-// correctly
-const tokenList: string[] = (() => {
-  const l = Array.from(tokenNames);
-  l.sort((a, b) => b.length - a.length);
-  return l;
-})();
+];
+tokenNames.sort((a, b) => b.length - a.length);
 
 /** For a token in char's night action, return the character we should show
  * alongside the token text. */
@@ -84,7 +79,7 @@ function Details(props: {
   let details: string = props.details;
   details = details.replace(/If [^.]*:/g, "\n$&\n");
   // replace quoted tokens with standard all-caps strings for replacement
-  for (const tokenName of tokenList) {
+  for (const tokenName of tokenNames) {
     const altToken = new RegExp(`'${tokenName}'`, "gi");
     details = details.replaceAll(altToken, tokenName);
   }
@@ -98,7 +93,7 @@ function Details(props: {
     return <React.Fragment key={`tab-${tabNum}`}>{tabEl}</React.Fragment>;
   });
   let tokenNum = 0;
-  for (const tokenName of tokenList) {
+  for (const tokenName of tokenNames) {
     const handleClick = () => {
       if (tokenName == "THESE CHARACTERS ARE NOT IN PLAY") {
         showBluffs();
