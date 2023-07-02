@@ -7,12 +7,7 @@ import { RandomSetupButton } from "./components/random_setup_btn";
 import { SetupModifiers } from "./components/setup_help";
 import { History, restoreState } from "./history";
 import { randomRanking } from "./ranking";
-import {
-  Selection,
-  SelAction,
-  bluffsReducer,
-  CharacterSelectionVars,
-} from "./selection";
+import { Selection, SelAction, CharacterSelectionVars } from "./selection";
 import {
   ScriptState,
   initStorage,
@@ -33,7 +28,7 @@ import {
 import { NumPlayerSelector } from "components/num_players";
 import { FullscreenRole } from "components/role_fullscreen";
 import { TownsquareImage } from "randomizer/tokens/townsquare_canvas";
-import React, { SetStateAction, useEffect, useReducer, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { restoreScroll } from "routing";
 import { visibleClass } from "tabs";
 
@@ -42,6 +37,8 @@ export function Randomizer({
   active,
   selection,
   selDispatch,
+  bluffs,
+  bluffsDispatch,
   numPlayers,
   setNumPlayers,
 }: {
@@ -49,6 +46,8 @@ export function Randomizer({
   active: boolean;
   selection: Selection;
   selDispatch: React.Dispatch<SelAction>;
+  bluffs: Selection;
+  bluffsDispatch: React.Dispatch<SelAction>;
   numPlayers: number;
   setNumPlayers: React.Dispatch<SetStateAction<number>>;
 }): JSX.Element {
@@ -59,7 +58,6 @@ export function Randomizer({
     Partial<ScriptState>
   >);
   const [selectBluffs, setSelectBluffs] = useState(false);
-  const [bluffs, bluffsDispatch] = useReducer(bluffsReducer, new Set<string>());
   const [players, setPlayers] = useState<string[]>([]);
 
   // load state from local storage

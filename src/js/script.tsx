@@ -4,12 +4,14 @@ import { Nav } from "./components/nav";
 import { NightOrder } from "./nightsheet/night_order";
 import { Randomizer } from "./randomizer/randomizer";
 import {
+  bluffsReducer,
   createSelectionReducer,
   initialSelection,
 } from "./randomizer/selection";
 import { CharacterSheet } from "./roles/character_sheet";
 import { Page } from "./routing";
 import { selectedScript } from "./select_script";
+import { getCharacter } from "botc/roles";
 import React, { useEffect, useReducer, useState } from "react";
 import { createRoot } from "react-dom/client";
 
@@ -48,6 +50,10 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
     createSelectionReducer(characters),
     initialSelection(characters)
   );
+  const [bluffs, bluffsDispatch] = useReducer(bluffsReducer, new Set<string>());
+
+  const bluffList = [...bluffs.values()].map((id) => getCharacter(id));
+  bluffList.sort((c1, c2) => c1.name.localeCompare(c2.name));
 
   const { bag } = splitSelectedChars(characters, selection, numPlayers);
   const completeSetup = bag.length == numPlayers;
@@ -111,6 +117,7 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
             active={currentPage == "night"}
             script={script}
             selection={selection}
+            bluffs={bluffList}
             validSetup={completeSetup}
             anySetup={anySetup}
             key="night"
@@ -120,6 +127,8 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
             script={script}
             selection={selection}
             selDispatch={selDispatch}
+            bluffs={bluffs}
+            bluffsDispatch={bluffsDispatch}
             numPlayers={numPlayers}
             setNumPlayers={setNumPlayers}
             key="assign"

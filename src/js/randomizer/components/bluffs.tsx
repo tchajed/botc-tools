@@ -29,7 +29,7 @@ export function BluffsToggleBtn(props: {
   );
 }
 
-function FullscreenBluffs(props: {
+export function FullscreenBluffs(props: {
   showBluffs: CharacterInfo[] | null;
   setShowBluffs: (x: null) => void;
 }): JSX.Element {
