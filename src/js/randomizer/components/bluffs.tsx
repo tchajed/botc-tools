@@ -41,7 +41,7 @@ export function FullscreenBluffs(props: {
         return (
           <div className="bluffs">
             <div className="bold" style={{ marginBottom: "1rem" }}>
-              THESE CHARACTERS <br /> ARE NOT IN PLAY:
+              THESE CHARACTERS <br /> ARE NOT IN PLAY{bluffs.length > 0 && ":"}
             </div>
             {bluffs.map((char) => (
               <TokenCanvas character={char} key={char.id} size="25vh" />

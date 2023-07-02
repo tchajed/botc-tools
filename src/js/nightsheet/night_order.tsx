@@ -144,7 +144,7 @@ function CharacterList(props: {
   setCard: SetFullscreenCard;
 }): JSX.Element {
   const { orders, firstNight } = props;
-  let order = firstNight ? orders.firstNight : orders.otherNights;
+  let order = [...(firstNight ? orders.firstNight : orders.otherNights)];
   if (props.selection != null || props.teensy) {
     if (props.teensy) {
       // skip minion and demon info

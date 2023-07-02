@@ -112,7 +112,6 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
             active={currentPage == "roles"}
             script={script}
             completeSetup={completeSetup}
-            key="roles"
           />
           <NightOrder
             active={currentPage == "night"}
@@ -122,7 +121,6 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
             teensy={teensy}
             validSetup={completeSetup}
             anySetup={anySetup}
-            key="night"
           />
           <Randomizer
             active={currentPage == "assign"}
@@ -133,7 +131,6 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
             bluffsDispatch={bluffsDispatch}
             numPlayers={numPlayers}
             setNumPlayers={setNumPlayers}
-            key="assign"
           />
         </div>
       </div>
