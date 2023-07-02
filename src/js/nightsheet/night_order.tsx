@@ -14,7 +14,7 @@ import { visibleClass } from "../tabs";
 import { ToggleAllRoles, isActive } from "./toggle_roles";
 import classnames from "classnames";
 import { FullscreenBluffs } from "randomizer/components/bluffs";
-import React, { useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import reactStringReplace from "react-string-replace";
 
 const tokenNames = new Set([
@@ -50,8 +50,8 @@ function Details(props: {
   char: CardInfo;
   details: string;
   setCard: SetFullscreenCard;
-  showBluffs: () => void;
 }): JSX.Element {
+  const showBluffs = useContext(ShowBluffsContext);
   let details: string = props.details;
   details = details.replace(/If [^.]*:/g, "\n$&\n");
   // replace quoted tokens with standard all-caps strings for replacement
@@ -72,7 +72,7 @@ function Details(props: {
   for (const tokenName of tokenNames) {
     const handleClick = () => {
       if (tokenName == "THESE CHARACTERS ARE NOT IN PLAY") {
-        props.showBluffs();
+        showBluffs();
       } else {
         props.setCard({
           tokenText: tokenName,
@@ -99,7 +99,6 @@ function CharacterRow(props: {
   firstNight: boolean;
   selected: boolean;
   setCard: SetFullscreenCard;
-  showBluffs: () => void;
 }): JSX.Element {
   const { character, firstNight } = props;
   const details = character.nightDetails(firstNight)?.details || "";
@@ -126,12 +125,7 @@ function CharacterRow(props: {
           empty: details.length == 0,
         })}
       >
-        <Details
-          char={character}
-          details={details}
-          setCard={props.setCard}
-          showBluffs={props.showBluffs}
-        />
+        <Details char={character} details={details} setCard={props.setCard} />
       </td>
     </tr>
   );
@@ -142,7 +136,6 @@ function CharacterList(props: {
   firstNight: boolean;
   selection: Selection | null;
   setCard: SetFullscreenCard;
-  showBluffs: () => void;
 }): JSX.Element {
   const { orders, firstNight } = props;
   const order = firstNight ? orders.firstNight : orders.otherNights;
@@ -158,7 +151,6 @@ function CharacterList(props: {
                 firstNight={firstNight}
                 selected={isActive(props.selection, c.id)}
                 setCard={props.setCard}
-                showBluffs={props.showBluffs}
                 key={c.id}
               />
             );
@@ -174,9 +166,8 @@ function Sheet(props: {
   firstNight: boolean;
   selection: Selection | null;
   setCard: SetFullscreenCard;
-  showBluffs: () => void;
 }): JSX.Element {
-  const { script, firstNight, selection, setCard, showBluffs } = props;
+  const { script, firstNight, selection, setCard } = props;
   return (
     <div>
       <Header title={script.title} firstNight={firstNight} />
@@ -185,7 +176,6 @@ function Sheet(props: {
         firstNight={firstNight}
         selection={selection}
         setCard={setCard}
-        showBluffs={showBluffs}
       />
       <Jinxes script={script} />
     </div>
@@ -224,6 +214,10 @@ function FullscreenCard({
   );
 }
 
+const ShowBluffsContext: React.Context<() => void> = createContext(() => {
+  return;
+});
+
 /** The main component of the nightsheet. */
 export function NightOrder(props: {
   script: Script;
@@ -256,35 +250,35 @@ export function NightOrder(props: {
   }
 
   return (
-    <div className={visibleClass(active)}>
-      <Sheet
-        script={props.script}
-        firstNight={true}
-        selection={newSelection}
-        setCard={setFullscreenCard}
-        showBluffs={showBluffs}
-      />
-      <div className="page-divider-top"></div>
-      <div className="page-divider-bottom"></div>
-      <Sheet
-        script={props.script}
-        firstNight={false}
-        selection={newSelection}
-        setCard={setFullscreenCard}
-        showBluffs={showBluffs}
-      />
-      {anySetup && (
-        <ToggleAllRoles
-          showAll={showAll}
-          setShowAll={setShowAll}
-          validSetup={validSetup}
+    <ShowBluffsContext.Provider value={showBluffs}>
+      <div className={visibleClass(active)}>
+        <Sheet
+          script={props.script}
+          firstNight={true}
+          selection={newSelection}
+          setCard={setFullscreenCard}
         />
-      )}
-      <FullscreenCard card={fullscreenCard} setCard={setFullscreenCard} />
-      <FullscreenBluffs
-        showBluffs={bluffsToShow}
-        setShowBluffs={setShowBluffs}
-      />
-    </div>
+        <div className="page-divider-top"></div>
+        <div className="page-divider-bottom"></div>
+        <Sheet
+          script={props.script}
+          firstNight={false}
+          selection={newSelection}
+          setCard={setFullscreenCard}
+        />
+        {anySetup && (
+          <ToggleAllRoles
+            showAll={showAll}
+            setShowAll={setShowAll}
+            validSetup={validSetup}
+          />
+        )}
+        <FullscreenCard card={fullscreenCard} setCard={setFullscreenCard} />
+        <FullscreenBluffs
+          showBluffs={bluffsToShow}
+          setShowBluffs={setShowBluffs}
+        />
+      </div>
+    </ShowBluffsContext.Provider>
   );
 }
