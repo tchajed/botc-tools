@@ -26,12 +26,20 @@ const tokenNames = new Set([
   "THIS IS THE DEMON",
   "THESE ARE YOUR MINIONS",
   "THESE CHARACTERS ARE NOT IN PLAY",
-  "YOU ARE EVIL",
   "YOU ARE",
+  "YOU ARE EVIL",
+  "YOU ARE GOOD",
   "THIS CHARACTER SELECTED YOU",
   "THIS PLAYER IS",
   "THIS CHARACTER IS IN PLAY",
 ]);
+// replacements are performed longest to shortest so prefixes are handled
+// correctly
+const tokenList: string[] = (() => {
+  const l = Array.from(tokenNames);
+  l.sort((a, b) => b.length - a.length);
+  return l;
+})();
 
 /** For a token in char's night action, return the character we should show
  * alongside the token text. */
@@ -76,9 +84,6 @@ function Details(props: {
   let details: string = props.details;
   details = details.replace(/If [^.]*:/g, "\n$&\n");
   // replace quoted tokens with standard all-caps strings for replacement
-  // do this longest to shortest to handle prefixes correctly
-  const tokenList = Array.from(tokenNames);
-  tokenList.sort((a, b) => b.length - a.length);
   for (const tokenName of tokenList) {
     const altToken = new RegExp(`'${tokenName}'`, "gi");
     details = details.replaceAll(altToken, tokenName);
@@ -93,7 +98,7 @@ function Details(props: {
     return <React.Fragment key={`tab-${tabNum}`}>{tabEl}</React.Fragment>;
   });
   let tokenNum = 0;
-  for (const tokenName of tokenNames) {
+  for (const tokenName of tokenList) {
     const handleClick = () => {
       if (tokenName == "THESE CHARACTERS ARE NOT IN PLAY") {
         showBluffs();
@@ -250,10 +255,17 @@ function FullscreenCard({
       data={card}
       setData={setCard}
       render={(card) => {
+        const tokenHTML = reactStringReplace(
+          card.tokenText,
+          new RegExp("(good|evil)", "i"),
+          (match) => {
+            return <span className={match.toLowerCase()}>{match}</span>;
+          },
+        );
         return (
           <>
             <div className="card-text">
-              <strong>{card.tokenText}</strong>
+              <strong>{tokenHTML}</strong>
             </div>
             {card.character && <CharacterCard character={card.character} />}
           </>

@@ -53,7 +53,7 @@ const overrideList: { [key: string]: Override } = {
   },
   cultleader: {
     nights:
-      "The Cult Leader might change alignment to match an alive neighbor. If it changed, tell the Cult Leader their new alignment.",
+      "The Cult Leader might change alignment to match an alive neighbor. If it changed, tell the Cult Leader YOU ARE EVIL or YOU ARE GOOD.",
   },
   monk: {
     otherNights: "The Monk protects a player from the Demon.",
@@ -97,7 +97,9 @@ The new Snake Charmer is poisoned.
   },
   bountyhunter: {
     firstNight: `Point to 1 evil player. Wake the townsfolk who is evil and show them YOU ARE EVIL and the thumbs-down sign.`,
-    otherNights: `If the known evil player has died, point to another evil player.`,
+  },
+  mezepheles: {
+    otherNights: `Wake the 1st good player that said the Mezepheles' secret word and show them YOU ARE EVIL and the thumbs-down sign.`,
   },
 
   // new roles not in BotC online
