@@ -35,7 +35,11 @@ async function getPage(
 
 export async function fetchAllScripts(): Promise<ScriptData[]> {
   const results: ScriptData[] = [];
-  const bar = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
+  const bar = new cliProgress.SingleBar(
+    // noTTYOutput and notTTYSchedule enable output in GitHub Actions (every 5s)
+    { noTTYOutput: true, notTTYSchedule: 5000, etaBuffer: 20 },
+    cliProgress.Presets.rect
+  );
 
   const { count, data, next } = await getPage(1);
   results.push(...data);
@@ -52,6 +56,9 @@ export async function fetchAllScripts(): Promise<ScriptData[]> {
     pageNums.push(pageNum);
   }
   let done = false;
+  const updateInterval = setInterval(() => {
+    bar.updateETA();
+  }, 2000);
   while (pageNums.length > 0 && !done) {
     const nextGroup = pageNums.splice(0, 5);
     const allPages = await Promise.all(
@@ -66,6 +73,7 @@ export async function fetchAllScripts(): Promise<ScriptData[]> {
       done = done || !next;
     }
   }
+  clearInterval(updateInterval);
   bar.stop();
   // order by descending pk order
   results.sort((a, b) => b.pk - a.pk);
