@@ -26,17 +26,33 @@ const tokenNames = new Set([
   "THIS IS THE DEMON",
   "THESE ARE YOUR MINIONS",
   "THESE CHARACTERS ARE NOT IN PLAY",
+  "YOU ARE EVIL",
   "YOU ARE",
   "THIS CHARACTER SELECTED YOU",
   "THIS PLAYER IS",
   "THIS CHARACTER IS IN PLAY",
 ]);
 
-const showPlayerTokens = new Set([
-  "THIS CHARACTER SELECTED YOU",
-  "THIS PLAYER IS",
-  "THIS CHARACTER IS IN PLAY",
-]);
+/** For a token in char's night action, return the character we should show
+ * alongside the token text. */
+function characterToShow(token: string, char: CardInfo): CardInfo | null {
+  // These tokens always involve showing the triggering character (as far as I
+  // know)
+  const showPlayerTokens = new Set([
+    "THIS CHARACTER SELECTED YOU",
+    "THIS PLAYER IS",
+    "THIS CHARACTER IS IN PLAY",
+  ]);
+  if (showPlayerTokens.has(token)) {
+    return char;
+  }
+  // For Imp and Farmer, the character jumps and "YOU ARE" means someone else is
+  // the Imp/Farmer.
+  if (token == "YOU ARE" && ["imp", "farmer"].includes(char.id)) {
+    return char;
+  }
+  return null;
+}
 
 function Header(props: { title: string; firstNight: boolean }): JSX.Element {
   const { firstNight } = props;
@@ -60,7 +76,10 @@ function Details(props: {
   let details: string = props.details;
   details = details.replace(/If [^.]*:/g, "\n$&\n");
   // replace quoted tokens with standard all-caps strings for replacement
-  for (const tokenName of tokenNames) {
+  // do this longest to shortest to handle prefixes correctly
+  const tokenList = Array.from(tokenNames);
+  tokenList.sort((a, b) => b.length - a.length);
+  for (const tokenName of tokenList) {
     const altToken = new RegExp(`'${tokenName}'`, "gi");
     details = details.replaceAll(altToken, tokenName);
   }
@@ -81,7 +100,7 @@ function Details(props: {
       } else {
         props.setCard({
           tokenText: tokenName,
-          character: showPlayerTokens.has(tokenName) ? props.char : null,
+          character: characterToShow(tokenName, props.char),
         });
       }
     };

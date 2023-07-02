@@ -95,6 +95,10 @@ The new Snake Charmer is poisoned.
       <tab>Show THIS PLAYER IS and the Exorcist.
       <tab>The Demon does not act tonight.`,
   },
+  bountyhunter: {
+    firstNight: `Point to 1 evil player. Wake the townsfolk who is evil and show them YOU ARE EVIL and the thumbs-down sign.`,
+    otherNights: `If the known evil player has died, point to another evil player.`,
+  },
 
   // new roles not in BotC online
   knight: {
