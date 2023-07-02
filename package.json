@@ -1,5 +1,5 @@
 {
-  "name": "botc_sheet",
+  "name": "botc_tools",
   "source": [
     "src/index.html",
     "src/script.html"
@@ -12,7 +12,8 @@
     "postbuild": "workbox generateSW",
     "lint": "eslint src fetch_assets test",
     "fmt": "prettier --write --list-different .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check": "yarn run lint && yarn run prettier --check . && yarn run typecheck"
   },
   "version": "0.1.0",
   "description": "BotC storyteller tools",
