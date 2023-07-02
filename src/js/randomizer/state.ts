@@ -1,4 +1,4 @@
-import { Ranking } from "./components/bag";
+import { Ranking } from "./ranking";
 import localforage from "localforage";
 
 export interface ScriptState {

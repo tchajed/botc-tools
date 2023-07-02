@@ -1,4 +1,4 @@
-import { Ranking } from "./components/bag";
+import { Ranking } from "./ranking";
 import { SelAction } from "./selection";
 import { ScriptState } from "./state";
 import { Dispatch, SetStateAction } from "react";

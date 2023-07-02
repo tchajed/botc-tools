@@ -1,11 +1,12 @@
 import { CharacterContext } from "./character_context";
-import { randomRanking, SelectedCharacters, sortBag } from "./components/bag";
+import { SelectedCharacters, sortBag } from "./components/bag";
 import { BluffsToggleBtn } from "./components/bluffs";
 import { CharacterSelection } from "./components/characters";
 import { PlayerNameInput } from "./components/player_names";
 import { RandomSetupButton } from "./components/random_setup_btn";
 import { SetupModifiers } from "./components/setup_help";
 import { History, restoreState } from "./history";
+import { randomRanking } from "./ranking";
 import {
   Selection,
   SelAction,

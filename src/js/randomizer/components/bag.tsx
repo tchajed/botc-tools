@@ -1,229 +1,15 @@
-import { CharacterInfo } from "../../botc/roles";
 import { BagCharacter, splitSelectedChars } from "../../botc/setup";
 import "../../icons";
 import { CharacterContext } from "../character_context";
-import {
-  History,
-  SetHistory,
-  historyApply,
-  pureHistoryApply,
-} from "../history";
-import { CharacterSelectionVars, SelAction, Selection } from "../selection";
+import { History, SetHistory } from "../history";
+import { CharacterSelectionVars, Selection } from "../selection";
 import { ScriptState } from "../state";
 import { BluffList } from "./bluffs";
 import { CardInfo, CharacterCard } from "./characters";
+import { RankingBtns } from "./ranking_btns";
 import { BagSetupHelp } from "./setup_help";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { Dispatch, PropsWithChildren, useContext } from "react";
-
-export type Ranking = { [key: string]: number };
-
-// from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-function shuffleArray<T>(array: T[]) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-
-export function randomRanking(characters: CharacterInfo[]): Ranking {
-  const randomOrder = characters.map((c) => c.id);
-  for (let i = 0; i < 3; i++) {
-    // assign copies of riot different rankings
-    randomOrder.push(`riot-${i}`);
-  }
-  for (let i = 0; i < 12; i++) {
-    // assign copies of legion different rankings
-    randomOrder.push(`legion-${i}`);
-  }
-  shuffleArray(randomOrder);
-  const r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
-  return r;
-}
-
-function ShuffleBagBtn(
-  props: PropsWithChildren<{
-    ranking: Ranking;
-    bagSize: number;
-    setRanking: (r: Ranking) => void;
-    setHistory: SetHistory;
-  }>
-): JSX.Element {
-  const characters = useContext(CharacterContext);
-
-  function handleClick() {
-    // save the old state
-    pureHistoryApply(props.setHistory, {
-      type: "replace",
-      state: { ranking: { ...props.ranking } },
-    });
-
-    // create and set a new ranking...
-    const newRanking = randomRanking(characters);
-    props.setRanking(newRanking);
-
-    // ...and save it to history
-    pureHistoryApply(props.setHistory, {
-      type: "push",
-      state: { ranking: { ...newRanking } },
-    });
-  }
-  return (
-    <button
-      id="shuffle-btn"
-      className="btn"
-      disabled={props.bagSize <= 1}
-      onClick={handleClick}
-      title="Shuffle"
-    >
-      {props.children}
-    </button>
-  );
-}
-
-function ClearSelectionBtn(
-  props: PropsWithChildren<{
-    sels: CharacterSelectionVars;
-    ranking: Ranking;
-    setRanking: Dispatch<Ranking>;
-    setHistory: SetHistory;
-  }>
-): JSX.Element {
-  const characters = useContext(CharacterContext);
-  const { selection, bluffs } = props.sels;
-
-  function handleClick() {
-    pureHistoryApply(props.setHistory, {
-      type: "replace",
-      state: {
-        selection: [...selection.chars],
-        bluffs: [...bluffs.chars],
-        ranking: { ...props.ranking },
-      },
-    });
-    selection.dispatch({ type: "clear" });
-    bluffs.dispatch({ type: "clear" });
-
-    // also shuffle the ranking (in case we're setting up a new game)
-    const newRanking = randomRanking(characters);
-    props.setRanking(newRanking);
-
-    pureHistoryApply(props.setHistory, {
-      type: "push",
-      state: { selection: [], bluffs: [], ranking: { ...newRanking } },
-    });
-  }
-  return (
-    <button
-      id="clear-btn"
-      className="btn"
-      disabled={selection.chars.size + bluffs.chars.size == 0}
-      onClick={handleClick}
-      title="Clear"
-    >
-      {props.children}
-    </button>
-  );
-}
-
-function HistoryBtns(props: {
-  setRanking: (r: Ranking) => void;
-  selDispatch: Dispatch<SelAction>;
-  bluffsDispatch: Dispatch<SelAction>;
-  history: History<Partial<ScriptState>>;
-  setHistory: SetHistory;
-}): JSX.Element {
-  const { history, setHistory } = props;
-
-  const histUndoRedo = (direction: "undo" | "redo") => {
-    historyApply(
-      props.setRanking,
-      props.selDispatch,
-      props.bluffsDispatch,
-      history,
-      setHistory,
-      { type: direction == "undo" ? "pop" : "forward" }
-    );
-  };
-
-  const canUndo = history.back.length > 0;
-  const canRedo = history.forward.length > 0;
-
-  return (
-    <>
-      <label htmlFor="undo-btn" className="visuallyhidden">
-        Undo
-      </label>
-      <button
-        id="undo-btn"
-        className="btn"
-        disabled={!canUndo}
-        onClick={() => histUndoRedo("undo")}
-        title="Undo"
-      >
-        <FontAwesomeIcon icon="undo" />
-      </button>
-      <label htmlFor="redo-btn" className="visuallyhidden">
-        Redo
-      </label>
-      <button
-        id="redo-btn"
-        className="btn"
-        disabled={!canRedo}
-        onClick={() => histUndoRedo("redo")}
-        title="Redo"
-      >
-        <FontAwesomeIcon icon="redo" />
-      </button>
-    </>
-  );
-}
-
-function BagHeader(props: {
-  sels: CharacterSelectionVars;
-  ranking: Ranking;
-  bagSize: number;
-  setRanking: (r: Ranking) => void;
-  setFsRole: (r: string) => void;
-  history: History<Partial<ScriptState>>;
-  setHistory: SetHistory;
-}): JSX.Element {
-  const { ranking, sels } = props;
-  return (
-    <div className="bag-header">
-      <h2>Bag</h2>
-      <div className="bag-btns">
-        <label htmlFor="shuffle-btn" className="visuallyhidden">
-          Shuffle
-        </label>
-        <ShuffleBagBtn
-          bagSize={props.bagSize}
-          ranking={ranking}
-          setRanking={props.setRanking}
-          setHistory={props.setHistory}
-        >
-          <FontAwesomeIcon icon="shuffle" />
-        </ShuffleBagBtn>
-        <label htmlFor="clear-btn" className="visuallyhidden">
-          Clear
-        </label>
-        <ClearSelectionBtn
-          sels={sels}
-          ranking={ranking}
-          setRanking={props.setRanking}
-          setHistory={props.setHistory}
-        >
-          <FontAwesomeIcon icon="trash" />
-        </ClearSelectionBtn>
-        <HistoryBtns
-          {...props}
-          selDispatch={sels.selection.dispatch}
-          bluffsDispatch={sels.bluffs.dispatch}
-        />
-      </div>
-    </div>
-  );
-}
+import { Ranking } from "randomizer/ranking";
+import React, { useContext } from "react";
 
 export function charKey(character: BagCharacter): string {
   return character.demonNum !== undefined
@@ -265,11 +51,14 @@ export function SelectedCharacters(
     <div>
       <div className="selected-characters">
         <div className="column">
-          <BagHeader
-            sels={{ selection, bluffs }}
-            bagSize={bag.length}
-            {...props}
-          />
+          <div className="bag-header">
+            <h2>Bag</h2>
+            <RankingBtns
+              sels={{ selection, bluffs }}
+              bagSize={bag.length}
+              {...props}
+            />
+          </div>
           <div>
             <BagSetupHelp
               numPlayers={props.numPlayers}
