@@ -1,4 +1,9 @@
-import { CharacterInfo } from "../botc/roles";
+import {
+  CharacterInfo,
+  NonTeensyDemonInfo,
+  NonTeensyMinionInfo,
+  TeensyLunatic,
+} from "../botc/roles";
 import { NightOrders, Script } from "../botc/script";
 import {
   characterClass,
@@ -135,10 +140,33 @@ function CharacterList(props: {
   orders: NightOrders;
   firstNight: boolean;
   selection: Selection | null;
+  teensy: boolean;
   setCard: SetFullscreenCard;
 }): JSX.Element {
   const { orders, firstNight } = props;
-  const order = firstNight ? orders.firstNight : orders.otherNights;
+  let order = firstNight ? orders.firstNight : orders.otherNights;
+  if (props.selection != null || props.teensy) {
+    if (props.teensy) {
+      // skip minion and demon info
+      order = order.filter((c) => c.id != "MINION" && c.id != "DEMON");
+      order = order.map((c) => {
+        if (c.id == "lunatic") {
+          return TeensyLunatic;
+        }
+        return c;
+      });
+    } else {
+      order = order.map((c) => {
+        if (c.id == "MINION") {
+          return NonTeensyMinionInfo;
+        }
+        if (c.id == "DEMON") {
+          return NonTeensyDemonInfo;
+        }
+        return c;
+      });
+    }
+  }
 
   return (
     <table className="night-sheet">
@@ -165,6 +193,7 @@ function Sheet(props: {
   script: Script;
   firstNight: boolean;
   selection: Selection | null;
+  teensy: boolean;
   setCard: SetFullscreenCard;
 }): JSX.Element {
   const { script, firstNight, selection, setCard } = props;
@@ -176,6 +205,7 @@ function Sheet(props: {
         firstNight={firstNight}
         selection={selection}
         setCard={setCard}
+        teensy={props.teensy}
       />
       <Jinxes script={script} />
     </div>
@@ -225,6 +255,7 @@ export function NightOrder(props: {
   selection: Selection;
   bluffs: CharacterInfo[];
   validSetup: boolean;
+  teensy: boolean;
   anySetup: boolean;
 }): JSX.Element {
   const { active, selection, bluffs, validSetup, anySetup } = props;
@@ -240,31 +271,31 @@ export function NightOrder(props: {
   const [bluffsToShow, setShowBluffs] = React.useState<CharacterInfo[] | null>(
     null
   );
-  const showBluffs = () => {
-    setShowBluffs(bluffs);
-  };
 
-  let newSelection: Selection | null = selection;
+  // The subset of characters to show, or null if all should be shown.
+  let shownSelection: Selection | null = selection;
   if (showAll || !validSetup) {
-    newSelection = null; // means show all
+    shownSelection = null; // means show all
   }
 
   return (
-    <ShowBluffsContext.Provider value={showBluffs}>
+    <ShowBluffsContext.Provider value={() => setShowBluffs(bluffs)}>
       <div className={visibleClass(active)}>
         <Sheet
           script={props.script}
           firstNight={true}
-          selection={newSelection}
+          selection={shownSelection}
           setCard={setFullscreenCard}
+          teensy={props.teensy}
         />
         <div className="page-divider-top"></div>
         <div className="page-divider-bottom"></div>
         <Sheet
           script={props.script}
           firstNight={false}
-          selection={newSelection}
+          selection={shownSelection}
           setCard={setFullscreenCard}
+          teensy={props.teensy}
         />
         {anySetup && (
           <ToggleAllRoles

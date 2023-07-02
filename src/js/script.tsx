@@ -56,6 +56,7 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
   bluffList.sort((c1, c2) => c1.name.localeCompare(c2.name));
 
   const { bag } = splitSelectedChars(characters, selection, numPlayers);
+  const teensy = 5 <= numPlayers && numPlayers <= 6;
   const completeSetup = bag.length == numPlayers;
   // heuristic for whether any attempt has been made to set roles:
   // if this is false, the toggle button isn't even shown
@@ -118,6 +119,7 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
             script={script}
             selection={selection}
             bluffs={bluffList}
+            teensy={teensy}
             validSetup={completeSetup}
             anySetup={anySetup}
             key="night"

@@ -100,6 +100,18 @@ MinionInfo.firstNight = {
   index: nightsheet.firstNight.indexOf("MINION"),
 };
 
+export const NonTeensyMinionInfo: CharacterInfo = new CharacterInfo(
+  MinionInfo.id,
+  MinionInfo.name,
+  MinionInfo.roleType,
+  MinionInfo.edition
+);
+NonTeensyMinionInfo.firstNight = {
+  details: `Wake all Minions. Show the THIS IS THE DEMON token.
+  Point to the Demon.`,
+  index: nightsheet.firstNight.indexOf("MINION"),
+};
+
 export const DemonInfo: CharacterInfo = new CharacterInfo(
   "DEMON",
   "Demon Info",
@@ -110,6 +122,19 @@ DemonInfo.firstNight = {
   details: `If there are 7 or more players:<tab>Wake the Demon.
   <tab>Show the THESE ARE YOUR MINIONS token. Point to all Minions.
   <tab>Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
+  index: nightsheet.firstNight.indexOf("DEMON"),
+};
+
+export const NonTeensyDemonInfo: CharacterInfo = new CharacterInfo(
+  DemonInfo.id,
+  DemonInfo.name,
+  DemonInfo.roleType,
+  DemonInfo.edition
+);
+NonTeensyDemonInfo.firstNight = {
+  details: `Wake the Demon.
+  Show the THESE ARE YOUR MINIONS token. Point to all Minions.
+  Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
   index: nightsheet.firstNight.indexOf("DEMON"),
 };
 
@@ -234,3 +259,27 @@ export function getCharacter(id: string): CharacterInfo {
   }
   return c;
 }
+
+export const TeensyLunatic: CharacterInfo = ((lunatic) => {
+  if (!lunatic) {
+    throw new Error("could not get lunatic character");
+  }
+  const info = new CharacterInfo(
+    lunatic.id,
+    lunatic.name,
+    lunatic.roleType,
+    lunatic.edition
+  );
+  info.ability = lunatic.ability;
+
+  info.firstNight = {
+    details: `Wake the demon. Show the YOU ARE token, and the Demon token.
+    Show THIS PLAYER IS and the Lunatic token, point to the Lunatic.`,
+    index: lunatic.firstNight?.index || 0,
+  };
+  info.otherNights = {
+    details: "Do whatever is needed to simulate the demon.",
+    index: lunatic.otherNights?.index || 0,
+  };
+  return info;
+})(roles.get("lunatic"));
