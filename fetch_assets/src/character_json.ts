@@ -26,6 +26,6 @@ export async function downloadCharacterData(assetsPath: string) {
         responseEncoding: "binary",
       });
       return fs.promises.writeFile(destFile, data);
-    })
+    }),
   );
 }

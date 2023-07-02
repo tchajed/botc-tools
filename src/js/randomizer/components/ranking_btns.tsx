@@ -18,7 +18,7 @@ function ShuffleBagBtn(
     bagSize: number;
     setRanking: (r: Ranking) => void;
     setHistory: SetHistory;
-  }>
+  }>,
 ): JSX.Element {
   const characters = useContext(CharacterContext);
 
@@ -58,7 +58,7 @@ function ClearSelectionBtn(
     ranking: Ranking;
     setRanking: Dispatch<Ranking>;
     setHistory: SetHistory;
-  }>
+  }>,
 ): JSX.Element {
   const characters = useContext(CharacterContext);
   const { selection, bluffs } = props.sels;
@@ -113,7 +113,7 @@ function HistoryBtns(props: {
       props.bluffsDispatch,
       history,
       setHistory,
-      { type: direction == "undo" ? "pop" : "forward" }
+      { type: direction == "undo" ? "pop" : "forward" },
     );
   };
 

@@ -10,7 +10,7 @@ function splitLinesCircle(
   radius: number,
   yStart: number,
   yDelta: number,
-  widthFraction = 1
+  widthFraction = 1,
 ): string[] {
   let text = abilityText;
   let y = yStart - yDelta / 2;
@@ -58,11 +58,11 @@ function decideAbilitySplit(
   abilityText: string,
   radius: number,
   yStart: number,
-  yDelta: number
+  yDelta: number,
 ): { lines: string[]; yStart: number; yDelta: number } {
   function tryStart(
     yStart: number,
-    widthFraction = 1
+    widthFraction = 1,
   ): {
     lines: string[];
     yStart: number;
@@ -74,7 +74,7 @@ function decideAbilitySplit(
       radius,
       yStart,
       yDelta,
-      widthFraction
+      widthFraction,
     );
     return { lines, yStart, yDelta };
   }
@@ -96,7 +96,7 @@ function decideAbilitySplit(
 
 export function drawToken(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
-  character: BagCharacter
+  character: BagCharacter,
 ): Promise<void> {
   // clear just the circle we're going to draw to
   ctx.save();
@@ -133,7 +133,7 @@ export function drawToken(
     ability || "",
     120,
     50,
-    20
+    20,
   );
   abilityLines.forEach((line, i) => {
     ctx.fillText(line, 120, yStart + yDelta * i);

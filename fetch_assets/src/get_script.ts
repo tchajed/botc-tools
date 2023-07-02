@@ -30,7 +30,7 @@ type ScriptJsonResp = ContentRow[];
 /** Try to find a id: "_meta" metadata element. Not all scripts have such an
  * element (eg, 19). */
 function metaFromContents(
-  content: ContentRow[]
+  content: ContentRow[],
 ): { name: string; author: string } | null {
   for (const c of content) {
     if (c.id == "_meta" && "name" in c) {
@@ -45,7 +45,7 @@ function idsFromContents(content: ContentRow[]): string[] {
 }
 
 async function getScriptResp(
-  id: string
+  id: string,
 ): Promise<ScriptInstanceResp | ScriptJsonResp | null> {
   const resp = await axios
     .get(`${apiBase}/scripts/${id}/?format=json`)

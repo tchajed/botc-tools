@@ -15,7 +15,7 @@ async function init() {
   root.render(
     <React.StrictMode>
       <App scripts={scripts} />
-    </React.StrictMode>
+    </React.StrictMode>,
   );
 }
 

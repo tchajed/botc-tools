@@ -62,7 +62,7 @@ function Ability(props: { ability: string | null }): JSX.Element {
     /(\[[^]*\])/g,
     (match, i) => {
       return <strong key={`bold-${i}`}>{match}</strong>;
-    }
+    },
   );
   return <span>{html}</span>;
 }

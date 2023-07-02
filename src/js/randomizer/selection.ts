@@ -97,7 +97,7 @@ function addMandatorySelections(selection: Selection) {
 }
 
 export function createSelectionReducer(
-  characters: CharacterInfo[]
+  characters: CharacterInfo[],
 ): SelectionReducer {
   const reduce = requiredSelectionReducer(requiredSelection(characters));
   return (sel, a) => {
@@ -108,7 +108,7 @@ export function createSelectionReducer(
 }
 
 export const bluffsReducer: SelectionReducer = requiredSelectionReducer(
-  new Set()
+  new Set(),
 );
 
 export type SelectionVar = {

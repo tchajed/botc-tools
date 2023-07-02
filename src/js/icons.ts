@@ -52,7 +52,7 @@ library.add(
   faCircle,
   faTableList,
   faQrcode,
-  faMagicWandSparkles
+  faMagicWandSparkles,
 );
 
 export default {};

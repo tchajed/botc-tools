@@ -44,11 +44,11 @@ function getNightOrders(characters: CharacterInfo[]): NightOrders {
 
   firstNightChars.sort(
     (info1, info2) =>
-      (info1.firstNight?.index || 0) - (info2.firstNight?.index || 0)
+      (info1.firstNight?.index || 0) - (info2.firstNight?.index || 0),
   );
   otherNightChars.sort(
     (info1, info2) =>
-      (info1.otherNights?.index || 0) - (info2.otherNights?.index || 0)
+      (info1.otherNights?.index || 0) - (info2.otherNights?.index || 0),
   );
 
   return {
@@ -59,7 +59,7 @@ function getNightOrders(characters: CharacterInfo[]): NightOrders {
 
 export function isTeensyville(characters: CharacterInfo[]): boolean {
   const numTownsfolk = characters.filter(
-    (c) => c.roleType == "townsfolk"
+    (c) => c.roleType == "townsfolk",
   ).length;
   // normal scripts have 13 townsfolk while teensyville is 6
   return numTownsfolk < 10;
@@ -70,7 +70,7 @@ export function onlyBaseThree(characters: CharacterInfo[]): boolean {
     (c) =>
       c.edition != "other" ||
       c.roleType == "travellers" ||
-      c.roleType == "fabled"
+      c.roleType == "fabled",
   );
 }
 

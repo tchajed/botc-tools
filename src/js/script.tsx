@@ -44,11 +44,11 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
 
   // mostly randomizer state (but influences night sheet)
   const [numPlayers, setNumPlayers] = useState<number>(
-    script.teensyville ? 5 : 8
+    script.teensyville ? 5 : 8,
   );
   const [selection, selDispatch] = useReducer(
     createSelectionReducer(characters),
-    initialSelection(characters)
+    initialSelection(characters),
   );
   const [bluffs, bluffsDispatch] = useReducer(bluffsReducer, new Set<string>());
 
@@ -73,7 +73,7 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
         addMetaProperty("og:title", `${script.title} - roles`);
         addMetaProperty(
           "og:url",
-          `${document.location.origin}/scripts.html?id=${script.id}`
+          `${document.location.origin}/scripts.html?id=${script.id}`,
         );
         document.querySelector(`meta[name="description"]`)?.remove();
         break;
@@ -83,7 +83,7 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
         addMetaProperty("og:title", `${script.title} - night order`);
         addMetaProperty(
           "og:url",
-          `${document.location.origin}/scripts.html?id=${script.id}&page=night`
+          `${document.location.origin}/scripts.html?id=${script.id}&page=night`,
         );
         document.querySelector(`meta[name="description"]`)?.remove();
         break;
@@ -92,7 +92,7 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
         addMetaProperty("og:title", `${script.title} - assign roles`);
         addMetaProperty(
           "og:url",
-          `${document.location.origin}/scripts.html?id=${script.id}&page=assign`
+          `${document.location.origin}/scripts.html?id=${script.id}&page=assign`,
         );
         document.querySelector(`meta[name="description"]`)?.remove();
         break;

@@ -17,7 +17,7 @@ export function RandomSetupButton(props: {
   const randomSelection = randomCompleteSelection(
     numPlayers,
     characters,
-    selection
+    selection,
   );
   const haveNewSelection =
     randomSelection != null && randomSelection.size != selection.size;

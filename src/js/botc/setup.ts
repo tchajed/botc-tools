@@ -56,7 +56,7 @@ export function actualDistribution(characters: CharacterInfo[]): Distribution {
  * (Riot) for each nominal minion. */
 export function effectiveDistribution(
   numPlayers: number,
-  characters: CharacterInfo[]
+  characters: CharacterInfo[],
 ): Distribution {
   const dist = zeroDistribution();
   const targetDist = distributionForCount(numPlayers);
@@ -148,7 +148,7 @@ function distTotal(dist: Distribution): number {
 
 function applyModification(
   old_dist: Distribution,
-  mod: SetupModification
+  mod: SetupModification,
 ): Distribution[] {
   const dist: Distribution = { ...old_dist };
   switch (mod.type) {
@@ -230,7 +230,7 @@ function applyModification(
 
 function clampedValid(
   dist: Distribution,
-  characters: CharacterInfo[]
+  characters: CharacterInfo[],
 ): boolean {
   const totalDist = actualDistribution(characters);
   // allow arbitrary number of demons for clamping purposes (for Riot, Legion)
@@ -259,7 +259,7 @@ export function modifiesSetup(id: string): boolean {
 export function modifiedDistribution(
   dist: Distribution,
   mods: SetupModification[],
-  characters: CharacterInfo[]
+  characters: CharacterInfo[],
 ): Distribution[] {
   let dists = [dist];
   for (const mod of mods) {
@@ -283,13 +283,13 @@ export function modifyingCharacters(selection: Set<string>): CharacterInfo[] {
 export function targetDistributions(
   numPlayers: number,
   modifying: CharacterInfo[],
-  characters: CharacterInfo[]
+  characters: CharacterInfo[],
 ): Distribution[] {
   const baseDistribution = distributionForCount(numPlayers);
   const newDistributions = modifiedDistribution(
     baseDistribution,
     modifying.map((c) => SetupChanges[c.id]),
-    characters
+    characters,
   );
   // fallback for some edge cases (specifically High Stakes Betting where
   // without Riot there are no valid setups)
@@ -309,10 +309,10 @@ export function sameDistribution(d1: Distribution, d2: Distribution): boolean {
 
 export function roleTypesDefinitelyDone(
   targets: Distribution[],
-  d: Distribution
+  d: Distribution,
 ): RoleType[] {
   return DistRoles.filter((roleType) =>
-    targets.every((td) => d[roleType] >= td[roleType])
+    targets.every((td) => d[roleType] >= td[roleType]),
   );
 }
 
@@ -323,7 +323,7 @@ export type BagCharacter = CardInfo & { demonNum?: number };
 export function splitSelectedChars(
   characters: CharacterInfo[],
   selection: Set<string>,
-  numPlayers: number
+  numPlayers: number,
 ): {
   bag: BagCharacter[];
   outsideBag: CardInfo[];

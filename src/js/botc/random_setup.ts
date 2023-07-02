@@ -14,7 +14,7 @@ function randomChoice<T>(a: T[]): T {
 
 function effectiveSelection(
   numPlayers: number,
-  selection: Selection
+  selection: Selection,
 ): Distribution {
   const selectedChars = [...selection.values()].map((id) => getCharacter(id));
   return effectiveDistribution(numPlayers, selectedChars);
@@ -23,12 +23,12 @@ function effectiveSelection(
 function nextRandomChar(
   numPlayers: number,
   characters: CharacterInfo[],
-  selection: Selection
+  selection: Selection,
 ): { id: string } | "done" | "fail" {
   const newDists = targetDistributions(
     numPlayers,
     modifyingCharacters(selection),
-    characters
+    characters,
   );
 
   const currentDist = effectiveSelection(numPlayers, selection);
@@ -79,7 +79,7 @@ function nextRandomChar(
 function tryRandomCompleteSelection(
   numPlayers: number,
   characters: CharacterInfo[],
-  selection: Selection
+  selection: Selection,
 ): Selection | "fail" {
   const newSelection = new Set(selection);
   let nextChar = nextRandomChar(numPlayers, characters, newSelection);
@@ -109,14 +109,14 @@ function tryRandomCompleteSelection(
 export function randomCompleteSelection(
   numPlayers: number,
   characters: CharacterInfo[],
-  selection: Selection
+  selection: Selection,
 ): Selection | null {
   // try a few times to get a valid selection
   for (let i = 0; i < 5; i++) {
     const newSelection = tryRandomCompleteSelection(
       numPlayers,
       characters,
-      selection
+      selection,
     );
     if (newSelection == "fail") {
       continue;

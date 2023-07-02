@@ -15,7 +15,7 @@ const TWOPI = 2 * Math.PI;
 function drawCircledNumber(
   ctx: RenderingContext2D,
   n: number,
-  bgColor: string
+  bgColor: string,
 ) {
   ctx.save();
 
@@ -63,7 +63,7 @@ export async function drawCharactersArc(
   characters: BagCharacter[],
   players: string[],
   arcAngle: number,
-  radius: number
+  radius: number,
 ) {
   const startAngle = (TWOPI - arcAngle) / 2;
   const anglePerChar = arcAngle / (characters.length - 1);
@@ -71,13 +71,13 @@ export async function drawCharactersArc(
   firstNightOrder.sort((c1, c2) =>
     c1.firstNight == null || c2.firstNight == null
       ? 0
-      : c1.firstNight.index - c2.firstNight.index
+      : c1.firstNight.index - c2.firstNight.index,
   );
   const otherNightsOrder = characters.filter((c) => c.otherNights != null);
   otherNightsOrder.sort((c1, c2) =>
     c1.otherNights == null || c2.otherNights == null
       ? 0
-      : c1.otherNights.index - c2.otherNights.index
+      : c1.otherNights.index - c2.otherNights.index,
   );
   await Promise.all(
     characters.map((char, i) => {
@@ -115,7 +115,7 @@ export async function drawCharactersArc(
       }
       ctx.restore();
       return r;
-    })
+    }),
   );
   return;
 }
@@ -124,7 +124,7 @@ function drawTitle(
   ctx: RenderingContext2D,
   title: string,
   x: number,
-  y: number
+  y: number,
 ) {
   ctx.save();
   ctx.font = "24pt Barlow";
@@ -160,7 +160,7 @@ function drawHeading(ctx: RenderingContext2D, text: string) {
 
 async function drawCharactersRow(
   ctx: RenderingContext2D,
-  characters: BagCharacter[]
+  characters: BagCharacter[],
 ): Promise<void> {
   const gapBetween = 10;
   await Promise.all(
@@ -170,13 +170,13 @@ async function drawCharactersRow(
       const r = drawToken(ctx, char);
       ctx.restore();
       return r;
-    })
+    }),
   );
 }
 
 async function drawBluffs(
   ctx: RenderingContext2D,
-  bluffs: BagCharacter[]
+  bluffs: BagCharacter[],
 ): Promise<void> {
   if (bluffs.length == 0) {
     return;
@@ -196,7 +196,7 @@ async function drawBluffs(
 
 async function drawOutsideBag(
   ctx: RenderingContext2D,
-  outsideBag: BagCharacter[]
+  outsideBag: BagCharacter[],
 ): Promise<void> {
   if (outsideBag.length == 0) {
     return;
@@ -251,7 +251,7 @@ const othersBluffGap = 30;
 
 async function drawTownsquare(
   canvas: HTMLCanvasElement | OffscreenCanvas,
-  data: TownsquareData
+  data: TownsquareData,
 ): Promise<void> {
   const { bag, players, title } = data;
   const numPlayers = bag.length;
@@ -273,7 +273,7 @@ async function drawTownsquare(
     canvas,
     radius * 2 + margin * 2,
     radius * 2 + margin * 2 + heightAdjust,
-    3
+    3,
   );
   const aspectRatio = canvas.height / canvas.width;
   // set a fixed, small display size
@@ -283,7 +283,7 @@ async function drawTownsquare(
   }
 
   const ctx: RenderingContext2D | null = canvas.getContext(
-    "2d"
+    "2d",
   ) as RenderingContext2D | null;
   if (!ctx) {
     return;
@@ -342,7 +342,7 @@ export function TownsquareImage(props: TownsquareData): JSX.Element {
         },
         (err) => {
           console.warn(`could not copy to clipboard: ${err}`);
-        }
+        },
       );
     } else {
       console.warn("image copy not supported by browser");

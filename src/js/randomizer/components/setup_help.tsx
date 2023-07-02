@@ -118,13 +118,13 @@ export function SetupModifiers(props: {
   const newDistributions = targetDistributions(
     numPlayers,
     modified,
-    characters
+    characters,
   );
 
   const selected = characters.filter((c) => selection.has(c.id));
   const actual = effectiveDistribution(numPlayers, selected);
   const distributionCorrect = newDistributions.some((dist) =>
-    sameDistribution(dist, actual)
+    sameDistribution(dist, actual),
   );
 
   let goalDistributionElement: JSX.Element = (
@@ -138,7 +138,7 @@ export function SetupModifiers(props: {
             <>
               {acc} or {x}
             </>
-          )
+          ),
         )}
     </>
   );
@@ -152,7 +152,7 @@ export function SetupModifiers(props: {
           minion: 0,
           demon: dist.demon,
         };
-      })
+      }),
     );
     goalDistributionElement = (
       <>
@@ -165,7 +165,7 @@ export function SetupModifiers(props: {
               <>
                 {acc} or {x}
               </>
-            )
+            ),
           )}
       </>
     );

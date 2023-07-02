@@ -121,10 +121,10 @@ export function Randomizer({
   const targetDists = targetDistributions(
     numPlayers,
     modifyingCharacters(selection),
-    characters
+    characters,
   );
   const selectedCharInfo: CharacterInfo[] = [...selection].map((id) =>
-    getCharacter(id)
+    getCharacter(id),
   );
   const actual = effectiveDistribution(numPlayers, selectedCharInfo);
   const rolesNotNeeded = roleTypesDefinitelyDone(targetDists, actual);
@@ -132,7 +132,7 @@ export function Randomizer({
   const { bag, outsideBag } = splitSelectedChars(
     characters,
     selection,
-    numPlayers
+    numPlayers,
   );
   sortBag(bag, ranking);
 

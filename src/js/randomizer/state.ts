@@ -46,7 +46,7 @@ export async function storeState(
     ranking: Ranking;
     selection: Set<string>;
     bluffs: Set<string>;
-  }
+  },
 ): Promise<void> {
   const lastSave = new Date();
   const s: ScriptState = {

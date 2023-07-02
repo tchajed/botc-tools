@@ -64,7 +64,7 @@ function historyForward<T>(h: History<T>): { h: History<T>; state?: T } {
 
 function historyStep<T>(
   h: History<T>,
-  a: HistoryAction<T>
+  a: HistoryAction<T>,
 ): { h: History<T>; state?: T } {
   switch (a.type) {
     case "push":
@@ -88,7 +88,7 @@ export type SetHistory = Dispatch<
 
 export function pureHistoryApply<T>(
   setHistory: Dispatch<SetStateAction<History<T>>>,
-  a: PureHistoryAction<T>
+  a: PureHistoryAction<T>,
 ) {
   setHistory((h) => historyStep(h, a).h);
 }
@@ -97,7 +97,7 @@ export function restoreState(
   setRanking: (r: Ranking) => void,
   selectionDispatch: (a: SelAction) => void,
   bluffsDispatch: (a: SelAction) => void,
-  state: Partial<ScriptState>
+  state: Partial<ScriptState>,
 ) {
   if (state.ranking) {
     setRanking(state.ranking);
@@ -116,7 +116,7 @@ export function historyApply(
   bluffsDispatch: (a: SelAction) => void,
   h: History<Partial<ScriptState>>,
   setHistory: SetHistory,
-  a: HistoryAction<Partial<ScriptState>>
+  a: HistoryAction<Partial<ScriptState>>,
 ) {
   const { h: newH, state } = historyStep(h, a);
   if (state) {

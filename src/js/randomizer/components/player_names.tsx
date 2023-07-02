@@ -14,7 +14,7 @@ export function PlayerNameInput(props: {
 
   const debouncedHandleChange = useMemo(
     () => debounce(handleChange, 300),
-    [props.setPlayers]
+    [props.setPlayers],
   );
 
   useEffect(() => {

@@ -41,7 +41,7 @@ export function CharacterCard(props: {
         "character",
         { selected: props.selected },
         { "bluff-selected": props.bluffSelected },
-        { "not-needed": props.notNeeded }
+        { "not-needed": props.notNeeded },
       )}
       onClick={props.onClick}
     >
@@ -56,13 +56,13 @@ export function CharacterCard(props: {
 export function CharacterSelection(
   props: CharacterSelectionVars & { doneRoles: string[] } & {
     selectBluffs: boolean;
-  }
+  },
 ): JSX.Element {
   const chars = useContext(CharacterContext);
   const { selection, bluffs } = props;
 
   function handleClick(
-    char: CharacterInfo
+    char: CharacterInfo,
   ): (ev: React.MouseEvent<HTMLElement>) => void {
     return () => {
       if (props.selectBluffs) {

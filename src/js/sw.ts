@@ -22,7 +22,7 @@ if ("serviceWorker" in navigator) {
   const showSkipWaitingPrompt = async () => {
     console.log(
       `A new version of the app is available and ` +
-        `will be installed when all tabs are closed.`
+        `will be installed when all tabs are closed.`,
     );
 
     // Assuming the user accepted the update, set up a listener

@@ -10,7 +10,7 @@ export function drawTextAlongArc(
   centerY: number,
   radius: number,
   angle: number,
-  top?: boolean
+  top?: boolean,
 ) {
   ctx.save();
   ctx.translate(centerX, centerY);
@@ -30,7 +30,7 @@ export function drawTextAlongArc(
     ctx.rotate(
       (top ? 1 : -1) *
         ((angle * ctx.measureText(str.slice(0, i)).width) / totalWidth +
-          charCompensation / radius)
+          charCompensation / radius),
     );
     // go straight up in the current rotation
     ctx.translate(0, radius);
@@ -48,7 +48,7 @@ export function setCanvasResolution(
   canvas: HTMLCanvasElement | OffscreenCanvas,
   w: number,
   h: number,
-  ratio?: number
+  ratio?: number,
 ) {
   const pixelRatio = ratio || window.devicePixelRatio || 1;
   canvas.width = w * pixelRatio;
@@ -66,7 +66,7 @@ export function setCanvasResolution(
 export function moveToAngle(
   ctx: RenderingContext2D,
   radius: number,
-  angle_deg: number
+  angle_deg: number,
 ) {
   ctx.rotate((-angle_deg * Math.PI) / 180);
   ctx.translate(radius, 0);

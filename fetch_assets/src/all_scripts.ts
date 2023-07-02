@@ -13,7 +13,7 @@ interface Resp {
 }
 
 async function getPage(
-  page: number
+  page: number,
 ): Promise<{ count: number; data: ScriptData[]; next: boolean }> {
   const resp = await axios.get(
     "https://botc-scripts.azurewebsites.net/api/scripts/",
@@ -23,7 +23,7 @@ async function getPage(
         format: "json",
         page,
       },
-    }
+    },
   );
   const data: Resp = resp.data;
   return {
@@ -38,7 +38,7 @@ export async function fetchAllScripts(): Promise<ScriptData[]> {
   const bar = new cliProgress.SingleBar(
     // noTTYOutput and notTTYSchedule enable output in GitHub Actions (every 5s)
     { noTTYOutput: true, notTTYSchedule: 5000, etaBuffer: 20 },
-    cliProgress.Presets.rect
+    cliProgress.Presets.rect,
   );
 
   const { count, data, next } = await getPage(1);
@@ -66,7 +66,7 @@ export async function fetchAllScripts(): Promise<ScriptData[]> {
         const r = await getPage(page);
         bar.increment(r.data.length);
         return r;
-      })
+      }),
     );
     for (const { data, next } of allPages) {
       results.push(...data);

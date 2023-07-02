@@ -92,7 +92,7 @@ export const MinionInfo: CharacterInfo = new CharacterInfo(
   "MINION",
   "Minion Info",
   "minion",
-  "other"
+  "other",
 );
 MinionInfo.firstNight = {
   details: `If 7 or more players: <tab>Wake all Minions. Show the THIS IS THE DEMON token.
@@ -104,7 +104,7 @@ export const NonTeensyMinionInfo: CharacterInfo = new CharacterInfo(
   MinionInfo.id,
   MinionInfo.name,
   MinionInfo.roleType,
-  MinionInfo.edition
+  MinionInfo.edition,
 );
 NonTeensyMinionInfo.firstNight = {
   details: `Wake all Minions. Show the THIS IS THE DEMON token.
@@ -116,7 +116,7 @@ export const DemonInfo: CharacterInfo = new CharacterInfo(
   "DEMON",
   "Demon Info",
   "demon",
-  "other"
+  "other",
 );
 DemonInfo.firstNight = {
   details: `If there are 7 or more players:<tab>Wake the Demon.
@@ -129,7 +129,7 @@ export const NonTeensyDemonInfo: CharacterInfo = new CharacterInfo(
   DemonInfo.id,
   DemonInfo.name,
   DemonInfo.roleType,
-  DemonInfo.edition
+  DemonInfo.edition,
 );
 NonTeensyDemonInfo.firstNight = {
   details: `Wake the Demon.
@@ -192,7 +192,7 @@ function createRoleData(): Map<string, CharacterInfo> {
         id,
         name,
         validRole,
-        versionToEdition(role.version)
+        versionToEdition(role.version),
       );
       roles.set(id, info);
     } else {
@@ -268,7 +268,7 @@ export const TeensyLunatic: CharacterInfo = ((lunatic) => {
     lunatic.id,
     lunatic.name,
     lunatic.roleType,
-    lunatic.edition
+    lunatic.edition,
   );
   info.ability = lunatic.ability;
 

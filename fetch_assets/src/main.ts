@@ -84,7 +84,7 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string) {
       }
       await fs.promises.writeFile(destFile, JSON.stringify(script));
       console.log(`downloaded ${id} - ${script.title}`);
-    })
+    }),
   );
 }
 
@@ -108,7 +108,7 @@ async function cleanAssets(assetsDir: string) {
         return;
       }
       await fs.promises.rm(`${assetsDir}/${name}`, { recursive: true });
-    })
+    }),
   );
 }
 
@@ -121,8 +121,8 @@ async function main() {
     .addOption(
       new Option(
         "--all",
-        "Download all assets (shorthand for --json --icons --all-scripts)"
-      ).implies({ json: true, icons: true, allScripts: true })
+        "Download all assets (shorthand for --json --icons --all-scripts)",
+      ).implies({ json: true, icons: true, allScripts: true }),
     )
     .option("--clean", "Delete any existing assets")
     .option("--json", "Download JSON game data")

@@ -28,7 +28,7 @@ function characterList(script: ScriptData): string[] {
 // match scripts that have a list of characters
 function characterQueryMatches(
   characters: string,
-  scripts: ScriptData[]
+  scripts: ScriptData[],
 ): ScriptData[] {
   const terms = characters.split(" ");
 
@@ -37,13 +37,13 @@ function characterQueryMatches(
       matchSorter(results, char.replace("-", ""), {
         keys: [characterList],
       }),
-    scripts
+    scripts,
   );
 }
 
 export function queryMatches(
   scripts: ScriptData[],
-  query: string
+  query: string,
 ): ScriptData[] {
   let matches: ScriptData[];
   if (query == "") {
@@ -56,8 +56,8 @@ export function queryMatches(
         ...characterQueryMatches(
           query,
           // start with non-matching scripts
-          scripts.filter((s) => !matches.some((m) => m.pk == s.pk))
-        )
+          scripts.filter((s) => !matches.some((m) => m.pk == s.pk)),
+        ),
       );
     }
   }

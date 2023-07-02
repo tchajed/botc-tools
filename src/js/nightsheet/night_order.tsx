@@ -269,7 +269,7 @@ export function NightOrder(props: {
   const [showAll, setShowAll] = useState(false);
   const [fullscreenCard, setFullscreenCard] = useState<InfoCard | null>(null);
   const [bluffsToShow, setShowBluffs] = React.useState<CharacterInfo[] | null>(
-    null
+    null,
   );
 
   // The subset of characters to show, or null if all should be shown.

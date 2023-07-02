@@ -13,7 +13,7 @@ http.globalAgent.maxSockets = 10;
 async function completeQuery(
   params: { [key: string]: string },
   continueParam: string,
-  continueVal: string | null = null
+  continueVal: string | null = null,
 ): Promise<object[]> {
   if (continueVal !== null) {
     params[continueParam] = continueVal;
@@ -34,7 +34,7 @@ async function completeQuery(
   const rest = await completeQuery(
     params,
     continueParam,
-    data.continue[continueParam]
+    data.continue[continueParam],
   );
   // insert the original results at the front of the list
   rest.unshift(data.query);
@@ -61,7 +61,7 @@ export function allIcons(): Promise<Icon[]> {
       aifrom: "Icon_",
       aito: "J",
     },
-    "aicontinue"
+    "aicontinue",
   ).then((results) => {
     const images: Icon[] = [];
     for (const r of results) {
@@ -91,7 +91,7 @@ interface DownloadedIcon {
 /** Download a list of icons and return the raw data in memory.  */
 export async function downloadIcons(
   icons: Icon[],
-  progressCb: (inc: number) => void
+  progressCb: (inc: number) => void,
 ): Promise<DownloadedIcon[]> {
   async function downloadIcon(icon: Icon): Promise<ArrayBuffer> {
     const { data } = await axios.get(icon.url, {
@@ -109,8 +109,8 @@ export async function downloadIcons(
         downloadIcon(icon).then((data) => {
           progressCb(1);
           return { icon, data };
-        })
-      )
+        }),
+      ),
     );
     downloads.push(...nextBatch);
   }
@@ -149,6 +149,6 @@ export async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
     downloads.map((dl) => {
       const path = `${imgDir}/${iconFileName(dl.icon)}`;
       return rescaleIcon(dl.data).then((img) => img.toFile(path));
-    })
+    }),
   );
 }

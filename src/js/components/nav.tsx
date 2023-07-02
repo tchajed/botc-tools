@@ -10,7 +10,7 @@ function PageLink(
     id: number;
     page: Page;
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-  }>
+  }>,
 ): JSX.Element {
   const { currentPage, id, page } = props;
   const current = currentPage == page;
@@ -34,10 +34,10 @@ export function Nav(props: {
   const currentPage = props.currentPage;
 
   function createOnClick(
-    dest: Page
+    dest: Page,
   ): React.MouseEventHandler<HTMLAnchorElement> {
     const newUrl = new URL(
-      `${window.location.origin}/script.html?page=${dest}&id=${id}`
+      `${window.location.origin}/script.html?page=${dest}&id=${id}`,
     );
     return (e) => {
       saveScroll(currentPage);

@@ -55,7 +55,7 @@ export function FullscreenBluffs(props: {
 
 export function BluffList(props: { bluffs: Selection }): JSX.Element {
   const [showBluffs, setShowBluffs] = React.useState<CharacterInfo[] | null>(
-    null
+    null,
   );
   const { bluffs } = props;
   const bluffList = [...bluffs.values()].map((id) => getCharacter(id));

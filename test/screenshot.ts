@@ -62,7 +62,7 @@ async function copyScreenshots() {
   await Promise.all(
     screenshots.map(([testName, destName]) => {
       return copyScreenshot(testName, destName);
-    })
+    }),
   );
 }
 
@@ -147,7 +147,7 @@ async function main() {
 
   const pickChar = async function (
     name: string,
-    where: "bag" | "chars" = "chars"
+    where: "bag" | "chars" = "chars",
   ) {
     const charsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' columns ')]`;
     const bagCharsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' selected-characters ')]`;
@@ -177,7 +177,7 @@ async function main() {
 
   await page.type(
     "#player_names",
-    "Horatio\nThumbelina\nBriar Rose\nFrodo\nAragorn\nJuliette\nPolonius"
+    "Horatio\nThumbelina\nBriar Rose\nFrodo\nAragorn\nJuliette\nPolonius",
   );
   await page.tap(".townsquare");
   await scrollPage(1500);

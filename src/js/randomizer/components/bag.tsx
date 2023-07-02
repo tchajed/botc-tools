@@ -29,7 +29,7 @@ export function SelectedCharacters(
     setFsRole: (r: string) => void;
     history: History<Partial<ScriptState>>;
     setHistory: SetHistory;
-  }
+  },
 ): JSX.Element {
   const characters = useContext(CharacterContext);
   const { selection, bluffs, ranking, setFsRole } = props;
@@ -37,7 +37,7 @@ export function SelectedCharacters(
   const { bag, outsideBag } = splitSelectedChars(
     characters,
     selection.chars,
-    props.numPlayers
+    props.numPlayers,
   );
   sortBag(bag, ranking);
 
