@@ -5,6 +5,7 @@ import {
   distributionForCount,
   zeroDistribution,
 } from "botc/setup";
+import { Button } from "randomizer/components/button";
 import { SetStateAction } from "react";
 import React from "react";
 
@@ -47,14 +48,14 @@ export function NumPlayerSelector(props: {
         <label htmlFor="minus-player-btn" className="visuallyhidden">
           subtract one player
         </label>
-        <button
+        <Button
           id="minus-player-btn"
           title="subtract one player"
           disabled={numPlayers <= 5}
           onClick={handleIncDec(-1)}
         >
           <FontAwesomeIcon icon="minus" />
-        </button>
+        </Button>
         <span className="numPlayers">
           <span className="count">{numPlayers}</span>
           players
@@ -62,14 +63,14 @@ export function NumPlayerSelector(props: {
         <label htmlFor="plus-player-btn" className="visuallyhidden">
           add one player
         </label>
-        <button
+        <Button
           id="plus-player-btn"
           title="add one player"
           disabled={numPlayers >= maxPlayers}
           onClick={handleIncDec(+1)}
         >
           <FontAwesomeIcon icon="plus" />
-        </button>
+        </Button>
       </div>
       <div>
         <BaseDistr numPlayers={numPlayers} />

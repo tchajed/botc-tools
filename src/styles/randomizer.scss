@@ -7,38 +7,6 @@ h2 {
   margin: 0.5rem 0;
 }
 
-.bag-header {
-  margin-bottom: 1.5rem;
-}
-
-button {
-  text-transform: none;
-  border-style: none;
-  padding: 0.1rem 0.3rem;
-  border-radius: 0.25rem;
-  border: 2px solid darken(white, 18%);
-  background-color: darken(white, 10%);
-  color: black;
-
-  font-size: 120%;
-  text-align: center;
-  vertical-align: middle;
-
-  &:hover {
-    @media (hover: hover) {
-      background-color: darken(white, 22%);
-    }
-  }
-
-  &:disabled {
-    opacity: 50%;
-
-    &:hover {
-      background-color: darken(white, 10%);
-    }
-  }
-}
-
 .bag-btns {
   margin-bottom: 0.5rem;
 
@@ -176,30 +144,6 @@ button {
   box-shadow: 0px 3px 3px 0;
   padding: 5px;
   margin-bottom: 1rem;
-}
-
-.setup-btn {
-  background-color: theme.$purple;
-
-  border: none;
-  padding: 0.5rem;
-  font-size: 14pt;
-  color: white;
-
-  &:hover {
-    cursor: pointer;
-
-    @media (hover: hover) {
-      background-color: lighten(theme.$purple, 20%);
-    }
-  }
-
-  &:disabled {
-    &:hover {
-      cursor: default;
-      background-color: theme.$purple;
-    }
-  }
 }
 
 .bluffs-toggle {

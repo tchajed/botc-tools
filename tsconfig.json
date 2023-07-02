@@ -10,6 +10,7 @@
     "target": "es2016",
     "lib": ["dom", "es2021"],
     "strict": true,
-    "jsx": "react"
+    "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
   }
 }

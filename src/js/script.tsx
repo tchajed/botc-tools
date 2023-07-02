@@ -11,9 +11,11 @@ import {
 import { CharacterSheet } from "./roles/character_sheet";
 import { Page } from "./routing";
 import { selectedScript } from "./select_script";
+import { ThemeProvider } from "@emotion/react";
 import { getCharacter } from "botc/roles";
 import React, { useEffect, useReducer, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { theme } from "theme";
 
 function getUrlPage(): Page | null {
   const params = new URLSearchParams(window.location.search);
@@ -101,39 +103,41 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
 
   return (
     <React.StrictMode>
-      <div>
-        <Nav
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          scriptId={script.id}
-        />
-        <div className="main">
-          <CharacterSheet
-            active={currentPage == "roles"}
-            script={script}
-            completeSetup={completeSetup}
+      <ThemeProvider theme={theme}>
+        <div>
+          <Nav
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            scriptId={script.id}
           />
-          <NightOrder
-            active={currentPage == "night"}
-            script={script}
-            selection={selection}
-            bluffs={bluffList}
-            teensy={teensy}
-            validSetup={completeSetup}
-            anySetup={anySetup}
-          />
-          <Randomizer
-            active={currentPage == "assign"}
-            script={script}
-            selection={selection}
-            selDispatch={selDispatch}
-            bluffs={bluffs}
-            bluffsDispatch={bluffsDispatch}
-            numPlayers={numPlayers}
-            setNumPlayers={setNumPlayers}
-          />
+          <div className="main">
+            <CharacterSheet
+              active={currentPage == "roles"}
+              script={script}
+              completeSetup={completeSetup}
+            />
+            <NightOrder
+              active={currentPage == "night"}
+              script={script}
+              selection={selection}
+              bluffs={bluffList}
+              teensy={teensy}
+              validSetup={completeSetup}
+              anySetup={anySetup}
+            />
+            <Randomizer
+              active={currentPage == "assign"}
+              script={script}
+              selection={selection}
+              selDispatch={selDispatch}
+              bluffs={bluffs}
+              bluffsDispatch={bluffsDispatch}
+              numPlayers={numPlayers}
+              setNumPlayers={setNumPlayers}
+            />
+          </div>
         </div>
-      </div>
+      </ThemeProvider>
     </React.StrictMode>
   );
 }

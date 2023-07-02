@@ -8,6 +8,7 @@ import {
 } from "../history";
 import { CharacterSelectionVars, SelAction } from "../selection";
 import { ScriptState } from "../state";
+import { Button } from "./button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Ranking, randomRanking } from "randomizer/ranking";
 import React, { Dispatch, PropsWithChildren, useContext } from "react";
@@ -40,7 +41,7 @@ function ShuffleBagBtn(
     });
   }
   return (
-    <button
+    <Button
       id="shuffle-btn"
       className="btn"
       disabled={props.bagSize <= 1}
@@ -48,7 +49,7 @@ function ShuffleBagBtn(
       title="Shuffle"
     >
       {props.children}
-    </button>
+    </Button>
   );
 }
 
@@ -85,7 +86,7 @@ function ClearSelectionBtn(
     });
   }
   return (
-    <button
+    <Button
       id="clear-btn"
       className="btn"
       disabled={selection.chars.size + bluffs.chars.size == 0}
@@ -93,7 +94,7 @@ function ClearSelectionBtn(
       title="Clear"
     >
       {props.children}
-    </button>
+    </Button>
   );
 }
 
@@ -125,7 +126,7 @@ function HistoryBtns(props: {
       <label htmlFor="undo-btn" className="visuallyhidden">
         Undo
       </label>
-      <button
+      <Button
         id="undo-btn"
         className="btn"
         disabled={!canUndo}
@@ -133,11 +134,11 @@ function HistoryBtns(props: {
         title="Undo"
       >
         <FontAwesomeIcon icon="undo" />
-      </button>
+      </Button>
       <label htmlFor="redo-btn" className="visuallyhidden">
         Redo
       </label>
-      <button
+      <Button
         id="redo-btn"
         className="btn"
         disabled={!canRedo}
@@ -145,7 +146,7 @@ function HistoryBtns(props: {
         title="Redo"
       >
         <FontAwesomeIcon icon="redo" />
-      </button>
+      </Button>
     </>
   );
 }

@@ -1,3 +1,4 @@
+import { Button } from "./button";
 import debounce from "lodash.debounce";
 import React, { useMemo, useEffect } from "react";
 
@@ -43,14 +44,9 @@ export function PlayerNameInput(props: {
         autoComplete="off"
       ></textarea>
       <br />
-      <button
-        className="btn"
-        id="clear_players"
-        type="button"
-        onClick={handleClear}
-      >
+      <Button id="clear_players" type="button" onClick={handleClear}>
         clear
-      </button>
+      </Button>
     </div>
   );
 }

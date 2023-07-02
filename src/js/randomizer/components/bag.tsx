@@ -8,6 +8,7 @@ import { BluffList } from "./bluffs";
 import { CardInfo, CharacterCard } from "./characters";
 import { RankingBtns } from "./ranking_btns";
 import { BagSetupHelp } from "./setup_help";
+import { css } from "@emotion/react";
 import { Ranking } from "randomizer/ranking";
 import React, { useContext } from "react";
 
@@ -51,7 +52,11 @@ export function SelectedCharacters(
     <div>
       <div className="selected-characters">
         <div className="column">
-          <div className="bag-header">
+          <div
+            css={css`
+              margin-bottom: 1.5rem;
+            `}
+          >
             <h2>Bag</h2>
             <RankingBtns
               sels={{ selection, bluffs }}

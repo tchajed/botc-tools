@@ -20,6 +20,7 @@
   "author": "Tej Chajed",
   "license": "MIT",
   "devDependencies": {
+    "@emotion/babel-plugin": "^11.11.0",
     "@parcel/core": "^2.9.3",
     "@parcel/packager-raw-url": "^2.9.3",
     "@parcel/plugin": "^2.9.3",
@@ -48,6 +49,8 @@
     "workbox-cli": "^7.0.0"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
@@ -61,6 +64,7 @@
     "lodash": "^4.17.21",
     "match-sorter": "^6.3.1",
     "node-gzip": "^1.1.2",
+    "polished": "^4.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-qr-code": "^2.0.11",
