@@ -137,7 +137,6 @@ export function Randomizer({
     numPlayers
   );
   sortBag(bag, ranking);
-  const haveSetup = bag.length == numPlayers;
 
   const selectionVars: CharacterSelectionVars = {
     selection: {
@@ -198,10 +197,7 @@ export function Randomizer({
             bluffs={bluffList}
           />
         )}
-        <PlayerNameInput
-          {...{ numPlayers, players, setPlayers }}
-          haveSetup={haveSetup}
-        />
+        <PlayerNameInput {...{ numPlayers, players, setPlayers }} />
         <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
       </div>
     </CharacterContext.Provider>

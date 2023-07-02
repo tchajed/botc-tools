@@ -1,4 +1,3 @@
-import classnames from "classnames";
 import debounce from "lodash.debounce";
 import React, { useMemo, useEffect } from "react";
 
@@ -6,7 +5,6 @@ export function PlayerNameInput(props: {
   numPlayers: number;
   players: string[];
   setPlayers: (players: string[]) => void;
-  haveSetup: boolean;
 }): JSX.Element {
   const { numPlayers, players } = props;
 
@@ -30,7 +28,9 @@ export function PlayerNameInput(props: {
   }
 
   return (
-    <div className={classnames({ hidden: !props.haveSetup })}>
+    <div>
+      <br />
+      <div>Players:</div>
       <textarea
         id="player_names"
         name="player names"
