@@ -7,78 +7,6 @@ h2 {
   margin: 0.5rem 0;
 }
 
-.bag-header {
-  margin-bottom: 1.5rem;
-}
-
-button {
-  text-transform: none;
-  border-style: none;
-  padding: 0.1rem 0.3rem;
-  border-radius: 0.25rem;
-  border: 2px solid darken(white, 18%);
-  background-color: darken(white, 10%);
-  color: black;
-
-  font-size: 120%;
-  text-align: center;
-  vertical-align: middle;
-
-  &:hover {
-    @media (hover: hover) {
-      background-color: darken(white, 22%);
-    }
-  }
-
-  &:disabled {
-    opacity: 50%;
-
-    &:hover {
-      background-color: darken(white, 10%);
-    }
-  }
-}
-
-.bag-btns {
-  margin-bottom: 0.5rem;
-
-  .btn:not(:first-child) {
-    margin-right: 0.25rem;
-  }
-
-  .btn {
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 120%;
-  }
-}
-
-.history-btns {
-  margin-top: 0.5rem;
-}
-
-.player-num-btns {
-  display: inline-block;
-  margin-right: 0.5rem;
-}
-
-.column-smaller {
-  margin-left: 0.5rem;
-  flex: 40%;
-}
-
-.column {
-  flex: 50%;
-
-  &:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-}
-
-.columns {
-  display: flex;
-}
-
 .character {
   display: flex;
   position: relative;
@@ -111,34 +39,9 @@ button {
   }
 }
 
-.players {
-  font-size: 120%;
-
-  .numPlayers {
-    .count {
-      display: inline-block;
-      min-width: 1rem;
-      padding-right: 0.5rem;
-    }
-
-    padding: 0 0.5rem;
-    line-height: 1.5em;
-    text-align: right;
-    vertical-align: middle;
-    margin: 2px;
-  }
-
-  button {
-    padding: 0;
-    width: 2rem;
-    line-height: 2rem;
-    font-size: 100%;
-    margin-bottom: 2px;
-  }
-}
-
 .modifiers {
   font-size: 120%;
+  display: inline;
 
   .label {
     width: 4.5rem;
@@ -152,74 +55,11 @@ button {
   }
 }
 
-.distribution {
-  span {
-    // make each number fixed-width
-    display: inline-block;
-    min-width: 1rem;
-    text-align: center;
-  }
-}
-
-.modifiers {
-  display: inline;
-}
-
-.distribution-help {
-  position: sticky;
-  display: inline-block;
-  top: 5rem;
-  z-index: 999;
-  background-color: white;
-  border-radius: 0.25rem;
-  border: 1px solid #666;
-  box-shadow: 0px 3px 3px 0;
-  padding: 5px;
-  margin-bottom: 1rem;
-}
-
-.setup-btn {
-  background-color: theme.$purple;
-
-  border: none;
-  padding: 0.5rem;
-  font-size: 14pt;
-  color: white;
-
-  &:hover {
-    cursor: pointer;
-
-    @media (hover: hover) {
-      background-color: lighten(theme.$purple, 20%);
-    }
-  }
-
-  &:disabled {
-    &:hover {
-      cursor: default;
-      background-color: theme.$purple;
-    }
-  }
-}
-
-.bluffs-toggle {
-  background-color: #eee;
-  padding: 0.5rem;
-  border-radius: 0.25rem;
-}
-
 .role-label {
   position: absolute;
   top: 1px;
   left: 1px;
   font-size: 90%;
-}
-
-$img-size: 35px;
-
-.img-container {
-  height: $img-size;
-  width: $img-size;
 }
 
 .good .name,
@@ -240,16 +80,6 @@ span.evil {
   color: green;
 }
 
-.separator {
-  border: 3px dotted black;
-  border-style: none none dotted;
-  color: transparent;
-}
-
-.selected-characters {
-  display: flex;
-}
-
 .fullscreen {
   .bluffs {
     font-size: 70%;
@@ -268,21 +98,4 @@ span.evil {
       min-height: 70px;
     }
   }
-}
-
-.townsquare {
-  border: 1px solid #444;
-  border-radius: 0.5rem;
-  box-shadow: 1px 5px 5px 0 #444;
-  margin-bottom: 1rem;
-}
-
-textarea {
-  user-select: auto;
-  -webkit-user-select: auto;
-}
-
-#player_names {
-  font-family: inherit;
-  font-size: inherit;
 }

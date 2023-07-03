@@ -64,7 +64,7 @@ td.name-cell {
   font-family: "EB Garamond", "Barlow", serif;
 }
 
-$img-size: 40px;
+$img-size: 30px;
 
 td.icon-cell {
   padding-right: 10px;
@@ -97,16 +97,6 @@ tr.good .name-cell {
 
 tr.evil .name-cell {
   color: theme.$evil;
-}
-
-@media print {
-  .page-divider-bottom {
-    display: none;
-  }
-
-  .page-divider-top {
-    break-after: always;
-  }
 }
 
 @media print {

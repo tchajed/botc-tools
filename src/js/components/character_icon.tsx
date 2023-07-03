@@ -1,5 +1,6 @@
 import images from "../../../assets/icons/*.webp";
-import React from "react";
+import { getCharacter } from "botc/roles";
+import classNames from "classnames";
 
 export function iconPath(id: string): string {
   return images[`Icon_${id}`];
@@ -20,10 +21,12 @@ export function characterClass(character: { roleType: string }): string {
   }
 }
 export function CharacterIconElement(props: {
-  name: string;
   id: string;
+  name?: string;
+  className?: string;
 }): JSX.Element {
   const { id } = props;
+  const name = props.name || getCharacter(id).name;
   if (!iconPath(id)) {
     if (!["MINION", "DEMON"].includes(id)) {
       console.warn(`no icon for ${id}`);
@@ -31,12 +34,12 @@ export function CharacterIconElement(props: {
     return <></>;
   }
   return (
-    <div className="img-container">
+    <div className={classNames("img-container", props.className)}>
       <img
         className="char-icon"
         draggable={false}
         src={iconPath(id)}
-        alt={props.name}
+        alt={name}
       />
     </div>
   );

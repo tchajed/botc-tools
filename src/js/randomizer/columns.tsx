@@ -1,4 +1,5 @@
-import React, { ReactNode, Children } from "react";
+import styled from "@emotion/styled";
+import { ReactNode, Children } from "react";
 
 function splitColumns<T>(xs: T[], numColumns: number): T[][] {
   const numPerColumn = Math.ceil(xs.length / numColumns);
@@ -10,18 +11,28 @@ function splitColumns<T>(xs: T[], numColumns: number): T[][] {
   return columns;
 }
 
+export const Column = styled.div`
+  flex: 50%;
+
+  &:not(:first-of-type) {
+    margin-left: 0.5rem;
+  }
+`;
+
+export const ColumnContainer = styled.div`
+  display: flex;
+`;
+
 export function Columns(props: {
   numColumns: number;
   children: ReactNode[];
 }): JSX.Element {
   const cols = splitColumns(Children.toArray(props.children), props.numColumns);
   return (
-    <>
+    <ColumnContainer>
       {cols.map((col, i) => (
-        <div className="column" key={i}>
-          {col}
-        </div>
+        <Column key={i}>{col}</Column>
       ))}
-    </>
+    </ColumnContainer>
   );
 }

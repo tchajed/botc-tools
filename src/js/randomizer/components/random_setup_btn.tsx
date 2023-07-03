@@ -2,6 +2,8 @@ import { randomBluffs, randomCompleteSelection } from "../../botc/random_setup";
 import { CharacterContext } from "../character_context";
 import { SetHistory, pureHistoryApply } from "../history";
 import { Selection, SelAction } from "../selection";
+import { Button } from "./button";
+import { css, useTheme } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext } from "react";
 
@@ -13,6 +15,7 @@ export function RandomSetupButton(props: {
   bluffsDispatch: React.Dispatch<SelAction>;
   setHistory: SetHistory;
 }): JSX.Element {
+  const theme = useTheme();
   const characters = useContext(CharacterContext);
   const { numPlayers, selection, selDispatch, bluffs, bluffsDispatch } = props;
 
@@ -53,13 +56,19 @@ export function RandomSetupButton(props: {
   };
 
   return (
-    <button
-      className="button setup-btn"
+    <Button
       onClick={handleClick}
       disabled={!haveNewSelection}
+      color="white"
+      backgroundColor={theme.color.primary}
+      css={css`
+        border: none;
+        padding: 0.5rem;
+        font-size: 14pt;
+      `}
     >
       <FontAwesomeIcon icon="magic-wand-sparkles" />
       &nbsp; random setup
-    </button>
+    </Button>
   );
 }

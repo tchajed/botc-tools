@@ -9,6 +9,7 @@ import { Jinxes } from "../components/jinxes";
 import { FullscreenRole } from "../components/role_fullscreen";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
+import { css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
@@ -45,9 +46,15 @@ function FullscreenQr(props: {
           <div>
             <QRCode size={256} value={url} />
             <br />
-            <div className="qr-url">
-              <a href={url}>{displayUrl}</a>
-            </div>
+            <a
+              href={url}
+              css={css`
+                font-size: 16pt;
+                text-decoration: underline;
+              `}
+            >
+              {displayUrl}
+            </a>
           </div>
         );
       }}
@@ -143,6 +150,12 @@ function CharacterList(props: {
   );
 }
 
+const printHidden = css`
+  @media print {
+    display: none;
+  }
+`;
+
 /**
  * The top-level component for the roles tab.
  */
@@ -175,7 +188,14 @@ export function CharacterSheet(props: {
     <div className={visibleClass(active)}>
       <h1>
         {script.title}
-        <div className="qr-link">
+        <div
+          css={css`
+            float: right;
+            font-size: 16pt;
+            line-height: 30pt;
+            ${printHidden}
+          `}
+        >
           <QrLink url={qrDest} setUrl={setQrUrl} />
         </div>
       </h1>

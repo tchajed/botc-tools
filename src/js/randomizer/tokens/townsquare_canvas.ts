@@ -6,8 +6,7 @@ import {
   setCanvasResolution,
 } from "./canvas";
 import { drawToken } from "./token_canvas";
-import classnames from "classnames";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 
 const TWOPI = 2 * Math.PI;
 
@@ -238,7 +237,7 @@ function townsquareRadius(numPlayers: number): number {
   return radius;
 }
 
-interface TownsquareData {
+export interface TownsquareData {
   bag: BagCharacter[];
   players: string[];
   title: string;
@@ -249,7 +248,7 @@ interface TownsquareData {
 const circleOtherGap = 100;
 const othersBluffGap = 30;
 
-async function drawTownsquare(
+export async function drawTownsquare(
   canvas: HTMLCanvasElement | OffscreenCanvas,
   data: TownsquareData,
 ): Promise<void> {
@@ -312,7 +311,9 @@ async function drawTownsquare(
   ctx.restore();
 }
 
-export function TownsquareCanvas(props: TownsquareData): JSX.Element {
+// Just an example, we actually use the image version so it can be dragged
+// outside.
+function _TownsquareCanvas(props: TownsquareData): JSX.Element {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -321,50 +322,7 @@ export function TownsquareCanvas(props: TownsquareData): JSX.Element {
     }
     const canvas = ref.current;
     drawTownsquare(canvas, props);
-  }, []);
-
-  return React.createElement("canvas", { ref });
-}
-
-export function TownsquareImage(props: TownsquareData): JSX.Element {
-  const [img, setImg] = useState<{ dataURL: string; blob: Blob } | null>(null);
-
-  function copyImageToClipboard() {
-    if (!img) {
-      return;
-    }
-    // not supported by Firefox
-    if ("ClipboardItem" in window) {
-      const data = [new ClipboardItem({ [img.blob.type]: img.blob })];
-      window.navigator.clipboard.write(data).then(
-        () => {
-          // TODO: would be nice to have a toast here
-        },
-        (err) => {
-          console.warn(`could not copy to clipboard: ${err}`);
-        },
-      );
-    } else {
-      console.warn("image copy not supported by browser");
-    }
-  }
-
-  useEffect(() => {
-    // dummy width and height will be set by drawTownsquare
-    const canvas = new OffscreenCanvas(0, 0);
-
-    drawTownsquare(canvas, props).then(() => {
-      canvas.convertToBlob().then((blob) => {
-        const dataURL = URL.createObjectURL(blob);
-        setImg({ dataURL, blob });
-      });
-    });
   }, [props]);
 
-  return React.createElement("img", {
-    className: classnames("townsquare", { hidden: !img }),
-    width: "80%",
-    src: img ? img.dataURL : "",
-    onClick: () => copyImageToClipboard(),
-  });
+  return React.createElement("canvas", { ref });
 }

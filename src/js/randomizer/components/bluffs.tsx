@@ -3,6 +3,7 @@ import { Fullscreen } from "../../components/fullscreen_modal";
 import { Selection } from "../selection";
 import { TokenCanvas } from "../tokens/token_canvas";
 import { CharacterCard } from "./characters";
+import { css } from "@emotion/react";
 import classnames from "classnames";
 import React, { ChangeEvent } from "react";
 
@@ -16,7 +17,12 @@ export function BluffsToggleBtn(props: {
   }
   return (
     <label
-      className={classnames("bluffs-toggle", selectBluffs ? "selected" : "")}
+      css={css`
+        background-color: #eee;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+      `}
+      className={classnames({ selected: selectBluffs })}
     >
       choose bluffs
       <input

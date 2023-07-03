@@ -1,6 +1,7 @@
 import "../../icons";
 import { CharacterContext } from "../character_context";
 import { Selection } from "../selection";
+import { css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   SetupModification,
@@ -196,7 +197,21 @@ export function SetupModifiers(props: {
           </div>
         );
       })}
-      <div className="distribution-help">
+      <div
+        id="distribution-help"
+        css={css`
+          position: sticky;
+          display: inline-block;
+          top: 5rem;
+          z-index: 999;
+          background-color: white;
+          border-radius: 0.25rem;
+          border: 1px solid #666;
+          box-shadow: 0px 3px 3px 0;
+          padding: 5px;
+          margin-bottom: 1rem;
+        `}
+      >
         <div>
           <span className="label">goal</span>
           <FontAwesomeIcon icon="location-crosshairs" />

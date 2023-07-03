@@ -8,6 +8,8 @@ import { BluffList } from "./bluffs";
 import { CardInfo, CharacterCard } from "./characters";
 import { RankingBtns } from "./ranking_btns";
 import { BagSetupHelp } from "./setup_help";
+import { css } from "@emotion/react";
+import { Column, ColumnContainer } from "randomizer/columns";
 import { Ranking } from "randomizer/ranking";
 import React, { useContext } from "react";
 
@@ -48,38 +50,40 @@ export function SelectedCharacters(
   }
 
   return (
-    <div>
-      <div className="selected-characters">
-        <div className="column">
-          <div className="bag-header">
-            <h2>Bag</h2>
-            <RankingBtns
-              sels={{ selection, bluffs }}
-              bagSize={bag.length}
-              {...props}
-            />
-          </div>
-          <div>
-            <BagSetupHelp
-              numPlayers={props.numPlayers}
-              selection={selection.chars}
-            />
-          </div>
-          {bag.map((char) => (
-            <CharacterCard
-              character={char}
-              key={charKey(char)}
-              onClick={handleClick(char.id)}
-            />
-          ))}
+    <ColumnContainer id="selected-characters">
+      <Column>
+        <div
+          css={css`
+            margin-bottom: 1.5rem;
+          `}
+        >
+          <h2>Bag</h2>
+          <RankingBtns
+            sels={{ selection, bluffs }}
+            bagSize={bag.length}
+            {...props}
+          />
         </div>
-        <OtherCharacters
-          characters={outsideBag}
-          bluffs={bluffs.chars}
-          setFsRole={setFsRole}
-        />
-      </div>
-    </div>
+        <div>
+          <BagSetupHelp
+            numPlayers={props.numPlayers}
+            selection={selection.chars}
+          />
+        </div>
+        {bag.map((char) => (
+          <CharacterCard
+            character={char}
+            key={charKey(char)}
+            onClick={handleClick(char.id)}
+          />
+        ))}
+      </Column>
+      <OtherCharacters
+        characters={outsideBag}
+        bluffs={bluffs.chars}
+        setFsRole={setFsRole}
+      />
+    </ColumnContainer>
   );
 }
 function OtherCharacters(props: {
@@ -96,7 +100,12 @@ function OtherCharacters(props: {
   }
 
   return (
-    <div className="column-smaller">
+    <div
+      css={css`
+        margin-left: 0.5rem;
+        flex: 40%;
+      `}
+    >
       {characters.length > 0 && <h2>Others</h2>}
       {characters.map((char) => (
         <CharacterCard
