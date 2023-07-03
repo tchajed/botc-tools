@@ -100,16 +100,6 @@ tr.evil .name-cell {
 }
 
 @media print {
-  .page-divider-bottom {
-    display: none;
-  }
-
-  .page-divider-top {
-    break-after: always;
-  }
-}
-
-@media print {
   body {
     margin: 0;
   }

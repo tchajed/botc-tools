@@ -1,4 +1,5 @@
 import { Selection } from "../randomizer/selection";
+import { css } from "@emotion/react";
 import React from "react";
 import { ChangeEvent } from "react";
 
@@ -14,6 +15,24 @@ export function isActive(selection: Selection | null, id: string): boolean {
   return selection.has(id);
 }
 
+const allRolesToggleStyle = css`
+  position: fixed;
+  // TODO can this be relative to the main viewport? (only matters on wide
+  // widths)
+  right: 8px;
+  bottom: 8px;
+  // make sure this switch covers everything
+  z-index: 1000;
+  line-height: 2rem;
+  vertical-align: middle;
+  background-color: #eee;
+  border: 2px solid darken(#eee, 20);
+  border-radius: 0.25rem;
+  width: 10rem;
+  align-items: right;
+  text-align: center;
+`;
+
 export function ToggleAllRoles(props: {
   showAll: boolean;
   setShowAll: (x: boolean) => void;
@@ -24,19 +43,17 @@ export function ToggleAllRoles(props: {
   }
 
   return (
-    <div className="all-roles-sheet">
-      <div className="all-toggle">
-        <label>
-          show all roles
-          <input
-            type="checkbox"
-            name="show all roles"
-            checked={props.showAll || !props.validSetup}
-            onChange={onChange}
-            disabled={!props.validSetup}
-          ></input>
-        </label>
-      </div>
+    <div css={allRolesToggleStyle}>
+      <label>
+        show all roles
+        <input
+          type="checkbox"
+          name="show all roles"
+          checked={props.showAll || !props.validSetup}
+          onChange={onChange}
+          disabled={!props.validSetup}
+        ></input>
+      </label>
     </div>
   );
 }

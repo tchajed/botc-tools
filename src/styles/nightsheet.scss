@@ -10,6 +10,7 @@ h1 {
     float: left;
 
     &.other-nights {
+
       // the other-nights title is a header only for printing (since it goes on
       // the second page)
       @media not print {
@@ -75,15 +76,6 @@ h1 {
   }
 }
 
-.page-divider-top,
-.page-divider-bottom {
-  height: 10pt;
-}
-
-.page-divider-bottom {
-  border-top: 2.5px dotted black;
-}
-
 .token-name {
   cursor: pointer;
 }
@@ -91,23 +83,5 @@ h1 {
 .card-text {
   display: inline-block;
   max-width: 500px, 70vw;
-  text-align: center;
-}
-
-.all-roles-sheet {
-  position: fixed;
-  // TODO can this be relative to the main viewport? (only matters on wide
-  // widths)
-  right: 8px;
-  bottom: 8px;
-  // make sure this switch covers everything
-  z-index: 1000;
-  line-height: 2rem;
-  vertical-align: middle;
-  background-color: #eee;
-  border: 2px solid darken(#eee, 20);
-  border-radius: 0.25rem;
-  width: 10rem;
-  align-items: right;
   text-align: center;
 }

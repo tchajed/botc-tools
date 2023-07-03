@@ -12,12 +12,18 @@ import { SetStateAction } from "react";
 import React from "react";
 
 export function Distr({ dist }: { dist: Distribution }): JSX.Element {
+  const Num = styled.span`
+    // make each number fixed-width
+    display: inline-block;
+    min-width: 1rem;
+    text-align: center;
+  `;
   return (
-    <span className="distribution">
-      <span className="good">{dist.townsfolk}</span>/
-      <span className="good">{dist.outsider}</span>/
-      <span className="evil">{dist.minion}</span>/
-      <span className="evil">{dist.demon}</span>
+    <span>
+      <Num className="good">{dist.townsfolk}</Num>/
+      <Num className="good">{dist.outsider}</Num>/
+      <Num className="evil">{dist.minion}</Num>/
+      <Num className="evil">{dist.demon}</Num>
     </span>
   );
 }

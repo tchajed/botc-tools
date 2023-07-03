@@ -17,6 +17,7 @@ import { Selection } from "../randomizer/selection";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { ToggleAllRoles, isActive } from "./toggle_roles";
+import { css } from "@emotion/react";
 import classnames from "classnames";
 import { FullscreenBluffs } from "randomizer/components/bluffs";
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -274,6 +275,33 @@ const ShowBluffsContext: React.Context<() => void> = createContext(() => {
   return;
 });
 
+function PageDivider(): JSX.Element {
+  const style = css`
+    height: 10pt;
+    @media print {
+      display: none;
+    }
+  `;
+  return (
+    <>
+      <div
+        css={css`
+          ${style}
+          @media print {
+            page-break-after: always;
+          }
+        `}
+      ></div>
+      <div
+        css={css`
+          ${style}
+          border-top: 2.5px dotted black;
+        `}
+      ></div>
+    </>
+  );
+}
+
 /** The main component of the nightsheet. */
 export function NightOrder(props: {
   script: Script;
@@ -314,8 +342,7 @@ export function NightOrder(props: {
           setCard={setFullscreenCard}
           teensy={props.teensy}
         />
-        <div className="page-divider-top"></div>
-        <div className="page-divider-bottom"></div>
+        <PageDivider />
         <Sheet
           script={props.script}
           firstNight={false}
