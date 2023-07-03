@@ -1,4 +1,4 @@
-import { randomCompleteSelection } from "../../botc/random_setup";
+import { randomBluffs, randomCompleteSelection } from "../../botc/random_setup";
 import { CharacterContext } from "../character_context";
 import { SetHistory, pureHistoryApply } from "../history";
 import { Selection, SelAction } from "../selection";
@@ -9,18 +9,24 @@ export function RandomSetupButton(props: {
   numPlayers: number;
   selection: Selection;
   selDispatch: React.Dispatch<SelAction>;
+  bluffs: Selection;
+  bluffsDispatch: React.Dispatch<SelAction>;
   setHistory: SetHistory;
 }): JSX.Element {
   const characters = useContext(CharacterContext);
-  const { numPlayers, selection, selDispatch } = props;
+  const { numPlayers, selection, selDispatch, bluffs, bluffsDispatch } = props;
 
   const randomSelection = randomCompleteSelection(
     numPlayers,
     characters,
     selection,
   );
+  const newBluffs = randomSelection
+    ? randomBluffs(characters, randomSelection, bluffs)
+    : bluffs;
   const haveNewSelection =
-    randomSelection != null && randomSelection.size != selection.size;
+    (randomSelection != null && randomSelection.size != selection.size) ||
+    newBluffs.size != bluffs.size;
 
   const handleClick = () => {
     if (!haveNewSelection) {
@@ -28,12 +34,21 @@ export function RandomSetupButton(props: {
     }
     pureHistoryApply(props.setHistory, {
       type: "replace",
-      state: { selection: [...selection.values()] },
+      state: {
+        selection: [...selection.values()],
+        bluffs: [...bluffs.values()],
+      },
     });
-    selDispatch({ type: "set all", ids: [...randomSelection.values()] });
+    if (randomSelection) {
+      selDispatch({ type: "set all", ids: [...randomSelection.values()] });
+    }
+    bluffsDispatch({ type: "set all", ids: [...newBluffs.values()] });
     pureHistoryApply(props.setHistory, {
       type: "push",
-      state: { selection: [...randomSelection.values()] },
+      state: {
+        selection: randomSelection ? [...randomSelection.values()] : undefined,
+        bluffs: [...bluffs.values()],
+      },
     });
   };
 

@@ -162,7 +162,15 @@ export function Randomizer({
         <div className="columns">
           <div className="column">
             <RandomSetupButton
-              {...{ numPlayers, selection, selDispatch, history, setHistory }}
+              {...{
+                numPlayers,
+                selection,
+                selDispatch,
+                bluffs,
+                bluffsDispatch,
+                history,
+                setHistory,
+              }}
             />
           </div>
           <div className="column">

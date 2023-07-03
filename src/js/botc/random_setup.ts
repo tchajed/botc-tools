@@ -7,6 +7,7 @@ import {
   sameDistribution,
   targetDistributions,
 } from "./setup";
+import { shuffleArray } from "randomizer/ranking";
 
 function randomChoice<T>(a: T[]): T {
   return a[Math.floor(Math.random() * a.length)];
@@ -125,4 +126,25 @@ export function randomCompleteSelection(
   }
   // too many failures, give up
   return null;
+}
+
+export function randomBluffs(
+  characters: CharacterInfo[],
+  selection: Selection,
+  bluffs: Selection,
+): Selection {
+  const chars = characters.filter(
+    (c) => !selection.has(c.id) && !bluffs.has(c.id),
+  );
+  const townsfolk = chars.filter((c) => c.roleType == "townsfolk");
+  shuffleArray(townsfolk);
+  const newBluffs = new Set(bluffs);
+  while (newBluffs.size < 3) {
+    const c = townsfolk.pop()?.id;
+    if (!c) {
+      return newBluffs;
+    }
+    newBluffs.add(c);
+  }
+  return newBluffs;
 }
