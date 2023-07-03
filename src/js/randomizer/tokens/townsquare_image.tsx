@@ -42,6 +42,7 @@ export function TownsquareImage(props: TownsquareData): JSX.Element {
 
   return (
     <img
+      id="townsquare"
       width="80%"
       css={css`
         border: 1px solid #444;

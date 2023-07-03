@@ -140,7 +140,7 @@ async function main() {
   await screenshot("night");
 
   await page.click("xpath///a[contains(., 'Assign')]");
-  await page.waitForSelector(".columns");
+  await page.waitForSelector("#characters");
 
   // reduce player count to 7
   await page.tap(`xpath///*[@id = 'minus-player-btn']`);
@@ -179,7 +179,7 @@ async function main() {
     "#player_names",
     "Horatio\nThumbelina\nBriar Rose\nFrodo\nAragorn\nJuliette\nPolonius",
   );
-  await page.tap(".townsquare");
+  await page.tap("#townsquare");
   await scrollPage(1500);
 
   // need new townsquare to render
