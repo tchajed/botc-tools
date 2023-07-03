@@ -150,6 +150,12 @@ function CharacterList(props: {
   );
 }
 
+const printHidden = css`
+  @media print {
+    display: none;
+  }
+`;
+
 /**
  * The top-level component for the roles tab.
  */
@@ -187,6 +193,7 @@ export function CharacterSheet(props: {
             float: right;
             font-size: 16pt;
             line-height: 30pt;
+            ${printHidden}
           `}
         >
           <QrLink url={qrDest} setUrl={setQrUrl} />

@@ -9,12 +9,14 @@ td.icon-cell {
   padding-bottom: 0;
 }
 
+td.ability-cell {
+  @media print {
+    font-size: 10pt;
+  }
+}
+
 .img-container {
   display: inline-block;
   height: $img-size;
   overflow: hidden;
-}
-
-.jinxes {
-  margin-top: 2rem;
 }
