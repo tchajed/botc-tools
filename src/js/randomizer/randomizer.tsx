@@ -17,6 +17,8 @@ import {
   storeGlobalState,
   storeState,
 } from "./state";
+import { TownsquareImage } from "./tokens/townsquare_image";
+import { css } from "@emotion/react";
 import { CharacterInfo, getCharacter } from "botc/roles";
 import { Script } from "botc/script";
 import {
@@ -28,7 +30,6 @@ import {
 } from "botc/setup";
 import { NumPlayerSelector } from "components/num_players";
 import { FullscreenRole } from "components/role_fullscreen";
-import { TownsquareImage } from "randomizer/tokens/townsquare_canvas";
 import React, { SetStateAction, useEffect, useState } from "react";
 import { restoreScroll } from "routing";
 import { visibleClass } from "tabs";
@@ -183,7 +184,13 @@ export function Randomizer({
           selectBluffs={selectBluffs}
           doneRoles={rolesNotNeeded}
         />
-        <hr className="separator" />
+        <hr
+          css={css`
+            border: 3px dotted black;
+            border-style: none none dotted;
+            color: transparent;
+          `}
+        />
         <SelectedCharacters
           {...selectionVars}
           {...{

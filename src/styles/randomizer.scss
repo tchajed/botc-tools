@@ -87,12 +87,6 @@ span.evil {
   color: green;
 }
 
-.separator {
-  border: 3px dotted black;
-  border-style: none none dotted;
-  color: transparent;
-}
-
 .fullscreen {
   .bluffs {
     font-size: 70%;
@@ -111,11 +105,4 @@ span.evil {
       min-height: 70px;
     }
   }
-}
-
-.townsquare {
-  border: 1px solid #444;
-  border-radius: 0.5rem;
-  box-shadow: 1px 5px 5px 0 #444;
-  margin-bottom: 1rem;
 }
