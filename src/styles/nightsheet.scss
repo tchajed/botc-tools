@@ -10,7 +10,6 @@ h1 {
     float: left;
 
     &.other-nights {
-
       // the other-nights title is a header only for printing (since it goes on
       // the second page)
       @media not print {
