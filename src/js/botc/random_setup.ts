@@ -128,13 +128,16 @@ export function randomCompleteSelection(
   return null;
 }
 
+// The demon already knows these roles aren't in play
+const badBluffs = new Set(["king", "poppygrower", "lunatic"]);
+
 export function randomBluffs(
   characters: CharacterInfo[],
   selection: Selection,
   bluffs: Selection,
 ): Selection {
   const chars = characters.filter(
-    (c) => !selection.has(c.id) && !bluffs.has(c.id),
+    (c) => !selection.has(c.id) && !bluffs.has(c.id) && !badBluffs.has(c.id),
   );
   const townsfolk = chars.filter((c) => c.roleType == "townsfolk");
   shuffleArray(townsfolk);
