@@ -7,29 +7,6 @@ h2 {
   margin: 0.5rem 0;
 }
 
-.bag-btns {
-  margin-bottom: 0.5rem;
-
-  .btn:not(:first-child) {
-    margin-right: 0.25rem;
-  }
-
-  .btn {
-    width: 2.5rem;
-    height: 2.5rem;
-    font-size: 120%;
-  }
-}
-
-.history-btns {
-  margin-top: 0.5rem;
-}
-
-.player-num-btns {
-  display: inline-block;
-  margin-right: 0.5rem;
-}
-
 .character {
   display: flex;
   position: relative;

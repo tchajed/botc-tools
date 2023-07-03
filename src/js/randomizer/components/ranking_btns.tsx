@@ -9,9 +9,19 @@ import {
 import { CharacterSelectionVars, SelAction } from "../selection";
 import { ScriptState } from "../state";
 import { Button } from "./button";
+import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Ranking, randomRanking } from "randomizer/ranking";
-import React, { Dispatch, PropsWithChildren, useContext } from "react";
+import { Dispatch, PropsWithChildren, useContext } from "react";
+
+const IconButton = styled(Button)`
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 120%;
+  &:not(:first-of-type) {
+    margin-left: 0.25rem;
+  }
+`;
 
 function ShuffleBagBtn(
   props: PropsWithChildren<{
@@ -41,15 +51,14 @@ function ShuffleBagBtn(
     });
   }
   return (
-    <Button
+    <IconButton
       id="shuffle-btn"
-      className="btn"
       disabled={props.bagSize <= 1}
       onClick={handleClick}
       title="Shuffle"
     >
       {props.children}
-    </Button>
+    </IconButton>
   );
 }
 
@@ -86,15 +95,14 @@ function ClearSelectionBtn(
     });
   }
   return (
-    <Button
+    <IconButton
       id="clear-btn"
-      className="btn"
       disabled={selection.chars.size + bluffs.chars.size == 0}
       onClick={handleClick}
       title="Clear"
     >
       {props.children}
-    </Button>
+    </IconButton>
   );
 }
 
@@ -126,27 +134,25 @@ function HistoryBtns(props: {
       <label htmlFor="undo-btn" className="visuallyhidden">
         Undo
       </label>
-      <Button
+      <IconButton
         id="undo-btn"
-        className="btn"
         disabled={!canUndo}
         onClick={() => histUndoRedo("undo")}
         title="Undo"
       >
         <FontAwesomeIcon icon="undo" />
-      </Button>
+      </IconButton>
       <label htmlFor="redo-btn" className="visuallyhidden">
         Redo
       </label>
-      <Button
+      <IconButton
         id="redo-btn"
-        className="btn"
         disabled={!canRedo}
         onClick={() => histUndoRedo("redo")}
         title="Redo"
       >
         <FontAwesomeIcon icon="redo" />
-      </Button>
+      </IconButton>
     </>
   );
 }
@@ -162,7 +168,7 @@ export function RankingBtns(props: {
 }): JSX.Element {
   const { ranking, sels } = props;
   return (
-    <div className="bag-btns">
+    <div id="bag-btns">
       <label htmlFor="shuffle-btn" className="visuallyhidden">
         Shuffle
       </label>

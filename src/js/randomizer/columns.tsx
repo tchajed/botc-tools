@@ -14,7 +14,7 @@ function splitColumns<T>(xs: T[], numColumns: number): T[][] {
 export const Column = styled.div`
   flex: 50%;
 
-  &:not(:first-of-type div) {
+  &:not(:first-of-type) {
     margin-left: 0.5rem;
   }
 `;
