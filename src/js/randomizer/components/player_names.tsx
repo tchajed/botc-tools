@@ -1,4 +1,5 @@
 import { Button } from "./button";
+import { css } from "@emotion/react";
 import debounce from "lodash.debounce";
 import React, { useMemo, useEffect } from "react";
 
@@ -42,6 +43,12 @@ export function PlayerNameInput(props: {
         spellCheck={false}
         autoCapitalize="on"
         autoComplete="off"
+        css={css`
+          user-select: auto;
+          -webkit-user-select: auto;
+          font-family: inherit;
+          font-size: inherit;
+        `}
       ></textarea>
       <br />
       <Button id="clear_players" type="button" onClick={handleClear}>

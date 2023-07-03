@@ -39,34 +39,9 @@ h2 {
   }
 }
 
-.players {
-  font-size: 120%;
-
-  .numPlayers {
-    .count {
-      display: inline-block;
-      min-width: 1rem;
-      padding-right: 0.5rem;
-    }
-
-    padding: 0 0.5rem;
-    line-height: 1.5em;
-    text-align: right;
-    vertical-align: middle;
-    margin: 2px;
-  }
-
-  button {
-    padding: 0;
-    width: 2rem;
-    line-height: 2rem;
-    font-size: 100%;
-    margin-bottom: 2px;
-  }
-}
-
 .modifiers {
   font-size: 120%;
+  display: inline;
 
   .label {
     width: 4.5rem;
@@ -87,10 +62,6 @@ h2 {
     min-width: 1rem;
     text-align: center;
   }
-}
-
-.modifiers {
-  display: inline;
 }
 
 .distribution-help {
@@ -175,14 +146,4 @@ span.evil {
   border-radius: 0.5rem;
   box-shadow: 1px 5px 5px 0 #444;
   margin-bottom: 1rem;
-}
-
-textarea {
-  user-select: auto;
-  -webkit-user-select: auto;
-}
-
-#player_names {
-  font-family: inherit;
-  font-size: inherit;
 }
