@@ -14,7 +14,8 @@ const FAVORITES: number[] = (() => {
   // 2282 Chad Versus Virgin
   // 2235 You're Not Evil, I'm Evil!
   // 1273 Creme de la Creme
-  const favorites = "178,180,181,10,83,4,435,81,394,2282,2235";
+  // 2361 The Spy Who Pinged Me
+  const favorites = "178,180,181,10,83,4,435,81,394,2282,2235,2361";
   return favorites.split(",").map((s) => parseInt(s));
 })();
 
