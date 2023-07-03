@@ -1,5 +1,5 @@
 import images from "../../../assets/icons/*.webp";
-import React from "react";
+import classNames from "classnames";
 
 export function iconPath(id: string): string {
   return images[`Icon_${id}`];
@@ -22,6 +22,7 @@ export function characterClass(character: { roleType: string }): string {
 export function CharacterIconElement(props: {
   name: string;
   id: string;
+  className?: string;
 }): JSX.Element {
   const { id } = props;
   if (!iconPath(id)) {
@@ -31,7 +32,7 @@ export function CharacterIconElement(props: {
     return <></>;
   }
   return (
-    <div className="img-container">
+    <div className={classNames("img-container", props.className)}>
       <img
         className="char-icon"
         draggable={false}

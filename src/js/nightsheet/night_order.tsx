@@ -239,6 +239,12 @@ interface InfoCard {
 
 type SetFullscreenCard = (card: InfoCard | null) => void;
 
+const cardStyle = css`
+  display: inline-block;
+  max-width: min(500px, 70vw);
+  text-align: center;
+`;
+
 function FullscreenCard({
   card,
   setCard,
@@ -260,7 +266,7 @@ function FullscreenCard({
         );
         return (
           <>
-            <div className="card-text">
+            <div css={cardStyle}>
               <strong>{tokenHTML}</strong>
             </div>
             {card.character && <CharacterCard character={card.character} />}

@@ -10,6 +10,7 @@ h1 {
     float: left;
 
     &.other-nights {
+
       // the other-nights title is a header only for printing (since it goes on
       // the second page)
       @media not print {
@@ -57,19 +58,7 @@ h1 {
 }
 
 .jinxes {
-  text-align: left;
-  font-size: 8pt;
-  max-width: 330px;
-  margin-left: auto;
-  margin-top: 2rem;
-
-  .img-container {
-    vertical-align: bottom;
-    display: inline-block;
-  }
-
   .jinx {
-    // TODO: these two max widths are really hacky
     max-width: 230px;
     display: inline-block;
     margin-left: 10px;
@@ -78,10 +67,4 @@ h1 {
 
 .token-name {
   cursor: pointer;
-}
-
-.card-text {
-  display: inline-block;
-  max-width: 500px, 70vw;
-  text-align: center;
 }

@@ -1,22 +1,8 @@
 @use "main";
 @use "nav";
 
-$img-size: 30px;
-
-td.icon-cell {
-  height: $img-size;
-  padding-top: 0;
-  padding-bottom: 0;
-}
-
 td.ability-cell {
   @media print {
     font-size: 10pt;
   }
-}
-
-.img-container {
-  display: inline-block;
-  height: $img-size;
-  overflow: hidden;
 }
