@@ -1,4 +1,5 @@
 import { CharacterContext } from "./character_context";
+import { Column, ColumnContainer } from "./columns";
 import { SelectedCharacters, sortBag } from "./components/bag";
 import { BluffsToggleBtn } from "./components/bluffs";
 import { CharacterSelection } from "./components/characters";
@@ -159,8 +160,8 @@ export function Randomizer({
           {...{ numPlayers, setNumPlayers }}
         />
         <SetupModifiers numPlayers={numPlayers} selection={selection} />
-        <div className="columns">
-          <div className="column">
+        <ColumnContainer>
+          <Column>
             <RandomSetupButton
               {...{
                 numPlayers,
@@ -172,11 +173,11 @@ export function Randomizer({
                 setHistory,
               }}
             />
-          </div>
-          <div className="column">
+          </Column>
+          <Column>
             <BluffsToggleBtn {...{ selectBluffs, setSelectBluffs }} />
-          </div>
-        </div>
+          </Column>
+        </ColumnContainer>
         <CharacterSelection
           {...selectionVars}
           selectBluffs={selectBluffs}

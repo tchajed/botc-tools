@@ -11,6 +11,6 @@
     "lib": ["dom", "es2021"],
     "strict": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react",
+    "jsxImportSource": "@emotion/react"
   }
 }

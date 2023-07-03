@@ -30,23 +30,6 @@ h2 {
   margin-right: 0.5rem;
 }
 
-.column-smaller {
-  margin-left: 0.5rem;
-  flex: 40%;
-}
-
-.column {
-  flex: 50%;
-
-  &:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-}
-
-.columns {
-  display: flex;
-}
-
 .character {
   display: flex;
   position: relative;
@@ -188,10 +171,6 @@ span.evil {
   border: 3px dotted black;
   border-style: none none dotted;
   color: transparent;
-}
-
-.selected-characters {
-  display: flex;
 }
 
 .fullscreen {

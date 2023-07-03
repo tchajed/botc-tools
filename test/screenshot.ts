@@ -149,8 +149,8 @@ async function main() {
     name: string,
     where: "bag" | "chars" = "chars",
   ) {
-    const charsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' columns ')]`;
-    const bagCharsX = `*[contains(concat(' ', normalize-space(@class), ' '), ' selected-characters ')]`;
+    const charsX = `*[@id='characters']`;
+    const bagCharsX = `*[@id='selected-characters']`;
     const charSel = where == "bag" ? bagCharsX : charsX;
     await page.tap(`xpath///${charSel}//span[contains(text(), '${name}')]`);
   };

@@ -76,29 +76,26 @@ export function CharacterSelection(
   }
 
   return (
-    <div>
+    <div id="characters">
       {["townsfolk", "outsider", "minion", "demon"].map((roleType) => (
-        <div className="columns" key={`${roleType}-roles`}>
-          <Columns numColumns={2}>
-            {chars
-              .filter((char) => char.roleType == roleType)
-              .map((char) => {
-                const selected = selection.chars.has(char.id);
-                const notNeeded =
-                  !selected && props.doneRoles.includes(roleType);
-                return (
-                  <CharacterCard
-                    character={char}
-                    key={char.id}
-                    selected={selected}
-                    bluffSelected={bluffs.chars.has(char.id)}
-                    notNeeded={notNeeded}
-                    onClick={handleClick(char)}
-                  />
-                );
-              })}
-          </Columns>
-        </div>
+        <Columns key={`${roleType}-roles`} numColumns={2}>
+          {chars
+            .filter((char) => char.roleType == roleType)
+            .map((char) => {
+              const selected = selection.chars.has(char.id);
+              const notNeeded = !selected && props.doneRoles.includes(roleType);
+              return (
+                <CharacterCard
+                  character={char}
+                  key={char.id}
+                  selected={selected}
+                  bluffSelected={bluffs.chars.has(char.id)}
+                  notNeeded={notNeeded}
+                  onClick={handleClick(char)}
+                />
+              );
+            })}
+        </Columns>
       ))}
     </div>
   );
