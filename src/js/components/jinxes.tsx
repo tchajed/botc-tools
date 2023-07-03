@@ -1,4 +1,3 @@
-import { getCharacter } from "../botc/roles";
 import { Script } from "../botc/script";
 import { CharacterIconElement } from "./character_icon";
 import { css } from "@emotion/react";
@@ -7,37 +6,41 @@ export function Jinxes({ script }: { script: Script }): JSX.Element {
   if (script.jinxes.length == 0) {
     return <></>;
   }
+
   return (
-    <div
-      className="jinxes details"
+    <table
       css={css`
-        text-align: left;
-        font-size: 8pt;
         max-width: 330px;
+        font-size: 9pt;
         margin-left: auto;
-        margin-top: 2rem;
+        border-spacing: 2px;
       `}
     >
-      {script.jinxes.map((jinx) => {
-        return (
-          <div className="jinx" key={`${jinx.character1}-${jinx.character2}`}>
-            {[jinx.character1, jinx.character2].map((id) => {
-              const name = getCharacter(id).name;
-              return (
-                <CharacterIconElement
-                  id={id}
-                  name={name}
-                  key={id}
-                  css={css`
-                    vertical-align: middle;
-                  `}
-                />
-              );
-            })}
-            {jinx.description}
-          </div>
-        );
-      })}
-    </div>
+      <tbody>
+        {script.jinxes.map((jinx) => {
+          return (
+            <tr key={`${jinx.character1}-${jinx.character2}`}>
+              <td>
+                <CharacterIconElement id={jinx.character1} />
+              </td>
+              <td
+                css={css`
+                  padding-left: 0.2rem;
+                `}
+              >
+                <CharacterIconElement id={jinx.character2} />
+              </td>
+              <td
+                css={css`
+                  padding-left: 0.5rem;
+                `}
+              >
+                {jinx.description}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
   );
 }
