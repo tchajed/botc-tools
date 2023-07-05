@@ -18,6 +18,7 @@ import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { ToggleAllRoles, isActive } from "./toggle_roles";
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import classnames from "classnames";
 import { FullscreenBluffs } from "randomizer/components/bluffs";
 import React, { createContext, useContext, useEffect, useState } from "react";
@@ -58,15 +59,35 @@ function characterToShow(token: string, char: CardInfo): CardInfo | null {
   return null;
 }
 
+const HeaderLabel = styled.span`
+  font-family: "Barlow", sans-serif;
+  font-size: 16pt;
+  font-weight: bold;
+  float: right;
+  margin-right: 1rem;
+`;
+
 function Header(props: { title: string; firstNight: boolean }): JSX.Element {
   const { firstNight } = props;
   const nightLabel = firstNight ? "FIRST NIGHT" : "OTHER NIGHTS";
   return (
     <h1>
-      <div className={classnames("title", { "other-nights": !firstNight })}>
+      <div
+        css={[
+          css`
+            float: left;
+          `,
+          !firstNight &&
+            css`
+              @media not print {
+                display: none;
+              }
+            `,
+        ]}
+      >
         {props.title}
       </div>
-      <span className="label">{nightLabel}</span>
+      <HeaderLabel>{nightLabel}</HeaderLabel>
     </h1>
   );
 }
@@ -106,13 +127,15 @@ function Details(props: {
       }
     };
     el = reactStringReplace(el, tokenName, (_match, i) => (
-      <strong
+      <a
         onClick={handleClick}
-        className="token-name"
-        key={`token-${tokenNum}-${i}`}
+        // needed for an a tag without an href
+        css={css`
+          cursor: pointer;
+        `}
       >
-        {tokenName}
-      </strong>
+        <strong key={`token-${tokenNum}-${i}`}>{tokenName}</strong>
+      </a>
     ));
     tokenNum++;
   }
