@@ -206,7 +206,32 @@ function CharacterList(props: {
   }
 
   return (
-    <table className="night-sheet" css={{ marginBottom: "0.5rem" }}>
+    <table
+      className="night-sheet"
+      css={css`
+        margin-bottom: 0.5rem;
+        // TODO(tchajed): this was intended for animation but I never got that
+        // working
+        tr.inactive {
+          display: none;
+        }
+
+        td.details-cell {
+          font-size: 10pt;
+          padding: 0 8px;
+          // a left-only border colored based on character alignment
+          border-left: black 2.5px solid;
+        }
+
+        tr.good td.details-cell {
+          border-color: theme.$good;
+        }
+
+        tr.evil td.details-cell {
+          border-color: theme.$evil;
+        }
+      `}
+    >
       <tbody>
         {order.map((c) => {
           if (c.nightDetails(firstNight)) {
