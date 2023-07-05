@@ -1,5 +1,6 @@
 import { ScriptList } from "./script_list";
 import { queryMatches, searchNormalize } from "./search";
+import { css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ScriptData } from "botc/script";
 import { isSafari } from "detect";
@@ -27,18 +28,36 @@ export function SearchResults(props: {
 
   return (
     <>
-      <div id="search">
+      <div
+        id="search"
+        css={{
+          fontSize: "120%",
+          marginBottom: "0.5rem",
+        }}
+      >
         <input
           id="search-query"
           type="search"
           placeholder="search"
           value={query}
           onChange={queryChange}
+          css={css`
+            font-size: inherit;
+            width: 8rem;
+            transition: width 0.3s;
+            &:focus {
+              width: 15rem;
+            }
+          `}
         />
         {showSearchIcon && (
           <>
             &nbsp;
-            <span className="icon">
+            <span
+              css={{
+                color: "gray",
+              }}
+            >
               <FontAwesomeIcon icon="search" />
             </span>
           </>
