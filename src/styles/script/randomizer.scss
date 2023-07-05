@@ -1,0 +1,46 @@
+@use "../main";
+@use "../theme";
+@use "../nav";
+
+h2 {
+  font-size: 120%;
+  margin: 0.5rem 0;
+}
+
+.modifiers {
+  font-size: 120%;
+  display: inline;
+
+  .label {
+    width: 4.5rem;
+    display: inline-block;
+  }
+
+  .svg-inline--fa {
+    width: 1.5rem;
+    display: inline-block;
+    text-align: center;
+  }
+}
+
+span.good {
+  color: theme.$good;
+}
+
+span.evil {
+  color: theme.$evil;
+}
+
+.error {
+  color: rgb(236, 25, 25);
+}
+
+.success {
+  color: green;
+}
+
+.fullscreen {
+  .bluffs {
+    font-size: 70%;
+  }
+}

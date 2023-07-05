@@ -1,5 +1,5 @@
-@use "main";
-@use "nav";
+@use "../main";
+@use "../nav";
 
 td.ability-cell {
   @media print {

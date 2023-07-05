@@ -130,7 +130,7 @@ function CharacterList(props: {
   }
 
   return (
-    <table className="character-list">
+    <table>
       <tbody>
         {rows.map((c_or_role) => {
           if (typeof c_or_role == "string") {

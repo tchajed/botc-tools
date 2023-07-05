@@ -1,6 +1,6 @@
-@use "main";
-@use "theme";
-@use "nav";
+@use "../main";
+@use "../theme";
+@use "../nav";
 
 h1 {
   // TODO: this is apparently an important difference between script.html and

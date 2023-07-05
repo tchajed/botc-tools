@@ -80,7 +80,6 @@ export function CharacterCard(props: {
     <div
       css={cardStyle}
       className={classnames(
-        "character",
         { selected: props.selected },
         { "bluff-selected": props.bluffSelected },
         { "not-needed": props.notNeeded },
