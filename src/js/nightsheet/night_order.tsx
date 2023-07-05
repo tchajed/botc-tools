@@ -17,7 +17,7 @@ import { Selection } from "../randomizer/selection";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { ToggleAllRoles, isActive } from "./toggle_roles";
-import { css } from "@emotion/react";
+import { css, useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
 import classnames from "classnames";
 import { FullscreenBluffs } from "randomizer/components/bluffs";
@@ -180,6 +180,7 @@ function CharacterList(props: {
   teensy: boolean;
   setCard: SetFullscreenCard;
 }): JSX.Element {
+  const theme = useTheme();
   const { orders, firstNight } = props;
   let order = [...(firstNight ? orders.firstNight : orders.otherNights)];
   if (props.selection != null || props.teensy) {
@@ -219,16 +220,17 @@ function CharacterList(props: {
         td.details-cell {
           font-size: 10pt;
           padding: 0 8px;
-          // a left-only border colored based on character alignment
+          // a left-only border colored based on character alignment (which is
+          // driven by the row's good/evil class)
           border-left: black 2.5px solid;
         }
 
         tr.good td.details-cell {
-          border-color: theme.$good;
+          border-color: ${theme.color.good};
         }
 
         tr.evil td.details-cell {
-          border-color: theme.$evil;
+          border-color: ${theme.color.evil};
         }
       `}
     >
