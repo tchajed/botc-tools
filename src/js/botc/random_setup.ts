@@ -129,7 +129,7 @@ export function randomCompleteSelection(
 }
 
 // The demon already knows these roles aren't in play
-const badBluffs = new Set(["king", "poppygrower", "lunatic"]);
+const badBluffs = new Set(["king", "poppygrower", "lunatic", "atheist"]);
 
 export function randomBluffs(
   characters: CharacterInfo[],
