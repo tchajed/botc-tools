@@ -2,7 +2,9 @@ import "../../icons";
 import { CharacterContext } from "../character_context";
 import { Selection } from "../selection";
 import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CharacterInfo } from "botc/roles";
 import {
   SetupModification,
   SetupChanges,
@@ -29,10 +31,10 @@ export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
   );
 }
 
-export function AtheistDistr({ dist }: { dist: Distribution }): JSX.Element {
+export function AtheistDistr(props: { numPlayers: number }): JSX.Element {
   return (
     <span className="distribution">
-      <span className="good">{dist.townsfolk + dist.outsider}</span>/
+      <span className="good">{props.numPlayers}</span>/
       <span className="evil">0</span>
     </span>
   );
@@ -110,6 +112,53 @@ function ModificationExplanation(props: {
   }
 }
 
+function elementOrList(els: JSX.Element[]): JSX.Element {
+  return (
+    <>
+      {els.reduce((acc, x) =>
+        acc === null ? (
+          x
+        ) : (
+          <>
+            {acc} or {x}
+          </>
+        ),
+      )}
+    </>
+  );
+}
+
+function ModificationList(props: { modified: CharacterInfo[] }): JSX.Element {
+  const { modified } = props;
+  return (
+    <>
+      {modified.map((char) => {
+        return (
+          <div key={char.id}>
+            <span className={classnames(characterClass(char), "bold")}>
+              {char.name}
+            </span>
+            <span>
+              {" "}
+              {<ModificationExplanation mod={SetupChanges[char.id]} />}
+            </span>
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
+const DistLabel = styled.span`
+  width: 4.5rem;
+  display: inline-block;
+`;
+const DistIcon = styled(FontAwesomeIcon)`
+  width: 1.5rem;
+  display: inline-block;
+  text-align: center;
+`;
+
 export function SetupModifiers(props: {
   numPlayers: number;
   selection: Selection;
@@ -129,20 +178,8 @@ export function SetupModifiers(props: {
     sameDistribution(dist, actual),
   );
 
-  let goalDistributionElement: JSX.Element = (
-    <>
-      {newDistributions
-        .map((dist, i) => <Distr dist={dist} key={i} />)
-        .reduce((acc, x) =>
-          acc === null ? (
-            x
-          ) : (
-            <>
-              {acc} or {x}
-            </>
-          ),
-        )}
-    </>
+  let goalDistributionElement: JSX.Element = elementOrList(
+    newDistributions.map((dist, i) => <Distr dist={dist} key={i} />),
   );
   if (selection.has("legion")) {
     // only for presentation purposes
@@ -156,48 +193,26 @@ export function SetupModifiers(props: {
         };
       }),
     );
-    goalDistributionElement = (
-      <>
-        {newLegionDistributions
-          .map((dist, i) => <LegionDistr dist={dist} key={i} />)
-          .reduce((acc, x) =>
-            acc === null ? (
-              x
-            ) : (
-              <>
-                {acc} or {x}
-              </>
-            ),
-          )}
-      </>
+    goalDistributionElement = elementOrList(
+      newLegionDistributions.map((dist, i) => (
+        <LegionDistr dist={dist} key={i} />
+      )),
     );
   }
   if (selection.has("atheist")) {
-    const atheistDistribution: Distribution = {
-      townsfolk: numPlayers,
-      outsider: 0,
-      minion: 0,
-      demon: 0,
-    };
-    goalDistributionElement = <AtheistDistr dist={atheistDistribution} />;
+    goalDistributionElement = <AtheistDistr numPlayers={numPlayers} />;
   }
 
   return (
-    <div className="modifiers">
+    <div
+      className="modifiers"
+      css={{
+        fontSize: "120%",
+        display: "inline",
+      }}
+    >
       <br />
-      {modified.map((char) => {
-        return (
-          <div key={char.id}>
-            <span className={classnames(characterClass(char), "bold")}>
-              {char.name}
-            </span>
-            <span>
-              {" "}
-              {<ModificationExplanation mod={SetupChanges[char.id]} />}
-            </span>
-          </div>
-        );
-      })}
+      <ModificationList modified={modified} />
       <div
         id="distribution-help"
         css={css`
@@ -214,13 +229,13 @@ export function SetupModifiers(props: {
         `}
       >
         <div>
-          <span className="label">goal</span>
-          <FontAwesomeIcon icon="location-crosshairs" />
+          <DistLabel>goal</DistLabel>
+          <DistIcon icon="location-crosshairs" />
           {goalDistributionElement}
         </div>
         <div>
-          <span className="label">current</span>
-          <FontAwesomeIcon icon="down-long" />
+          <DistLabel>current</DistLabel>
+          <DistIcon icon="down-long" />
           <Distr dist={actual} />
           {distributionCorrect && (
             <SuccessSpan>

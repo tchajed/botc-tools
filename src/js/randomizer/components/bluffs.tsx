@@ -45,8 +45,15 @@ export function FullscreenBluffs(props: {
       setData={() => props.setShowBluffs(null)}
       render={(bluffs) => {
         return (
-          <div className="bluffs">
-            <div className="bold" style={{ marginBottom: "1rem" }}>
+          <div>
+            <div
+              className="bold"
+              style={{
+                marginBottom: "1rem",
+                // this text is a little too long
+                fontSize: "70%",
+              }}
+            >
               THESE CHARACTERS <br /> ARE NOT IN PLAY{bluffs.length > 0 && ":"}
             </div>
             {bluffs.map((char) => (

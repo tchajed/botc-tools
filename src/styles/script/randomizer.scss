@@ -7,32 +7,10 @@ h2 {
   margin: 0.5rem 0;
 }
 
-.modifiers {
-  font-size: 120%;
-  display: inline;
-
-  .label {
-    width: 4.5rem;
-    display: inline-block;
-  }
-
-  .svg-inline--fa {
-    width: 1.5rem;
-    display: inline-block;
-    text-align: center;
-  }
-}
-
 span.good {
   color: theme.$good;
 }
 
 span.evil {
   color: theme.$evil;
-}
-
-.fullscreen {
-  .bluffs {
-    font-size: 70%;
-  }
 }

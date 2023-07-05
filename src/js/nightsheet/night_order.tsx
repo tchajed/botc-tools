@@ -127,8 +127,8 @@ function Details(props: {
       }
     };
     el = reactStringReplace(el, tokenName, (_match, i) => (
-      <a onClick={handleClick}>
-        <strong key={`token-${tokenNum}-${i}`}>{tokenName}</strong>
+      <a onClick={handleClick} key={`token-${tokenNum}-${i}`}>
+        <strong>{tokenName}</strong>
       </a>
     ));
     tokenNum++;
@@ -206,7 +206,7 @@ function CharacterList(props: {
   }
 
   return (
-    <table className="night-sheet">
+    <table className="night-sheet" css={{ marginBottom: "0.5rem" }}>
       <tbody>
         {order.map((c) => {
           if (c.nightDetails(firstNight)) {

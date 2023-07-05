@@ -130,7 +130,7 @@ function CharacterList(props: {
   }
 
   return (
-    <table>
+    <table css={{ marginBottom: "0.5rem" }}>
       <tbody>
         {rows.map((c_or_role) => {
           if (typeof c_or_role == "string") {
