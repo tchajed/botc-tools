@@ -18,7 +18,18 @@ function UpdateBar(): JSX.Element {
   //
   // Need to hook up to service worker events, and offer a refresh button.
   return (
-    <div id="update">
+    <div
+      css={css`
+        &.disabled {
+          display: none;
+        }
+
+        background-color: lightgreen;
+        color: black;
+        line-height: 2rem;
+        margin-bottom: 1rem;
+      `}
+    >
       <div className="main">
         A new version is available. Close all tabs to restart.
       </div>
