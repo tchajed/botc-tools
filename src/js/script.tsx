@@ -11,10 +11,12 @@ import {
 import { CharacterSheet } from "./roles/character_sheet";
 import { Page } from "./routing";
 import { selectedScript } from "./select_script";
-import { ThemeProvider } from "@emotion/react";
+import { Global, ThemeProvider } from "@emotion/react";
 import { getCharacter } from "botc/roles";
 import React, { useEffect, useReducer, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { GlobalStyle } from "styles/global_style";
+import { ScriptStyles } from "styles/script_styles";
 import { theme } from "theme";
 
 function getUrlPage(): Page | null {
@@ -105,6 +107,7 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
     <React.StrictMode>
       <ThemeProvider theme={theme}>
         <div>
+          <Global styles={[GlobalStyle, ScriptStyles]} />
           <Nav
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}

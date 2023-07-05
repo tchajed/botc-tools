@@ -43,7 +43,7 @@ function ScriptTitleTags({ script }: { script: ScriptData }): JSX.Element {
 
 export function ScriptList(props: { scripts: ScriptData[] }): JSX.Element {
   return (
-    <ul className="script">
+    <ul css={{ fontSize: "120%" }}>
       {props.scripts.map((script) => {
         return (
           <li key={script.pk}>

@@ -1,68 +1,5 @@
 @use "theme";
 
-// allow scrolling past end
-@media screen {
-  html {
-    height: auto !important;
-    padding-bottom: 300px !important;
-  }
-}
-
-body {
-  font-family: "Barlow", sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
-.main {
-  position: relative;
-  max-width: 550px;
-  margin: 0 auto;
-  padding: 5px;
-}
-
-a {
-  &,
-  &:visited {
-    background-color: transparent;
-    color: inherit;
-    text-decoration: inherit;
-    cursor: pointer;
-  }
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-// reset
-ul {
-  padding: 0;
-  margin: 0;
-}
-
-li {
-  list-style-type: none;
-}
-
-h1 {
-  font-family: "Lobster", serif;
-  font-size: 24pt;
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  width: 100%;
-}
-
-h2 {
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-
-table {
-  border-spacing: 0 5px;
-  width: 100%;
-}
-
 $img-size: 30px;
 
 td.icon-cell {
@@ -100,24 +37,6 @@ tr.evil .name-cell {
   color: theme.$evil;
 }
 
-@media print {
-  body {
-    margin: 0;
-  }
-}
-
-// hide accessibility labels
-.visuallyhidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-}
-
 .fullscreen {
   position: fixed;
   // needs to go on top of nav
@@ -142,14 +61,4 @@ tr.evil .name-cell {
 
     font-size: 250%;
   }
-}
-
-// utility classes
-
-.bold {
-  font-weight: bold;
-}
-
-.hidden {
-  display: none;
 }

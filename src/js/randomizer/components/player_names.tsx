@@ -46,8 +46,6 @@ export function PlayerNameInput(props: {
         css={css`
           user-select: auto;
           -webkit-user-select: auto;
-          font-family: inherit;
-          font-size: inherit;
         `}
       ></textarea>
       <br />

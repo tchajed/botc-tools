@@ -5,10 +5,12 @@ import { clearSavedScroll, pageUrl } from "../routing";
 import { BaseThree, ScriptList } from "./script_list";
 import { searchNormalize } from "./search";
 import { SearchResults } from "./search_results";
-import { css } from "@emotion/react";
+import { Global, css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { lighten } from "polished";
 import { useEffect, useState } from "react";
+import { GlobalStyle } from "styles/global_style";
+import { IndexStyles } from "styles/index_style";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function UpdateBar(): JSX.Element {
@@ -157,6 +159,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
 
   return (
     <div>
+      <Global styles={[GlobalStyle, IndexStyles]} />
       <div className="main">
         {lastScript && (
           <div className="forward-link">
@@ -172,7 +175,6 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
           </div>
         )}
         <h1>BotC tools</h1>
-
         <h2>Base 3</h2>
         <ScriptList scripts={baseThree} />
         <h2>Custom</h2>

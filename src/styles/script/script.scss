@@ -1,22 +1,4 @@
 @use "roles";
 @use "randomizer";
 
-.main {
-  font-size: 13pt;
-
-  @media print {
-    font-size: 9pt;
-  }
-}
-
-h1 {
-  // TODO: this is apparently an important difference between script.html and
-  // index.html
-  display: inline-block;
-}
-
-@media (max-width: 500px) {
-  td {
-    border-bottom: 1px dotted #bbb;
-  }
-}
+// global styles are now in js/styles/script_styles.ts

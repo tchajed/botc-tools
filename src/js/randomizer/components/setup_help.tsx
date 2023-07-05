@@ -19,8 +19,8 @@ import {
 import classnames from "classnames";
 import { characterClass } from "components/character_icon";
 import { Distr } from "components/num_players";
-import { ErrorSpan, SuccessSpan } from "error_msg";
 import { useContext } from "react";
+import { ErrorSpan, SuccessSpan } from "styles/error_msg";
 
 export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
   return (

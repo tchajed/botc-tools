@@ -8,7 +8,7 @@
   margin-top: 1rem;
   font-size: 90%;
 
-  .btn > * {
+  .btn>* {
     vertical-align: middle;
   }
 
@@ -21,33 +21,9 @@
   }
 }
 
-ul.script {
-  font-size: 120%;
-}
-
 li {
   &:not(:last-child) {
     padding-bottom: 0.5rem;
-  }
-}
-
-h2 {
-  margin-bottom: 1rem;
-}
-
-$link-color: rgb(16, 93, 216);
-
-a,
-a:visited {
-  color: $link-color;
-}
-
-ul.help {
-  margin: 0;
-  margin-top: 3rem;
-
-  li:not(:last-child) {
-    padding-bottom: 1rem;
   }
 }
 

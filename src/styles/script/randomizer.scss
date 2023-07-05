@@ -2,11 +2,6 @@
 @use "../theme";
 @use "../nav";
 
-h2 {
-  font-size: 120%;
-  margin: 0.5rem 0;
-}
-
 span.good {
   color: theme.$good;
 }
