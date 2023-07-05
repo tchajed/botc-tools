@@ -2,21 +2,9 @@
 @use "../theme";
 @use "../nav";
 
-h1 {
-  // TODO: this is apparently an important difference between script.html and
-  // index.html
-  display: inline-block;
-}
-
 .night-sheet {
-  tr {
-    // only for opacity, doesn't animate hiding rows entirely
-    transition: all 0.5s;
-  }
-
   tr.inactive {
     display: none;
-    // opacity: 70%;
   }
 
   td.details-cell {

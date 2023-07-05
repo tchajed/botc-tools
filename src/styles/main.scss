@@ -16,21 +16,23 @@ body {
 
 .main {
   position: relative;
-  max-width: 800px;
+  max-width: 550px;
   margin: 0 auto;
   padding: 5px;
 }
 
-a,
-a:visited {
-  background-color: transparent;
-  color: inherit;
-  text-decoration: inherit;
-  cursor: pointer;
-}
+a {
+  &,
+  &:visited {
+    background-color: transparent;
+    color: inherit;
+    text-decoration: inherit;
+    cursor: pointer;
+  }
 
-a:hover {
-  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 // reset

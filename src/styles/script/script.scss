@@ -3,14 +3,17 @@
 @use "randomizer";
 
 .main {
-  max-width: 550px;
   font-size: 13pt;
-}
 
-.main {
   @media print {
     font-size: 9pt;
   }
+}
+
+h1 {
+  // TODO: this is apparently an important difference between script.html and
+  // index.html
+  display: inline-block;
 }
 
 @media (max-width: 500px) {

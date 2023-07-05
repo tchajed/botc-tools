@@ -17,7 +17,8 @@ import {
 import classnames from "classnames";
 import { characterClass } from "components/character_icon";
 import { Distr } from "components/num_players";
-import React, { useContext } from "react";
+import { ErrorSpan, SuccessSpan } from "error_msg";
+import { useContext } from "react";
 
 export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
   return (
@@ -222,9 +223,9 @@ export function SetupModifiers(props: {
           <FontAwesomeIcon icon="down-long" />
           <Distr dist={actual} />
           {distributionCorrect && (
-            <span className="success">
+            <SuccessSpan>
               <FontAwesomeIcon icon="circle-check" />
-            </span>
+            </SuccessSpan>
           )}
         </div>
       </div>
@@ -248,26 +249,26 @@ export function BagSetupHelp(props: {
   if (bag.length == numPlayers) {
     if (targets.some((d) => sameDistribution(d, actual))) {
       return (
-        <span className="success">
+        <SuccessSpan>
           {bag.length}/{numPlayers} characters &nbsp;
           <FontAwesomeIcon icon="circle-check" />
-        </span>
+        </SuccessSpan>
       );
     }
     // the right total number but something is wrong with the distribution
     return (
       <>
         {bag.length}/{numPlayers} characters
-        <span className="error">
+        <ErrorSpan>
           {" "}
           (<FontAwesomeIcon icon="thumbs-down" /> distribution)
-        </span>
+        </ErrorSpan>
       </>
     );
   }
   return (
-    <span className="error">
+    <ErrorSpan>
       {bag.length}/{numPlayers} characters
-    </span>
+    </ErrorSpan>
   );
 }

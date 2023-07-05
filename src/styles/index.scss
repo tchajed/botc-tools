@@ -2,18 +2,13 @@
 @use "theme";
 @use "update_bar";
 
-.main {
-  max-width: 550px;
-  padding: 5px;
-}
-
 .forward-link {
   display: float;
   float: right;
   margin-top: 1rem;
   font-size: 90%;
 
-  .btn>* {
+  .btn > * {
     vertical-align: middle;
   }
 
