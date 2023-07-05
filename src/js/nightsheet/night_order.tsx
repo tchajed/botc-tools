@@ -282,17 +282,12 @@ const ShowBluffsContext: React.Context<() => void> = createContext(() => {
 });
 
 function PageDivider(): JSX.Element {
-  const style = css`
-    height: 10pt;
-    @media print {
-      display: none;
-    }
-  `;
+  const height = "10pt";
   return (
     <>
       <div
         css={css`
-          ${style}
+          height: ${height};
           @media print {
             page-break-after: always;
           }
@@ -300,8 +295,11 @@ function PageDivider(): JSX.Element {
       ></div>
       <div
         css={css`
-          ${style}
+          height: ${height};
           border-top: 2.5px dotted black;
+          @media print {
+            display: none;
+          }
         `}
       ></div>
     </>
