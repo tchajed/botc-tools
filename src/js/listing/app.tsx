@@ -1,19 +1,14 @@
-import { nameToId } from "../botc/roles";
-import {
-  ScriptData,
-  getCharacterList,
-  isTeensyville,
-  onlyBaseThree,
-} from "../botc/script";
-import { isSafari } from "../detect";
+import { ScriptData } from "../botc/script";
 import "../icons";
 import { ScriptState, initStorage, latestScript } from "../randomizer/state";
 import { clearSavedScroll, pageUrl } from "../routing";
-import { queryMatches, searchNormalize } from "./search";
+import { BaseThree, ScriptList } from "./script_list";
+import { searchNormalize } from "./search";
+import { SearchResults } from "./search_results";
+import { css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-
-const BaseThree = [178, 180, 181];
+import { lighten } from "polished";
+import { useEffect, useState } from "react";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function UpdateBar(): JSX.Element {
@@ -69,98 +64,24 @@ function HelpText(): JSX.Element {
   );
 }
 
-function ScriptTitleTags({ script }: { script: ScriptData }): JSX.Element {
-  // TODO: normalizing these ids is an ugly hack, we should standardize on
-  // script tool IDs
-  const chars = getCharacterList(script.characters.map((id) => nameToId(id)));
-  return (
-    <>
-      <a href={pageUrl("roles", script.pk)}>{script.title}</a>
-      {isTeensyville(chars) && (
-        <>
-          &nbsp;<span className="script-label">teensy</span>
-        </>
-      )}
-      {onlyBaseThree(chars) && !BaseThree.includes(script.pk) && (
-        <>
-          &nbsp;<span className="script-label">base3</span>
-        </>
-      )}
-    </>
-  );
-}
-
-function ScriptRow(props: { script: ScriptData }): JSX.Element {
-  const { pk } = props.script;
-  return (
-    <tr>
-      <td className="title-cell">
-        <ScriptTitleTags script={props.script} />
-      </td>
-      <td className="roles-cell">
-        <a className="btn-link" href={pageUrl("roles", pk)}>
-          <div className="btn">
-            <FontAwesomeIcon icon="list" />
-            &nbsp; Roles
-          </div>
-        </a>
-      </td>
-      <td className="nightsheet-cell">
-        <a className="btn-link" href={pageUrl("night", pk)}>
-          <div className="btn">
-            <FontAwesomeIcon icon="moon" />
-            &nbsp; Night
-          </div>
-        </a>
-      </td>
-      <td className="randomizer-cell">
-        <a className="btn-link" href={pageUrl("assign", pk)}>
-          <div className="btn">
-            <FontAwesomeIcon icon="dice" />
-            &nbsp; Assign
-          </div>
-        </a>
-      </td>
-    </tr>
-  );
-}
-
-// the old table format (with buttons for each page)
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function ScriptTable(props: { scripts: ScriptData[] }): JSX.Element {
-  return (
-    <table>
-      <tbody>
-        {props.scripts.map((script) => (
-          <ScriptRow script={script} key={script.pk} />
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-function ScriptList(props: { scripts: ScriptData[] }): JSX.Element {
-  return (
-    <ul className="script">
-      {props.scripts.map((script) => {
-        return (
-          <li key={script.pk}>
-            <FontAwesomeIcon icon="table-list" />
-            &nbsp;
-            <ScriptTitleTags script={script} />
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
-
 function GitHubLink(): JSX.Element {
   return (
     <a
-      className="github-link"
       href="https://github.com/tchajed/botc-tools"
       target="_blank"
+      css={css`
+        &,
+        &:visited {
+          color: white;
+          background-color: black;
+          border-radius: 0.25rem;
+          padding: 0.25rem;
+          &:hover {
+            background-color: ${lighten(0.3, "black")};
+            text-decoration: none;
+          }
+        }
+      `}
     >
       <FontAwesomeIcon icon={["fab", "github"]} />
       &nbsp; GitHub source
@@ -203,7 +124,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
         return;
       }
       const elapsedMs: number = new Date().getDate() - s.lastSave.getDate();
-      if (elapsedMs <= 30 /* minutes */ * 60 * 1000) {
+      if (elapsedMs <= 90 /* minutes */ * 60 * 1000) {
         setLastScript(s);
       }
     });
@@ -234,20 +155,6 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
     };
   }, [query]);
 
-  function queryChange(v: React.ChangeEvent<HTMLInputElement>) {
-    const newQuery = v.target.value;
-    setQuery(newQuery);
-    window.location.hash = searchNormalize(newQuery);
-  }
-
-  const allResults = queryMatches(custom, query);
-  const results = allResults.slice(0, 20);
-  const extraResults = allResults.slice(20);
-
-  // on Safari the search box already has a magnifying glass icon so avoid
-  // adding a redundant one
-  const showSearchIcon = !isSafari();
-
   return (
     <div>
       <div className="main">
@@ -269,35 +176,18 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
         <h2>Base 3</h2>
         <ScriptList scripts={baseThree} />
         <h2>Custom</h2>
-        <div id="search">
-          <input
-            id="search-query"
-            type="search"
-            placeholder="search"
-            value={query}
-            onChange={queryChange}
-          />
-          {showSearchIcon && (
-            <>
-              &nbsp;
-              <span className="icon">
-                <FontAwesomeIcon icon="search" />
-              </span>
-            </>
-          )}
-        </div>
-        {allResults.length == 0 && <span>No results</span>}
-        <ScriptList scripts={results} />
-        {extraResults.length > 0 && (
-          <span>... plus {extraResults.length} more</span>
-        )}
-
+        <SearchResults scripts={custom} query={query} setQuery={setQuery} />
         <HelpText />
-        <footer>
-          <div className="link-block">
-            <GitHubLink />
-          </div>
-          <p>
+        <footer
+          css={css`
+            margin-top: 3em;
+            font-size: 90%;
+            max-width: 10rem;
+            float: right;
+          `}
+        >
+          <GitHubLink />
+          <p css={{ textAlign: "justify" }}>
             This is an unofficial app not affiliated with The Pandamonium
             Institute.
           </p>

@@ -9,6 +9,7 @@
 
 #search {
   font-size: 120%;
+  margin-bottom: 0.5rem;
 
   span.icon {
     color: gray;
@@ -23,8 +24,6 @@
       width: 15rem;
     }
   }
-
-  margin-bottom: 0.5rem;
 }
 
 .forward-link {
@@ -33,7 +32,7 @@
   margin-top: 1rem;
   font-size: 90%;
 
-  .btn > * {
+  .btn>* {
     vertical-align: middle;
   }
 
@@ -56,14 +55,6 @@ li {
   }
 }
 
-.script-label {
-  border: 1px dotted gray;
-  border-radius: 0.25rem;
-  background-color: darken(white, 10);
-  font-size: 90%;
-  padding: 0.1rem;
-}
-
 h2 {
   margin-bottom: 1rem;
 }
@@ -75,10 +66,6 @@ a:visited {
   color: $link-color;
 }
 
-p {
-  margin-bottom: 2rem;
-}
-
 ul.help {
   margin: 0;
   margin-top: 3rem;
@@ -86,17 +73,6 @@ ul.help {
   li:not(:last-child) {
     padding-bottom: 1rem;
   }
-}
-
-.roles-cell {
-  padding-left: 0.5rem;
-}
-
-.roles-cell,
-.nightsheet-cell,
-.randomizer-cell {
-  width: 1%;
-  white-space: nowrap;
 }
 
 .btn {
@@ -116,33 +92,5 @@ a.btn-link {
   &:visited {
     text-decoration: none;
     color: white;
-  }
-}
-
-footer {
-  margin-top: 3em;
-  font-size: 90%;
-  max-width: 10rem;
-  float: right;
-
-  .link-block {
-    margin-left: auto;
-    width: fit-content;
-  }
-
-  .github-link {
-    color: white;
-    background-color: black;
-    border-radius: 0.25rem;
-    padding: 0.25rem;
-
-    &:hover {
-      background-color: lighten(black, 30);
-      text-decoration: none;
-    }
-  }
-
-  p {
-    text-align: justify;
   }
 }
