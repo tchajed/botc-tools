@@ -1,4 +1,26 @@
-import React from "react";
+import styled from "@emotion/styled";
+
+const FullscreenModal = styled.div`
+  position: fixed;
+  // needs to go on top of nav
+  z-index: 1001;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  overflow: hidden;
+  text-align: center;
+  font-size: 250%;
+`;
+
+const FullscreenContents = styled.div`
+  position: relative;
+  // center within fullscreen
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+`;
 
 /**
  * A component for showing fullscreen modals that are dismissed on click.
@@ -14,7 +36,7 @@ export function Fullscreen<T>(props: {
   render: (x: T) => JSX.Element;
 }): JSX.Element {
   if (props.data == null) {
-    return <div className="fullscreen hidden"></div>;
+    return <div className="hidden"></div>;
   }
 
   function handleClick() {
@@ -22,8 +44,8 @@ export function Fullscreen<T>(props: {
   }
 
   return (
-    <div className="fullscreen" onClick={handleClick}>
-      <div className="contents">{props.render(props.data)}</div>
-    </div>
+    <FullscreenModal onClick={handleClick}>
+      <FullscreenContents>{props.render(props.data)}</FullscreenContents>
+    </FullscreenModal>
   );
 }
