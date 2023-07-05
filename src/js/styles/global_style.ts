@@ -28,14 +28,12 @@ const ElementStyles = css`
     padding: 5px;
   }
 
-  a {
-    &,
-    &:visited {
-      background-color: transparent;
-      color: inherit;
-      text-decoration: inherit;
-      cursor: pointer;
-    }
+  a,
+  a:visited {
+    background-color: transparent;
+    color: inherit;
+    text-decoration: inherit;
+    cursor: pointer;
 
     &:hover {
       text-decoration: underline;
