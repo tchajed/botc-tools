@@ -26,6 +26,7 @@ a:visited {
   background-color: transparent;
   color: inherit;
   text-decoration: inherit;
+  cursor: pointer;
 }
 
 a:hover {
@@ -60,10 +61,6 @@ table {
   width: 100%;
 }
 
-td.name-cell {
-  font-family: "EB Garamond", "Barlow", serif;
-}
-
 $img-size: 30px;
 
 td.icon-cell {
@@ -83,6 +80,8 @@ img.char-icon {
 }
 
 td.name-cell {
+  font-family: "EB Garamond", "Barlow", serif;
+
   @media (min-width: 500px) {
     width: 7rem;
     padding-right: 1rem;

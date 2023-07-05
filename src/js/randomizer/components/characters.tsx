@@ -6,12 +6,22 @@ import {
 import { CharacterContext } from "../character_context";
 import { Columns } from "../columns";
 import { CharacterSelectionVars } from "../selection";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
 import classnames from "classnames";
 import React, { useContext } from "react";
 
+/** A label in the upper left of a container */
+const SmallLabel = styled.span`
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  font-size: 90%;
+`;
+
 function RoleLabel(props: { roleType: string }): JSX.Element {
   const letter = props.roleType.charAt(0).toUpperCase();
-  return <span className="role-label">{letter}</span>;
+  return <SmallLabel>{letter}</SmallLabel>;
 }
 
 // like CharacterInfo but not a class
@@ -23,6 +33,38 @@ export interface CardInfo {
   firstNight: NightAction | null;
   otherNights: NightAction | null;
 }
+
+const cardStyle = css`
+  display: flex;
+  position: relative;
+  width: fit-content;
+  align-items: center;
+  border: 2px solid #eee;
+  background: #eee;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    @media (hover: hover) {
+      border-color: rgb(0, 170, 255);
+    }
+  }
+
+  &.selected {
+    border-color: rgb(153, 0, 255);
+  }
+
+  &.bluff-selected {
+    border-color: rgb(255, 0, 81);
+  }
+
+  &.not-needed {
+    opacity: 60%;
+  }
+`;
 
 export function CharacterCard(props: {
   character: CardInfo;
@@ -36,8 +78,8 @@ export function CharacterCard(props: {
   const needsLabel = ["outsider", "minion"].includes(roleType);
   return (
     <div
+      css={cardStyle}
       className={classnames(
-        characterClass(character),
         "character",
         { selected: props.selected },
         { "bluff-selected": props.bluffSelected },
@@ -48,7 +90,7 @@ export function CharacterCard(props: {
       {needsLabel && <RoleLabel roleType={roleType} />}
       <CharacterIconElement {...character} />
       &nbsp;&nbsp;
-      <span className="name">{character.name}</span>
+      <span className={characterClass(character)}>{character.name}</span>
     </div>
   );
 }

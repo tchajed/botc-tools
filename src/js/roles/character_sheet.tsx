@@ -81,11 +81,13 @@ function Character(props: {
   const { character } = props;
   return (
     <tr className={characterClass(character)}>
-      <td className="icon-cell" onClick={props.onClick}>
-        <CharacterIconElement {...character} />
+      <td className="icon-cell">
+        <a onClick={props.onClick}>
+          <CharacterIconElement {...character} />
+        </a>
       </td>
-      <td className="name-cell" onClick={props.onClick}>
-        {character.name}
+      <td className="name-cell">
+        <span onClick={props.onClick}>{character.name}</span>
       </td>
       <td className="ability-cell">
         <Ability ability={character.ability} />

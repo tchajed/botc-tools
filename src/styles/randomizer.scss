@@ -55,19 +55,10 @@ h2 {
   }
 }
 
-.role-label {
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  font-size: 90%;
-}
-
-.good .name,
 span.good {
   color: theme.$good;
 }
 
-.evil .name,
 span.evil {
   color: theme.$evil;
 }
@@ -83,19 +74,5 @@ span.evil {
 .fullscreen {
   .bluffs {
     font-size: 70%;
-  }
-
-  .character {
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 8px;
-    padding: 10%;
-    max-width: 70vw;
-
-    // make the image larger
-    .img-container {
-      min-width: 70px;
-      min-height: 70px;
-    }
   }
 }

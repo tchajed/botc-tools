@@ -127,13 +127,7 @@ function Details(props: {
       }
     };
     el = reactStringReplace(el, tokenName, (_match, i) => (
-      <a
-        onClick={handleClick}
-        // needed for an a tag without an href
-        css={css`
-          cursor: pointer;
-        `}
-      >
+      <a onClick={handleClick}>
         <strong key={`token-${tokenNum}-${i}`}>{tokenName}</strong>
       </a>
     ));
