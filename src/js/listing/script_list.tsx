@@ -1,3 +1,4 @@
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { nameToId } from "botc/roles";
@@ -41,9 +42,16 @@ function ScriptTitleTags({ script }: { script: ScriptData }): JSX.Element {
   );
 }
 
+const listStyle = css`
+  font-size: 120%;
+  li:not(:last-of-type) {
+    padding-bottom: 0.5rem;
+  }
+`;
+
 export function ScriptList(props: { scripts: ScriptData[] }): JSX.Element {
   return (
-    <ul css={{ fontSize: "120%" }}>
+    <ul css={listStyle}>
       {props.scripts.map((script) => {
         return (
           <li key={script.pk}>

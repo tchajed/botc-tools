@@ -5,12 +5,33 @@ import { clearSavedScroll, pageUrl } from "../routing";
 import { BaseThree, ScriptList } from "./script_list";
 import { searchNormalize } from "./search";
 import { SearchResults } from "./search_results";
-import { Global, css } from "@emotion/react";
+import { Global, ThemeProvider, css } from "@emotion/react";
+import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { lighten } from "polished";
 import { useEffect, useState } from "react";
 import { GlobalStyle } from "styles/global_style";
 import { IndexStyles } from "styles/index_style";
+import { theme } from "theme";
+
+const BtnSpan = styled.span`
+  padding: 0.4rem 0.5rem;
+  border-radius: 0.25rem;
+  background-color: ${(props) => props.theme.color.primary};
+  color: white;
+`;
+
+const BtnLink = styled(BtnSpan.withComponent("a"))`
+  &:hover {
+    background-color: ${(props) => lighten(0.2, props.theme.color.primary)};
+  }
+
+  &:hover,
+  &:visited {
+    color: white;
+    text-decoration: none;
+  }
+`;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function UpdateBar(): JSX.Element {
@@ -40,36 +61,41 @@ function UpdateBar(): JSX.Element {
 function HelpText(): JSX.Element {
   const buttonHelp = [
     <li key="roles">
-      <span className="btn-link">
-        <span className="btn">
-          <FontAwesomeIcon icon="list" />
-          &nbsp; Roles
-        </span>
-      </span>
+      <BtnSpan>
+        <FontAwesomeIcon icon="list" />
+        &nbsp; Roles
+      </BtnSpan>
       &nbsp; is a character sheet
     </li>,
     <li key="night">
-      <span className="btn-link">
-        <span className="btn">
-          <FontAwesomeIcon icon="moon" />
-          &nbsp; Night
-        </span>
-      </span>
-      &nbsp; has the night sheets
+      <BtnSpan>
+        <FontAwesomeIcon icon="moon" />
+        &nbsp; Night
+      </BtnSpan>
+      &nbsp; lists the night order
     </li>,
     <li key="assign">
-      <span className="btn-link">
-        <span className="btn">
-          <FontAwesomeIcon icon="dice" />
-          &nbsp; Assign
-        </span>
-      </span>
+      <BtnSpan>
+        <FontAwesomeIcon icon="dice" />
+        &nbsp; Assign
+      </BtnSpan>
       &nbsp; helps the ST select & assign roles
     </li>,
   ];
-  // disable button help for now
   return (
-    <ul className="help">
+    <ul
+      className="help"
+      css={[
+        {
+          marginTop: "3rem",
+        },
+        css`
+          li:not(:last-of-type) {
+            padding-bottom: 1rem;
+          }
+        `,
+      ]}
+    >
       <li>Each script has these tools:</li>
       {buttonHelp}
       <li>These tools are meant to support in-person games.</li>
@@ -101,6 +127,22 @@ function GitHubLink(): JSX.Element {
     </a>
   );
 }
+
+const scriptLinkStyle = {
+  link: css`
+    float: right;
+    margin-top: 1rem;
+    font-size: 90%;
+  `,
+  title: css`
+    display: inline-block;
+    vertical-align: bottom;
+    max-width: 8rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  `,
+};
 
 export function App(props: { scripts: ScriptData[] }): JSX.Element {
   const baseThree = props.scripts.filter((s) => BaseThree.includes(s.pk));
@@ -169,43 +211,42 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   }, [query]);
 
   return (
-    <div>
-      <Global styles={[GlobalStyle, IndexStyles]} />
-      <div className="main">
-        {lastScript && (
-          <div className="forward-link">
-            <a
-              className="btn-link"
-              href={pageUrl("assign", lastScript.id.toString())}
-            >
-              <div className="btn">
-                <span className="script-title">{lastScript.scriptTitle}</span>
+    <ThemeProvider theme={theme}>
+      <div>
+        <Global styles={[GlobalStyle, IndexStyles]} />
+        <div className="main">
+          {lastScript && (
+            <div css={scriptLinkStyle.link}>
+              <BtnLink href={pageUrl("assign", lastScript.id.toString())}>
+                <span css={scriptLinkStyle.title}>
+                  {lastScript.scriptTitle}
+                </span>
                 &nbsp; <FontAwesomeIcon icon="chevron-right" />
-              </div>
-            </a>
-          </div>
-        )}
-        <h1>BotC tools</h1>
-        <h2>Base 3</h2>
-        <ScriptList scripts={baseThree} />
-        <h2>Custom</h2>
-        <SearchResults scripts={custom} query={query} setQuery={setQuery} />
-        <HelpText />
-        <footer
-          css={css`
-            margin-top: 3em;
-            font-size: 90%;
-            max-width: 10rem;
-            float: right;
-          `}
-        >
-          <GitHubLink />
-          <p css={{ textAlign: "justify" }}>
-            This is an unofficial app not affiliated with The Pandamonium
-            Institute.
-          </p>
-        </footer>
+              </BtnLink>
+            </div>
+          )}
+          <h1>BotC tools</h1>
+          <h2>Base 3</h2>
+          <ScriptList scripts={baseThree} />
+          <h2>Custom</h2>
+          <SearchResults scripts={custom} query={query} setQuery={setQuery} />
+          <HelpText />
+          <footer
+            css={css`
+              margin-top: 3em;
+              font-size: 90%;
+              max-width: 10rem;
+              float: right;
+            `}
+          >
+            <GitHubLink />
+            <p css={{ textAlign: "justify" }}>
+              This is an unofficial app not affiliated with The Pandamonium
+              Institute.
+            </p>
+          </footer>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 }
