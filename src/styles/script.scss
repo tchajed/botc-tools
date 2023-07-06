@@ -1,21 +1,7 @@
 @use "theme";
 
-$img-size: 30px;
-
 td.icon-cell {
   padding-right: 10px;
-}
-
-.img-container {
-  display: inline-block;
-  width: $img-size;
-  height: $img-size;
-  overflow: hidden;
-}
-
-img.char-icon {
-  height: 100%;
-  width: 100%;
 }
 
 td.name-cell {
@@ -25,14 +11,20 @@ td.name-cell {
     width: 7rem;
     padding-right: 1rem;
   }
-
-  padding-right: 0.5rem;
 }
 
-tr.good .name-cell {
+tr.good .name-cell,
+span.good {
   color: theme.$good;
 }
 
-tr.evil .name-cell {
+tr.evil .name-cell,
+span.evil {
   color: theme.$evil;
+}
+
+td.ability-cell {
+  @media print {
+    font-size: 10pt;
+  }
 }

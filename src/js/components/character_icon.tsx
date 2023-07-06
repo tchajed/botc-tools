@@ -1,6 +1,6 @@
 import images from "../../../assets/icons/*.webp";
+import { css } from "@emotion/react";
 import { getCharacter } from "botc/roles";
-import classNames from "classnames";
 
 export function iconPath(id: string): string {
   return images[`Icon_${id}`];
@@ -20,10 +20,25 @@ export function characterClass(character: { roleType: string }): string {
       return "";
   }
 }
+
+const imgSize = "30px";
+
+const iconStyle = {
+  container: css`
+    display: inline-block;
+    width: ${imgSize};
+    height: ${imgSize};
+    overflow: hidden;
+  `,
+  img: css`
+    height: 100%;
+    width: 100%;
+  `,
+};
+
 export function CharacterIconElement(props: {
   id: string;
   name?: string;
-  className?: string;
 }): JSX.Element {
   const { id } = props;
   const name = props.name || getCharacter(id).name;
@@ -34,12 +49,12 @@ export function CharacterIconElement(props: {
     return <></>;
   }
   return (
-    <div className={classNames("img-container", props.className)}>
+    <div css={iconStyle.container}>
       <img
-        className="char-icon"
-        draggable={false}
+        css={iconStyle.img}
         src={iconPath(id)}
         alt={name}
+        draggable={false}
       />
     </div>
   );
