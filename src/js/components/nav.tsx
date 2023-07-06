@@ -17,8 +17,7 @@ const NavItem = styled.a`
   &:visited {
     color: white;
     &.current {
-      border-bottom: ${(props) =>
-        `0.2rem solid ${props.theme.color.secondary}`};
+      border-bottom: "0.2rem solid ${(props) => props.theme.color.secondary}";
       // box-shadow: 0 0 10px 5px rgb(255, 235, 122);
     }
   }
