@@ -13,7 +13,7 @@ import { pageUrl } from "routing";
 export const BaseThree = [178, 180, 181];
 
 const TagSpan = styled.span`
-  border: 2px dotted gray;
+  border: 1px dotted gray;
   border-radius: 0.25rem;
   background-color: ${darken(0.1, "white")};
   font-size: 90%;
