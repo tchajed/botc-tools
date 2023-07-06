@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { theme } from "theme";
 
 export const ScriptStyles = css`
   h1 {
@@ -24,5 +25,33 @@ export const ScriptStyles = css`
     td {
       border-bottom: 1px dotted #bbb;
     }
+  }
+
+  td.icon-cell {
+    padding-right: 10px;
+  }
+
+  td.ability-cell {
+    @media print {
+      font-size: 10pt;
+    }
+  }
+
+  td.name-cell {
+    font-family: "EB Garamond", "Barlow", serif;
+    @media (min-width: 500px) {
+      width: 7rem;
+      padding-right: 1rem;
+    }
+  }
+
+  tr.good .name-cell,
+  span.good {
+    color: ${theme.color.good};
+  }
+
+  tr.evil .name-cell,
+  span.evil {
+    color: ${theme.color.evil};
   }
 `;
