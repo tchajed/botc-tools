@@ -1,11 +1,12 @@
 import "../icons";
 import { Page, pageUrl, saveScroll } from "../routing";
-import { Global, Theme, css, useTheme } from "@emotion/react";
+import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import { lighten } from "polished";
 import React, { PropsWithChildren } from "react";
+import { theme } from "theme";
 
 const NavItem = styled.a`
   display: flex;
@@ -17,7 +18,7 @@ const NavItem = styled.a`
   &:visited {
     color: white;
     &.current {
-      border-bottom: 0.2rem solid ${(props) => props.theme.color.secondary};
+      border-bottom: 0.2rem solid ${theme.color.secondary};
       // box-shadow: 0 0 10px 5px rgb(255, 235, 122);
     }
   }
@@ -26,7 +27,7 @@ const NavItem = styled.a`
     text-decoration: none;
     @media (hover: hover) {
       border-color: rgb(0, 170, 255);
-      background-color: ${(props) => lighten(0.2, props.theme.color.primary)};
+      background-color: ${lighten(0.2, theme.color.primary)};
     }
   }
 `;
@@ -52,7 +53,7 @@ function PageLink(
   );
 }
 
-const navStyle = (theme: Theme) => css`
+const navStyle = css`
   background-color: ${theme.color.primary};
   padding: 1rem 5px;
   margin: 0 0 1rem 0;
@@ -104,7 +105,6 @@ export function Nav(props: {
   setCurrentPage: (p: Page) => void;
   scriptId: number;
 }): JSX.Element {
-  const theme = useTheme();
   const id = props.scriptId;
   const currentPage = props.currentPage;
 
@@ -123,7 +123,7 @@ export function Nav(props: {
   }
 
   return (
-    <div id="nav" css={[navStyle(theme)]}>
+    <div id="nav" css={navStyle}>
       <Global styles={TabStyles} />
       <div css={navHeaderStyle}>
         <NavItem href="./">
