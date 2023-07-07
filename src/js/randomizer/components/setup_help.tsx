@@ -1,7 +1,6 @@
 import "../../icons";
 import { CharacterContext } from "../character_context";
 import { Selection } from "../selection";
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CharacterInfo } from "botc/roles";
@@ -62,10 +61,12 @@ function ModificationExplanation(props: {
           </span>
         );
       }
+      // godfather
       if (arrayEq(mod.delta, [+1, -1])) {
         return <span>(+1 or &#x2212;1 outsider)</span>;
       }
-      if (arrayEq(mod.delta, [0, +1, -1])) {
+      // sentinel
+      if (arrayEq(mod.delta, [0, +1, -1]) || arrayEq(mod.delta, [+1, 0, -1])) {
         return <span>(might be +1 or &#x2212;1 outsider)</span>;
       }
       console.warn(`unhandled modifier ${mod}`);
@@ -149,6 +150,18 @@ function ModificationList(props: { modified: CharacterInfo[] }): JSX.Element {
   );
 }
 
+const StickyDistHelp = styled.div`
+  position: sticky;
+  display: inline-block;
+  top: 5rem;
+  z-index: 999;
+  background-color: white;
+  border-radius: 0.25rem;
+  border: 1px solid #666;
+  box-shadow: 0px 3px 3px 0;
+  padding: 5px;
+  margin-bottom: 1rem;
+`;
 const DistLabel = styled.span`
   width: 4.5rem;
   display: inline-block;
@@ -213,21 +226,7 @@ export function SetupModifiers(props: {
     >
       <br />
       <ModificationList modified={modified} />
-      <div
-        id="distribution-help"
-        css={css`
-          position: sticky;
-          display: inline-block;
-          top: 5rem;
-          z-index: 999;
-          background-color: white;
-          border-radius: 0.25rem;
-          border: 1px solid #666;
-          box-shadow: 0px 3px 3px 0;
-          padding: 5px;
-          margin-bottom: 1rem;
-        `}
-      >
+      <StickyDistHelp id="distribution-help">
         <div>
           <DistLabel>goal</DistLabel>
           <DistIcon icon="flag" />
@@ -243,7 +242,7 @@ export function SetupModifiers(props: {
             </SuccessSpan>
           )}
         </div>
-      </div>
+      </StickyDistHelp>
     </div>
   );
 }
