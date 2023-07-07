@@ -230,12 +230,12 @@ export function SetupModifiers(props: {
       >
         <div>
           <DistLabel>goal</DistLabel>
-          <DistIcon icon="location-crosshairs" />
+          <DistIcon icon="flag" />
           {goalDistributionElement}
         </div>
         <div>
           <DistLabel>current</DistLabel>
-          <DistIcon icon="down-long" />
+          <DistIcon icon="location-dot" />
           <Distr dist={actual} />
           {distributionCorrect && (
             <SuccessSpan>
