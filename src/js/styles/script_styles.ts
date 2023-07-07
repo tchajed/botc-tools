@@ -22,7 +22,7 @@ export const ScriptStyles = css`
   }
 
   @media (max-width: 500px) {
-    td {
+    tr:not(:last-of-type) td {
       border-bottom: 1px dotted #bbb;
     }
   }
@@ -39,6 +39,7 @@ export const ScriptStyles = css`
 
   td.name-cell {
     font-family: "EB Garamond", "Barlow", serif;
+    padding-right: 0.5rem;
     @media (min-width: 500px) {
       width: 7rem;
       padding-right: 1rem;
