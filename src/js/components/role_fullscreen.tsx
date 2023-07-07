@@ -1,7 +1,6 @@
 import { getCharacter } from "../botc/roles";
 import { TokenCanvas } from "../randomizer/tokens/token_canvas";
 import { Fullscreen } from "./fullscreen_modal";
-import React from "react";
 
 export function FullscreenRole(props: {
   fsRole: string | null;

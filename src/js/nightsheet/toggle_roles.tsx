@@ -1,6 +1,5 @@
 import { Selection } from "../randomizer/selection";
 import { css } from "@emotion/react";
-import React from "react";
 import { ChangeEvent } from "react";
 
 export function isActive(selection: Selection | null, id: string): boolean {

@@ -11,7 +11,7 @@ import { BagSetupHelp } from "./setup_help";
 import { css } from "@emotion/react";
 import { Column, ColumnContainer } from "randomizer/columns";
 import { Ranking } from "randomizer/ranking";
-import React, { useContext } from "react";
+import { useContext } from "react";
 
 export function charKey(character: BagCharacter): string {
   return character.demonNum !== undefined

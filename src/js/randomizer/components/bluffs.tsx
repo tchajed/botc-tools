@@ -5,14 +5,14 @@ import { TokenCanvas } from "../tokens/token_canvas";
 import { CharacterCard } from "./characters";
 import { css } from "@emotion/react";
 import classnames from "classnames";
-import React, { ChangeEvent } from "react";
+import React, { useState } from "react";
 
 export function BluffsToggleBtn(props: {
   selectBluffs: boolean;
   setSelectBluffs: (b: boolean) => void;
 }): JSX.Element {
   const { selectBluffs } = props;
-  function onChange(e: ChangeEvent<HTMLInputElement>) {
+  function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     props.setSelectBluffs(e.target.checked);
   }
   return (
@@ -67,9 +67,7 @@ export function FullscreenBluffs(props: {
 }
 
 export function BluffList(props: { bluffs: Selection }): JSX.Element {
-  const [showBluffs, setShowBluffs] = React.useState<CharacterInfo[] | null>(
-    null,
-  );
+  const [showBluffs, setShowBluffs] = useState<CharacterInfo[] | null>(null);
   const { bluffs } = props;
   const bluffList = [...bluffs.values()].map((id) => getCharacter(id));
   // TODO: ideally would be script order
