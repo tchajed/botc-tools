@@ -268,12 +268,9 @@ export async function drawTownsquare(
       heightAdjust += othersBluffGap + 240;
     }
   }
-  setCanvasResolution(
-    canvas,
-    radius * 2 + margin * 2,
-    radius * 2 + margin * 2 + heightAdjust,
-    3,
-  );
+  const width = radius * 2 + margin * 2;
+  const height = radius * 2 + margin * 2 + heightAdjust;
+  setCanvasResolution(canvas, width, height);
   const aspectRatio = canvas.height / canvas.width;
   // set a fixed, small display size
   if (canvas instanceof HTMLCanvasElement) {
