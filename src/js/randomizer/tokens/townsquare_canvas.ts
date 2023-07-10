@@ -277,13 +277,12 @@ export async function drawTownsquare(
   }
   const width = radius * 2 + margin * 2;
   const height = radius * 2 + margin * 2 + heightAdjust;
-  // TODO: canvas is still sometimes too big on iOS devices
-  console.debug(
-    `width: ${width}, height: ${height}, product: ${
-      (width * height) / 1000 / 1000
-    }M`,
-  );
-  setCanvasResolution(canvas, width, height);
+  let pixelScale = 3;
+  // limit maximum canvas size, which is 16M pixels on iOS
+  if (width * height * pixelScale * pixelScale > 16e6) {
+    pixelScale = 2;
+  }
+  setCanvasResolution(canvas, width, height, pixelScale);
   const aspectRatio = canvas.height / canvas.width;
   // set a fixed, small display size
   if (canvas instanceof HTMLCanvasElement) {
