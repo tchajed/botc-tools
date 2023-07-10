@@ -214,13 +214,20 @@ async function drawOutsideBag(
 }
 
 function townsquareArcAngle(numPlayers: number): number {
+  const minFraction = 1 / 2;
+  const maxFraction = 3 / 4 + 0.1;
+  // make the angle maxFraction at this many players
+  const maxFractionPlayers = 12;
   let circleFraction = 0;
   if (numPlayers <= 5) {
-    circleFraction = 1 / 2;
-  } else if (numPlayers >= 10) {
-    circleFraction = 3 / 4;
+    circleFraction = minFraction;
+  } else if (numPlayers >= maxFractionPlayers) {
+    circleFraction = maxFraction;
   } else {
-    circleFraction = 1 / 2 + (1 / 4) * ((numPlayers - 5) / (10 - 5));
+    circleFraction =
+      minFraction +
+      (maxFraction - minFraction) *
+        ((numPlayers - 5) / (maxFractionPlayers - 5));
   }
   return circleFraction * TWOPI;
 }
@@ -270,12 +277,18 @@ export async function drawTownsquare(
   }
   const width = radius * 2 + margin * 2;
   const height = radius * 2 + margin * 2 + heightAdjust;
+  // TODO: canvas is still sometimes too big on iOS devices
+  console.debug(
+    `width: ${width}, height: ${height}, product: ${
+      (width * height) / 1000 / 1000
+    }M`,
+  );
   setCanvasResolution(canvas, width, height);
   const aspectRatio = canvas.height / canvas.width;
   // set a fixed, small display size
   if (canvas instanceof HTMLCanvasElement) {
-    canvas.style.width = "600px";
-    canvas.style.height = `${600 * aspectRatio}`;
+    canvas.style.width = `${600}px`;
+    canvas.style.height = `${600 * aspectRatio}px`;
   }
 
   const ctx: RenderingContext2D | null = canvas.getContext(
