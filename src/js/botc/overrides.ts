@@ -5,8 +5,16 @@
 export interface Override {
   ability?: string;
   nights?: string;
+  homebrew?: {
+    name: string;
+    roleType: "townsfolk" | "outsider" | "minion" | "demon";
+    firstNightIndex?: number;
+    otherNightsIndex?: number;
+  };
   firstNight?: string;
   otherNights?: string;
+  firstNightIndex?: number;
+  otherNightsIndex?: number;
 }
 
 const overrideList: { [key: string]: Override } = {
@@ -162,6 +170,18 @@ die by execution, but evil players learn which player it is.`,
   },
   fibbin: {
     ability: `Once per game, 1 good player might get incorrect information.`,
+  },
+
+  // homebrew characters
+  actor: {
+    ability: `Whoever wins, loses & whoever loses, wins, even if you are dead. [All good players are Actors and know each other]`,
+    firstNight: `Wake up all Actors and let them see each other.`,
+    homebrew: {
+      name: "Actor",
+      roleType: "townsfolk",
+      // roughly after demons/minions
+      firstNightIndex: 30,
+    },
   },
 };
 

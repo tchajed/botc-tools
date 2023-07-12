@@ -235,8 +235,30 @@ function createRoleData(): Map<string, CharacterInfo> {
   }
 
   for (const id of Object.keys(overrides.all)) {
-    // an override for a character not in Clocktower Online
+    const override = overrides.all[id];
+    if (override.homebrew !== undefined) {
+      const data = override.homebrew;
+      const char = new CharacterInfo(id, data.name, data.roleType, "other");
+      useOverride(id, char);
+      if (data.firstNightIndex !== undefined) {
+        if (!char.firstNight) {
+          console.error("firstNightIndex without firstNight text");
+        } else {
+          char.firstNight.index = data.firstNightIndex;
+        }
+      }
+      if (data.otherNightsIndex !== undefined) {
+        if (!char.otherNights) {
+          console.error("otherNightsIndex without otherNights text");
+        } else {
+          char.otherNights.index = data.otherNightsIndex;
+        }
+      }
+      roles.set(id, char);
+      continue;
+    }
     const info = roles.get(id);
+    // an override for a non-Homebrew character not in Clocktower Online
     if (info === undefined) {
       console.error(`override info for unknown id ${id} `);
       continue;
