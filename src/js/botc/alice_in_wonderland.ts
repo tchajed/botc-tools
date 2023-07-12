@@ -176,4 +176,14 @@ export const aliceInWonderland: { [key: string]: Override } = {
       firstNightIndex: nightorder.firstNight("Pixie"),
     },
   },
+  aliceduchess: {
+    ability:
+      "Each day, 3 players may visit you for a party. That night, you learn whether any of them was the Cheshire Cat. Players who sneezed today register falsely to you.",
+    otherNights: `The Duchess learns whether any of the players who visited them was the Cheshire Cat (or sneezed).`,
+    homebrew: {
+      name: "Duchess",
+      roleType: "townsfolk",
+      otherNightsIndex: nightorder.otherNights("Fortune Teller"),
+    },
+  },
 };
