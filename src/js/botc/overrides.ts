@@ -17,7 +17,11 @@ export interface Override {
   otherNightsIndex?: number;
 }
 
-const overrideList: { [key: string]: Override } = {
+type Overrides = { [key: string]: Override };
+
+// Changes to base + experimental roles, usually to make more concise or fix
+// formatting for the tool.
+const baseOverrides: Overrides = {
   philosopher: {
     nights:
       `The Philosopher might pick a good character. If they chose a character:` +
@@ -109,8 +113,10 @@ The new Snake Charmer is poisoned.
   mezepheles: {
     otherNights: `Wake the 1st good player that said the Mezepheles' secret word and show them YOU ARE EVIL and the thumbs-down sign.`,
   },
+};
 
-  // new roles not in BotC online
+// new roles not in BotC online
+const newRoles: Overrides = {
   knight: {
     ability: "You start knowing 2 players that are not the Demon.",
     firstNight: "Point to the two players marked Know (one is the Demon).",
@@ -133,8 +139,10 @@ The new Snake Charmer is poisoned.
       "Each night, learn which player the Storyteller believes you should talk to most.",
     nights: "Point to a player the High Priestess should talk to.",
   },
+};
 
-  // fabled do not have abilities in the botc online data
+// fabled do not have abilities in the botc online data
+const fabledRoles: Overrides = {
   spiritofivory: {
     ability: "There can't be more than 1 extra evil player.",
   },
@@ -171,8 +179,10 @@ die by execution, but evil players learn which player it is.`,
   fibbin: {
     ability: `Once per game, 1 good player might get incorrect information.`,
   },
+};
 
-  // homebrew characters
+// homebrew characters
+const homebrewRoles: Overrides = {
   actor: {
     ability: `Whoever wins, loses & whoever loses, wins, even if you are dead. [All good players are Actors and know each other]`,
     firstNight: `Wake up all Actors and let them see each other.`,
@@ -196,6 +206,13 @@ die by execution, but evil players learn which player it is.`,
       otherNightsIndex: 63,
     },
   },
+};
+
+const overrideList: { [key: string]: Override } = {
+  ...baseOverrides,
+  ...newRoles,
+  ...fabledRoles,
+  ...homebrewRoles,
 };
 
 function getOverride(id: string): Override {
