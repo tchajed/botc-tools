@@ -110,6 +110,13 @@ function ModificationExplanation(props: {
     case "atheist": {
       return <span>(No evil, setup is arbitrary)</span>;
     }
+    case "actor": {
+      return (
+        <span>
+          (All good players are <span className="good">Actor</span>s)
+        </span>
+      );
+    }
   }
 }
 

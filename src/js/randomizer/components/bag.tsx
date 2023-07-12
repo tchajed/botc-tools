@@ -14,8 +14,8 @@ import { Ranking } from "randomizer/ranking";
 import { useContext } from "react";
 
 export function charKey(character: BagCharacter): string {
-  return character.demonNum !== undefined
-    ? `${character.id}-${character.demonNum}`
+  return character.instanceNum !== undefined
+    ? `${character.id}-${character.instanceNum}`
     : character.id;
 }
 

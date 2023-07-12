@@ -66,6 +66,10 @@ export function effectiveDistribution(
       // all minions are riot
       dist.demon += targetDist.minion;
     }
+    if (c.id == "actor") {
+      // all good players are actors
+      dist.townsfolk += targetDist.townsfolk + targetDist.outsider - 1;
+    }
     isLegion = isLegion || c.id == "legion";
     incRoleType(dist, c.roleType);
   }
@@ -105,7 +109,9 @@ export type SetupModification =
   // Atheist is complicated (setup is arbitrary but all good).
   | { type: "atheist" }
   // No effect on distribution but list +the King in setup help
-  | { type: "choirboy" };
+  | { type: "choirboy" }
+  // all good players are Actors
+  | { type: "actor" };
 
 function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
@@ -126,6 +132,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   legion: { type: "legion" },
   atheist: { type: "atheist" },
   choirboy: { type: "choirboy" },
+  actor: { type: "actor" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -225,6 +232,17 @@ function applyModification(
       }
       return dists;
     }
+    case "actor": {
+      return [
+        {
+          // all townsfolk are actors
+          townsfolk: old_dist.townsfolk + old_dist.outsider,
+          outsider: 0,
+          minion: old_dist.minion,
+          demon: old_dist.demon,
+        },
+      ];
+    }
   }
 }
 
@@ -316,7 +334,9 @@ export function roleTypesDefinitelyDone(
   );
 }
 
-export type BagCharacter = CardInfo & { demonNum?: number };
+// instanceNum disambiguates instances of characters that can be in the bag
+// multiple times (eg, riot, legion, actor)
+export type BagCharacter = CardInfo & { instanceNum?: number };
 
 /** Divide the selection into characters in the bag and those "outside" (in play
  * but not distributed). */
@@ -334,16 +354,26 @@ export function splitSelectedChars(
   const riot = bag.find((c) => c.id == "riot");
   if (riot) {
     for (let i = 0; i < dist.minion; i++) {
-      const thisRiot: BagCharacter = { demonNum: i, ...riot };
+      const thisRiot: BagCharacter = { instanceNum: i, ...riot };
       bag.push(thisRiot);
     }
   }
+
   const legion = bag.find((c) => c.id == "legion");
   if (legion) {
     const numExtraLegion = dist.townsfolk + dist.outsider - 1;
     for (let i = 0; i < numExtraLegion && bag.length < numPlayers; i++) {
-      const thisLegion: BagCharacter = { demonNum: i, ...legion };
+      const thisLegion: BagCharacter = { instanceNum: i, ...legion };
       bag.push(thisLegion);
+    }
+  }
+
+  const actor = bag.find((c) => c.id == "actor");
+  if (actor) {
+    const numExtraActors = dist.townsfolk + dist.outsider - 1;
+    for (let i = 0; i < numExtraActors && bag.length < numPlayers; i++) {
+      const thisActor: BagCharacter = { instanceNum: i, ...actor };
+      bag.push(thisActor);
     }
   }
 

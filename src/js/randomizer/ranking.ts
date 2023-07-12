@@ -20,6 +20,10 @@ export function randomRanking(characters: CharacterInfo[]): Ranking {
     // assign copies of legion different rankings
     randomOrder.push(`legion-${i}`);
   }
+  for (let i = 0; i < 7; i++) {
+    // assign copies of actor different rankings
+    randomOrder.push(`actor-${i}`);
+  }
   shuffleArray(randomOrder);
   const r = Object.fromEntries(randomOrder.map((id, i) => [id, i]));
   return r;
