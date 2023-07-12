@@ -13,13 +13,8 @@
  * in favor of the official script tool.
  */
 import botc_roles from "../../../assets/data/botc_online_roles.json";
-
-/* Script Tool "night sheet"
- *
- * Gives a global ordering for all characters, for first night and other nights.
- */
-import nightsheet from "../../../assets/data/nightsheet.json";
 import script_roles from "../../../assets/data/roles.json";
+import { nightorder } from "./nightorder";
 
 /* Custom overrides provided by this app. Most of these are simplifications to
  * the night sheet to surface more important instructions, but this also
@@ -97,7 +92,7 @@ export const MinionInfo: CharacterInfo = new CharacterInfo(
 MinionInfo.firstNight = {
   details: `If 7 or more players: <tab>Wake all Minions. Show the THIS IS THE DEMON token.
     <tab>Point to the Demon.`,
-  index: nightsheet.firstNight.indexOf("MINION"),
+  index: nightorder.firstNight("MINION"),
 };
 
 export const NonTeensyMinionInfo: CharacterInfo = new CharacterInfo(
@@ -109,7 +104,7 @@ export const NonTeensyMinionInfo: CharacterInfo = new CharacterInfo(
 NonTeensyMinionInfo.firstNight = {
   details: `Wake all Minions. Show the THIS IS THE DEMON token.
   Point to the Demon.`,
-  index: nightsheet.firstNight.indexOf("MINION"),
+  index: nightorder.firstNight("MINION"),
 };
 
 export const DemonInfo: CharacterInfo = new CharacterInfo(
@@ -122,7 +117,7 @@ DemonInfo.firstNight = {
   details: `If there are 7 or more players:<tab>Wake the Demon.
   <tab>Show the THESE ARE YOUR MINIONS token. Point to all Minions.
   <tab>Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
-  index: nightsheet.firstNight.indexOf("DEMON"),
+  index: nightorder.firstNight("DEMON"),
 };
 
 export const NonTeensyDemonInfo: CharacterInfo = new CharacterInfo(
@@ -135,7 +130,7 @@ NonTeensyDemonInfo.firstNight = {
   details: `Wake the Demon.
   Show the THESE ARE YOUR MINIONS token. Point to all Minions.
   Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
-  index: nightsheet.firstNight.indexOf("DEMON"),
+  index: nightorder.firstNight("DEMON"),
 };
 
 export function nameToId(name: string): string {
@@ -158,10 +153,7 @@ function useOverride(id: string, info: CharacterInfo) {
   const firstNight = overrides.firstNight(id);
   if (firstNight) {
     const index =
-      overrides.firstNightIndex(id) || nightsheet.firstNight.indexOf(info.name);
-    if (index < 0) {
-      console.warn(`${id} not found in first night order`);
-    }
+      overrides.firstNightIndex(id) ?? nightorder.firstNight(info.name);
     info.firstNight = {
       index,
       details: firstNight,
@@ -170,11 +162,7 @@ function useOverride(id: string, info: CharacterInfo) {
   const otherNights = overrides.otherNights(id);
   if (otherNights) {
     const index =
-      overrides.otherNightsIndex(id) ||
-      nightsheet.otherNight.indexOf(info.name);
-    if (index < 0) {
-      console.warn(`${id} not found in other night order`);
-    }
+      overrides.otherNightsIndex(id) ?? nightorder.otherNights(info.name);
     info.otherNights = {
       index,
       details: otherNights,
@@ -215,23 +203,23 @@ function createRoleData(): Map<string, CharacterInfo> {
     info.ability = role.ability;
 
     if (role.firstNightReminder != "") {
-      const index = nightsheet.firstNight.indexOf(info.name);
-      if (index < 0 && info.roleType != "travellers") {
+      const index = nightorder.getFirstNight(info.name);
+      if (index == null && info.roleType != "travellers") {
         console.warn(`${id} not found in night sheet`);
       }
       info.firstNight = {
         details: role.firstNightReminder,
-        index,
+        index: index || -1,
       };
     }
     if (role.otherNightReminder != "") {
-      const index = nightsheet.otherNight.indexOf(info.name);
-      if (index < 0 && info.roleType != "travellers") {
+      const index = nightorder.getOtherNights(info.name);
+      if (index == null && info.roleType != "travellers") {
         console.warn(`${id} not found in night sheet`);
       }
       info.otherNights = {
         details: role.otherNightReminder,
-        index,
+        index: index || -1,
       };
     }
     useOverride(id, info);

@@ -1,6 +1,7 @@
 // To show nothing for a night reminder, set it to an empty string "".
 //
 // nights sets both firstNight and otherNights implicitly
+import { nightorder } from "./nightorder";
 
 export interface Override {
   ability?: string;
@@ -189,8 +190,7 @@ const homebrewRoles: Overrides = {
     homebrew: {
       name: "Actor",
       roleType: "townsfolk",
-      // roughly after demons/minions
-      firstNightIndex: 30,
+      firstNightIndex: nightorder.firstNight("Pukka") + 1,
     },
   },
   lout: {
@@ -201,9 +201,8 @@ const homebrewRoles: Overrides = {
       name: "Lout",
       roleType: "outsider",
       // very early
-      firstNightIndex: 3,
-      // roughly with night-info roles (eg, Empath)
-      otherNightsIndex: 63,
+      firstNightIndex: 1,
+      otherNightsIndex: nightorder.otherNights("Empath"),
     },
   },
 };
