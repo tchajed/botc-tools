@@ -4,7 +4,7 @@ import axios from "axios";
 import fs from "fs";
 
 const REPO_URL =
-  "https://github.com/tchajed/botc-icons/archive/refs/heads/main.zip";
+  "https://github.com/tchajed/botc-icons/archive/refs/heads/secret.zip";
 
 async function downloadRepo(): Promise<AdmZip> {
   const { data } = await axios.get(REPO_URL, {
@@ -50,6 +50,7 @@ async function extractIconFiles(icons: Icon[]) {
 }
 
 export async function downloadExtraIcons(iconsDir: string) {
+  console.log("downloading extra icons");
   const zip = await downloadRepo();
   const icons = iconEntries(zip, iconsDir);
   if (icons.length == 0) {
