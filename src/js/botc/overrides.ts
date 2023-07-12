@@ -1,8 +1,9 @@
-import { nightorder } from "./nightorder";
-
 // To show nothing for a night reminder, set it to an empty string "".
 //
 // nights sets both firstNight and otherNights implicitly
+import { aliceInWonderland } from "./alice_in_wonderland";
+import { nightorder } from "./nightorder";
+
 export interface Override {
   ability?: string;
   nights?: string;
@@ -269,6 +270,7 @@ const overrideList: { [key: string]: Override } = {
   ...fabledRoles,
   ...homebrewRoles,
   ...amnesiacs,
+  ...aliceInWonderland,
 };
 
 function getOverride(id: string): Override {
