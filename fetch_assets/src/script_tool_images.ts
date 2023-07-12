@@ -16,7 +16,7 @@ const BASE_URL = "https://script.bloodontheclocktower.com";
  * do we fit it into a 177x177 square.
  *
  */
-async function makeSquare(data: ArrayBuffer): Promise<sharp.Sharp> {
+export async function makeSquare(data: ArrayBuffer): Promise<sharp.Sharp> {
   let img = sharp(Buffer.from(data));
   // remove existing border
   img = img.trim();

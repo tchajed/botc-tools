@@ -1,5 +1,6 @@
 import { fetchAllScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
+import { downloadExtraIcons } from "./extra_icons";
 import { getScript } from "./get_script";
 import {
   allIcons,
@@ -121,13 +122,19 @@ async function main() {
     .addOption(
       new Option(
         "--all",
-        "Download all assets (shorthand for --json --icons --all-scripts)",
-      ).implies({ json: true, icons: true, allScripts: true }),
+        "Download all assets (shorthand for --json --icons --extra-icons --all-scripts)",
+      ).implies({
+        json: true,
+        icons: true,
+        extraIcons: true,
+        allScripts: true,
+      }),
     )
     .option("--clean", "Delete any existing assets")
     .option("--json", "Download JSON game data")
     .option("--img", "Download images")
     .option("--icons", "Download icons from script tool")
+    .option("--extra-icons", "Download extra icons from tchajed/botc-icons")
     .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
     .option("--all-scripts", "Download all scripts in database")
     .option("-o, --out <assets dir>", "Path to assets directory", "./assets");
@@ -142,12 +149,14 @@ async function main() {
       options.img ||
       options.scripts !== undefined ||
       options.allScripts ||
-      options.icons
+      options.icons ||
+      options.extraIcons
     )
   ) {
     options.json = true;
     // options.img = true;
     options.icons = true;
+    options.extraIcons = true;
     // options.scripts = "favorites";
     options.allScripts = true;
   }
@@ -175,6 +184,10 @@ async function main() {
 
   if (options.icons) {
     await downloadScriptToolIcons(dataDir, iconsDir);
+  }
+
+  if (options.extraIcons) {
+    await downloadExtraIcons(iconsDir);
   }
 
   if (options.scripts !== undefined) {
