@@ -1,6 +1,7 @@
 import { makeSquare } from "./script_tool_images";
 import AdmZip from "adm-zip";
 import axios from "axios";
+import fs from "fs";
 
 const REPO_URL =
   "https://github.com/tchajed/botc-icons/archive/refs/heads/main.zip";
@@ -14,24 +15,47 @@ async function downloadRepo(): Promise<AdmZip> {
   return new AdmZip(data);
 }
 
-function iconEntries(zip: AdmZip): AdmZip.IZipEntry[] {
-  return zip.getEntries().filter((e) => e.entryName.endsWith(".png"));
+interface Icon {
+  entry: AdmZip.IZipEntry;
+  destPath: string;
 }
 
-async function extractIconFiles(entries: AdmZip.IZipEntry[], iconsDir: string) {
+function iconEntries(zip: AdmZip, iconsDir: string): Icon[] {
+  const icons: Icon[] = [];
+  for (const entry of zip.getEntries()) {
+    if (!entry.entryName.endsWith(".png")) {
+      continue;
+    }
+    const id = entry.name.replace(/\.png$/, "").replaceAll(/[-'_]/g, "");
+    const destPath = `${iconsDir}/Icon_${id}.webp`;
+    if (fs.existsSync(destPath)) {
+      continue;
+    }
+    icons.push({
+      entry,
+      destPath,
+    });
+  }
+  return icons;
+}
+
+async function extractIconFiles(icons: Icon[]) {
   await Promise.all(
-    entries.map(async (zipEntry) => {
-      const data: Buffer = zipEntry.getData();
+    icons.map(async (icon) => {
+      const data: Buffer = icon.entry.getData();
       const img = await makeSquare(data);
-      const id = zipEntry.name.replace(/\.png$/, "").replaceAll(/[-'_]/g, "");
-      await img.toFile(`${iconsDir}/Icon_${id}.webp`);
+      await img.toFile(icon.destPath);
     }),
   );
 }
 
 export async function downloadExtraIcons(iconsDir: string) {
   const zip = await downloadRepo();
-  const icons = iconEntries(zip);
+  const icons = iconEntries(zip, iconsDir);
+  if (icons.length == 0) {
+    console.log("no extra icons to extract");
+    return;
+  }
   console.log(`extracting ${icons.length} extra icons`);
-  extractIconFiles(icons, iconsDir);
+  extractIconFiles(icons);
 }
