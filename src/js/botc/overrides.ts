@@ -183,6 +183,19 @@ die by execution, but evil players learn which player it is.`,
       firstNightIndex: 30,
     },
   },
+  lout: {
+    ability: `On night three, learn an evil townsfolk. [1 Townsfolk is evil]`,
+    firstNight: `Wake the townsfolk who is evil and show them YOU ARE EVIL and the thumbs-down sign.`,
+    otherNights: `If it is night three, wake the Lout and point to an evil townsfolk.`,
+    homebrew: {
+      name: "Lout",
+      roleType: "outsider",
+      // very early
+      firstNightIndex: 3,
+      // roughly with night-info roles (eg, Empath)
+      otherNightsIndex: 63,
+    },
+  },
 };
 
 function getOverride(id: string): Override {
