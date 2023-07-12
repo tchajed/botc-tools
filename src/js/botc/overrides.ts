@@ -207,11 +207,58 @@ const homebrewRoles: Overrides = {
   },
 };
 
+// amnesiacs of any category
+const amnesiacs: Overrides = {
+  amnesiacoutsider: {
+    ability: `Outsider. You do not know what your ability is. Each day, privately guess what it is: you learn how accurate you are.`,
+    firstNight: `Decide the Amnesiac's entire ability.
+    If the Amnesiac's ability causes them to wake tonight:
+    Wake the Amnesiac and run their ability.`,
+    otherNights: `If the Amnesiac's ability causes them to wake tonight:
+    Wake the Amnesiac and run their ability.`,
+    homebrew: {
+      name: "Amnesiac (O)",
+      roleType: "outsider",
+      firstNightIndex: nightorder.firstNight("Amnesiac"),
+      otherNightsIndex: nightorder.otherNights("Amnesiac"),
+    },
+  },
+  amnesiacminion: {
+    ability: `Minion. You do not know what your ability is. Each day, privately guess what it is: you learn how accurate you are.`,
+    firstNight: `Decide the Amnesiac's entire ability.
+    If the Amnesiac's ability causes them to wake tonight:
+    Wake the Amnesiac and run their ability.`,
+    otherNights: `If the Amnesiac's ability causes them to wake tonight:
+    Wake the Amnesiac and run their ability.`,
+    homebrew: {
+      name: "Amnesiac (M)",
+      roleType: "minion",
+      firstNightIndex: nightorder.firstNight("Amnesiac"),
+      otherNightsIndex: nightorder.otherNights("Amnesiac"),
+    },
+  },
+  amnesiacdemon: {
+    ability: `Demon. You do not know what your ability is. Each day, privately guess what it is: you learn how accurate you are.`,
+    firstNight: `Decide the Amnesiac's entire ability.
+    If the Amnesiac's ability causes them to wake tonight:
+    Wake the Amnesiac and run their ability.`,
+    otherNights: `If the Amnesiac's ability causes them to wake tonight:
+    Wake the Amnesiac and run their ability.`,
+    homebrew: {
+      name: "Amnesiac (D)",
+      roleType: "demon",
+      firstNightIndex: nightorder.firstNight("Amnesiac"),
+      otherNightsIndex: nightorder.otherNights("Amnesiac"),
+    },
+  },
+};
+
 const overrideList: { [key: string]: Override } = {
   ...baseOverrides,
   ...newRoles,
   ...fabledRoles,
   ...homebrewRoles,
+  ...amnesiacs,
 };
 
 function getOverride(id: string): Override {
