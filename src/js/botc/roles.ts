@@ -157,7 +157,8 @@ function useOverride(id: string, info: CharacterInfo) {
   info.ability = overrides.ability(id) ?? info.ability;
   const firstNight = overrides.firstNight(id);
   if (firstNight) {
-    const index = nightsheet.firstNight.indexOf(info.name);
+    const index =
+      overrides.firstNightIndex(id) || nightsheet.firstNight.indexOf(info.name);
     if (index < 0) {
       console.warn(`${id} not found in first night order`);
     }
@@ -168,7 +169,9 @@ function useOverride(id: string, info: CharacterInfo) {
   }
   const otherNights = overrides.otherNights(id);
   if (otherNights) {
-    const index = nightsheet.otherNight.indexOf(info.name);
+    const index =
+      overrides.otherNightsIndex(id) ||
+      nightsheet.otherNight.indexOf(info.name);
     if (index < 0) {
       console.warn(`${id} not found in other night order`);
     }
@@ -240,20 +243,6 @@ function createRoleData(): Map<string, CharacterInfo> {
       const data = override.homebrew;
       const char = new CharacterInfo(id, data.name, data.roleType, "other");
       useOverride(id, char);
-      if (data.firstNightIndex !== undefined) {
-        if (!char.firstNight) {
-          console.error("firstNightIndex without firstNight text");
-        } else {
-          char.firstNight.index = data.firstNightIndex;
-        }
-      }
-      if (data.otherNightsIndex !== undefined) {
-        if (!char.otherNights) {
-          console.error("otherNightsIndex without otherNights text");
-        } else {
-          char.otherNights.index = data.otherNightsIndex;
-        }
-      }
       roles.set(id, char);
       continue;
     }

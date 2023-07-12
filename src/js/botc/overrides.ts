@@ -196,9 +196,17 @@ export const overrides = {
     const override = getOverride(id);
     return override.nights ?? override.firstNight ?? null;
   },
+  firstNightIndex: (id: string): number | null => {
+    const override = getOverride(id);
+    return override.homebrew?.firstNightIndex ?? null;
+  },
   otherNights: (id: string): string | null => {
     const override = getOverride(id);
     return override.nights ?? override.otherNights ?? null;
+  },
+  otherNightsIndex: (id: string): number | null => {
+    const override = getOverride(id);
+    return override.homebrew?.otherNightsIndex ?? null;
   },
   ability: (id: string): string | null => {
     const override = getOverride(id);
