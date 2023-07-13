@@ -2,6 +2,7 @@
   "pk": 10000,
   "title": "Alice in Wonderland (all amne)",
   "author": "Besjbo",
+  "allAmne": true,
   "characters": [
     "cook",
     "playing_card",
