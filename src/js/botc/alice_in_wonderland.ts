@@ -33,6 +33,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
   lookingglass: {
     ability:
       "On your first night, choose odd or even. Amnesiac questions might receive false answers on those days.",
+    firstNight: "The Looking Glass picks odd or even.",
     homebrew: {
       name: "Looking Glass",
       roleType: "outsider",
@@ -54,15 +55,19 @@ export const aliceInWonderland: { [key: string]: Override } = {
     ability:
       `Each night, choose two players. Their abilities are swapped tonight and tomorrow day.` +
       ` If you choose the Cheshire Cat and another Evil player, you may choose to swap permanently.`,
+    nights: `The Knave of Hearts points to two players. Mark them swapped for abilities.`,
     homebrew: {
       name: "Knave of Hearts",
       roleType: "minion",
+      firstNightIndex: nightorder.firstNight("Poisoner"),
+      otherNightsIndex: nightorder.otherNights("Pit-Hag"),
     },
   },
   tweedledum: {
     ability:
-      "On your first night, choose a player. You receive each other’s Amnesiac answers (even if dead).",
-    firstNight: "Tweedledum picks a player. Mark them swapped for answers.",
+      "On your first night, choose a player. You receive each other's Amnesiac answers (even if dead).",
+    firstNight:
+      "Tweedledum picks a player. Mark Tweedledum and the player swapped for answers.",
     homebrew: {
       name: "Tweedledum",
       roleType: "outsider",
@@ -82,7 +87,9 @@ export const aliceInWonderland: { [key: string]: Override } = {
   cook: {
     ability:
       "Two opposing players start with DRINK ME and EAT ME. DRINK ME cannot talk publicly or raise their voice, and is immune to abilities and nominations until dusk. EAT ME must speak publicly and loudly, and has 101 votes until dusk.",
-    firstNight: `Mark two opposing players DRINK ME and EAT ME. Wake them and tell them their restrictions.`,
+    firstNight: `Mark two opposing players DRINK ME and EAT ME. Wake them and tell them their restrictions:
+    <tab>DRINK ME cannot talk publicly or raise their voice
+    <tab>EAT ME must speak publicly and loudly`,
     homebrew: {
       name: "Cook",
       roleType: "townsfolk",
@@ -118,14 +125,20 @@ export const aliceInWonderland: { [key: string]: Override } = {
   madhatter: {
     ability:
       "Each night, the Storyteller asks you a yes/no question. Each day, you may ask the Storyteller a yes/no question. If you got the question wrong, the Storyteller answers falsely.",
+    nights: "Ask the Mad Hatter a yes/no question. Record if correct.",
     homebrew: {
       name: "Mad Hatter",
       roleType: "townsfolk",
+      // closest to Savant
+      firstNightIndex: nightorder.firstNight("Dreamer") - 1,
+      otherNightsIndex: nightorder.otherNights("Dreamer") - 1,
     },
   },
   dormouse: {
     ability:
       "Each night, pick a number. You learn the closest Good role and Evil role to an ability that many seats away, one of which is correct.",
+    nights:
+      "The Dormouse picks a number. Give them the closest Good role and Evil role to an ability that many seats away.",
     homebrew: {
       name: "Dormouse",
       roleType: "townsfolk",
@@ -152,17 +165,24 @@ export const aliceInWonderland: { [key: string]: Override } = {
     ability:
       `On the first night, look at the Grimoire and choose a Good player:` +
       ` they learn they are smoking with the Caterpillar, and everything they learn is absurd.`,
+    firstNight: `Show the Caterpillar the Grimoire (without abilities) and ask them to pick a Good player.
+    Tell the player they are smoking with the Caterpillar.`,
     homebrew: {
       name: "Caterpillar",
       roleType: "minion",
+      firstNightIndex: nightorder.firstNight("Poisoner"),
     },
   },
   humptydumpty: {
     ability:
       "Each night, make a prediction. You die the following night unless it came true. You start knowing to be careful not to fall.",
+    firstNight: `Tell Humpty Dumpty to be careful not to fall. Ask for a statement about the future.`,
+    otherNights: `Ask Humpty Dumpty for a statement about the future.`,
     homebrew: {
       name: "Humpty Dumpty",
       roleType: "townsfolk",
+      firstNightIndex: nightorder.firstNight("Fortune Teller"),
+      otherNightsIndex: nightorder.otherNights("Gambler"),
     },
   },
   mockturtle: {
