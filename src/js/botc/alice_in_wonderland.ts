@@ -1,6 +1,42 @@
 import { nightorder } from "./nightorder";
 import { Override } from "./overrides";
 
+/*
+==================================================================
+
+   _____             _ _                      _           _
+  / ____|           (_) |               /\   | |         | |
+ | (___  _ __   ___  _| | ___ _ __     /  \  | | ___ _ __| |_
+  \___ \| '_ \ / _ \| | |/ _ \ '__|   / /\ \ | |/ _ \ '__| __|
+  ____) | |_) | (_) | | |  __/ |     / ____ \| |  __/ |  | |_
+ |_____/| .__/ \___/|_|_|\___|_|    /_/    \_\_|\___|_|   \__|
+        | |
+        |_|
+
+
+This is the list of roles for an Alice in Wonderland-themed "Oops all amnesiacs"
+script, by Besbjo. In such a script, every player must figure out their ability.
+If you plan on ever playing this script, do not read this file, since it will
+spoil the characters and abilities in the script. If you do play the script or
+read these roles please don't discuss them with anyone without a clear spoiler
+warning.
+
+In the deployed app you can only access this script by knowing the password.
+
+The file exports a list of overrides that are used in overrides.ts.
+
+
+
+
+
+
+
+
+
+
+==================================================================
+*/
+
 export const aliceInWonderland: { [key: string]: Override } = {
   cheshirecat: {
     ability: `Each night, choose a player. You control what the Storyteller tells them until tomorrow night, then they die.`,
