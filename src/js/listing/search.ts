@@ -2,22 +2,17 @@ import { nameToId, roles } from "../botc/roles";
 import { ScriptData } from "../botc/script";
 import { matchSorter } from "match-sorter";
 
-const FAVORITES: number[] = (() => {
-  // 360 Visitors
-  // 811 Lunatic's Asylum
-  // 23 Stringing 'Em Along Redux
-  // 81 High Stakes Betting
-  // 2 Catfishing
-  // 1245 Trust
-  // 394 Whose Cult is it Anyway?
-  // 19 Laissez un Carnaval
-  // 2282 Chad Versus Virgin
-  // 2235 You're Not Evil, I'm Evil!
-  // 1273 Creme de la Creme
-  // 2452 The Spy Who Pinged Me
-  const favorites = "178,180,181,10,83,4,435,81,394,2282,2235,2452";
-  return favorites.split(",").map((s) => parseInt(s));
-})();
+const FAVORITE_TITLES: Set<string> = new Set([
+  "Chad Versus Virgin",
+  "You're Not Evil, I'm Evil!",
+  "The Spy Who Pinged Me",
+  "No Roles Barred",
+  "Whose Cult is it Anyway?",
+  "Laissez un Faire",
+  "High Stakes Betting",
+  "Faith, Trust and Pixie Dust",
+  "Race to the Bottom",
+]);
 
 function characterList(script: ScriptData): string[] {
   const characters: string[] = [];
@@ -52,7 +47,7 @@ export function queryMatches(
 ): ScriptData[] {
   let matches: ScriptData[];
   if (query == "") {
-    matches = scripts.filter((s) => FAVORITES.includes(s.pk));
+    matches = scripts.filter((s) => FAVORITE_TITLES.has(s.title));
   } else {
     matches = matchSorter(scripts, query, { keys: ["title", "author"] });
     if (matches.length < 10) {
