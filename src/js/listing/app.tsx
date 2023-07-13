@@ -1,6 +1,12 @@
 import { ScriptData } from "../botc/script";
 import "../icons";
-import { ScriptState, initStorage, latestScript } from "../randomizer/state";
+import {
+  ScriptState,
+  getPassword,
+  initStorage,
+  latestScript,
+  storePassword,
+} from "../randomizer/state";
 import { clearSavedScroll, pageUrl } from "../routing";
 import { BaseThree, ScriptList } from "./script_list";
 import { searchNormalize } from "./search";
@@ -8,6 +14,7 @@ import { SearchResults } from "./search_results";
 import { Global, ThemeProvider, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { isCorrectPassword } from "password";
 import { lighten } from "polished";
 import { useEffect, useState } from "react";
 import { GlobalStyle } from "styles/global_style";
@@ -110,6 +117,7 @@ const BlackBtn = styled.a`
     background-color: black;
     border-radius: 0.25rem;
     padding: 0.25rem;
+    line-height: 1.7rem;
     &:hover {
       background-color: ${lighten(0.3, "black")};
       text-decoration: none;
@@ -126,7 +134,44 @@ function GitHubLink(): JSX.Element {
   );
 }
 
-function Footer(): JSX.Element {
+function EnterPasswordButton(props: {
+  password: string;
+  setPassword: (password: string) => void;
+}): JSX.Element {
+  const [isCorrect, setIsCorrect] = useState(false);
+
+  useEffect(() => {
+    isCorrectPassword(props.password).then((correct) => {
+      setIsCorrect(correct);
+    });
+  }, [props.password]);
+
+  const onClick = () => {
+    if (isCorrect) {
+      props.setPassword("");
+      return;
+    }
+    const password = prompt("Enter password");
+    if (!password) {
+      return;
+    }
+    isCorrectPassword(password).then((correct) => {
+      if (correct) {
+        props.setPassword(password);
+        setIsCorrect(true);
+      }
+    });
+  };
+
+  const text = isCorrect ? "Clear password" : "Enter password";
+
+  return <BlackBtn onClick={onClick}>{text}</BlackBtn>;
+}
+
+function Footer(props: {
+  password: string;
+  setPassword: (password: string) => void;
+}): JSX.Element {
   return (
     <footer
       css={css`
@@ -137,6 +182,8 @@ function Footer(): JSX.Element {
       `}
     >
       <GitHubLink />
+      <br />
+      <EnterPasswordButton {...props} />
       <p css={{ textAlign: "justify" }}>
         This is an unofficial app not affiliated with The Pandamonium Institute.
       </p>
@@ -179,6 +226,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   const [query, setQuery] = useState(hashQuery());
   const [lastScript, setLastScript] = useState<ScriptState | null>(null);
 
+  const [password, setPassword] = useState<string>("");
   // arbitrary state that changes periodically, to force a re-render
   const [elapsedMinutes, setElapsedMinutes] = useState(0);
   useEffect(() => {
@@ -199,7 +247,15 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
         setLastScript(s);
       }
     });
+    getPassword().then((p) => {
+      setPassword(p);
+    });
   }, [elapsedMinutes]);
+
+  const setAndStorePassword = (password: string) => {
+    setPassword(password);
+    storePassword(password);
+  };
 
   useEffect(() => {
     // explicit typecast since we want a dynamic global property to communicate
@@ -247,7 +303,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
           <h2>Custom</h2>
           <SearchResults scripts={custom} query={query} setQuery={setQuery} />
           <HelpText />
-          <Footer />
+          <Footer password={password} setPassword={setAndStorePassword} />
         </div>
       </div>
     </ThemeProvider>

@@ -1,5 +1,6 @@
 import { Ranking } from "./ranking";
 import localforage from "localforage";
+import { isCorrectPassword } from "password";
 
 export interface ScriptState {
   scriptTitle: string;
@@ -82,4 +83,26 @@ export async function loadGlobalState(): Promise<GlobalState> {
 
 export async function storeGlobalState(state: GlobalState): Promise<void> {
   await localforage.setItem("global", state);
+}
+
+export async function getPassword(): Promise<string> {
+  const password = await localforage.getItem<string>("password");
+  if (!password) {
+    return "";
+  }
+  return password;
+}
+
+export async function authenticated(): Promise<boolean> {
+  const password = await getPassword();
+  const correct = await isCorrectPassword(password);
+  // clear any incorrect stored password (which might happen if it changes)
+  if (password != "" && !correct) {
+    await storePassword("");
+  }
+  return correct;
+}
+
+export async function storePassword(password: string): Promise<void> {
+  await localforage.setItem("password", password);
 }
