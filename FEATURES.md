@@ -1,5 +1,23 @@
 # Feature highlights
 
+BotC tools is a way of running in-person games with a digital grimoire.  You can
+use it at <https://botc-tools.xyz>.
+
+As a storyteller, I use it on an iPad to select roles, show them to players, and
+then create a "grimoire" image. That image goes into a drawing app (Concepts)
+where I write on it to track tokens and anything else I need to for the game.
+The app stays on the side and shows me the night order and gives me ways to show
+players information ("THIS PLAYER SELECTED YOU" for example), including
+character tokens.
+
+The app understands essentially all setup rules, reducing my errors in setup,
+especially for custom scripts and lots of setup-impacting abilities. (No more
+accidentally using a normal outsider count in a Vigormortis game!)
+
+I prefer players to not use their phones, but sometimes if we don't have a
+script printed out the app does provide a mobile-friendly character sheet for
+custom scripts.
+
 ## Script list
 
 <img src="screenshots/home.webp"
@@ -124,3 +142,10 @@ you can click the "three dots" menu and click on "Add to Home Screen". Opening
 the site from here will look and feel like any other app - it won't have any
 browser UI and will work offline. Note that this is the same website and will
 have identical functionality.
+
+## Technical notes
+
+The site relies only on static hosting (provided by GitHub Pages). Everything
+runs on the client in JavaScript. There's no synchronization or interaction
+between players and the Storyteller, but all storyteller state is stored locally
+so you don't lose what you're doing in the middle of a game.
