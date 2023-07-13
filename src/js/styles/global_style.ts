@@ -24,6 +24,9 @@ const ElementStyles = css`
   .main {
     position: relative;
     max-width: 550px;
+    @media print {
+      max-width: 7in;
+    }
     margin: 0 auto;
     padding: 5px;
   }
