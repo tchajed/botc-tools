@@ -103,28 +103,44 @@ function HelpText(): JSX.Element {
   );
 }
 
+const BlackBtn = styled.a`
+  &,
+  &:visited {
+    color: white;
+    background-color: black;
+    border-radius: 0.25rem;
+    padding: 0.25rem;
+    &:hover {
+      background-color: ${lighten(0.3, "black")};
+      text-decoration: none;
+    }
+  }
+`;
+
 function GitHubLink(): JSX.Element {
   return (
-    <a
-      href="https://github.com/tchajed/botc-tools"
-      target="_blank"
-      css={css`
-        &,
-        &:visited {
-          color: white;
-          background-color: black;
-          border-radius: 0.25rem;
-          padding: 0.25rem;
-          &:hover {
-            background-color: ${lighten(0.3, "black")};
-            text-decoration: none;
-          }
-        }
-      `}
-    >
+    <BlackBtn href="https://github.com/tchajed/botc-tools" target="_blank">
       <FontAwesomeIcon icon={["fab", "github"]} />
       &nbsp; GitHub source
-    </a>
+    </BlackBtn>
+  );
+}
+
+function Footer(): JSX.Element {
+  return (
+    <footer
+      css={css`
+        margin-top: 3em;
+        font-size: 90%;
+        max-width: 10rem;
+        float: right;
+      `}
+    >
+      <GitHubLink />
+      <p css={{ textAlign: "justify" }}>
+        This is an unofficial app not affiliated with The Pandamonium Institute.
+      </p>
+    </footer>
   );
 }
 
@@ -231,20 +247,7 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
           <h2>Custom</h2>
           <SearchResults scripts={custom} query={query} setQuery={setQuery} />
           <HelpText />
-          <footer
-            css={css`
-              margin-top: 3em;
-              font-size: 90%;
-              max-width: 10rem;
-              float: right;
-            `}
-          >
-            <GitHubLink />
-            <p css={{ textAlign: "justify" }}>
-              This is an unofficial app not affiliated with The Pandamonium
-              Institute.
-            </p>
-          </footer>
+          <Footer />
         </div>
       </div>
     </ThemeProvider>
