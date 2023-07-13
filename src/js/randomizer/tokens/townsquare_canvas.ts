@@ -267,10 +267,11 @@ export async function drawTownsquare(
   // set up a high-resolution canvas
   const margin = 10;
   // remove some whitespace due to a missing part of the arc
-  const unneededHeight = radius * (1 - Math.cos((TWOPI - arcAngle) / 2)) - 100;
+  const unneededHeight =
+    radius * (1 - Math.cos((TWOPI - arcAngle) / 2)) * 2 - 100;
   let heightAdjust = -unneededHeight;
   if (data.outsideBag.length > 0 || data.bluffs.length > 0) {
-    heightAdjust = circleOtherGap + 60;
+    heightAdjust = circleOtherGap + 130;
     if (data.outsideBag.length > 0 && data.bluffs.length > 0) {
       heightAdjust += othersBluffGap + 240;
     }
@@ -301,7 +302,7 @@ export async function drawTownsquare(
   ctx.translate(radius + margin, radius + margin);
   ctx.scale(0.75, 0.75);
 
-  const titleY = radius * Math.cos((TWOPI - arcAngle) / 2) + 120;
+  const titleY = radius * Math.cos((TWOPI - arcAngle) / 2) + 180;
   drawTitle(ctx, title, 0, titleY);
 
   // draw the tokens

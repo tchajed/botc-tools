@@ -1,6 +1,6 @@
 import { BagCharacter } from "../../botc/setup";
 import { iconPath } from "../../components/character_icon";
-import { drawTextAlongArc, setCanvasResolution } from "./canvas";
+import { circleWidthAt, drawTextAlongArc, setCanvasResolution } from "./canvas";
 import React, { useEffect, useRef } from "react";
 
 function splitLinesCircle(
@@ -16,10 +16,7 @@ function splitLinesCircle(
   let y = yStart - yDelta / 2;
   const lines: string[] = [];
   while (text.length > 0) {
-    const lineWidth =
-      2 *
-      Math.sqrt(radius * radius - (radius - y) * (radius - y)) *
-      widthFraction;
+    const lineWidth = circleWidthAt(radius, radius - y) * widthFraction;
     // the current line is text.slice(0, i);
     let i = -1;
     // eslint-disable-next-line no-constant-condition

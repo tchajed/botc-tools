@@ -72,3 +72,9 @@ export function moveToAngle(
   ctx.translate(radius, 0);
   ctx.rotate((angle_deg * Math.PI) / 180);
 }
+
+/** Width of a circle at an offset from the center. Use `radius-outsideOffset` for
+ * an outsideOffset measured from the circle edge rather than the center. */
+export function circleWidthAt(radius: number, offset: number) {
+  return 2 * Math.sqrt(radius * radius - offset * offset);
+}
