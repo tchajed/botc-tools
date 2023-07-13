@@ -51,6 +51,7 @@ async function copyScreenshot(testName: string, destName: string) {
 
 async function copyScreenshots() {
   const screenshots = [
+    ["home", "home"],
     ["roles-top", "roles"],
     ["night", "night"],
     ["assign/2-complete", "assign"],

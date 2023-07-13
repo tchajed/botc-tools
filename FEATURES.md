@@ -1,13 +1,16 @@
 # Feature highlights
 
-The most important feature is that the app works offline. This should work
-automatically after first load in any browser. You can also "install" the
-website as if it were a native mobile app: on iOS or iPadOS, open it in Safari,
-click on the share icon, and select "Add to Home Screen". On Android in Chrome
-you can click the "three dots" menu and click on "Add to Home Screen". Opening
-the site from here will look and feel like any other app - it won't have any
-browser UI and will work offline. Note that this is the same website and will
-have identical functionality.
+## Script list
+
+<img src="screenshots/home.webp"
+alt="Screenshot showing home page of the app"
+width="400">
+
+The tool pulls in all the scripts in the [unofficial script
+database](https://botc-scripts.azurewebsites.net/). It does this once and saves
+the results, so search is really fast.
+
+The custom scripts listed by default are some that I've recently been playing.
 
 ## Roles sheet
 
@@ -15,7 +18,8 @@ have identical functionality.
 alt="Screenshot showing roles sheet"
 width="400">
 
-The roles sheet works better on mobile than using the script tool's PDFs.
+The roles sheet works better on mobile than using the script tool's PDFs. The
+icon in the top right pulls up a QR code to quickly share the page with players.
 
 ## Night sheet
 
@@ -109,3 +113,14 @@ alt="Screenshot showing bluffs for demon"
 width="400">
 
 This also really helps with setup.
+
+## Offline support
+
+An important feature is that the app works offline. This should work
+automatically after first load in any browser. You can also "install" the
+website as if it were a native mobile app: on iOS or iPadOS, open it in Safari,
+click on the share icon, and select "Add to Home Screen". On Android in Chrome
+you can click the "three dots" menu and click on "Add to Home Screen". Opening
+the site from here will look and feel like any other app - it won't have any
+browser UI and will work offline. Note that this is the same website and will
+have identical functionality.
