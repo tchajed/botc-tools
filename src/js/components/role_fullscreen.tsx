@@ -10,7 +10,7 @@ function capitalize(s: string): string {
 }
 
 export function FullscreenRole(props: {
-  allAmne: boolean;
+  allAmne?: boolean;
   fsRole: string | null;
   setFsRole: (r: null) => void;
 }): JSX.Element {
@@ -21,9 +21,8 @@ export function FullscreenRole(props: {
       render={(id) => {
         const char = getCharacter(id);
         if (props.allAmne) {
-          char.ability = `${capitalize(
-            char.roleType,
-          )}. You do not know what your ability is.`;
+          const roleType = capitalize(char.roleType);
+          char.ability = `${roleType}. You do not know what your ability is.`;
         }
         return <TokenCanvas character={char} size="90%" maxSize="400px" />;
       }}
