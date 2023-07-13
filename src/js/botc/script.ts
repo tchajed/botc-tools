@@ -5,6 +5,7 @@ export interface ScriptData {
   pk: number;
   title: string;
   author?: string;
+  allAmne?: boolean;
   characters: string[];
 }
 

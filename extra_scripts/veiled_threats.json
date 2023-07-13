@@ -1,0 +1,33 @@
+{
+  "pk": 900001,
+  "title": "Veiled Threats (amne test)",
+  "author": "Ian (UrbanMinotaur)",
+  "allAmne": true,
+  "characters": [
+    "sailor",
+    "chambermaid",
+    "fortune_teller",
+    "snake_charmer",
+    "monk",
+    "lycanthrope",
+    "exorcist",
+    "nightwatchman",
+    "courtier",
+    "seamstress",
+    "pacifist",
+    "alchemist",
+    "mayor",
+    "cannibal",
+    "tinker",
+    "recluse",
+    "drunk",
+    "moonchild",
+    "poisoner",
+    "devils_advocate",
+    "witch",
+    "scarlet_woman",
+    "pukka",
+    "vigormortis",
+    "fang_gu"
+  ]
+}

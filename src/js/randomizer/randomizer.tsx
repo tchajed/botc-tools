@@ -11,7 +11,6 @@ import { randomRanking } from "./ranking";
 import { Selection, SelAction, CharacterSelectionVars } from "./selection";
 import {
   ScriptState,
-  initStorage,
   loadGlobalState,
   loadState,
   storeGlobalState,
@@ -64,7 +63,6 @@ export function Randomizer({
 
   // load state from local storage
   useEffect(() => {
-    initStorage();
     loadState(script.id).then((s) => {
       if (!s) {
         return;

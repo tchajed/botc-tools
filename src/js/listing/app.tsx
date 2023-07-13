@@ -3,7 +3,6 @@ import "../icons";
 import {
   ScriptState,
   getPassword,
-  initStorage,
   latestScript,
   storePassword,
 } from "../randomizer/state";
@@ -208,9 +207,24 @@ const scriptLinkStyle = {
 };
 
 export function App(props: { scripts: ScriptData[] }): JSX.Element {
+  const [password, setPassword] = useState<string>("");
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
+
+  useEffect(() => {
+    isCorrectPassword(password).then((correct) => {
+      setAuthenticated(correct);
+    });
+  }, [password]);
+
   const baseThree = props.scripts.filter((s) => BaseThree.includes(s.pk));
   baseThree.sort((s1, s2) => s1.pk - s2.pk);
-  const custom = props.scripts.filter((s) => !BaseThree.includes(s.pk));
+
+  const custom = props.scripts.filter((s) => {
+    if (BaseThree.includes(s.pk)) {
+      return false;
+    }
+    return authenticated || !s.allAmne;
+  });
 
   function removePrefix(s: string, prefix: string): string {
     if (s.startsWith(prefix)) {
@@ -226,7 +240,6 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   const [query, setQuery] = useState(hashQuery());
   const [lastScript, setLastScript] = useState<ScriptState | null>(null);
 
-  const [password, setPassword] = useState<string>("");
   // arbitrary state that changes periodically, to force a re-render
   const [elapsedMinutes, setElapsedMinutes] = useState(0);
   useEffect(() => {
@@ -237,7 +250,6 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   }, []);
 
   useEffect(() => {
-    initStorage();
     latestScript().then((s) => {
       if (!s) {
         return;

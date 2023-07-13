@@ -93,7 +93,7 @@ export async function getPassword(): Promise<string> {
   return password;
 }
 
-export async function authenticated(): Promise<boolean> {
+export async function getAuthenticated(): Promise<boolean> {
   const password = await getPassword();
   const correct = await isCorrectPassword(password);
   // clear any incorrect stored password (which might happen if it changes)

@@ -13,6 +13,7 @@ import { Page } from "./routing";
 import { selectedScript } from "./select_script";
 import { Global, ThemeProvider } from "@emotion/react";
 import { getCharacter } from "botc/roles";
+import { initStorage } from "randomizer/state";
 import React, { useEffect, useReducer, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { GlobalStyle } from "styles/global_style";
@@ -151,6 +152,7 @@ async function init() {
   if (!app) {
     return;
   }
+  initStorage();
   const root = createRoot(app);
   root.render(<ScriptApp script={script} />);
 }

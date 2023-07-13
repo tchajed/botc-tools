@@ -1,5 +1,6 @@
 import { ScriptData } from "./botc/script";
 import { getScripts } from "./get_scripts";
+import { getAuthenticated } from "randomizer/state";
 
 function selectedScriptId(): string {
   if (window.location.hash != "") {
@@ -21,6 +22,13 @@ export async function selectedScript(): Promise<ScriptData> {
   const script = scripts.find((s) => s.pk.toString() == id);
   if (!script) {
     throw new Error(`unknown script id ${id}`);
+  }
+  if (script.allAmne) {
+    if (await getAuthenticated()) {
+      return script;
+    } else {
+      throw new Error(`script ${id} requires authentication`);
+    }
   }
   return script;
 }
