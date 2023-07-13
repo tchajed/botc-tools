@@ -147,12 +147,12 @@ function ScriptApp({ script }: { script: Script }): JSX.Element {
 }
 
 async function init() {
+  initStorage();
   const script = new Script(await selectedScript());
   const app = document.getElementById("app");
   if (!app) {
     return;
   }
-  initStorage();
   const root = createRoot(app);
   root.render(<ScriptApp script={script} />);
 }
