@@ -210,7 +210,11 @@ export function Randomizer({
           />
         )}
         <PlayerNameInput {...{ numPlayers, players, setPlayers }} />
-        <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
+        <FullscreenRole
+          allAmne={script.allAmne}
+          fsRole={fsRole}
+          setFsRole={setFsRole}
+        />
       </div>
     </CharacterContext.Provider>
   );

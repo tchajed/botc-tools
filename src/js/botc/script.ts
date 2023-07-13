@@ -78,6 +78,7 @@ export function onlyBaseThree(characters: CharacterInfo[]): boolean {
 export class Script {
   readonly id: number;
   readonly title: string;
+  readonly allAmne: boolean;
   readonly orders: NightOrders;
   readonly characters: CharacterInfo[];
   readonly jinxes: Jinx[];
@@ -86,6 +87,7 @@ export class Script {
   constructor(data: ScriptData) {
     this.id = data.pk || 0;
     this.title = data.title;
+    this.allAmne = data.allAmne ?? false;
 
     // normalize
     for (let i = 0; i < data.characters.length; i++) {

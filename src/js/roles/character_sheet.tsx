@@ -203,7 +203,7 @@ export function CharacterSheet(props: {
       </h1>
       <CharacterList characters={script.characters} setFsRole={showRole} />
       <Jinxes script={script} />
-      <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
+      <FullscreenRole allAmne={false} fsRole={fsRole} setFsRole={setFsRole} />
       <FullscreenQr url={qrUrl} setUrl={setQrUrl} />
     </div>
   );
