@@ -51,12 +51,15 @@ function splitLinesCircle(
 }
 
 function decideAbilitySplit(
-  width: (text: string) => number,
   abilityText: string,
-  radius: number,
-  yStart: number,
-  yDelta: number,
+  options: {
+    width: (text: string) => number;
+    radius: number;
+    yStart: number;
+    yDelta: number;
+  },
 ): { lines: string[]; yStart: number; yDelta: number } {
+  const { width, radius, yStart, yDelta } = options;
   function tryStart(
     yStart: number,
     widthFraction = 1,
@@ -121,17 +124,25 @@ export function drawToken(
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   const { ability } = character;
-  const {
+  const splitOpts = {
+    width: (text: string) => ctx.measureText(text).width,
+    radius: 120,
+    yStart: 50,
+    yDelta: 20,
+  };
+  let {
     lines: abilityLines,
     yStart,
     yDelta,
-  } = decideAbilitySplit(
-    (text) => ctx.measureText(text).width,
-    ability || "",
-    120,
-    50,
-    20,
-  );
+  } = decideAbilitySplit(ability || "", splitOpts);
+  if (abilityLines.length >= 5) {
+    ctx.font = "11px Barlow";
+    const split = decideAbilitySplit(ability || "", {
+      ...splitOpts,
+      yStart: 40,
+    });
+    ({ lines: abilityLines, yStart, yDelta } = split);
+  }
   abilityLines.forEach((line, i) => {
     ctx.fillText(line, 120, yStart + yDelta * i);
   });
