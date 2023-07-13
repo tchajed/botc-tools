@@ -1,7 +1,7 @@
-import { fetchAllScripts } from "./all_scripts";
+import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
-import { getScript } from "./get_script";
+import { ScriptData, getScript } from "./get_script";
 import {
   allIcons,
   downloadIcons,
@@ -89,16 +89,31 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string) {
   );
 }
 
-async function downloadAllScripts(staticDir: string) {
+async function downloadAllScripts(extraScriptsDir: string, staticDir: string) {
   fs.mkdirSync(staticDir, { recursive: true });
   const path = `${staticDir}/scripts.json`;
   if (fs.existsSync(path)) {
     console.log("already have scripts.json");
+    const allScripts: ScriptData[] = JSON.parse(
+      await fs.promises.readFile(path, "utf8"),
+    );
+    const extraScripts = await readScripts(extraScriptsDir);
+    const allScriptsMinusExtra = allScripts.filter(
+      (s) => !extraScripts.some((s2) => s2.pk == s.pk),
+    );
+    await fs.promises.writeFile(
+      path,
+      JSON.stringify(extraScripts.concat(allScriptsMinusExtra)),
+    );
     return;
   }
   console.log("downloading all scripts");
   const allScripts = await fetchAllScripts();
-  fs.promises.writeFile(path, JSON.stringify(allScripts));
+  const extraScripts = await readScripts(extraScriptsDir);
+  await fs.promises.writeFile(
+    path,
+    JSON.stringify(extraScripts.concat(allScripts)),
+  );
 }
 
 async function cleanAssets(assetsDir: string) {
@@ -137,6 +152,11 @@ async function main() {
     .option("--extra-icons", "Download extra icons from tchajed/botc-icons")
     .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
     .option("--all-scripts", "Download all scripts in database")
+    .option(
+      "--extra-scripts <dir>",
+      "Directory of extra scripts to include",
+      "./extra_scripts",
+    )
     .option("-o, --out <assets dir>", "Path to assets directory", "./assets");
   program.parse();
 
@@ -195,7 +215,7 @@ async function main() {
   }
 
   if (options.allScripts) {
-    await downloadAllScripts(staticDir);
+    await downloadAllScripts(options.extraScripts, staticDir);
   }
 }
 

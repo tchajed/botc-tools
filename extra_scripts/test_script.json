@@ -1,0 +1,42 @@
+{
+  "pk": 54321,
+  "title": "Tool test script",
+  "author": "Tej",
+  "characters": [
+    "investigator",
+    "huntsman",
+    "balloonist",
+    "king",
+    "philosopher",
+    "high_priestess",
+    "nightwatchman",
+    "dreamer",
+    "engineer",
+    "town_crier",
+    "choirboy",
+    "poppy_grower",
+    "atheist",
+    "farmer",
+
+    "tinker",
+    "heretic",
+    "damsel",
+    "drunk",
+
+    "marionette",
+    "pit-hag",
+    "baron",
+    "cerenovus",
+    "vizier",
+
+    "leviathan",
+    "vigormortis",
+    "riot",
+    "legion",
+
+    "barista",
+    "deviant",
+    "spirit_of_ivory",
+    "buddhist"
+  ]
+}

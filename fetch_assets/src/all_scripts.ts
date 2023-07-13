@@ -5,6 +5,7 @@ import {
 } from "./get_script";
 import axios from "axios";
 import cliProgress from "cli-progress";
+import { readFile, readdir } from "fs/promises";
 
 interface Resp {
   count: number;
@@ -78,4 +79,32 @@ export async function fetchAllScripts(): Promise<ScriptData[]> {
   // order by descending pk order
   results.sort((a, b) => b.pk - a.pk);
   return results;
+}
+
+// Generator for all files in a directory, recursively.
+//
+// Copilot half-write this but also it linked to this answer, which explains async generators:
+// https://stackoverflow.com/questions/5827612/node-js-fs-readdir-recursive-directory-search/45130990#45130990
+async function* readdirRecursive(dir: string): AsyncGenerator<string> {
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    const fullPath = `${dir}/${entry.name}`;
+    if (entry.isDirectory()) {
+      yield fullPath;
+      yield* readdirRecursive(fullPath);
+    } else {
+      yield fullPath;
+    }
+  }
+}
+
+export async function readScripts(dir: string): Promise<ScriptData[]> {
+  const scripts: ScriptData[] = [];
+  for await (const file of readdirRecursive(dir)) {
+    if (!file.endsWith(".json")) {
+      continue;
+    }
+    const data = await readFile(file, { encoding: "utf8" });
+    scripts.push(JSON.parse(data));
+  }
+  return scripts;
 }
