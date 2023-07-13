@@ -1,9 +1,9 @@
-// To show nothing for a night reminder, set it to an empty string "".
-//
-// nights sets both firstNight and otherNights implicitly
 import { aliceInWonderland } from "./alice_in_wonderland";
 import { nightorder } from "./nightorder";
 
+// To show nothing for a night reminder, set it to an empty string "".
+//
+// nights sets both firstNight and otherNights implicitly
 export interface Override {
   ability?: string;
   nights?: string;
