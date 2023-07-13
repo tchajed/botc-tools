@@ -1,5 +1,14 @@
 import script_jinxes from "../../../assets/data/jinx.json";
+import { extraJinxes } from "./overrides";
 import { nameToId } from "./roles";
+
+export interface JinxData {
+  id: string;
+  jinx: {
+    id: string;
+    reason: string;
+  }[];
+}
 
 export interface Jinx {
   readonly character1: string;
@@ -7,9 +16,11 @@ export interface Jinx {
   readonly description: string;
 }
 
+const allJinxes = script_jinxes.concat(extraJinxes);
+
 export function getJinxList(characters: string[]): Jinx[] {
   const js: Jinx[] = [];
-  for (const jinx1 of script_jinxes) {
+  for (const jinx1 of allJinxes) {
     const character1 = nameToId(jinx1.id);
     if (!characters.includes(character1)) {
       continue;

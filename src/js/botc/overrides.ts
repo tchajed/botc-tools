@@ -1,8 +1,9 @@
+import { JinxData } from "./jinx";
+import { nightorder } from "./nightorder";
+
 // To show nothing for a night reminder, set it to an empty string "".
 //
 // nights sets both firstNight and otherNights implicitly
-import { nightorder } from "./nightorder";
-
 export interface Override {
   ability?: string;
   nights?: string;
@@ -289,3 +290,16 @@ export const overrides = {
     return override.ability ?? null;
   },
 };
+
+// jinxes for homebrew characters
+export const extraJinxes: JinxData[] = [
+  {
+    id: "actor",
+    jinx: [
+      {
+        id: "atheist",
+        reason: "If the Storyteller is executed, Actors lose and evil wins.",
+      },
+    ],
+  },
+];
