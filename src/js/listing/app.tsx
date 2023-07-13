@@ -105,6 +105,13 @@ function HelpText(): JSX.Element {
       <li>Each script has these tools:</li>
       {buttonHelp}
       <li>These tools are meant to support in-person games.</li>
+      <li>
+        The wiki has a{" "}
+        <a href="https://wiki.bloodontheclocktower.com/Rules_Explanation">
+          rules explanation
+        </a>{" "}
+        for new players.
+      </li>
     </ul>
   );
 }
