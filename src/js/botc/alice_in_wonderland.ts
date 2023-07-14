@@ -138,7 +138,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
   },
   playingcard: {
     ability:
-      "Each night, pick a card. You have the corresponding Townsfolk ability until dusk. Clubs = TB, Diamonds = BMR, Hearts = S&V, Spades = Experimental.",
+      "Each night, pick a card. You have the corresponding Townsfolk ability until dusk. ♣TB ♦BMR, ♥S&V, ♠Experimental.",
     nights:
       "The Playing Card picks a card. Give them the corresponding Townsfolk ability.",
     homebrew: {
@@ -227,7 +227,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
   },
   mockturtle: {
     ability:
-      "You start knowing 3 in-play character names and that you should pretend to be them. Your Amnesiac questions are also answered for every character you are currently pretending to be.",
+      `You start knowing 3 in-play character names and that you should pretend to be them.` +
+      ` Your Amnesiac questions are also answered for every character you are pretending to be.`,
     firstNight:
       "Show the Mock Turtle 3 in-play character names and tell them to pretend to be them.",
     homebrew: {
