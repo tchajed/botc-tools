@@ -11,6 +11,7 @@ import {
   CharacterIconElement,
 } from "../components/character_icon";
 import { Fullscreen } from "../components/fullscreen_modal";
+import { TokenCanvas } from "../randomizer/tokens/token_canvas";
 import { Jinxes } from "../components/jinxes";
 import { CardInfo, CharacterCard } from "../randomizer/components/characters";
 import { Selection } from "../randomizer/selection";
@@ -313,7 +314,7 @@ function FullscreenCard({
             <div css={cardStyle}>
               <strong>{tokenHTML}</strong>
             </div>
-            {card.character && <CharacterCard character={card.character} />}
+            {card.character && <><br/><br/><TokenCanvas character={card.character} size="90%" maxSize="400px" /></>}
           </>
         );
       }}
