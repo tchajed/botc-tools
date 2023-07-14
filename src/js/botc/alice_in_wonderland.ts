@@ -39,7 +39,9 @@ The file exports a list of overrides that are used in overrides.ts.
 
 export const aliceInWonderland: { [key: string]: Override } = {
   cheshirecat: {
-    ability: `Each night, choose a player. You control what the Storyteller tells them until tomorrow night, then they die.`,
+    ability:
+      `Each night, choose a player.` +
+      ` You control what the Storyteller tells them until tomorrow night, then they die.`,
     firstNight: `The Cheshire Cat points to a player.`,
     homebrew: {
       name: "Cheshire Cat",
@@ -59,7 +61,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
   },
   queenofhearts: {
     ability:
-      "Once per game during the day, publicly choose a player. You learn their alignment, and if they are executed, you refresh this ability",
+      `Once per game during the day, publicly choose a player.` +
+      ` You learn their alignment, and if they are executed, you refresh this ability.`,
     homebrew: {
       name: "Queen of Hearts",
       roleType: "townsfolk",
@@ -68,7 +71,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
   },
   lookingglass: {
     ability:
-      "On your first night, choose odd or even. Amnesiac questions might receive false answers on those days.",
+      `On your first night, choose odd or even.` +
+      ` Amnesiac questions might receive false answers on those days.`,
     firstNight: "The Looking Glass picks odd or even.",
     homebrew: {
       name: "Looking Glass",
@@ -184,7 +188,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
   },
   walrus: {
     ability:
-      "The first ability each player attempts to activate does something helpful",
+      "The first ability each player attempts to activate does something helpful.",
     homebrew: {
       name: "Walrus",
       roleType: "townsfolk",
