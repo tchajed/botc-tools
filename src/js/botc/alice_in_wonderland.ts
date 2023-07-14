@@ -42,11 +42,13 @@ export const aliceInWonderland: { [key: string]: Override } = {
     ability:
       `Each night, choose a player.` +
       ` You control what the Storyteller tells them until tomorrow night, then they die.`,
-    firstNight: `The Cheshire Cat points to a player.`,
+    firstNight: `The Cheshire Cat points to a player. Ask them for a statement or instructions.`,
+    otherNights: `The Cheshire Cat points to a player. Ask them for a statement or instructions. The previously chosen player dies.`,
     homebrew: {
       name: "Cheshire Cat",
       roleType: "demon",
       firstNightIndex: nightorder.firstNight("Pukka"),
+      otherNightsIndex: nightorder.otherNights("Pukka"),
     },
   },
   whiterabbit: {
@@ -82,8 +84,12 @@ export const aliceInWonderland: { [key: string]: Override } = {
     },
   },
   jabberwock: {
-    ability: `Each night, choose a player and a statement to be mad about tomorrow, or they might be executed. The statement must rhyme.`,
-    nights: `The Jabberwock points to a player and is told to give a rhyming statement. Tell the player they should be mad about the statement.`,
+    ability:
+      `Each night, choose a player and a statement to be mad about tomorrow,` +
+      ` or they might be executed. The statement must rhyme.`,
+    nights:
+      `The Jabberwock points to a player and is told to give a rhyming statement.` +
+      ` Tell the player they should be mad about the statement.`,
     homebrew: {
       name: "Jabberwock",
       roleType: "minion",
@@ -126,9 +132,11 @@ export const aliceInWonderland: { [key: string]: Override } = {
   },
   cook: {
     ability:
-      "Two opposing players start with DRINK ME and EAT ME. DRINK ME cannot talk publicly or raise their voice, and is immune to abilities and nominations until dusk. EAT ME must speak publicly and loudly, and has 101 votes until dusk.",
+      `Two opposing players start with DRINK ME and EAT ME.` +
+      ` DRINK ME must whisper (even publicly), and is immune to abilities and nominations until dusk.` +
+      ` EAT ME must speak publicly and loudly, and has 101 votes until dusk.`,
     firstNight: `Mark two opposing players DRINK ME and EAT ME. Wake them and tell them their restrictions:
-    <tab>DRINK ME cannot talk publicly or raise their voice
+    <tab>DRINK ME cannot talk publicly or raise their voice. If nominated, they must whisper their defense.
     <tab>EAT ME must speak publicly and loudly`,
     homebrew: {
       name: "Cook",
