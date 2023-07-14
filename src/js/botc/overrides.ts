@@ -193,6 +193,16 @@ const homebrewRoles: Overrides = {
       firstNightIndex: nightorder.firstNight("Pukka") + 1,
     },
   },
+  drunk: {
+    ability: `You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.`,
+    firstNight: `Assign which Townsfolk is actually the Drunk.`,
+    homebrew: {
+      name: "Drunk",
+      roleType: "outsider",
+      // very early
+      firstNightIndex: -1,
+    },
+  },
   lout: {
     ability: `On night three, learn an evil townsfolk. [1 Townsfolk is evil]`,
     firstNight: `Wake the townsfolk who is evil and show them YOU ARE EVIL and the thumbs-down sign.`,
