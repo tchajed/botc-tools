@@ -1,8 +1,8 @@
 import script_jinxes from "../../../assets/data/jinx.json";
-import { extraJinxes } from "./overrides";
 import { nameToId } from "./roles";
 
-export interface JinxData {
+// the format of jinx.json
+interface JinxData {
   id: string;
   jinx: {
     id: string;
@@ -10,13 +10,27 @@ export interface JinxData {
   }[];
 }
 
+// jinxes for homebrew characters
+const extraJinxes: JinxData[] = [
+  {
+    id: "actor",
+    jinx: [
+      {
+        id: "atheist",
+        reason: "If the Storyteller is executed, Actors lose and evil wins.",
+      },
+    ],
+  },
+];
+
+const baseJinxes: JinxData[] = script_jinxes;
+const allJinxes: JinxData[] = baseJinxes.concat(extraJinxes);
+
 export interface Jinx {
   readonly character1: string;
   readonly character2: string;
   readonly description: string;
 }
-
-const allJinxes = script_jinxes.concat(extraJinxes);
 
 export function getJinxList(characters: string[]): Jinx[] {
   const js: Jinx[] = [];
