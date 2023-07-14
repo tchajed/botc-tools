@@ -62,3 +62,14 @@ yarn test-screenshots
 
 `test-screenshots` takes some options, run it with `yarn test-screenshots
 --help` to see them.
+
+## Acknowledgements and Copyrights
+
+* [Blood on the Clocktower](https://bloodontheclocktower.com/) is a trademark of
+  Steven Medway and The Pandemonium Institute
+* Night reminders and other auxiliary text written by Ben Finney
+* Iconography by [Font Awesome](https://fontawesome.com/)
+* All other images and icons are copyright their respective owners
+
+This project and its website are provided free of charge and are not affiliated
+with The Pandemonium Institute in any way.
