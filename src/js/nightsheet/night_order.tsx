@@ -155,13 +155,12 @@ function CharacterRow(props: {
         <CharacterIconElement {...character} />
       </td>
       <td className="name-cell">
-        {iconPath(character.id) ? (
-          <a href={`https://wiki.bloodontheclocktower.com/${character.name}`}>
-            {character.name}
-          </a>
-        ) : (
-          <>{character.name}</>
-        )}
+        {
+          // these used to link to the wiki
+          // <a href={`https://wiki.bloodontheclocktower.com/${character.name}`}>
+          // </a>
+        }
+        {character.name}
       </td>
       <td
         className={classnames("details", "details-cell", {
