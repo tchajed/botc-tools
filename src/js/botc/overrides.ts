@@ -1,3 +1,4 @@
+import { aliceInWonderland } from "./alice_in_wonderland";
 import { nightorder } from "./nightorder";
 
 // To show nothing for a night reminder, set it to an empty string "".
@@ -269,6 +270,7 @@ const overrideList: { [key: string]: Override } = {
   ...fabledRoles,
   ...homebrewRoles,
   ...amnesiacs,
+  ...aliceInWonderland,
 };
 
 function getOverride(id: string): Override {
