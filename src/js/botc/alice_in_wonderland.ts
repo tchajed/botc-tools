@@ -127,7 +127,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
       name: "Dodo",
       roleType: "outsider",
       firstNightIndex: nightorder.firstNight("Empath"),
-      otherNightsIndex: nightorder.otherNights("Undertaker"),
+      otherNightsIndex: nightorder.otherNights("Undertaker") + 1,
     },
   },
   cook: {
@@ -158,16 +158,15 @@ export const aliceInWonderland: { [key: string]: Override } = {
   },
   marchhare: {
     ability:
-      "You start knowing a riddle about your own ability. If you die at night, pick a player. You learn a riddle about their ability.",
-    firstNight:
-      "The March Hare learns a riddle about their ability. (Why is a raven like your ability?)",
+      "Each night, get a statement. If someone else is mad that it is true the following day, you learn their character that night.",
+    firstNight: "Give the March Hare a statement.",
     otherNights:
-      "If the March Hare died, they point to a player. Give them a riddle about their ability.",
+      "If someone was mad about the March Hare's statement, tell the March Hare their character.",
     homebrew: {
       name: "March Hare",
       roleType: "townsfolk",
       firstNightIndex: nightorder.firstNight("Washerwoman"),
-      otherNightsIndex: nightorder.otherNights("Ravenkeeper"),
+      otherNightsIndex: nightorder.otherNights("Undertaker"),
     },
   },
   madhatter: {
