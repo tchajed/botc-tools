@@ -1,3 +1,4 @@
+import { createCanvas, canvasToBlob } from "./offscreen_canvas";
 import { TownsquareData, drawTownsquare } from "./townsquare_canvas";
 import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
@@ -27,13 +28,17 @@ export function TownsquareImage(props: TownsquareData): JSX.Element {
 
   useEffect(() => {
     // dummy width and height will be set by drawTownsquare
-    const canvas = new OffscreenCanvas(0, 0);
+    const canvas: OffscreenCanvas | HTMLCanvasElement = createCanvas(0, 0);
 
     drawTownsquare(canvas, props).then(() => {
-      canvas.convertToBlob().then((blob) => {
-        const dataURL = URL.createObjectURL(blob);
-        setImg({ dataURL, blob });
-      });
+      canvasToBlob(canvas)
+        .then((blob) => {
+          const dataURL = URL.createObjectURL(blob);
+          setImg({ dataURL, blob });
+        })
+        .catch((err) => {
+          console.error(`could not draw town square: ${err}`);
+        });
     });
     // TODO: the dependency on an object triggers too often, follow
     // https://www.benmvp.com/blog/object-array-dependencies-react-useEffect-hook/

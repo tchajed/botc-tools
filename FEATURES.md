@@ -1,6 +1,6 @@
 # Feature highlights
 
-BotC tools is a way of running in-person games with a digital grimoire.  You can
+BotC tools is a way of running in-person games with a digital grimoire. You can
 use it at <https://botc-tools.xyz>.
 
 As a storyteller, I use it on an iPad to select roles, show them to players, and

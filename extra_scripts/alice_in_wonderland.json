@@ -1,0 +1,27 @@
+{
+  "pk": 10000,
+  "title": "Alice in Wonderland (all amne)",
+  "author": "Besjbo",
+  "allAmne": true,
+  "characters": [
+    "cook",
+    "playing_card",
+    "march_hare",
+    "mad_hatter",
+    "dormouse",
+    "walrus",
+    "white_queen",
+    "humpty_dumpty",
+    "mock_turtle",
+    "white_rabbit",
+    "queen_of_hearts",
+    "alice_duchess",
+    "dodo",
+    "tweedledum",
+    "looking_glass",
+    "jabberwock",
+    "knave_of_hearts",
+    "caterpillar",
+    "cheshire_cat"
+  ]
+}
