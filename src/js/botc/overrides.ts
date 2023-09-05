@@ -148,6 +148,10 @@ const newRoles: Overrides = {
       `The Harpy chooses two players. Mark both Harpy selected. ` +
       `Tell the first player THIS CHARACTER SELECTED YOU and point to the second player.`,
   },
+  plague_doctor: {
+    ability:
+      "If you die, the Storyteller gains a not-in-play Minion ability.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
