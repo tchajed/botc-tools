@@ -151,6 +151,12 @@ const newRoles: Overrides = {
   plaguedoctor: {
     ability: "If you die, the Storyteller gains a not-in-play Minion ability.",
   },
+  shugenja: {
+    ability:
+      "You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.",
+    firstNight:
+      "Wake the Shugenja. Point horizontally in the direction of the closest evil player.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
