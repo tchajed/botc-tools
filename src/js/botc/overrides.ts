@@ -157,6 +157,12 @@ const newRoles: Overrides = {
     firstNight:
       "Wake the Shugenja. Point horizontally in the direction of the closest evil player.",
   },
+  ojo: {
+    ability:
+      "Each night*, choose a character: they die. If they are not in play, the Storyteller chooses who dies.",
+    nights:
+      "The Ojo chooses a character. If that character is in play, that player dies. If that character is not in play, choose any player. That player dies.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
