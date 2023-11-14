@@ -3,7 +3,7 @@ import { ScriptData } from "../botc/script";
 import { matchSorter } from "match-sorter";
 
 const FAVORITE_TITLES: Set<string> = new Set([
-  "Trust Issues (v5)",
+  "Trust Issues (v6)",
   // "Chad Versus Virgin",
   // "You're Not Evil, I'm Evil!",
   "The Spy Who Pinged Me",
