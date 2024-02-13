@@ -160,8 +160,14 @@ const newRoles: Overrides = {
   ojo: {
     ability:
       "Each night*, choose a character: they die. If they are not in play, the Storyteller chooses who dies.",
-    nights:
+    otherNights:
       "The Ojo chooses a character. If that character is in play, that player dies. If that character is not in play, choose any player. That player dies.",
+  },
+  hatter: {
+    ability:
+      "If you died today or tonight, the Minion & Demon players may choose new Minion & Demon characters to be.",
+    otherNights:
+      "If the Hatter died, show the Minion and Demon players the THIS CHARACTER SELECTED YOU and allow them to pick a new character.",
   },
 };
 
