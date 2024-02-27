@@ -29,7 +29,7 @@ jobs:
           node-version: 21.x
           cache: yarn
       - name: Cache assets
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             assets/img
@@ -45,7 +45,7 @@ jobs:
       - name: Build site
         run: yarn build
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
         with:
           path: ./dist
@@ -64,4 +64,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
