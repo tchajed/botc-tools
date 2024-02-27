@@ -169,6 +169,19 @@ const newRoles: Overrides = {
     otherNights:
       "If the Hatter died, show the Minion and Demon players the THIS CHARACTER SELECTED YOU and allow them to pick a new character.",
   },
+  kazali: {
+    ability:
+      "Each night*, choose a player: they die. [You choose which players are which Minions. -? to +? Outsiders]",
+    otherNights: "The Kazali chooses a player. That player dies.",
+  },
+  villageidiot: {
+    ability:
+      "Each night, choose a player: you learn their alignment. [+0 to +2 Village Idiots. 1 of the extras is drunk]",
+    firstNight:
+      "Choose an extra Village Idiot to be drunk. Each Village Idiot chooses a player. Show them the alignment of that player.",
+    otherNights:
+      "Each Village Idiot chooses a player. Show them the alignment of that player.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
