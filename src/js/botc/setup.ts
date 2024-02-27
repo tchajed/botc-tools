@@ -111,7 +111,9 @@ export type SetupModification =
   // No effect on distribution but list +the King in setup help
   | { type: "choirboy" }
   // all good players are Actors
-  | { type: "actor" };
+  | { type: "actor" }
+  // arbitrary number of outsiders, no minions in bag
+  | { type: "kazali" };
 
 function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
@@ -133,6 +135,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   atheist: { type: "atheist" },
   choirboy: { type: "choirboy" },
   actor: { type: "actor" },
+  kazali: { type: "kazali" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -242,6 +245,22 @@ function applyModification(
           demon: old_dist.demon,
         },
       ];
+    }
+    case "kazali": {
+      const numPlayers = distTotal(old_dist);
+      const dists: Distribution[] = [];
+      for (let outsiderCount = 0; outsiderCount <= 5; outsiderCount++) {
+        dists.push({
+          townsfolk:
+            numPlayers -
+            outsiderCount -
+            old_dist.demon /* account for demon, no minions */,
+          outsider: outsiderCount,
+          minion: 0,
+          demon: old_dist.demon,
+        });
+      }
+      return dists;
     }
   }
 }

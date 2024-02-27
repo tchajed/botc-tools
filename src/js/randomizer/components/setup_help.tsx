@@ -22,10 +22,31 @@ import { useContext } from "react";
 import { ErrorSpan, SuccessSpan } from "styles/error_msg";
 
 export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
+  const Num = styled.span`
+    // make each number fixed-width
+    display: inline-block;
+    min-width: 1rem;
+    text-align: center;
+  `;
   return (
     <span className="distribution">
-      <span className="good">{dist.townsfolk + dist.outsider}</span>/
-      <span className="evil">{dist.demon}</span>
+      <Num className="good">{dist.townsfolk + dist.outsider}</Num>/
+      <Num className="evil">{dist.demon}</Num>
+    </span>
+  );
+}
+
+export function KazaliDistr({ dist }: { dist: Distribution }): JSX.Element {
+  const Num = styled.span`
+    // make each number fixed-width
+    display: inline-block;
+    min-width: 1rem;
+    text-align: center;
+  `;
+  return (
+    <span className="distribution">
+      <Num className="good">{dist.townsfolk + dist.outsider}</Num>/
+      <Num className="evil">{dist.demon}</Num>
     </span>
   );
 }
@@ -109,6 +130,9 @@ function ModificationExplanation(props: {
     }
     case "atheist": {
       return <span>(No evil, setup is arbitrary)</span>;
+    }
+    case "kazali": {
+      return <span>(Arbitrary outsiders, no minions in bag)</span>;
     }
     case "actor": {
       return (
@@ -221,6 +245,23 @@ export function SetupModifiers(props: {
   }
   if (selection.has("atheist")) {
     goalDistributionElement = <AtheistDistr numPlayers={numPlayers} />;
+  }
+  if (selection.has("kazali")) {
+    const newKazaliDistributions: Distribution[] = uniqueDistributions(
+      newDistributions.map((dist) => {
+        return {
+          townsfolk: dist.townsfolk + dist.outsider,
+          outsider: 0,
+          minion: 0,
+          demon: dist.demon,
+        };
+      }),
+    );
+    goalDistributionElement = elementOrList(
+      newKazaliDistributions.map((dist, i) => (
+        <KazaliDistr dist={dist} key={i} />
+      )),
+    );
   }
 
   return (
