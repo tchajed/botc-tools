@@ -182,6 +182,13 @@ const newRoles: Overrides = {
     otherNights:
       "Each Village Idiot chooses a player. Show them the alignment of that player.",
   },
+  yaggababble: {
+    ability:
+      "You start knowing a secret phrase. For each time you said it publicly today, a player might die.",
+    firstNight: "Show the Yaggababble their secret phrase.",
+    otherNights:
+      "Choose a number of players up to the total number of times the Yaggababble said their secret phrase publicly; those players die.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
