@@ -3,7 +3,7 @@
     "rootDir": "src",
     "outDir": "dist",
     "target": "es2016",
-    "module": "commonjs",
+    "module": "NodeNext",
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2021"],
     "sourceMap": true,
