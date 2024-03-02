@@ -141,6 +141,13 @@ function ModificationExplanation(props: {
         </span>
       );
     }
+    case "villageidiot": {
+      return (
+        <span>
+          (+0 to +2 <span className="good">Village Idiot</span>)
+        </span>
+      );
+    }
   }
 }
 
