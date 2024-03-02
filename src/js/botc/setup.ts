@@ -52,8 +52,8 @@ export function actualDistribution(characters: CharacterInfo[]): Distribution {
   return dist;
 }
 
-/** Get the number of characters of each type taking into account an extra demon
- * (Riot) for each nominal minion. */
+/** Get the number of characters of each type taking into account extra copies of
+ * characters like Riot and Legion. */
 export function effectiveDistribution(
   numPlayers: number,
   characters: CharacterInfo[],
@@ -86,6 +86,16 @@ export function effectiveDistribution(
   return dist;
 }
 
+export function selectableCharacters(
+  characters: CharacterInfo[],
+): CharacterInfo[] {
+  const newChars: CharacterInfo[] = [];
+  for (const c of characters) {
+    newChars.push(c);
+  }
+  return newChars;
+}
+
 export type SetupModification =
   | {
       // eg, Baron (+2), Fang Gu (+1), Vigormortis (-1)
@@ -113,7 +123,9 @@ export type SetupModification =
   // all good players are Actors
   | { type: "actor" }
   // arbitrary number of outsiders, no minions in bag
-  | { type: "kazali" };
+  | { type: "kazali" }
+  // can be in bag multiple times
+  | { type: "villageidiot" };
 
 function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
@@ -136,6 +148,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   choirboy: { type: "choirboy" },
   actor: { type: "actor" },
   kazali: { type: "kazali" },
+  villageidiot: { type: "villageidiot" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -261,6 +274,9 @@ function applyModification(
         });
       }
       return dists;
+    }
+    case "villageidiot": {
+      return [dist];
     }
   }
 }

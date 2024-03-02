@@ -24,6 +24,7 @@ import {
   effectiveDistribution,
   modifyingCharacters,
   roleTypesDefinitelyDone,
+  selectableCharacters,
   splitSelectedChars,
   targetDistributions,
 } from "botc/setup";
@@ -130,7 +131,7 @@ export function Randomizer({
   const rolesNotNeeded = roleTypesDefinitelyDone(targetDists, actual);
 
   const { bag, outsideBag } = splitSelectedChars(
-    characters,
+    selectableCharacters(characters),
     selection,
     numPlayers,
   );

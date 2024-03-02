@@ -252,6 +252,10 @@ function createRoleData(): Map<string, CharacterInfo> {
 export const roles = createRoleData();
 
 export function getCharacter(id: string): CharacterInfo {
+  const match = id.match(/(?<name>[a-zA-Z]+)-(?<number>\d+)/);
+  if (match && match.groups) {
+    id = match.groups.name;
+  }
   const c = roles.get(id);
   if (!c) {
     throw new Error(`unknown character ${id}`);
@@ -259,6 +263,8 @@ export function getCharacter(id: string): CharacterInfo {
   return c;
 }
 
+// Lunatic with night instructions customized to Teensyville (where Lunatic and
+// Demon should not learn Minions or bluffs).
 export const TeensyLunatic: CharacterInfo = ((lunatic) => {
   if (!lunatic) {
     throw new Error("could not get lunatic character");
