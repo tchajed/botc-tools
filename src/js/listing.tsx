@@ -12,12 +12,12 @@ async function init() {
 
   initStorage();
 
-  const scripts = await getScripts();
+  const scriptsFile = await getScripts();
 
   const root = createRoot(app);
   root.render(
     <React.StrictMode>
-      <App scripts={scripts} />
+      <App scriptsFile={scriptsFile} />
     </React.StrictMode>,
   );
 }

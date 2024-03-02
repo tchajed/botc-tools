@@ -1,4 +1,4 @@
-import { ScriptData } from "../botc/script";
+import { ScriptsFile } from "../botc/script";
 import "../icons";
 import {
   ScriptState,
@@ -175,6 +175,7 @@ function EnterPasswordButton(props: {
 }
 
 function Footer(props: {
+  lastUpdate: Date;
   password: string;
   setPassword: (password: string) => void;
 }): JSX.Element {
@@ -187,6 +188,7 @@ function Footer(props: {
         float: right;
       `}
     >
+      <p>Scripts updated {props.lastUpdate.toLocaleDateString()}</p>
       <GitHubLink />
       <br />
       <EnterPasswordButton {...props} />
@@ -213,7 +215,7 @@ const scriptLinkStyle = {
   `,
 };
 
-export function App(props: { scripts: ScriptData[] }): JSX.Element {
+export function App(props: { scriptsFile: ScriptsFile }): JSX.Element {
   const [password, setPassword] = useState<string>("");
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
@@ -223,10 +225,12 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
     });
   }, [password]);
 
-  const baseThree = props.scripts.filter((s) => BaseThree.includes(s.pk));
+  const scripts = props.scriptsFile.scripts;
+  const lastUpdate = new Date(Date.parse(props.scriptsFile.lastUpdate));
+  const baseThree = scripts.filter((s) => BaseThree.includes(s.pk));
   baseThree.sort((s1, s2) => s1.pk - s2.pk);
 
-  const custom = props.scripts.filter((s) => {
+  const custom = scripts.filter((s) => {
     if (BaseThree.includes(s.pk)) {
       return false;
     }
@@ -322,7 +326,11 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
           <h2>Custom</h2>
           <SearchResults scripts={custom} query={query} setQuery={setQuery} />
           <HelpText />
-          <Footer password={password} setPassword={setAndStorePassword} />
+          <Footer
+            lastUpdate={lastUpdate}
+            password={password}
+            setPassword={setAndStorePassword}
+          />
         </div>
       </div>
     </ThemeProvider>

@@ -1,7 +1,7 @@
 import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
-import { ScriptData, ScriptsFile, getScript } from "./get_script";
+import { ScriptsFile, getScript } from "./get_script";
 import {
   allIcons,
   downloadIcons,
@@ -96,20 +96,28 @@ async function getAllScripts(
   const path = `${staticDir}/scripts.json`;
   if (fs.existsSync(path)) {
     // if scripts.json exists, merge the extra scripts into it
+    // since the upstream scripts aren't updated, re-use the previous date
     console.log("already have scripts.json");
-    const allScripts: ScriptData[] = JSON.parse(
+    const allScripts: ScriptsFile = JSON.parse(
       await fs.promises.readFile(path, "utf8"),
     );
     const extraScripts = await readScripts(extraScriptsDir);
-    const allScriptsMinusExtra = allScripts.filter(
+    const allScriptsMinusExtra = allScripts.scripts.filter(
       (s) => !extraScripts.some((s2) => s2.pk == s.pk),
     );
-    return extraScripts.concat(allScriptsMinusExtra);
+    return {
+      scripts: extraScripts.concat(allScriptsMinusExtra),
+      lastUpdate: allScripts.lastUpdate,
+    };
   }
   console.log("downloading all scripts");
+  const updateTime = new Date();
   const allScripts = await fetchAllScripts();
   const extraScripts = await readScripts(extraScriptsDir);
-  return extraScripts.concat(allScripts);
+  return {
+    scripts: extraScripts.concat(allScripts),
+    lastUpdate: updateTime.toJSON(),
+  };
 }
 
 async function downloadAllScripts(extraScriptsDir: string, staticDir: string) {

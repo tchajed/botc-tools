@@ -9,7 +9,10 @@ export interface ScriptData {
   characters: string[];
 }
 /** Format for assets/static/scripts.json `ScriptData`. */
-export type ScriptsFile = ScriptData[];
+export type ScriptsFile = {
+  scripts: ScriptData[];
+  lastUpdate: string;
+};
 
 const apiBase = "https://botc-scripts.azurewebsites.net/api";
 

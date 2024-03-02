@@ -18,7 +18,7 @@ function selectedScriptId(): string {
 
 export async function selectedScript(): Promise<ScriptData> {
   const id = selectedScriptId();
-  const scripts = await getScripts();
+  const scripts = (await getScripts()).scripts;
   const script = scripts.find((s) => s.pk.toString() == id);
   if (!script) {
     throw new Error(`unknown script id ${id}`);

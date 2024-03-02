@@ -9,7 +9,10 @@ export interface ScriptData {
   characters: string[];
 }
 
-export type ScriptsFile = ScriptData[];
+export type ScriptsFile = {
+  scripts: ScriptData[];
+  lastUpdate: string;
+};
 
 export interface NightOrders {
   // already sorted
