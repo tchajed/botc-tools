@@ -28,7 +28,6 @@ const tokenNames = [
   "THIS IS THE DEMON",
   "THESE ARE YOUR MINIONS",
   "THESE CHARACTERS ARE NOT IN PLAY",
-  // make sure prefixes go first
   "YOU ARE EVIL",
   "YOU ARE GOOD",
   "YOU ARE",
@@ -36,6 +35,8 @@ const tokenNames = [
   "THIS PLAYER IS",
   "THIS CHARACTER IS IN PLAY",
 ];
+// sort by reverse length so we try to match longer names first, to handle
+// one name which is a prefix of another correctly
 tokenNames.sort((a, b) => b.length - a.length);
 
 /** For a token in char's night action, return the character we should show
