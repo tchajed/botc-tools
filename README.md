@@ -1,6 +1,7 @@
 # BotC storyteller tools
 
 [![build](https://github.com/tchajed/botc-tools/actions/workflows/deploy.yml/badge.svg)](https://github.com/tchajed/botc-tools/actions/workflows/deploy.yml)
+[![refresh](https://github.com/tchajed/botc-tools/actions/workflows/refresh.yml/badge.svg)](https://github.com/tchajed/botc-tools/actions/workflows/refresh.yml)
 
 Tools for the storyteller in Blood on the Clocktower, for supporting in-person games.
 
