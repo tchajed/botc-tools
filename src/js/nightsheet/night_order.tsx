@@ -7,7 +7,6 @@ import {
 import { NightOrders, Script } from "../botc/script";
 import {
   characterClass,
-  iconPath,
   CharacterIconElement,
 } from "../components/character_icon";
 import { Fullscreen } from "../components/fullscreen_modal";
