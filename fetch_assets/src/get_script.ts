@@ -1,7 +1,6 @@
 import axios from "axios";
 
-/** Format for a single saved script. assets/static/scripts.json is an array of
-`ScriptData`. */
+/** Format for a single saved script. */
 export interface ScriptData {
   pk: number;
   title: string;
@@ -9,6 +8,8 @@ export interface ScriptData {
   score: number;
   characters: string[];
 }
+/** Format for assets/static/scripts.json `ScriptData`. */
+export type ScriptsFile = ScriptData[];
 
 const apiBase = "https://botc-scripts.azurewebsites.net/api";
 

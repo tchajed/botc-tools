@@ -1,7 +1,7 @@
 import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
-import { ScriptData, getScript } from "./get_script";
+import { ScriptData, ScriptsFile, getScript } from "./get_script";
 import {
   allIcons,
   downloadIcons,
@@ -89,10 +89,13 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string) {
   );
 }
 
-async function downloadAllScripts(extraScriptsDir: string, staticDir: string) {
-  fs.mkdirSync(staticDir, { recursive: true });
+async function getAllScripts(
+  extraScriptsDir: string,
+  staticDir: string,
+): Promise<ScriptsFile> {
   const path = `${staticDir}/scripts.json`;
   if (fs.existsSync(path)) {
+    // if scripts.json exists, merge the extra scripts into it
     console.log("already have scripts.json");
     const allScripts: ScriptData[] = JSON.parse(
       await fs.promises.readFile(path, "utf8"),
@@ -101,19 +104,20 @@ async function downloadAllScripts(extraScriptsDir: string, staticDir: string) {
     const allScriptsMinusExtra = allScripts.filter(
       (s) => !extraScripts.some((s2) => s2.pk == s.pk),
     );
-    await fs.promises.writeFile(
-      path,
-      JSON.stringify(extraScripts.concat(allScriptsMinusExtra)),
-    );
-    return;
+    return extraScripts.concat(allScriptsMinusExtra);
   }
   console.log("downloading all scripts");
   const allScripts = await fetchAllScripts();
   const extraScripts = await readScripts(extraScriptsDir);
-  await fs.promises.writeFile(
-    path,
-    JSON.stringify(extraScripts.concat(allScripts)),
-  );
+  return extraScripts.concat(allScripts);
+}
+
+async function downloadAllScripts(extraScriptsDir: string, staticDir: string) {
+  fs.mkdirSync(staticDir, { recursive: true });
+  const path = `${staticDir}/scripts.json`;
+  const scriptFile = await getAllScripts(extraScriptsDir, staticDir);
+  await fs.promises.writeFile(path, JSON.stringify(scriptFile));
+  return;
 }
 
 async function cleanAssets(assetsDir: string) {

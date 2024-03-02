@@ -34,6 +34,8 @@ async function getPage(
   };
 }
 
+const DEBUG_FETCH = false;
+
 export async function fetchAllScripts(): Promise<ScriptData[]> {
   const results: ScriptData[] = [];
   const bar = new cliProgress.SingleBar(
@@ -44,6 +46,10 @@ export async function fetchAllScripts(): Promise<ScriptData[]> {
 
   const { count, data, next } = await getPage(1);
   results.push(...data);
+  // for debugging quickly return just one page of results
+  if (DEBUG_FETCH) {
+    return results;
+  }
   // if there's one page of results we're done
   if (!next) {
     return results;

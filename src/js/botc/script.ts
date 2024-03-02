@@ -9,6 +9,8 @@ export interface ScriptData {
   characters: string[];
 }
 
+export type ScriptsFile = ScriptData[];
+
 export interface NightOrders {
   // already sorted
   firstNight: CharacterInfo[];
