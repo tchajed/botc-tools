@@ -186,6 +186,18 @@ function createRoleData(): Map<string, CharacterInfo> {
         versionToEdition(role.version),
       );
       roles.set(id, info);
+      if (id == "villageidiot") {
+        // add two copies of Village Idiot for the extra selections
+        for (let i = 1; i <= 2; i++) {
+          const info = new CharacterInfo(
+            `${id}-${i}`,
+            name,
+            validRole,
+            versionToEdition(role.version),
+          );
+          roles.set(info.id, info);
+        }
+      }
     } else {
       console.warn(`invalid role ${roleType} for ${id}`);
     }
@@ -252,10 +264,6 @@ function createRoleData(): Map<string, CharacterInfo> {
 export const roles = createRoleData();
 
 export function getCharacter(id: string): CharacterInfo {
-  const match = id.match(/(?<name>[a-zA-Z]+)-(?<number>\d+)/);
-  if (match && match.groups) {
-    id = match.groups.name;
-  }
   const c = roles.get(id);
   if (!c) {
     throw new Error(`unknown character ${id}`);
@@ -288,3 +296,17 @@ export const TeensyLunatic: CharacterInfo = ((lunatic) => {
   };
   return info;
 })(roles.get("lunatic"));
+
+// regular expression to remove a number from a character id, used to allow
+// selecting multiple copies of Village Idiot
+const NameNumberRe = /(?<name>[a-zA-Z]+)-(?<number>\d+)/;
+
+/** Remove a number suffix, turning villageidiot-1 into villageidiot for example,
+ * if the normalized identifier is needed. */
+export function characterIdWithoutNumber(id: string): string {
+  const match = id.match(NameNumberRe);
+  if (match && match.groups) {
+    return match.groups.name;
+  }
+  return id;
+}

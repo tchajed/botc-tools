@@ -53,7 +53,7 @@ export function Randomizer({
   numPlayers: number;
   setNumPlayers: React.Dispatch<SetStateAction<number>>;
 }): JSX.Element {
-  const { characters } = script;
+  const characters = selectableCharacters(script.characters);
   const [ranking, setRanking] = useState(randomRanking(characters));
   const [fsRole, setFsRole] = useState<string | null>(null);
   const [history, setHistory] = useState({ back: [], forward: [] } as History<
@@ -131,7 +131,7 @@ export function Randomizer({
   const rolesNotNeeded = roleTypesDefinitelyDone(targetDists, actual);
 
   const { bag, outsideBag } = splitSelectedChars(
-    selectableCharacters(characters),
+    characters,
     selection,
     numPlayers,
   );

@@ -1,6 +1,11 @@
 /** Encode the rules for BotC setup. */
 import { CardInfo } from "../randomizer/components/characters";
-import { CharacterInfo, RoleType, getCharacter } from "./roles";
+import {
+  CharacterInfo,
+  RoleType,
+  characterIdWithoutNumber,
+  getCharacter,
+} from "./roles";
 
 export interface Distribution {
   townsfolk: number;
@@ -92,6 +97,10 @@ export function selectableCharacters(
   const newChars: CharacterInfo[] = [];
   for (const c of characters) {
     newChars.push(c);
+    if (c.id == "villageidiot") {
+      newChars.push(getCharacter("villageidiot-1"));
+      newChars.push(getCharacter("villageidiot-2"));
+    }
   }
   return newChars;
 }
@@ -155,7 +164,7 @@ export function goesInBag(char: CardInfo): boolean {
   if (char.roleType == "fabled") {
     return false;
   }
-  const mod = SetupChanges[char.id];
+  const mod = SetupChanges[characterIdWithoutNumber(char.id)];
   if (!mod) {
     return true;
   }
