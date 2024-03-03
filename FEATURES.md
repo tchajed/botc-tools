@@ -8,7 +8,8 @@ then create a "grimoire" image. That image goes into a drawing app (Concepts)
 where I write on it to track tokens and anything else I need to for the game.
 The app stays on the side and shows me the night order and gives me ways to show
 players information ("THIS PLAYER SELECTED YOU" for example), including
-character tokens.
+character tokens. If you're an iPad, this is the "Slide Over" multitasking
+feature (accessible from the three dots at the top of the screen).
 
 The app understands essentially all setup rules, reducing my errors in setup,
 especially for custom scripts and lots of setup-impacting abilities. (No more
@@ -25,7 +26,7 @@ alt="Screenshot showing home page of the app"
 width="400">
 
 The tool pulls in all the scripts in the [unofficial script
-database](https://botc-scripts.azurewebsites.net/). It does this once and saves
+database](https://botcscripts.com). It does this once and saves
 the results, so search is really fast.
 
 The custom scripts listed by default are some that I've recently been playing.

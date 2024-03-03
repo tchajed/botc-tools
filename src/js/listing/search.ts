@@ -3,6 +3,7 @@ import { ScriptData } from "../botc/script";
 import { matchSorter } from "match-sorter";
 
 const FAVORITE_TITLES: Set<string> = new Set([
+  "Catfishing",
   "No Roles Barred",
   "Whose Cult Is It Anyway?",
   "Creme De La Creme",
