@@ -184,7 +184,7 @@ export function CharacterSheet(props: {
       };
 
   const [qrUrl, setQrUrl] = useState<string | null>(null);
-  const qrDest = `${window.location.origin}/script.html?id=${script.id}`;
+  const qrDest = `${window.location.origin}${window.location.pathname}?id=${script.id}`;
 
   return (
     <div className={visibleClass(active)}>
