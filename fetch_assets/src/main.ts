@@ -3,16 +3,16 @@ import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
 import { ScriptsFile, getScript } from "./get_script";
 import {
-  allIcons,
-  downloadIcons,
-  findNotDownloaded,
-  saveIcons,
-} from "./images";
-import {
   downloadRoles,
   findNotDownloadedIcons,
   getRoles,
 } from "./script_tool_images";
+import {
+  allIcons,
+  downloadIcons,
+  findNotDownloaded,
+  saveIcons,
+} from "./wiki_icons";
 import cliProgress from "cli-progress";
 import { Command, Option } from "commander";
 import fs from "fs";
@@ -159,7 +159,7 @@ async function main() {
     )
     .option("--clean", "Delete any existing assets")
     .option("--json", "Download JSON game data")
-    .option("--img", "Download images")
+    .option("--wiki-icons", "Download character icons from official wiki")
     .option("--icons", "Download icons from script tool")
     .option("--extra-icons", "Download extra icons from tchajed/botc-icons")
     .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
