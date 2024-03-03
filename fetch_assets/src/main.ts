@@ -2,6 +2,7 @@ import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
 import { ScriptsFile, getScript } from "./get_script";
+import { downloadPocketGrimoireIcons } from "./pocket_grimoire_images";
 import {
   downloadRoles,
   findNotDownloadedIcons,
@@ -160,7 +161,8 @@ async function main() {
     .option("--clean", "Delete any existing assets")
     .option("--json", "Download JSON game data")
     .option("--wiki-icons", "Download character icons from official wiki")
-    .option("--icons", "Download icons from script tool")
+    .option("--script-icons", "Download icons from script tool")
+    .option("--icons", "Download icons from Skateside's pocket grimoire")
     .option("--extra-icons", "Download extra icons from tchajed/botc-icons")
     .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
     .option("--all-scripts", "Download all scripts in database")
@@ -181,6 +183,7 @@ async function main() {
       options.img ||
       options.scripts !== undefined ||
       options.allScripts ||
+      options.scriptIcons ||
       options.icons ||
       options.extraIcons ||
       options.clean
@@ -215,8 +218,12 @@ async function main() {
     await downloadImages(imgDir);
   }
 
-  if (options.icons) {
+  if (options.scriptIcons) {
     await downloadScriptToolIcons(dataDir, iconsDir);
+  }
+
+  if (options.icons) {
+    await downloadPocketGrimoireIcons(iconsDir);
   }
 
   if (options.extraIcons) {
