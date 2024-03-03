@@ -144,7 +144,7 @@ async function main() {
   const program = new Command();
 
   program
-    .version("0.3.0")
+    .version("0.4.0")
     .description("Download assets for BotC sheets")
     .addOption(
       new Option(
@@ -182,7 +182,8 @@ async function main() {
       options.scripts !== undefined ||
       options.allScripts ||
       options.icons ||
-      options.extraIcons
+      options.extraIcons ||
+      options.clean
     )
   ) {
     options.json = true;
