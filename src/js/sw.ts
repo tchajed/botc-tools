@@ -60,9 +60,12 @@ if ("serviceWorker" in navigator) {
 
   wb.register();
 
-  setInterval(() => {
-    wb.update();
-  }, 20 /* min */ * 60 * 1000);
+  setInterval(
+    () => {
+      wb.update();
+    },
+    20 /* min */ * 60 * 1000,
+  );
 
   if (isReloadSafe) {
     window.onload = () => {

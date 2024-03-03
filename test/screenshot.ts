@@ -11,7 +11,7 @@ function wait(ms: number) {
 }
 
 async function launchBrowser(): Promise<{ browser: Browser; page: Page }> {
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.emulate(iPhone);
   await page.setViewport(iPhone.viewport);

@@ -254,9 +254,12 @@ export function App(props: { scriptsFile: ScriptsFile }): JSX.Element {
   // arbitrary state that changes periodically, to force a re-render
   const [elapsedMinutes, setElapsedMinutes] = useState(0);
   useEffect(() => {
-    const i = setInterval(() => {
-      setElapsedMinutes((m) => m + 1);
-    }, 1 * 60 * 1000);
+    const i = setInterval(
+      () => {
+        setElapsedMinutes((m) => m + 1);
+      },
+      1 * 60 * 1000,
+    );
     return () => clearInterval(i);
   }, []);
 
