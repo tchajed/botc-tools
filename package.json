@@ -13,7 +13,8 @@
     "lint": "eslint src fetch_assets test",
     "fmt": "prettier --write --list-different .",
     "typecheck": "tsc --noEmit",
-    "check": "yarn run lint && yarn run prettier --check . && yarn run typecheck"
+    "check": "yarn run lint && yarn run prettier --check . && yarn run typecheck",
+    "clean": "rm -rf .parcel-cache/ dist/"
   },
   "version": "0.1.0",
   "description": "BotC storyteller tools",
