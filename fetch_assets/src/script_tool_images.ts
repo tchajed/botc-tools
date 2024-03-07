@@ -2,7 +2,7 @@ import axios from "axios";
 import fs from "fs";
 import sharp from "sharp";
 
-interface Role {
+export interface Role {
   id: string; // actually is the name
   icon: string;
   version: string; // Extras for fabled
@@ -39,7 +39,13 @@ export async function makeSquare(
 }
 
 async function downloadRole(r: Role): Promise<ArrayBuffer> {
-  const { data } = await axios.get(`${BASE_URL}/${r.icon}`, {
+  let url: string;
+  if (r.icon.startsWith("https://") || r.icon.startsWith("http://")) {
+    url = r.icon;
+  } else {
+    url = `${BASE_URL}/${r.icon}`;
+  }
+  const { data } = await axios.get(url, {
     responseType: "arraybuffer",
     responseEncoding: "binary",
     maxRate: 3000 * 1024, // 3MB/s

@@ -2,6 +2,7 @@ import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
 import { ScriptsFile, getScript } from "./get_script";
+import { downloadAllHomebrew, loadAllHomebrew } from "./homebrew_import";
 import { downloadPocketGrimoireIcons } from "./pocket_grimoire_images";
 import {
   downloadRoles,
@@ -166,6 +167,7 @@ async function main() {
     .option("--extra-icons", "Download extra icons from tchajed/botc-icons")
     .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
     .option("--all-scripts", "Download all scripts in database")
+    .option("--homebrew", "Download select homebrew scripts")
     .option(
       "--extra-scripts <dir>",
       "Directory of extra scripts to include",
@@ -186,6 +188,7 @@ async function main() {
       options.scriptIcons ||
       options.icons ||
       options.extraIcons ||
+      options.homebrew ||
       options.clean
     )
   ) {
@@ -195,6 +198,7 @@ async function main() {
     options.extraIcons = true;
     // options.scripts = "favorites";
     options.allScripts = true;
+    options.homebrew = true;
   }
 
   const assetsDir = options.out;
@@ -228,6 +232,11 @@ async function main() {
 
   if (options.extraIcons) {
     await downloadExtraIcons(iconsDir);
+  }
+
+  if (options.homebrew) {
+    const scripts = loadAllHomebrew();
+    await downloadAllHomebrew(scripts, iconsDir);
   }
 
   if (options.scripts !== undefined) {
