@@ -1,6 +1,6 @@
-import {ScriptData} from "./botc/script";
-import {getScripts} from "./get_scripts";
-import {getAuthenticated} from "randomizer/state";
+import { ScriptData } from "./botc/script";
+import { getScripts } from "./get_scripts";
+import { getAuthenticated } from "randomizer/state";
 
 function selectedScriptId(): string {
   if (window.location.hash != "") {
@@ -20,7 +20,7 @@ function getJson(): ScriptData | null {
   const params = new URLSearchParams(window.location.search);
   const json = params.get("json");
   if (json === null) {
-    return null
+    return null;
   }
   const parsed = JSON.parse(json);
   const title = parsed[0];
