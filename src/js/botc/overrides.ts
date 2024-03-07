@@ -9,7 +9,13 @@ export interface Override {
   nights?: string;
   homebrew?: {
     name: string;
-    roleType: "townsfolk" | "outsider" | "minion" | "demon";
+    roleType:
+      | "townsfolk"
+      | "outsider"
+      | "minion"
+      | "demon"
+      | "fabled"
+      | "travellers";
     firstNightIndex?: number;
     otherNightsIndex?: number;
   };
