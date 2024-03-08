@@ -1,8 +1,14 @@
+import path from "path";
 import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
 import { ScriptsFile, getScript } from "./get_script";
-import { downloadAllHomebrew, loadAllHomebrew } from "./homebrew_import";
+import {
+  HomebrewScript,
+  downloadAllHomebrew,
+  homebrewToJsonData,
+  loadAllHomebrew,
+} from "./homebrew_import";
 import { downloadPocketGrimoireIcons } from "./pocket_grimoire_images";
 import {
   downloadRoles,
@@ -130,6 +136,15 @@ async function downloadAllScripts(extraScriptsDir: string, staticDir: string) {
   return;
 }
 
+async function saveHomebrewOverrides(
+  scripts: HomebrewScript[],
+  homebrewPath: string,
+) {
+  const homebrewDir = path.dirname(homebrewPath);
+  fs.mkdirSync(homebrewDir, { recursive: true });
+  await fs.promises.writeFile(homebrewPath, homebrewToJsonData(scripts));
+}
+
 async function cleanAssets(assetsDir: string) {
   await Promise.all(
     fs.readdirSync(assetsDir).map(async (name) => {
@@ -207,6 +222,7 @@ async function main() {
   const iconsDir = `${assetsDir}/icons`;
   const staticDir = `${assetsDir}/static`;
   const scriptsDir = `${assetsDir}/static/scripts`;
+  const homebrewDir = `${assetsDir}/homebrew`;
 
   if (options.clean) {
     await cleanAssets(assetsDir);
@@ -234,9 +250,15 @@ async function main() {
     await downloadExtraIcons(iconsDir);
   }
 
+  const homebrewPath = `${homebrewDir}/homebrews.json`;
   if (options.homebrew) {
     const scripts = loadAllHomebrew();
     await downloadAllHomebrew(scripts, iconsDir);
+    await saveHomebrewOverrides(scripts, homebrewPath);
+  } else {
+    if (!fs.existsSync(homebrewPath)) {
+      await saveHomebrewOverrides([], homebrewPath);
+    }
   }
 
   if (options.scripts !== undefined) {

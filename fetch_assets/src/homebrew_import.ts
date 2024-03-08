@@ -12,13 +12,21 @@ interface HomebrewMeta {
   author: string;
 }
 
+type Team =
+  | "townsfolk"
+  | "outsider"
+  | "minion"
+  | "demon"
+  | "fabled"
+  | "traveler";
+
 export interface HomebrewCharacter {
   id: string;
   image: string | Array<string>; // can have multiple images (eg, for good and evil variant)
   firstNightReminder?: string;
   otherNightReminder?: string;
   name: string;
-  team: "townsfolk" | "outsider" | "minion" | "demon" | "fabled" | "traveler";
+  team: Team;
   ability: string;
   firstNight?: number;
   otherNight?: number;
@@ -103,4 +111,97 @@ export async function downloadAllHomebrew(
   for (const script of scripts) {
     await downloadHomebrewImages(script, imgDir);
   }
+}
+
+export interface Override {
+  ability: string;
+  nights?: string;
+  homebrew: {
+    name: string;
+    roleType:
+      | "townsfolk"
+      | "outsider"
+      | "minion"
+      | "demon"
+      | "fabled"
+      | "travellers";
+    firstNightIndex?: number;
+    otherNightsIndex?: number;
+  };
+  firstNight?: string;
+  otherNights?: string;
+}
+
+function characterToOverride(char: HomebrewCharacter): Override {
+  const roleType = char.team == "traveler" ? "travellers" : char.team;
+  return {
+    ability: char.ability,
+    nights: char.otherNightReminder,
+    homebrew: {
+      name: char.name,
+      roleType,
+      firstNightIndex: char.firstNight,
+      otherNightsIndex: char.otherNight,
+    },
+    firstNight: char.firstNightReminder,
+    otherNights: char.otherNightReminder,
+  };
+}
+
+function homebrewToOverrides(script: HomebrewScript): {
+  [key: string]: Override;
+} {
+  const chars: { [key: string]: Override } = {};
+  for (const char of script.characters) {
+    chars[char.id] = characterToOverride(char);
+  }
+  return chars;
+}
+
+function hashCode(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) {
+    h = ((h << 5) - h + s.charCodeAt(i++)) | 0;
+  }
+  return h;
+}
+
+interface ScriptJson {
+  pk: number;
+  title: string;
+  author: string;
+  characters: string[];
+}
+
+function homebrewScript(script: HomebrewScript): ScriptJson {
+  return {
+    pk: 20000 + (hashCode(script.name) % 10000),
+    title: script.name,
+    author: script.author,
+    characters: script.characters.map((c) => c.id),
+  };
+}
+
+type HomebrewJsons = {
+  id: string;
+  overrides: { [key: string]: Override };
+  script: ScriptJson;
+}[];
+
+function nameToId(name: string) {
+  return name.toLowerCase().replace(/ /g, "_");
+}
+
+export function homebrewToJsonData(scripts: HomebrewScript[]): string {
+  const data: HomebrewJsons = [];
+  for (const script of scripts) {
+    const overrides = homebrewToOverrides(script);
+    const id = nameToId(script.name);
+    data.push({
+      id,
+      overrides,
+      script: homebrewScript(script),
+    });
+  }
+  return JSON.stringify(data, null, 2);
 }
