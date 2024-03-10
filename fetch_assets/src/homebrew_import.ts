@@ -5,6 +5,7 @@ import {
   findNotDownloadedIcons,
 } from "./script_tool_images";
 import cliProgress from "cli-progress";
+import { ScriptData } from "./get_script";
 
 interface HomebrewMeta {
   id: "_meta";
@@ -166,26 +167,20 @@ function hashCode(s: string): number {
   return h;
 }
 
-interface ScriptJson {
-  pk: number;
-  title: string;
-  author: string;
-  characters: string[];
-}
-
-function homebrewScript(script: HomebrewScript): ScriptJson {
+function homebrewScript(script: HomebrewScript): ScriptData {
   return {
     pk: 20000 + (hashCode(script.name) % 10000),
     title: script.name,
     author: script.author,
+    score: 0,
     characters: script.characters.map((c) => c.id),
   };
 }
 
-type HomebrewJsons = {
+export type HomebrewJson = {
   id: string;
-  overrides: { [key: string]: Override };
-  script: ScriptJson;
+  characters: { [key: string]: Override };
+  script: ScriptData;
 }[];
 
 function nameToId(name: string) {
@@ -193,13 +188,13 @@ function nameToId(name: string) {
 }
 
 export function homebrewToJsonData(scripts: HomebrewScript[]): string {
-  const data: HomebrewJsons = [];
+  const data: HomebrewJson = [];
   for (const script of scripts) {
-    const overrides = homebrewToOverrides(script);
+    const characters = homebrewToOverrides(script);
     const id = nameToId(script.name);
     data.push({
       id,
-      overrides,
+      characters,
       script: homebrewScript(script),
     });
   }

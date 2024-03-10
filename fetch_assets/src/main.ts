@@ -2,8 +2,9 @@ import path from "path";
 import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
-import { ScriptsFile, getScript } from "./get_script";
+import { ScriptData, ScriptsFile, getScript } from "./get_script";
 import {
+  HomebrewJson,
   HomebrewScript,
   downloadAllHomebrew,
   homebrewToJsonData,
@@ -97,7 +98,18 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string) {
   );
 }
 
+async function getHomebrewScripts(homebrewPath: string): Promise<ScriptData[]> {
+  if (fs.existsSync(homebrewPath)) {
+    const homebrews: HomebrewJson = JSON.parse(
+      await fs.promises.readFile(homebrewPath, "utf8"),
+    );
+    return homebrews.map((h) => h.script);
+  }
+  return [];
+}
+
 async function getAllScripts(
+  homebrewPath: string,
   extraScriptsDir: string,
   staticDir: string,
 ): Promise<ScriptsFile> {
@@ -109,7 +121,9 @@ async function getAllScripts(
     const allScripts: ScriptsFile = JSON.parse(
       await fs.promises.readFile(path, "utf8"),
     );
-    const extraScripts = await readScripts(extraScriptsDir);
+    const extraScripts = (await readScripts(extraScriptsDir)).concat(
+      await getHomebrewScripts(homebrewPath),
+    );
     const allScriptsMinusExtra = allScripts.scripts.filter(
       (s) => !extraScripts.some((s2) => s2.pk == s.pk),
     );
@@ -121,17 +135,27 @@ async function getAllScripts(
   console.log("downloading all scripts");
   const updateTime = new Date();
   const allScripts = await fetchAllScripts();
-  const extraScripts = await readScripts(extraScriptsDir);
+  const extraScripts = (await readScripts(extraScriptsDir)).concat(
+    await getHomebrewScripts(homebrewPath),
+  );
   return {
     scripts: extraScripts.concat(allScripts),
     lastUpdate: updateTime.toJSON(),
   };
 }
 
-async function downloadAllScripts(extraScriptsDir: string, staticDir: string) {
+async function downloadAllScripts(
+  homebrewPath: string,
+  extraScriptsDir: string,
+  staticDir: string,
+) {
   fs.mkdirSync(staticDir, { recursive: true });
   const path = `${staticDir}/scripts.json`;
-  const scriptFile = await getAllScripts(extraScriptsDir, staticDir);
+  const scriptFile = await getAllScripts(
+    homebrewPath,
+    extraScriptsDir,
+    staticDir,
+  );
   await fs.promises.writeFile(path, JSON.stringify(scriptFile));
   return;
 }
@@ -266,7 +290,7 @@ async function main() {
   }
 
   if (options.allScripts) {
-    await downloadAllScripts(options.extraScripts, staticDir);
+    await downloadAllScripts(homebrewPath, options.extraScripts, staticDir);
   }
 }
 

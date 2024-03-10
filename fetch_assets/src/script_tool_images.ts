@@ -53,8 +53,12 @@ async function downloadRole(r: Role): Promise<ArrayBuffer> {
   return data;
 }
 
+function normalizeId(id: string) {
+  return id.toLowerCase().replace(/[ _]*/g, "");
+}
+
 function roleIconFile(r: Role): string {
-  const name = r.id;
+  const name = normalizeId(r.id);
   const id = name.toLowerCase().replaceAll(/['\- ]/g, "");
   return `Icon_${id}.webp`;
 }

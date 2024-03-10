@@ -1,5 +1,7 @@
 import { aliceInWonderland } from "./alice_in_wonderland";
 import { nightorder } from "./nightorder";
+import homebrews from "../../../assets/homebrew/homebrews.json";
+import { nameToId } from "./roles";
 
 // To show nothing for a night reminder, set it to an empty string "".
 //
@@ -318,6 +320,18 @@ const amnesiacs: Overrides = {
   },
 };
 
+function homebrewOverrides(): Overrides {
+  const homebrew: Overrides = {};
+  for (const script of homebrews) {
+    for (const id in script.characters) {
+      homebrew[nameToId(id)] = (
+        script.characters as { [key: string]: Override }
+      )[id];
+    }
+  }
+  return homebrew;
+}
+
 const overrideList: { [key: string]: Override } = {
   ...baseOverrides,
   ...newRoles,
@@ -325,6 +339,7 @@ const overrideList: { [key: string]: Override } = {
   ...homebrewRoles,
   ...amnesiacs,
   ...aliceInWonderland,
+  ...homebrewOverrides(),
 };
 
 function getOverride(id: string): Override {
