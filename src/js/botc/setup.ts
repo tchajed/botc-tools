@@ -139,7 +139,9 @@ export type SetupModification =
   // +Spartacus (similar to Huntsman)
   | { type: "haruspex" }
   // +0 to +2 legionary, like Village Idiot
-  | { type: "legionary" };
+  | { type: "legionary" }
+  // +2 good, no demon in bag
+  | { type: "hannibal"; notInBag: true };
 
 function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
@@ -168,7 +170,8 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   badomenfallofrome: { type: "drunk", notInBag: true },
   scholarfallofrome: outsiders(+1),
   haruspexfallofrome: { type: "haruspex" },
-  legionary: { type: "legionary" },
+  legionaryfallofrome: { type: "legionary" },
+  hannibalfallofrome: { type: "hannibal", notInBag: true },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -299,6 +302,13 @@ function applyModification(
     }
     case "villageidiot":
     case "legionary": {
+      return [dist];
+    }
+    case "hannibal": {
+      const dist = { ...old_dist };
+      // the demon remains selected, but isn't distributed
+      // an extra townsfolk is added so two good players can be Hannibal
+      dist.townsfolk++;
       return [dist];
     }
   }

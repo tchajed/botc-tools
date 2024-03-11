@@ -159,6 +159,13 @@ function ModificationExplanation(props: {
         </span>
       );
     }
+    case "hannibal":
+      return (
+        <span>
+          (Two good players are <span className="evil">Hannibal</span>, not in
+          bag)
+        </span>
+      );
   }
 }
 
