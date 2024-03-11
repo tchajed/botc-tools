@@ -263,6 +263,9 @@ function createRoleData(): Map<string, CharacterInfo> {
         role.roleType,
         role.edition,
       );
+      info.ability = role.ability;
+      info.firstNight = role.firstNight;
+      info.otherNights = role.otherNights;
       roles.set(info.id, info);
     }
   }
