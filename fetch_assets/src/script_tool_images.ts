@@ -54,7 +54,7 @@ async function downloadRole(r: Role): Promise<ArrayBuffer> {
 }
 
 function normalizeId(id: string) {
-  return id.toLowerCase().replace(/[ _]*/g, "");
+  return id.toLowerCase().replaceAll(/[ \-_]+/g, "");
 }
 
 function roleIconFile(r: Role): string {

@@ -133,7 +133,10 @@ NonTeensyDemonInfo.firstNight = {
 };
 
 export function nameToId(name: string): string {
-  return name.toLowerCase().replaceAll(/[ '-_]/g, "");
+  if (name.toLowerCase() !== name) {
+    console.warn("nameToId called on non-lowercase name", name);
+  }
+  return name.toLowerCase().replaceAll(/[ '_-]/g, "");
 }
 
 function versionToEdition(version: string): Edition {
@@ -173,7 +176,8 @@ function createRoleData(): Map<string, CharacterInfo> {
   const roles: Map<string, CharacterInfo> = new Map();
 
   for (const role of script_roles) {
-    const id = nameToId(role.id);
+    // these "id" fields are actually names
+    const id = nameToId(role.id.toLowerCase());
     const name: string = role.name;
     const roleType = role.roleType;
     const validRole = RoleTypes.find((r) => r == roleType);
