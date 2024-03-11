@@ -189,18 +189,6 @@ function createRoleData(): Map<string, CharacterInfo> {
         versionToEdition(role.version),
       );
       roles.set(id, info);
-      if (id == "villageidiot") {
-        // add two copies of Village Idiot for the extra selections
-        for (let i = 1; i <= 2; i++) {
-          const info = new CharacterInfo(
-            `${id}-${i}`,
-            name,
-            validRole,
-            versionToEdition(role.version),
-          );
-          roles.set(info.id, info);
-        }
-      }
     } else {
       console.warn(`invalid role ${roleType} for ${id}`);
     }
@@ -260,6 +248,24 @@ function createRoleData(): Map<string, CharacterInfo> {
 
   roles.set("MINION", MinionInfo);
   roles.set("DEMON", DemonInfo);
+
+  // add two copies of Village Idiot or Legionary for the extra selections
+  for (const id of ["villageidiot", "legionaryfallofrome"]) {
+    const role = roles.get(id);
+    if (role === undefined) {
+      console.error(`could not duplicate ${id} (not found)`);
+      continue;
+    }
+    for (let i = 1; i <= 2; i++) {
+      const info = new CharacterInfo(
+        `${id}-${i}`,
+        role.name,
+        role.roleType,
+        role.edition,
+      );
+      roles.set(info.id, info);
+    }
+  }
 
   return roles;
 }

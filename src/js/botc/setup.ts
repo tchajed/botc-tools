@@ -97,9 +97,10 @@ export function selectableCharacters(
   const newChars: CharacterInfo[] = [];
   for (const c of characters) {
     newChars.push(c);
-    if (c.id == "villageidiot") {
-      newChars.push(getCharacter("villageidiot-1"));
-      newChars.push(getCharacter("villageidiot-2"));
+    if (c.id == "villageidiot" || c.id == "legionaryfallofrome") {
+      for (let i = 1; i <= 2; i++) {
+        newChars.push(getCharacter(`${c.id}-${i}`));
+      }
     }
   }
   return newChars;
@@ -133,8 +134,12 @@ export type SetupModification =
   | { type: "actor" }
   // arbitrary number of outsiders, no minions in bag
   | { type: "kazali" }
-  // can be in bag multiple times
-  | { type: "villageidiot" };
+  // +0 to +2 village idiot (can be in bag up to 3 times)
+  | { type: "villageidiot" }
+  // +Spartacus (similar to Huntsman)
+  | { type: "haruspex" }
+  // +0 to +2 legionary, like Village Idiot
+  | { type: "legionary" };
 
 function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
@@ -158,6 +163,12 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   actor: { type: "actor" },
   kazali: { type: "kazali" },
   villageidiot: { type: "villageidiot" },
+
+  // Fall of Rome
+  badomenfallofrome: { type: "drunk", notInBag: true },
+  scholarfallofrome: outsiders(+1),
+  haruspexfallofrome: { type: "haruspex" },
+  legionary: { type: "legionary" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -202,14 +213,16 @@ function applyModification(
       dist.minion++;
       return [dist];
     }
-    case "huntsman": {
+    // both of these are +a specific outsider
+    case "huntsman":
+    case "haruspex": {
       if (dist.outsider == 0) {
-        // we must add an outsider to have the Damsel
+        // we must add an outsider to have the Damsel/Spartacus
         dist.outsider = 1;
         dist.townsfolk--;
         return [dist];
       }
-      // allowed to add Damsel by adding an outsider
+      // allowed to add Damsel/Spartacus by adding an outsider
       dist.townsfolk--;
       dist.outsider++;
       // ...but we don't have to
@@ -284,7 +297,8 @@ function applyModification(
       }
       return dists;
     }
-    case "villageidiot": {
+    case "villageidiot":
+    case "legionary": {
       return [dist];
     }
   }
