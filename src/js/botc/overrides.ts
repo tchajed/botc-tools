@@ -23,8 +23,6 @@ export interface Override {
   };
   firstNight?: string;
   otherNights?: string;
-  firstNightIndex?: number;
-  otherNightsIndex?: number;
 }
 
 type Overrides = { [key: string]: Override };
@@ -32,6 +30,16 @@ type Overrides = { [key: string]: Override };
 // Changes to base + experimental roles, usually to make more concise or fix
 // formatting for the tool.
 const baseOverrides: Overrides = {
+  drunk: {
+    ability: `You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.`,
+    firstNight: `Assign which Townsfolk is actually the Drunk.`,
+    homebrew: {
+      name: "Drunk",
+      roleType: "outsider",
+      // very early
+      firstNightIndex: -1,
+    },
+  },
   philosopher: {
     nights:
       `The Philosopher might pick a good character. If they chose a character:` +
@@ -248,16 +256,6 @@ const homebrewRoles: Overrides = {
       name: "Actor",
       roleType: "townsfolk",
       firstNightIndex: nightorder.firstNight("Pukka") + 1,
-    },
-  },
-  drunk: {
-    ability: `You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.`,
-    firstNight: `Assign which Townsfolk is actually the Drunk.`,
-    homebrew: {
-      name: "Drunk",
-      roleType: "outsider",
-      // very early
-      firstNightIndex: -1,
     },
   },
   lout: {

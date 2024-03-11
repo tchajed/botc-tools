@@ -137,7 +137,8 @@ function characterToOverride(char: HomebrewCharacter): Override {
   const roleType = char.team == "traveler" ? "travellers" : char.team;
   return {
     ability: char.ability,
-    nights: char.otherNightReminder,
+    // NOTE(tej): this was a bug courtesy of GitHub copilot
+    // nights: char.otherNightReminder,
     homebrew: {
       name: char.name,
       roleType,

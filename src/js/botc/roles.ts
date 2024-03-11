@@ -153,7 +153,7 @@ function versionToEdition(version: string): Edition {
 function useOverride(id: string, info: CharacterInfo) {
   info.ability = overrides.ability(id) ?? info.ability;
   const firstNight = overrides.firstNight(id);
-  if (firstNight) {
+  if (firstNight !== null) {
     const index =
       overrides.firstNightIndex(id) ?? nightorder.firstNight(info.name);
     info.firstNight = {
@@ -162,7 +162,7 @@ function useOverride(id: string, info: CharacterInfo) {
     };
   }
   const otherNights = overrides.otherNights(id);
-  if (otherNights) {
+  if (otherNights !== null) {
     const index =
       overrides.otherNightsIndex(id) ?? nightorder.otherNights(info.name);
     info.otherNights = {
