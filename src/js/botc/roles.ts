@@ -133,7 +133,10 @@ NonTeensyDemonInfo.firstNight = {
 };
 
 export function nameToId(name: string): string {
-  return name.toLowerCase().replaceAll(/[ '-_]/g, "");
+  if (name.toLowerCase() !== name) {
+    console.warn("nameToId called on non-lowercase name", name);
+  }
+  return name.toLowerCase().replaceAll(/[ '_-]/g, "");
 }
 
 function versionToEdition(version: string): Edition {
@@ -150,7 +153,7 @@ function versionToEdition(version: string): Edition {
 function useOverride(id: string, info: CharacterInfo) {
   info.ability = overrides.ability(id) ?? info.ability;
   const firstNight = overrides.firstNight(id);
-  if (firstNight) {
+  if (firstNight !== null) {
     const index =
       overrides.firstNightIndex(id) ?? nightorder.firstNight(info.name);
     info.firstNight = {
@@ -159,7 +162,7 @@ function useOverride(id: string, info: CharacterInfo) {
     };
   }
   const otherNights = overrides.otherNights(id);
-  if (otherNights) {
+  if (otherNights !== null) {
     const index =
       overrides.otherNightsIndex(id) ?? nightorder.otherNights(info.name);
     info.otherNights = {
@@ -173,7 +176,8 @@ function createRoleData(): Map<string, CharacterInfo> {
   const roles: Map<string, CharacterInfo> = new Map();
 
   for (const role of script_roles) {
-    const id = nameToId(role.id);
+    // these "id" fields are actually names
+    const id = nameToId(role.id.toLowerCase());
     const name: string = role.name;
     const roleType = role.roleType;
     const validRole = RoleTypes.find((r) => r == roleType);
@@ -185,18 +189,6 @@ function createRoleData(): Map<string, CharacterInfo> {
         versionToEdition(role.version),
       );
       roles.set(id, info);
-      if (id == "villageidiot") {
-        // add two copies of Village Idiot for the extra selections
-        for (let i = 1; i <= 2; i++) {
-          const info = new CharacterInfo(
-            `${id}-${i}`,
-            name,
-            validRole,
-            versionToEdition(role.version),
-          );
-          roles.set(info.id, info);
-        }
-      }
     } else {
       console.warn(`invalid role ${roleType} for ${id}`);
     }
@@ -256,6 +248,24 @@ function createRoleData(): Map<string, CharacterInfo> {
 
   roles.set("MINION", MinionInfo);
   roles.set("DEMON", DemonInfo);
+
+  // add two copies of Village Idiot or Legionary for the extra selections
+  for (const id of ["villageidiot", "legionaryfallofrome"]) {
+    const role = roles.get(id);
+    if (role === undefined) {
+      console.error(`could not duplicate ${id} (not found)`);
+      continue;
+    }
+    for (let i = 1; i <= 2; i++) {
+      const info = new CharacterInfo(
+        `${id}-${i}`,
+        role.name,
+        role.roleType,
+        role.edition,
+      );
+      roles.set(info.id, info);
+    }
+  }
 
   return roles;
 }

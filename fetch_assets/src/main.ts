@@ -1,7 +1,15 @@
+import path from "path";
 import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
-import { ScriptsFile, getScript } from "./get_script";
+import { ScriptData, ScriptsFile, getScript } from "./get_script";
+import {
+  HomebrewJson,
+  HomebrewScript,
+  downloadAllHomebrew,
+  homebrewToJsonData,
+  loadAllHomebrew,
+} from "./homebrew_import";
 import { downloadPocketGrimoireIcons } from "./pocket_grimoire_images";
 import {
   downloadRoles,
@@ -90,7 +98,18 @@ async function downloadScripts(scriptsOpt: string | null, scriptsDir: string) {
   );
 }
 
+async function getHomebrewScripts(homebrewPath: string): Promise<ScriptData[]> {
+  if (fs.existsSync(homebrewPath)) {
+    const homebrews: HomebrewJson = JSON.parse(
+      await fs.promises.readFile(homebrewPath, "utf8"),
+    );
+    return homebrews.map((h) => h.script);
+  }
+  return [];
+}
+
 async function getAllScripts(
+  homebrewPath: string,
   extraScriptsDir: string,
   staticDir: string,
 ): Promise<ScriptsFile> {
@@ -102,7 +121,9 @@ async function getAllScripts(
     const allScripts: ScriptsFile = JSON.parse(
       await fs.promises.readFile(path, "utf8"),
     );
-    const extraScripts = await readScripts(extraScriptsDir);
+    const extraScripts = (await readScripts(extraScriptsDir)).concat(
+      await getHomebrewScripts(homebrewPath),
+    );
     const allScriptsMinusExtra = allScripts.scripts.filter(
       (s) => !extraScripts.some((s2) => s2.pk == s.pk),
     );
@@ -114,19 +135,38 @@ async function getAllScripts(
   console.log("downloading all scripts");
   const updateTime = new Date();
   const allScripts = await fetchAllScripts();
-  const extraScripts = await readScripts(extraScriptsDir);
+  const extraScripts = (await readScripts(extraScriptsDir)).concat(
+    await getHomebrewScripts(homebrewPath),
+  );
   return {
     scripts: extraScripts.concat(allScripts),
     lastUpdate: updateTime.toJSON(),
   };
 }
 
-async function downloadAllScripts(extraScriptsDir: string, staticDir: string) {
+async function downloadAllScripts(
+  homebrewPath: string,
+  extraScriptsDir: string,
+  staticDir: string,
+) {
   fs.mkdirSync(staticDir, { recursive: true });
   const path = `${staticDir}/scripts.json`;
-  const scriptFile = await getAllScripts(extraScriptsDir, staticDir);
+  const scriptFile = await getAllScripts(
+    homebrewPath,
+    extraScriptsDir,
+    staticDir,
+  );
   await fs.promises.writeFile(path, JSON.stringify(scriptFile));
   return;
+}
+
+async function saveHomebrewOverrides(
+  scripts: HomebrewScript[],
+  homebrewPath: string,
+) {
+  const homebrewDir = path.dirname(homebrewPath);
+  fs.mkdirSync(homebrewDir, { recursive: true });
+  await fs.promises.writeFile(homebrewPath, homebrewToJsonData(scripts));
 }
 
 async function cleanAssets(assetsDir: string) {
@@ -166,6 +206,7 @@ async function main() {
     .option("--extra-icons", "Download extra icons from tchajed/botc-icons")
     .option("--scripts <ids>", "Download scripts (by pk on botc-scripts)")
     .option("--all-scripts", "Download all scripts in database")
+    .option("--homebrew", "Download select homebrew scripts")
     .option(
       "--extra-scripts <dir>",
       "Directory of extra scripts to include",
@@ -186,6 +227,7 @@ async function main() {
       options.scriptIcons ||
       options.icons ||
       options.extraIcons ||
+      options.homebrew ||
       options.clean
     )
   ) {
@@ -195,6 +237,7 @@ async function main() {
     options.extraIcons = true;
     // options.scripts = "favorites";
     options.allScripts = true;
+    options.homebrew = true;
   }
 
   const assetsDir = options.out;
@@ -203,6 +246,7 @@ async function main() {
   const iconsDir = `${assetsDir}/icons`;
   const staticDir = `${assetsDir}/static`;
   const scriptsDir = `${assetsDir}/static/scripts`;
+  const homebrewDir = `${assetsDir}/homebrew`;
 
   if (options.clean) {
     await cleanAssets(assetsDir);
@@ -230,12 +274,23 @@ async function main() {
     await downloadExtraIcons(iconsDir);
   }
 
+  const homebrewPath = `${homebrewDir}/homebrews.json`;
+  if (options.homebrew) {
+    const scripts = loadAllHomebrew();
+    await downloadAllHomebrew(scripts, iconsDir);
+    await saveHomebrewOverrides(scripts, homebrewPath);
+  } else {
+    if (!fs.existsSync(homebrewPath)) {
+      await saveHomebrewOverrides([], homebrewPath);
+    }
+  }
+
   if (options.scripts !== undefined) {
     await downloadScripts(options.scripts, scriptsDir);
   }
 
   if (options.allScripts) {
-    await downloadAllScripts(options.extraScripts, staticDir);
+    await downloadAllScripts(homebrewPath, options.extraScripts, staticDir);
   }
 }
 

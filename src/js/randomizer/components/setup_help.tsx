@@ -100,20 +100,24 @@ function ModificationExplanation(props: {
     case "lilmonsta": {
       return <span>(+1 minion, not distributed)</span>;
     }
-    case "huntsman": {
+    case "huntsman":
       return (
         <span>
           (+the <span className="good">Damsel</span>)
         </span>
       );
-    }
-    case "choirboy": {
+    case "haruspex":
+      return (
+        <span>
+          (+<span className="good">Spartacus</span>)
+        </span>
+      );
+    case "choirboy":
       return (
         <span>
           (+the <span className="good">King</span>)
         </span>
       );
-    }
     case "riot": {
       return (
         <span>
@@ -148,6 +152,20 @@ function ModificationExplanation(props: {
         </span>
       );
     }
+    case "legionary": {
+      return (
+        <span>
+          (+0 to +2 <span className="good">Legionary</span>)
+        </span>
+      );
+    }
+    case "hannibal":
+      return (
+        <span>
+          (Two good players are <span className="evil">Hannibal</span>, not in
+          bag)
+        </span>
+      );
   }
 }
 

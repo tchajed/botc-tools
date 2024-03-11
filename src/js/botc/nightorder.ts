@@ -4,16 +4,16 @@
  */
 import nightsheet from "../../../assets/data/nightsheet.json";
 
-function getFirstNight(id: string): number | null {
-  const n = nightsheet.firstNight.indexOf(id);
+function getFirstNight(name: string): number | null {
+  const n = nightsheet.firstNight.indexOf(name);
   if (n < 0) {
     return null;
   }
   return n;
 }
 
-function getOtherNights(id: string): number | null {
-  const n = nightsheet.otherNight.indexOf(id);
+function getOtherNights(name: string): number | null {
+  const n = nightsheet.otherNight.indexOf(name);
   if (n < 0) {
     return null;
   }
@@ -22,19 +22,19 @@ function getOtherNights(id: string): number | null {
 
 export const nightorder = {
   getFirstNight,
-  firstNight: (id: string): number => {
-    const n = getFirstNight(id);
+  firstNight: (name: string): number => {
+    const n = getFirstNight(name);
     if (n == null) {
-      console.warn(`${id} does not go on first night`);
+      console.warn(`${name} is not on nightsheet for first night`);
       return -1;
     }
     return n;
   },
   getOtherNights,
-  otherNights: (id: string): number => {
-    const n = getOtherNights(id);
+  otherNights: (name: string): number => {
+    const n = getOtherNights(name);
     if (n == null) {
-      console.warn(`${id} does not go on other nights`);
+      console.warn(`${name} is not on nightsheet for other nights`);
       return -1;
     }
     return n;

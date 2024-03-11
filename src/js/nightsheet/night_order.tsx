@@ -52,9 +52,17 @@ function characterToShow(token: string, char: CardInfo): CardInfo | null {
   if (showPlayerTokens.has(token)) {
     return char;
   }
-  // For Imp and Farmer, the character jumps and "YOU ARE" means someone else is
-  // the Imp/Farmer.
-  if (token == "YOU ARE" && ["imp", "farmer"].includes(char.id)) {
+  // For these roles, when shown "YOU ARE" the role has jumped to you.
+  if (
+    token == "YOU ARE" &&
+    [
+      "imp",
+      "farmer",
+      "crassusfallofrome",
+      "hannibalfallofrome",
+      "blacksmithfallofrome",
+    ].includes(char.id)
+  ) {
     return char;
   }
   return null;

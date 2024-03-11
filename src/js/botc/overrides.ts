@@ -1,5 +1,7 @@
 import { aliceInWonderland } from "./alice_in_wonderland";
 import { nightorder } from "./nightorder";
+import homebrews from "../../../assets/homebrew/homebrews.json";
+import { nameToId } from "./roles";
 
 // To show nothing for a night reminder, set it to an empty string "".
 //
@@ -21,8 +23,6 @@ export interface Override {
   };
   firstNight?: string;
   otherNights?: string;
-  firstNightIndex?: number;
-  otherNightsIndex?: number;
 }
 
 type Overrides = { [key: string]: Override };
@@ -30,6 +30,16 @@ type Overrides = { [key: string]: Override };
 // Changes to base + experimental roles, usually to make more concise or fix
 // formatting for the tool.
 const baseOverrides: Overrides = {
+  drunk: {
+    ability: `You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.`,
+    firstNight: `Assign which Townsfolk is actually the Drunk.`,
+    homebrew: {
+      name: "Drunk",
+      roleType: "outsider",
+      // very early
+      firstNightIndex: -1,
+    },
+  },
   philosopher: {
     nights:
       `The Philosopher might pick a good character. If they chose a character:` +
@@ -248,16 +258,6 @@ const homebrewRoles: Overrides = {
       firstNightIndex: nightorder.firstNight("Pukka") + 1,
     },
   },
-  drunk: {
-    ability: `You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.`,
-    firstNight: `Assign which Townsfolk is actually the Drunk.`,
-    homebrew: {
-      name: "Drunk",
-      roleType: "outsider",
-      // very early
-      firstNightIndex: -1,
-    },
-  },
   lout: {
     ability: `On night three, learn an evil townsfolk. [1 Townsfolk is evil]`,
     firstNight: `Wake the townsfolk who is evil and show them YOU ARE EVIL and the thumbs-down sign.`,
@@ -318,6 +318,18 @@ const amnesiacs: Overrides = {
   },
 };
 
+function homebrewOverrides(): Overrides {
+  const homebrew: Overrides = {};
+  for (const script of homebrews) {
+    for (const id in script.characters) {
+      homebrew[nameToId(id)] = (
+        script.characters as { [key: string]: Override }
+      )[id];
+    }
+  }
+  return homebrew;
+}
+
 const overrideList: { [key: string]: Override } = {
   ...baseOverrides,
   ...newRoles,
@@ -325,6 +337,7 @@ const overrideList: { [key: string]: Override } = {
   ...homebrewRoles,
   ...amnesiacs,
   ...aliceInWonderland,
+  ...homebrewOverrides(),
 };
 
 function getOverride(id: string): Override {
