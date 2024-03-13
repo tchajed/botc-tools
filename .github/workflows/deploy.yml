@@ -39,7 +39,7 @@ jobs:
           key: assets-${{ hashFiles('assets/**') }}
           restore-keys: assets-
       - name: Yarn setup
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
       - name: Fetch assets
         run: yarn fetch-assets
       - name: Build site

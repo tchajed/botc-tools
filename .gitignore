@@ -3,3 +3,12 @@ dist/
 .parcel-cache/
 yarn-error.log
 test/screenshots/
+
+# new yarn config
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions

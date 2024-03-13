@@ -4,6 +4,7 @@
     "src/index.html",
     "src/script.html"
   ],
+  "packageManager": "yarn@4.1.1",
   "scripts": {
     "fetch-assets": "ts-node fetch_assets/src/main.ts",
     "test-screenshots": "ts-node test/screenshot.ts",
