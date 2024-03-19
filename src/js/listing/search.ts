@@ -10,6 +10,7 @@ const FAVORITE_TITLES: Set<string> = new Set([
   "Laissez un Faire",
   "High Stakes Betting",
   "Race to the Bottom",
+  "Pies Baking",
 ]);
 
 function characterList(script: ScriptData): string[] {
