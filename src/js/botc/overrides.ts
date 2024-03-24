@@ -205,6 +205,14 @@ const newRoles: Overrides = {
     otherNights:
       "Choose a number of players up to the total number of times the Yaggababble said their secret phrase publicly; those players die.",
   },
+  summoner: {
+    ability:
+      "You get 3 bluffs. On the 3rd night, choose a player: they become an evil Demon of your choice. [No Demon]",
+    firstNight:
+      "Show the Summoner THESE CHARACTERS ARE NOT IN PLAY and three bluffs.",
+    otherNights: `If it is the 3rd night, wake the Summoner.
+      <tab>They point to a player and a Demon on the character sheet - that player becomes that Demon.`,
+  },
 };
 
 // fabled do not have abilities in the botc online data

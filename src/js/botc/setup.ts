@@ -136,6 +136,8 @@ export type SetupModification =
   | { type: "kazali" }
   // +0 to +2 village idiot (can be in bag up to 3 times)
   | { type: "villageidiot" }
+  // no demon in bag, +1 townsfolk
+  | { type: "summoner" }
   // +Spartacus (similar to Huntsman)
   | { type: "haruspex" }
   // +0 to +2 legionary, like Village Idiot
@@ -165,6 +167,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   actor: { type: "actor" },
   kazali: { type: "kazali" },
   villageidiot: { type: "villageidiot" },
+  summoner: { type: "summoner" },
 
   // Fall of Rome
   badomenfallofrome: { type: "drunk", notInBag: true },
@@ -299,6 +302,12 @@ function applyModification(
         });
       }
       return dists;
+    }
+    case "summoner": {
+      const dist = { ...old_dist };
+      dist.townsfolk += dist.demon;
+      dist.demon = 0;
+      return [dist];
     }
     case "villageidiot":
     case "legionary": {

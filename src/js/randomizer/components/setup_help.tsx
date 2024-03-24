@@ -152,6 +152,13 @@ function ModificationExplanation(props: {
         </span>
       );
     }
+    case "summoner": {
+      return (
+        <span>
+          (No <span className="evil">demon</span>)
+        </span>
+      );
+    }
     case "legionary": {
       return (
         <span>
