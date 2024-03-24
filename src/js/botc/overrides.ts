@@ -211,7 +211,8 @@ const newRoles: Overrides = {
     firstNight:
       "Show the Summoner THESE CHARACTERS ARE NOT IN PLAY and three bluffs.",
     otherNights: `If it is the 3rd night, wake the Summoner.
-      <tab>They point to a player and a Demon on the character sheet - that player becomes that Demon.`,
+      <tab>They point to a player and a Demon on the character sheet - that player becomes that Demon.
+      <tab>Show the player YOU ARE and the demon token, and YOU ARE EVIL.`,
   },
 };
 
