@@ -246,6 +246,9 @@ function createRoleData(): Map<string, CharacterInfo> {
     useOverride(id, info);
   }
 
+  // drunk override puts it in the night order; need to give it a position
+  roles.get("drunk")!.firstNight!.index = -1;
+
   roles.set("MINION", MinionInfo);
   roles.set("DEMON", DemonInfo);
 

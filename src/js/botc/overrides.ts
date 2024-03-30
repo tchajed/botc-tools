@@ -33,12 +33,6 @@ const baseOverrides: Overrides = {
   drunk: {
     ability: `You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.`,
     firstNight: `Assign which Townsfolk is actually the Drunk.`,
-    homebrew: {
-      name: "Drunk",
-      roleType: "outsider",
-      // very early
-      firstNightIndex: -1,
-    },
   },
   philosopher: {
     nights:

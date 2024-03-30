@@ -5,6 +5,10 @@
 import nightsheet from "../../../assets/data/nightsheet.json";
 
 function getFirstNight(name: string): number | null {
+  // implicitly add drunk to nightsheet (since we have a custom night ability for it)
+  if (name == "Drunk") {
+    return -1;
+  }
   const n = nightsheet.firstNight.indexOf(name);
   if (n < 0) {
     return null;
