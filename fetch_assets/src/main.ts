@@ -190,12 +190,13 @@ async function main() {
     .addOption(
       new Option(
         "--all",
-        "Download all assets (shorthand for --json --icons --extra-icons --all-scripts)",
+        "Download all assets (shorthand for --json --icons --extra-icons --all-scripts --homebrew)",
       ).implies({
         json: true,
         icons: true,
         extraIcons: true,
         allScripts: true,
+        homebrew: true,
       }),
     )
     .option("--clean", "Delete any existing assets")
