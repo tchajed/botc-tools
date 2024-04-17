@@ -58,6 +58,7 @@ function characterToShow(token: string, char: CardInfo): CardInfo | null {
     [
       "imp",
       "farmer",
+      "fanggu",
       "crassusfallofrome",
       "hannibalfallofrome",
       "blacksmithfallofrome",

@@ -125,6 +125,12 @@ The new Snake Charmer is poisoned.
   mezepheles: {
     otherNights: `Wake the 1st good player that said the Mezepheles' secret word and show them YOU ARE EVIL and the thumbs-down sign.`,
   },
+  fanggu: {
+    otherNights: `The Fang Gu points to a player. That player dies.
+    Or, if that player was an Outsider and there are no other Fang Gu in play:
+    <tab>The Fang Gu dies instead of the chosen player. The chosen player is now an evil Fang Gu.
+    <tab>Wake the new Fang Gu. Show the YOU ARE card, then the Fang Gu token. Show YOU ARE EVIL.`,
+  },
 };
 
 // new roles not in BotC online
