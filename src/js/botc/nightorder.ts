@@ -9,6 +9,9 @@ function getFirstNight(name: string): number | null {
   if (name == "Drunk") {
     return -1;
   }
+  if (name == "Storm Catcher") {
+    return nightsheet.firstNight.indexOf("DEMON");
+  }
   const n = nightsheet.firstNight.indexOf(name);
   if (n < 0) {
     return null;

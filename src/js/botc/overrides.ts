@@ -235,6 +235,8 @@ At night*, each visitor learns how many visitors are evil, but 1 gets false info
   stormcatcher: {
     ability: `Name a good character. If in play, they can only
 die by execution, but evil players learn which player it is.`,
+    firstNight: `If the named character is in play, show the evil players THIS PLAYER IS and the character token.
+If not, show them STORM CAUGHT CHARACTER IS NOT IN PLAY.`,
   },
   angel: {
     ability: `Something bad might happen to whoever is most responsible for the death of a new player.`,

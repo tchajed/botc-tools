@@ -24,6 +24,7 @@ import { FullscreenBluffs } from "randomizer/components/bluffs";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import reactStringReplace from "react-string-replace";
 
+// list of token names to display as cards
 const tokenNames = [
   "THIS IS THE DEMON",
   "THESE ARE YOUR MINIONS",
@@ -34,6 +35,7 @@ const tokenNames = [
   "THIS CHARACTER SELECTED YOU",
   "THIS PLAYER IS",
   "THIS CHARACTER IS IN PLAY",
+  "STORM CAUGHT CHARACTER IS NOT IN PLAY",
 ];
 // sort by reverse length so we try to match longer names first, to handle
 // one name which is a prefix of another correctly
@@ -43,11 +45,12 @@ tokenNames.sort((a, b) => b.length - a.length);
  * alongside the token text. */
 function characterToShow(token: string, char: CardInfo): CardInfo | null {
   // These tokens always involve showing the triggering character (as far as I
-  // know)
+  // know). For Storm Catcher it isn't strictly necessary but it's okay.
   const showPlayerTokens = new Set([
     "THIS CHARACTER SELECTED YOU",
     "THIS PLAYER IS",
     "THIS CHARACTER IS IN PLAY",
+    "STORM CAUGHT CHARACTER IS NOT IN PLAY",
   ]);
   if (showPlayerTokens.has(token)) {
     return char;
