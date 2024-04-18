@@ -10,6 +10,7 @@
     "start": "parcel serve",
     "build": "parcel build --public-url '.'",
     "postbuild": "workbox generateSW",
+    "fullbuild": "yarn run fetch-assets && yarn run build",
     "lint": "eslint src fetch_assets test",
     "fmt": "prettier --write --list-different .",
     "typecheck": "tsc --noEmit",
