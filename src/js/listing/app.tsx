@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { GlobalStyle } from "styles/global_style";
 import { IndexStyles } from "styles/index_style";
 import { theme } from "theme";
+import { differenceInDays } from "date-fns";
 
 const BtnSpan = styled.span`
   padding: 0.4rem 0.5rem;
@@ -174,6 +175,24 @@ function EnterPasswordButton(props: {
   return <BlackBtn onClick={onClick}>{text}</BlackBtn>;
 }
 
+function showUpdateTime(date: Date): string {
+  const dayDifference = differenceInDays(new Date(), date);
+  if (dayDifference == 0) {
+    return "today";
+  }
+  if (dayDifference == 1) {
+    return "yesterday';";
+  }
+  return date.toLocaleDateString();
+  // TODO: couldn't get this to work with date-fns formatting
+  /*
+  if (dayDifference < 30) {
+    return formatDate(date, "MMM d", { locale: enUS });
+  }
+  return formatDate(date, "MMM d, y", { locale: enUS });
+  */
+}
+
 function Footer(props: {
   lastUpdate: Date;
   password: string;
@@ -188,7 +207,7 @@ function Footer(props: {
         float: right;
       `}
     >
-      <p>Scripts updated {props.lastUpdate.toLocaleDateString()}</p>
+      <p>Scripts updated {showUpdateTime(props.lastUpdate)}</p>
       <GitHubLink />
       <br />
       <EnterPasswordButton {...props} />
