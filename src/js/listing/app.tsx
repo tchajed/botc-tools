@@ -181,7 +181,7 @@ function showUpdateTime(date: Date): string {
     return "today";
   }
   if (dayDifference == 1) {
-    return "yesterday';";
+    return "yesterday";
   }
   return date.toLocaleDateString();
   // TODO: couldn't get this to work with date-fns formatting
