@@ -214,6 +214,11 @@ const newRoles: Overrides = {
       <tab>They point to a player and a Demon on the character sheet - that player becomes that Demon.
       <tab>Show the player YOU ARE and the demon token, and YOU ARE EVIL.`,
   },
+  banshee: {
+    ability:
+      "If the Demon kills you, all players learn this. From now on, you may nominate twice per day and vote twice per nomination.",
+    otherNights: `If the Demon kills the Banshee, announce that the Banshee has awoken.`,
+  },
 };
 
 // fabled do not have abilities in the botc online data
