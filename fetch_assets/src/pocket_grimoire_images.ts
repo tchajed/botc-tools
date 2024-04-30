@@ -8,7 +8,10 @@ function iconEntries(zip: AdmZip, iconsDir: string): Icon[] {
     if (!entry.entryName.includes("assets/img/icons/")) {
       continue;
     }
-    if (!entry.entryName.endsWith(".png")) {
+    // the icons are now in webp format, but just in case, also process any pngs found
+    if (
+      !(entry.entryName.endsWith(".webp") || entry.entryName.endsWith(".png"))
+    ) {
       continue;
     }
     const id = entry.name.replace(/\.png$/, "").replaceAll(/[-'_]/g, "");
