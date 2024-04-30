@@ -14,7 +14,7 @@ function iconEntries(zip: AdmZip, iconsDir: string): Icon[] {
     ) {
       continue;
     }
-    const id = entry.name.replace(/\.png$/, "").replaceAll(/[-'_]/g, "");
+    const id = entry.name.replace(/\.(webp|png)$/, "").replaceAll(/[-'_]/g, "");
     const destPath = `${iconsDir}/Icon_${id}.webp`;
     if (fs.existsSync(destPath)) {
       continue;
