@@ -155,7 +155,9 @@ export async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
   await Promise.all(
     downloads.map((dl) => {
       const path = `${imgDir}/${iconFileName(dl.icon)}`;
-      return rescaleIcon(dl.data).then((img) => img.toFile(path));
+      return rescaleIcon(dl.data).then((img) =>
+        img.webp({ effort: 6 }).toFile(path),
+      );
     }),
   );
 }

@@ -46,7 +46,7 @@ export async function extractIconFiles(icons: Icon[]) {
     icons.map(async (icon) => {
       const data: Buffer = icon.entry.getData();
       const img = await makeSquare(data, IMAGE_SIZE);
-      await img.toFile(icon.destPath);
+      await img.webp({ effort: 6 }).toFile(icon.destPath);
     }),
   );
 }

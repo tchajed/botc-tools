@@ -77,7 +77,7 @@ export async function downloadRoles(
     const img = await makeSquare(await downloadRole(r), IMAGE_SIZE);
     progressCb(1);
     const path = `${imgDir}/${roleIconFile(r)}`;
-    promises.push(img.toFile(path));
+    promises.push(img.webp({ effort: 6 }).toFile(path));
   }
   await Promise.all(promises);
 }
