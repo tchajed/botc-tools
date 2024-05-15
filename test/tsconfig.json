@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "NodeNext",
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["dom", "es2021"],
+    "esModuleInterop": true,
+    "moduleResolution": "nodenext",
+  }
+}

@@ -46,7 +46,7 @@ async function copyScreenshot(testName: string, destName: string) {
       fit: "inside",
     });
   }
-  await img.toFile(dest);
+  await img.webp({ effort: 6 }).toFile(dest);
 }
 
 async function copyScreenshots() {
