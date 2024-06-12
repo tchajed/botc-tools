@@ -219,6 +219,12 @@ const newRoles: Overrides = {
       "If the Demon kills you, all players learn this. From now on, you may nominate twice per day and vote twice per nomination.",
     otherNights: `If the Demon kills the Banshee, announce that the Banshee has awoken.`,
   },
+  ogre: {
+    ability:
+      "On your 1st night, choose a player (not yourself): you become their alignment (you don't know which) even if drunk or poisoned.",
+    firstNight:
+      "The Ogre points to a player (not themselves) and becomes their alignment.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
