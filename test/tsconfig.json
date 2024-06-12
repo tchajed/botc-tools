@@ -5,6 +5,6 @@
     "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "es2021"],
     "esModuleInterop": true,
-    "moduleResolution": "nodenext",
+    "moduleResolution": "nodenext"
   }
 }
