@@ -153,7 +153,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   baron: outsiders(+2),
   vigormortis: outsiders(-1),
   fanggu: outsiders(+1),
-  balloonist: outsiders(+1),
+  balloonist: outsiders(0, +1),
   drunk: { type: "drunk", notInBag: true },
   lilmonsta: { type: "lilmonsta", notInBag: true },
   marionette: { type: "marionette", notInBag: true },

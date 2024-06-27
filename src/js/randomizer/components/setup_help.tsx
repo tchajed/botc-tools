@@ -86,6 +86,10 @@ function ModificationExplanation(props: {
       if (arrayEq(mod.delta, [+1, -1])) {
         return <span>(+1 or &#x2212;1 outsider)</span>;
       }
+      // balloonist (after change)
+      if (arrayEq(mod.delta, [0, +1]) || arrayEq(mod.delta, [+1, 0])) {
+        return <span>(+0 or +1 outsider)</span>;
+      }
       // sentinel
       if (arrayEq(mod.delta, [0, +1, -1]) || arrayEq(mod.delta, [+1, 0, -1])) {
         return <span>(might be +1 or &#x2212;1 outsider)</span>;

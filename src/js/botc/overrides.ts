@@ -131,6 +131,14 @@ The new Snake Charmer is poisoned.
     <tab>The Fang Gu dies instead of the chosen player. The chosen player is now an evil Fang Gu.
     <tab>Wake the new Fang Gu. Show the YOU ARE card, then the Fang Gu token. Show YOU ARE EVIL.`,
   },
+  balloonist: {
+    ability:
+      "Each night, you learn 1 player of each character type, until there are no more types to learn. [+0 or +1 Outsider]",
+    firstNight:
+      "Choose a character type. Point to a player whose character is of that type. Place the Balloonist's Seen reminder next to that character.",
+    otherNights:
+      "Choose a character type that does not yet have a Seen reminder next to a character of that type. Point to a player whose character is of that type, if there are any. Place the Balloonist's Seen reminder next to that character.",
+  },
 };
 
 // new roles not in BotC online
