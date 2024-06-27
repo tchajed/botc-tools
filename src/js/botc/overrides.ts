@@ -173,7 +173,7 @@ const newRoles: Overrides = {
       `Tell the first player THIS CHARACTER SELECTED YOU and point to the second player.`,
   },
   plaguedoctor: {
-    ability: "If you die, the Storyteller gains a not-in-play Minion ability.",
+    ability: "If you die, the Storyteller gains a Minion ability.",
   },
   shugenja: {
     ability:
