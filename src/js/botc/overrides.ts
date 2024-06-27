@@ -159,7 +159,7 @@ const newRoles: Overrides = {
   },
   harpy: {
     ability:
-      "Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or both might die.",
+      "Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or one or both might die.",
     nights:
       `The Harpy chooses two players. Mark both Harpy selected. ` +
       `Tell the first player THIS CHARACTER SELECTED YOU and point to the second player.`,
