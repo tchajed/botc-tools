@@ -225,6 +225,10 @@ const newRoles: Overrides = {
     firstNight:
       "The Ogre points to a player (not themselves) and becomes their alignment.",
   },
+  alsaahir: {
+    ability:
+      "Once per day, if you publicly guess which players are Minion(s) and which are Demon(s), good wins.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
