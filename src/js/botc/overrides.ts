@@ -139,6 +139,15 @@ The new Snake Charmer is poisoned.
     otherNights:
       "Choose a character type that does not yet have a Seen reminder next to a character of that type. Point to a player whose character is of that type, if there are any. Place the Balloonist's Seen reminder next to that character.",
   },
+  lilmonsta: {
+    // ability changed
+    ability:
+      "Each night, Minions choose who babysits Lil' Monsta & 'is the Demon'. Each night*, a player might die. [+1 Minion]",
+    firstNight:
+      "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
+    otherNights:
+      "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
+  },
 };
 
 // new roles not in BotC online
