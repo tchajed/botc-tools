@@ -7,7 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "target": "es2016",
+    "target": "es2018",
     "lib": ["dom", "es2021"],
     "strict": true,
     "jsx": "react-jsx",
