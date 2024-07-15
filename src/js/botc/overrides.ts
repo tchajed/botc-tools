@@ -148,6 +148,13 @@ The new Snake Charmer is poisoned.
     otherNights:
       "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
   },
+  lleech: {
+    ability:
+      "Each night*, choose a player: they die. On your 1st night, choose a player: they are poisoned. You die if & only if they are dead.",
+    firstNight:
+      "The Lleech points to a player. Place the Poisoned reminder token.",
+    otherNights: "The Lleech points to a player. That player dies.",
+  },
 };
 
 // new roles not in BotC online
