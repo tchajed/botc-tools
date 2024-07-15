@@ -104,7 +104,11 @@ The new Snake Charmer is poisoned.
     firstNight: `Wake all the Minions, show them THIS CHARACTER IS IN PLAY and the Damsel token.`,
   },
   king: {
+    // ability changed
+    ability:
+      "Each night, if the dead equal or outnumber the living, you learn 1 alive character. The Demon knows who you are. ",
     firstNight: `Wake the Demon, show them THIS PLAYER IS and point to the King player.`,
+    otherNights: `If dead equal or outnumber the living, show the King a character token of a living player.`,
   },
   marionette: {
     firstNight:
@@ -149,6 +153,7 @@ The new Snake Charmer is poisoned.
       "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
   },
   lleech: {
+    // ability changed
     ability:
       "Each night*, choose a player: they die. On your 1st night, choose a player: they are poisoned. You die if & only if they are dead.",
     firstNight:
