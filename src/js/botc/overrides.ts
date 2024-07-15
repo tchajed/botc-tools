@@ -133,7 +133,7 @@ The new Snake Charmer is poisoned.
   },
   balloonist: {
     ability:
-      "Each night, you learn 1 player of each character type, until there are no more types to learn. [+0 or +1 Outsider]",
+      "Each night, you learn a player of a different character type than last night. [+0 or +1 Outsider]",
     firstNight:
       "Choose a character type. Point to a player whose character is of that type. Place the Balloonist's Seen reminder next to that character.",
     otherNights:
