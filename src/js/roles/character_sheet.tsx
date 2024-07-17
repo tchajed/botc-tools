@@ -1,3 +1,4 @@
+import { faCopy } from "@fortawesome/free-solid-svg-icons/faCopy";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
 import {
@@ -59,6 +60,22 @@ function FullscreenQr(props: {
         );
       }}
     />
+  );
+}
+
+function CopyJsonLink(props: { script: Script }): JSX.Element {
+  const { script } = props;
+  const handleClick = React.useCallback(
+    async (ev: React.MouseEvent<HTMLAnchorElement>) => {
+      ev.preventDefault();
+      await navigator.clipboard.writeText(script.toPocketGrimoire);
+    },
+    [script],
+  );
+  return (
+    <a title="Copy to JSON" onClick={handleClick}>
+      <FontAwesomeIcon icon={faCopy} />
+    </a>
   );
 }
 
@@ -192,6 +209,9 @@ export function CharacterSheet(props: {
         {script.title}
         <div
           css={css`
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
             float: right;
             font-size: 16pt;
             line-height: 30pt;
@@ -199,6 +219,7 @@ export function CharacterSheet(props: {
           `}
         >
           <QrLink url={qrDest} setUrl={setQrUrl} />
+          <CopyJsonLink script={script} />
         </div>
       </h1>
       <CharacterList characters={script.characters} setFsRole={showRole} />

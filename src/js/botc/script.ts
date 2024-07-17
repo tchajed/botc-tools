@@ -106,4 +106,11 @@ export class Script {
     this.orders = getNightOrders(characters);
     this.jinxes = getJinxList(data.characters);
   }
+
+  get toPocketGrimoire(): string {
+    return JSON.stringify([
+      { id: "_meta", name: this.title },
+      ...this.characters.map((c: CharacterInfo) => ({ id: c.id })),
+    ]);
+  }
 }
