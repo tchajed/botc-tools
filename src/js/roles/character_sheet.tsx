@@ -205,14 +205,16 @@ export function CharacterSheet(props: {
 
   return (
     <div className={visibleClass(active)}>
-      <h1>
-        {script.title}
+      <div
+        css={css`
+          display: flex;
+        `}
+      >
+        <h1>{script.title}</h1>
         <div
           css={css`
             display: flex;
-            flex-direction: row;
             gap: 1rem;
-            float: right;
             font-size: 16pt;
             line-height: 30pt;
             ${printHidden}
@@ -221,7 +223,7 @@ export function CharacterSheet(props: {
           <QrLink url={qrDest} setUrl={setQrUrl} />
           <CopyJsonLink script={script} />
         </div>
-      </h1>
+      </div>
       <CharacterList characters={script.characters} setFsRole={showRole} />
       <Jinxes script={script} />
       <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />
