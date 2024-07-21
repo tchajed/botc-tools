@@ -80,6 +80,10 @@ export function onlyBaseThree(characters: CharacterInfo[]): boolean {
   );
 }
 
+export function hasAtheist(characters: CharacterInfo[]): boolean {
+  return characters.some((c) => c.id == "atheist");
+}
+
 export class Script {
   readonly id: number;
   readonly title: string;
