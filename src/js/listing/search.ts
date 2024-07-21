@@ -3,14 +3,15 @@ import { ScriptData } from "../botc/script";
 import { matchSorter } from "match-sorter";
 
 const FAVORITE_TITLES: Set<string> = new Set([
+  "Reptiles II: Lizard in the City",
   "Catfishing",
   "No Roles Barred",
   "Whose Cult Is It Anyway?",
   "Creme De La Creme",
-  "Laissez un Faire",
-  "High Stakes Betting",
+  // "Laissez un Faire",
+  // "High Stakes Betting",
   "Race to the Bottom",
-  "Pies Baking",
+  "Gingerbread Baking",
 ]);
 
 function characterList(script: ScriptData): string[] {
