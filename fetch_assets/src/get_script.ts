@@ -45,7 +45,7 @@ function metaFromContents(
 }
 
 function idsFromContents(content: ContentRow[]): string[] {
-  return content.map((c) => c.id).filter((id) => id != "_meta");
+  return content.map((c) => c.id.toLowerCase()).filter((id) => id != "_meta");
 }
 
 async function getScriptResp(
