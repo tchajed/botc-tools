@@ -35,6 +35,7 @@ function characterQueryMatches(
     (results, char) =>
       matchSorter(results, char.replace("-", ""), {
         keys: [characterList],
+        threshold: matchSorter.rankings.WORD_STARTS_WITH,
       }),
     scripts,
   );
