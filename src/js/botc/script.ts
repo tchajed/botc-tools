@@ -84,6 +84,10 @@ export function hasAtheist(characters: CharacterInfo[]): boolean {
   return characters.some((c) => c.id == "atheist");
 }
 
+export function hasHeretic(characters: CharacterInfo[]): boolean {
+  return characters.some((c) => c.id == "heretic");
+}
+
 export class Script {
   readonly id: number;
   readonly title: string;
