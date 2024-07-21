@@ -1,9 +1,29 @@
 import { ScriptList } from "./script_list";
 import { queryMatches, searchNormalize } from "./search";
 import { css } from "@emotion/react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ScriptData } from "botc/script";
 import { isSafari } from "detect";
+import debounce from "lodash.debounce";
+
+// https://www.developerway.com/posts/debouncing-in-react
+function useDebounce(callback: () => void, time_ms: number): () => void {
+  const ref = useRef<() => void>();
+
+  useEffect(() => {
+    ref.current = callback;
+  }, [callback]);
+
+  const debouncedCallback = useMemo(() => {
+    const f = () => {
+      ref.current?.();
+    };
+    return debounce(f, time_ms);
+  }, []);
+
+  return debouncedCallback;
+}
 
 export function SearchResults(props: {
   scripts: ScriptData[];
@@ -11,18 +31,27 @@ export function SearchResults(props: {
   setQuery: (q: string) => void;
 }): JSX.Element {
   const { scripts, query, setQuery } = props;
+  const [allResults, setAllResults] = useState<ScriptData[]>(
+    // do an initial search at component load (which can use a query from
+    // window.location.hash)
+    queryMatches(scripts, query),
+  );
 
   // on Safari the search box already has a magnifying glass icon so avoid
   // adding a redundant one
   const showSearchIcon = !isSafari();
 
-  function queryChange(v: React.ChangeEvent<HTMLInputElement>) {
-    const newQuery = v.target.value;
+  const debouncedSearch = useDebounce(() => {
+    setAllResults(queryMatches(scripts, query));
+  }, 100);
+
+  const queryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newQuery = e.target.value;
     setQuery(newQuery);
     window.location.hash = searchNormalize(newQuery);
-  }
+    debouncedSearch();
+  };
 
-  const allResults = queryMatches(scripts, query);
   const results = allResults.slice(0, 20);
   const extraResults = allResults.slice(20);
 
