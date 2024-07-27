@@ -258,6 +258,10 @@ const newRoles: Overrides = {
     ability:
       "Once per day, if you publicly guess which players are Minion(s) and which are Demon(s), good wins.",
   },
+  zealot: {
+    ability:
+      "If there are 5 or more players alive, you must vote for every nomination.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
