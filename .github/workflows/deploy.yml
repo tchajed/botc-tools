@@ -37,20 +37,21 @@ jobs:
             assets/data
           key: assets-${{ hashFiles('assets/**') }}
           restore-keys: assets-
-      - name: Save cached assets
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            assets/icons
-            assets/static
-            assets/data
-          key: assets-${{ hashFiles('assets/**') }}
       - name: Yarn setup
         run: yarn install --frozen-lockfile
       - name: Fetch assets
         run: yarn fetch-assets
       - name: Build site
         run: yarn build
+      - name: Save cached assets
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: |
+            assets/icons
+            assets/static
+            assets/data
+          key: assets-${{ hashFiles('assets/**') }}
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
