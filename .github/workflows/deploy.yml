@@ -29,6 +29,7 @@ jobs:
           node-version: '22.6'
           cache: yarn
       - name: Cache assets
+        id: restore-cache
         uses: actions/cache/restore@v4
         with:
           path: |
@@ -41,17 +42,17 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Fetch assets
         run: yarn fetch-assets
-      - name: Build site
-        run: yarn build
       - name: Save cached assets
         uses: actions/cache/save@v4
-        if: always()
         with:
           path: |
             assets/icons
             assets/static
             assets/data
-          key: assets-${{ hashFiles('assets/**') }}
+          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
+          restore-keys: assets-
+      - name: Build site
+        run: yarn build
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
