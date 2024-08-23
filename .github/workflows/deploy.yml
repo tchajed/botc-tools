@@ -32,12 +32,19 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            assets/img
             assets/icons
             assets/static
             assets/data
           key: assets-${{ hashFiles('assets/**') }}
           restore-keys: assets-
+      - name: Save cached assets
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            assets/icons
+            assets/static
+            assets/data
+          key: assets-${{ hashFiles('assets/**') }}
       - name: Yarn setup
         run: yarn install --frozen-lockfile
       - name: Fetch assets
