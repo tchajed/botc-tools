@@ -2,17 +2,45 @@
  *
  * Gives a global ordering for all characters, for first night and other nights.
  */
-import nightsheet from "../../../assets/data/nightsheet.json";
+import nightsheetRaw from "../../../assets/data/nightsheet.json";
+import { nameToId } from "./roles";
+
+// Normalize character names to nightsheet keys.
+//
+// The nightsheet is called in the rest of this code base using capitalized
+// names for historical reasons (the nightsheet.json from the website to contain
+// character names), but now it contains identifiers like most other things.
+function nightsheetNormalize(name: string): string {
+  if (["DUSK", "DAWN", "MINION", "DEMON"].includes(name)) {
+    return name;
+  }
+  return nameToId(name.toLowerCase());
+}
+
+function normalizeNightSheet(): {
+  firstNight: string[];
+  otherNight: string[];
+} {
+  return {
+    firstNight: nightsheetRaw.firstNight.map(nightsheetNormalize),
+    otherNight: nightsheetRaw.otherNight.map(nightsheetNormalize),
+  };
+}
+
+// the identifiers here are normalized with `nameToId`, except for the special
+// DUSK, DAWN, MINION, DEMON night actions.
+const nightsheet = normalizeNightSheet();
 
 function getFirstNight(name: string): number | null {
+  const id = nightsheetNormalize(name);
   // implicitly add drunk to nightsheet (since we have a custom night ability for it)
-  if (name == "Drunk") {
+  if (id == "drunk") {
     return -1;
   }
-  if (name == "Storm Catcher") {
+  if (id == "stormcatcher") {
     return nightsheet.firstNight.indexOf("DEMON");
   }
-  const n = nightsheet.firstNight.indexOf(name);
+  const n = nightsheet.firstNight.indexOf(id);
   if (n < 0) {
     return null;
   }
@@ -20,7 +48,8 @@ function getFirstNight(name: string): number | null {
 }
 
 function getOtherNights(name: string): number | null {
-  const n = nightsheet.otherNight.indexOf(name);
+  const id = nightsheetNormalize(name);
+  const n = nightsheet.otherNight.indexOf(id);
   if (n < 0) {
     return null;
   }
