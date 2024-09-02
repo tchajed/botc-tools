@@ -216,7 +216,7 @@ const newRoles: Overrides = {
   },
   kazali: {
     ability:
-      "Each night*, choose a player: they die. [You choose which players are which Minions. -? to +? Outsiders]",
+      "Each night*, choose a player: they die. [You choose which players are which Minions. −? to +? Outsiders]",
     otherNights: "The Kazali chooses a player. That player dies.",
   },
   villageidiot: {
@@ -261,6 +261,13 @@ const newRoles: Overrides = {
   zealot: {
     ability:
       "If there are 5 or more players alive, you must vote for every nomination.",
+  },
+  lordoftyphon: {
+    ability:
+      "Each night*, choose a player: they die. [Evil characters are in a line. You are in the middle. +1 Minion. −? to +? Outsiders]",
+    firstNight: `Wake the appropriate number of minions around the Lord of Typhon.
+      <tab>Show them YOU ARE and a unique Minion token, tell them YOU ARE EVIL, and put them to sleep.`,
+    otherNights: "The Lord of Typhon chooses a player. That player dies.",
   },
 };
 

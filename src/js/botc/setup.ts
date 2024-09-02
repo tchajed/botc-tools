@@ -106,7 +106,7 @@ export function selectableCharacters(
   return newChars;
 }
 
-export type SetupModification =
+export type SetupModification = (
   | {
       // eg, Baron (+2), Fang Gu (+1), Vigormortis (-1)
       // godfather and sentinel have multiple options
@@ -136,6 +136,7 @@ export type SetupModification =
   | { type: "kazali" }
   // +0 to +2 village idiot (can be in bag up to 3 times)
   | { type: "villageidiot" }
+  | { type: "lordoftyphon" }
   // no demon in bag, +1 townsfolk
   | { type: "summoner" }
   // +Spartacus (similar to Huntsman)
@@ -143,7 +144,8 @@ export type SetupModification =
   // +0 to +2 legionary, like Village Idiot
   | { type: "legionary" }
   // +2 good, no demon in bag
-  | { type: "hannibal"; notInBag: true };
+  | { type: "hannibal"; notInBag: true }
+) & { notInBag?: boolean };
 
 function outsiders(...delta: number[]): SetupModification {
   return { type: "outsider_count", delta };
@@ -168,6 +170,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   kazali: { type: "kazali" },
   villageidiot: { type: "villageidiot" },
   summoner: { type: "summoner" },
+  lordoftyphon: { type: "lordoftyphon" },
 
   // Fall of Rome
   badomenfallofrome: { type: "drunk", notInBag: true },
@@ -185,14 +188,31 @@ export function goesInBag(char: CardInfo): boolean {
   if (!mod) {
     return true;
   }
-  if (!("notInBag" in mod)) {
-    return true;
-  }
-  return !mod.notInBag;
+  const notInBag = mod.notInBag || false;
+  return !notInBag;
 }
 
 function distTotal(dist: Distribution): number {
   return dist.townsfolk + dist.outsider + dist.minion + dist.demon;
+}
+
+function arbitraryOutsiders(old_dist: Distribution): Distribution[] {
+  // start with 0 outsiders and build the other counts from there
+  const start: Distribution = {
+    townsfolk: old_dist.townsfolk + old_dist.outsider,
+    outsider: 0,
+    minion: old_dist.minion,
+    demon: old_dist.demon,
+  };
+  const dists: Distribution[] = [];
+  // allow 0-5; clamping will remove the invalid ones
+  for (let outsiderCount = 0; outsiderCount <= 5; outsiderCount++) {
+    const dist: Distribution = { ...start };
+    dist.townsfolk -= outsiderCount;
+    dist.outsider = outsiderCount;
+    dists.push(dist);
+  }
+  return dists;
 }
 
 function applyModification(
@@ -263,18 +283,13 @@ function applyModification(
       return dists;
     }
     case "atheist": {
-      const dists: Distribution[] = [];
       const numPlayers = distTotal(old_dist);
-      // allow 0-5; clamping will remove the invalid ones
-      for (let outsiderCount = 0; outsiderCount <= 5; outsiderCount++) {
-        dists.push({
-          townsfolk: numPlayers - outsiderCount,
-          outsider: outsiderCount,
-          minion: 0,
-          demon: 0,
-        });
-      }
-      return dists;
+      return arbitraryOutsiders({
+        townsfolk: numPlayers,
+        outsider: 0,
+        minion: 0,
+        demon: 0,
+      });
     }
     case "actor": {
       return [
@@ -288,26 +303,26 @@ function applyModification(
       ];
     }
     case "kazali": {
-      const numPlayers = distTotal(old_dist);
-      const dists: Distribution[] = [];
-      for (let outsiderCount = 0; outsiderCount <= 5; outsiderCount++) {
-        dists.push({
-          townsfolk:
-            numPlayers -
-            outsiderCount -
-            old_dist.demon /* account for demon, no minions */,
-          outsider: outsiderCount,
-          minion: 0,
-          demon: old_dist.demon,
-        });
-      }
-      return dists;
+      const start: Distribution = { ...old_dist };
+      // move minions to townsfolk, then arbitrary outsiders
+      start.townsfolk += old_dist.minion;
+      start.minion = 0;
+      return arbitraryOutsiders(start);
     }
     case "summoner": {
       const dist = { ...old_dist };
       dist.townsfolk += dist.demon;
       dist.demon = 0;
       return [dist];
+    }
+    case "lordoftyphon": {
+      const dist = { ...old_dist };
+      // minions are not distributed
+      //
+      // TODO: would be better to select minions but make them not go in the bag
+      dist.minion = 0;
+      dist.townsfolk += old_dist.minion;
+      return arbitraryOutsiders(dist);
     }
     case "villageidiot":
     case "legionary": {

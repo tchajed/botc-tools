@@ -163,6 +163,12 @@ function ModificationExplanation(props: {
         </span>
       );
     }
+    case "lordoftyphon":
+      return (
+        <span>
+          (+1 <span className="evil">Minion</span>, arbitrary outsiders)
+        </span>
+      );
     case "legionary": {
       return (
         <span>
@@ -282,7 +288,9 @@ export function SetupModifiers(props: {
   if (selection.has("atheist")) {
     goalDistributionElement = <AtheistDistr numPlayers={numPlayers} />;
   }
-  if (selection.has("kazali")) {
+  // TODO: want lord of typhon to be presented differently if it allows
+  // selecting minions that don't go in the bag
+  if (selection.has("kazali") || selection.has("lordoftyphon")) {
     const newKazaliDistributions: Distribution[] = uniqueDistributions(
       newDistributions.map((dist) => {
         return {
