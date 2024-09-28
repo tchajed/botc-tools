@@ -316,6 +316,15 @@ If not, show them STORM CAUGHT CHARACTER IS NOT IN PLAY.`,
   fibbin: {
     ability: `Once per game, 1 good player might get incorrect information.`,
   },
+  gardener: {
+    ability: `The Storyteller assigns 1 or more players' characters.`,
+  },
+  ferryman: {
+    ability: `On the final day, all dead players regain their vote token.`,
+  },
+  revolutionary: {
+    ability: `2 neighboring players are known to be the same alignment. Once per game, 1 of them registers falsely.`,
+  },
 };
 
 function homebrewOverrides(): Overrides {
