@@ -269,6 +269,11 @@ const newRoles: Overrides = {
       <tab>Show them YOU ARE and a unique Minion token, tell them YOU ARE EVIL, and put them to sleep.`,
     otherNights: "The Lord of Typhon chooses a player. That player dies.",
   },
+  boffin: {
+    ability:
+      "The Demon (even if drunk or poisoned) has a not-in-play good character's ability. You both know which.",
+    firstNight: `Show the Boffin and the Demon the THIS CHARACTER SELECTED YOU token, then the Boffin token, then the good character's token.`,
+  },
 };
 
 // fabled do not have abilities in the botc online data
