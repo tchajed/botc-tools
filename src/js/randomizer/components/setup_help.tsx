@@ -22,10 +22,31 @@ import { useContext } from "react";
 import { ErrorSpan, SuccessSpan } from "styles/error_msg";
 
 export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
+  const Num = styled.span`
+    // make each number fixed-width
+    display: inline-block;
+    min-width: 1rem;
+    text-align: center;
+  `;
   return (
     <span className="distribution">
-      <span className="good">{dist.townsfolk + dist.outsider}</span>/
-      <span className="evil">{dist.demon}</span>
+      <Num className="good">{dist.townsfolk + dist.outsider}</Num>/
+      <Num className="evil">{dist.demon}</Num>
+    </span>
+  );
+}
+
+export function KazaliDistr({ dist }: { dist: Distribution }): JSX.Element {
+  const Num = styled.span`
+    // make each number fixed-width
+    display: inline-block;
+    min-width: 1rem;
+    text-align: center;
+  `;
+  return (
+    <span className="distribution">
+      <Num className="good">{dist.townsfolk + dist.outsider}</Num>/
+      <Num className="evil">{dist.demon}</Num>
     </span>
   );
 }
@@ -65,6 +86,10 @@ function ModificationExplanation(props: {
       if (arrayEq(mod.delta, [+1, -1])) {
         return <span>(+1 or &#x2212;1 outsider)</span>;
       }
+      // balloonist (after change)
+      if (arrayEq(mod.delta, [0, +1]) || arrayEq(mod.delta, [+1, 0])) {
+        return <span>(+0 or +1 outsider)</span>;
+      }
       // sentinel
       if (arrayEq(mod.delta, [0, +1, -1]) || arrayEq(mod.delta, [+1, 0, -1])) {
         return <span>(might be +1 or &#x2212;1 outsider)</span>;
@@ -79,20 +104,24 @@ function ModificationExplanation(props: {
     case "lilmonsta": {
       return <span>(+1 minion, not distributed)</span>;
     }
-    case "huntsman": {
+    case "huntsman":
       return (
         <span>
           (+the <span className="good">Damsel</span>)
         </span>
       );
-    }
-    case "choirboy": {
+    case "haruspex":
+      return (
+        <span>
+          (+<span className="good">Spartacus</span>)
+        </span>
+      );
+    case "choirboy":
       return (
         <span>
           (+the <span className="good">King</span>)
         </span>
       );
-    }
     case "riot": {
       return (
         <span>
@@ -110,6 +139,9 @@ function ModificationExplanation(props: {
     case "atheist": {
       return <span>(No evil, setup is arbitrary)</span>;
     }
+    case "kazali": {
+      return <span>(Arbitrary outsiders, no minions in bag)</span>;
+    }
     case "actor": {
       return (
         <span>
@@ -117,6 +149,40 @@ function ModificationExplanation(props: {
         </span>
       );
     }
+    case "villageidiot": {
+      return (
+        <span>
+          (+0 to +2 <span className="good">Village Idiot</span>)
+        </span>
+      );
+    }
+    case "summoner": {
+      return (
+        <span>
+          (No <span className="evil">demon</span>)
+        </span>
+      );
+    }
+    case "lordoftyphon":
+      return (
+        <span>
+          (+1 <span className="evil">Minion</span>, arbitrary outsiders)
+        </span>
+      );
+    case "legionary": {
+      return (
+        <span>
+          (+0 to +2 <span className="good">Legionary</span>)
+        </span>
+      );
+    }
+    case "hannibal":
+      return (
+        <span>
+          (Two good players are <span className="evil">Hannibal</span>, not in
+          bag)
+        </span>
+      );
   }
 }
 
@@ -221,6 +287,25 @@ export function SetupModifiers(props: {
   }
   if (selection.has("atheist")) {
     goalDistributionElement = <AtheistDistr numPlayers={numPlayers} />;
+  }
+  // TODO: want lord of typhon to be presented differently if it allows
+  // selecting minions that don't go in the bag
+  if (selection.has("kazali") || selection.has("lordoftyphon")) {
+    const newKazaliDistributions: Distribution[] = uniqueDistributions(
+      newDistributions.map((dist) => {
+        return {
+          townsfolk: dist.townsfolk + dist.outsider,
+          outsider: 0,
+          minion: 0,
+          demon: dist.demon,
+        };
+      }),
+    );
+    goalDistributionElement = elementOrList(
+      newKazaliDistributions.map((dist, i) => (
+        <KazaliDistr dist={dist} key={i} />
+      )),
+    );
   }
 
   return (

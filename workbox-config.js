@@ -7,8 +7,8 @@ module.exports = {
     "**/*.{png,webp,svg,ico}",
     "**/*.{json,woff,woff2,webmanifest}",
   ],
-  maximumFileSizeToCacheInBytes: 5000000, // 5MB
-  ignoreURLParametersMatching: [/^id$/, /^page$/, /^utm_/],
+  maximumFileSizeToCacheInBytes: 6000000, // 5MB
+  ignoreURLParametersMatching: [/^id$/, /^page$/, /^json$/, /^utm_/],
   dontCacheBustURLsMatching: /.*\.[a-f0-9]{8}\..*/,
   runtimeCaching: [
     {

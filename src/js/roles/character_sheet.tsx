@@ -1,3 +1,4 @@
+import { faCopy } from "@fortawesome/free-solid-svg-icons/faCopy";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
 import {
@@ -59,6 +60,22 @@ function FullscreenQr(props: {
         );
       }}
     />
+  );
+}
+
+function CopyJsonLink(props: { script: Script }): JSX.Element {
+  const { script } = props;
+  const handleClick = React.useCallback(
+    async (ev: React.MouseEvent<HTMLAnchorElement>) => {
+      ev.preventDefault();
+      await navigator.clipboard.writeText(script.toPocketGrimoire);
+    },
+    [script],
+  );
+  return (
+    <a title="Copy to JSON" onClick={handleClick}>
+      <FontAwesomeIcon icon={faCopy} />
+    </a>
   );
 }
 
@@ -184,23 +201,29 @@ export function CharacterSheet(props: {
       };
 
   const [qrUrl, setQrUrl] = useState<string | null>(null);
-  const qrDest = `${window.location.origin}/script.html?id=${script.id}`;
+  const qrDest = window.location.href;
 
   return (
     <div className={visibleClass(active)}>
-      <h1>
-        {script.title}
+      <div
+        css={css`
+          display: flex;
+        `}
+      >
+        <h1>{script.title}</h1>
         <div
           css={css`
-            float: right;
+            display: flex;
+            gap: 1rem;
             font-size: 16pt;
             line-height: 30pt;
             ${printHidden}
           `}
         >
           <QrLink url={qrDest} setUrl={setQrUrl} />
+          <CopyJsonLink script={script} />
         </div>
-      </h1>
+      </div>
       <CharacterList characters={script.characters} setFsRole={showRole} />
       <Jinxes script={script} />
       <FullscreenRole fsRole={fsRole} setFsRole={setFsRole} />

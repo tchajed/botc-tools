@@ -11,7 +11,7 @@ function wait(ms: number) {
 }
 
 async function launchBrowser(): Promise<{ browser: Browser; page: Page }> {
-  const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({ headless: true });
   const page = await browser.newPage();
   await page.emulate(iPhone);
   await page.setViewport(iPhone.viewport);
@@ -46,7 +46,7 @@ async function copyScreenshot(testName: string, destName: string) {
       fit: "inside",
     });
   }
-  await img.toFile(dest);
+  await img.webp({ effort: 6 }).toFile(dest);
 }
 
 async function copyScreenshots() {

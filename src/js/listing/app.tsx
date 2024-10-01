@@ -1,4 +1,4 @@
-import { ScriptData } from "../botc/script";
+import { ScriptsFile } from "../botc/script";
 import "../icons";
 import {
   ScriptState,
@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { GlobalStyle } from "styles/global_style";
 import { IndexStyles } from "styles/index_style";
 import { theme } from "theme";
+import { differenceInDays } from "date-fns";
 
 const BtnSpan = styled.span`
   padding: 0.4rem 0.5rem;
@@ -174,7 +175,26 @@ function EnterPasswordButton(props: {
   return <BlackBtn onClick={onClick}>{text}</BlackBtn>;
 }
 
+function showUpdateTime(date: Date): string {
+  const dayDifference = differenceInDays(new Date(), date);
+  if (dayDifference == 0) {
+    return "today";
+  }
+  if (dayDifference == 1) {
+    return "yesterday";
+  }
+  return date.toLocaleDateString();
+  // TODO: couldn't get this to work with date-fns formatting
+  /*
+  if (dayDifference < 30) {
+    return formatDate(date, "MMM d", { locale: enUS });
+  }
+  return formatDate(date, "MMM d, y", { locale: enUS });
+  */
+}
+
 function Footer(props: {
+  lastUpdate: Date;
   password: string;
   setPassword: (password: string) => void;
 }): JSX.Element {
@@ -187,6 +207,7 @@ function Footer(props: {
         float: right;
       `}
     >
+      <p>Scripts updated {showUpdateTime(props.lastUpdate)}</p>
       <GitHubLink />
       <br />
       <EnterPasswordButton {...props} />
@@ -213,7 +234,7 @@ const scriptLinkStyle = {
   `,
 };
 
-export function App(props: { scripts: ScriptData[] }): JSX.Element {
+export function App(props: { scriptsFile: ScriptsFile }): JSX.Element {
   const [password, setPassword] = useState<string>("");
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
@@ -223,10 +244,12 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
     });
   }, [password]);
 
-  const baseThree = props.scripts.filter((s) => BaseThree.includes(s.pk));
+  const scripts = props.scriptsFile.scripts;
+  const lastUpdate = new Date(Date.parse(props.scriptsFile.lastUpdate));
+  const baseThree = scripts.filter((s) => BaseThree.includes(s.pk));
   baseThree.sort((s1, s2) => s1.pk - s2.pk);
 
-  const custom = props.scripts.filter((s) => {
+  const custom = scripts.filter((s) => {
     if (BaseThree.includes(s.pk)) {
       return false;
     }
@@ -250,9 +273,12 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
   // arbitrary state that changes periodically, to force a re-render
   const [elapsedMinutes, setElapsedMinutes] = useState(0);
   useEffect(() => {
-    const i = setInterval(() => {
-      setElapsedMinutes((m) => m + 1);
-    }, 1 * 60 * 1000);
+    const i = setInterval(
+      () => {
+        setElapsedMinutes((m) => m + 1);
+      },
+      1 * 60 * 1000,
+    );
     return () => clearInterval(i);
   }, []);
 
@@ -322,7 +348,11 @@ export function App(props: { scripts: ScriptData[] }): JSX.Element {
           <h2>Custom</h2>
           <SearchResults scripts={custom} query={query} setQuery={setQuery} />
           <HelpText />
-          <Footer password={password} setPassword={setAndStorePassword} />
+          <Footer
+            lastUpdate={lastUpdate}
+            password={password}
+            setPassword={setAndStorePassword}
+          />
         </div>
       </div>
     </ThemeProvider>

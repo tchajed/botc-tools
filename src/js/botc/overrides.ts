@@ -1,5 +1,7 @@
 import { aliceInWonderland } from "./alice_in_wonderland";
-import { nightorder } from "./nightorder";
+import homebrews from "../../../assets/homebrew/homebrews.json";
+import { nameToId } from "./roles";
+import { homebrewRoles, amnesiacs } from "./homebrew";
 
 // To show nothing for a night reminder, set it to an empty string "".
 //
@@ -9,14 +11,18 @@ export interface Override {
   nights?: string;
   homebrew?: {
     name: string;
-    roleType: "townsfolk" | "outsider" | "minion" | "demon";
+    roleType:
+      | "townsfolk"
+      | "outsider"
+      | "minion"
+      | "demon"
+      | "fabled"
+      | "travellers";
     firstNightIndex?: number;
     otherNightsIndex?: number;
   };
   firstNight?: string;
   otherNights?: string;
-  firstNightIndex?: number;
-  otherNightsIndex?: number;
 }
 
 type Overrides = { [key: string]: Override };
@@ -24,6 +30,10 @@ type Overrides = { [key: string]: Override };
 // Changes to base + experimental roles, usually to make more concise or fix
 // formatting for the tool.
 const baseOverrides: Overrides = {
+  drunk: {
+    ability: `You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.`,
+    firstNight: `Assign which Townsfolk is actually the Drunk.`,
+  },
   philosopher: {
     nights:
       `The Philosopher might pick a good character. If they chose a character:` +
@@ -94,7 +104,11 @@ The new Snake Charmer is poisoned.
     firstNight: `Wake all the Minions, show them THIS CHARACTER IS IN PLAY and the Damsel token.`,
   },
   king: {
+    // ability changed
+    ability:
+      "Each night, if the dead equal or outnumber the living, you learn 1 alive character. The Demon knows who you are. ",
     firstNight: `Wake the Demon, show them THIS PLAYER IS and point to the King player.`,
+    otherNights: `If dead equal or outnumber the living, show the King a character token of a living player.`,
   },
   marionette: {
     firstNight:
@@ -114,6 +128,37 @@ The new Snake Charmer is poisoned.
   },
   mezepheles: {
     otherNights: `Wake the 1st good player that said the Mezepheles' secret word and show them YOU ARE EVIL and the thumbs-down sign.`,
+  },
+  fanggu: {
+    otherNights: `The Fang Gu points to a player. That player dies.
+    Or, if that player was an Outsider and there are no other Fang Gu in play:
+    <tab>The Fang Gu dies instead of the chosen player. The chosen player is now an evil Fang Gu.
+    <tab>Wake the new Fang Gu. Show the YOU ARE card, then the Fang Gu token. Show YOU ARE EVIL.`,
+  },
+  balloonist: {
+    ability:
+      "Each night, you learn a player of a different character type than last night. [+0 or +1 Outsider]",
+    firstNight:
+      "Choose a character type. Point to a player whose character is of that type. Place the Balloonist's Seen reminder next to that character.",
+    otherNights:
+      "Choose a character type that does not yet have a Seen reminder next to a character of that type. Point to a player whose character is of that type, if there are any. Place the Balloonist's Seen reminder next to that character.",
+  },
+  lilmonsta: {
+    // ability changed
+    ability:
+      "Each night, Minions choose who babysits Lil' Monsta & 'is the Demon'. Each night*, a player might die. [+1 Minion]",
+    firstNight:
+      "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
+    otherNights:
+      "Wake all Minions together, allow them to vote by pointing at who they want to babysit Lil' Monsta.",
+  },
+  lleech: {
+    // ability changed
+    ability:
+      "Each night*, choose a player: they die. On your 1st night, choose a player: they are poisoned. You die if & only if they are dead.",
+    firstNight:
+      "The Lleech points to a player. Place the Poisoned reminder token.",
+    otherNights: "The Lleech points to a player. That player dies.",
   },
 };
 
@@ -143,19 +188,91 @@ const newRoles: Overrides = {
   },
   harpy: {
     ability:
-      "Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or both might die.",
+      "Each night, choose 2 players: tomorrow, the 1st player is mad that the 2nd is evil, or one or both might die.",
     nights:
       `The Harpy chooses two players. Mark both Harpy selected. ` +
       `Tell the first player THIS CHARACTER SELECTED YOU and point to the second player.`,
   },
   plaguedoctor: {
-    ability: "If you die, the Storyteller gains a not-in-play Minion ability.",
+    ability: "If you die, the Storyteller gains a Minion ability.",
   },
   shugenja: {
     ability:
       "You start knowing if your closest evil player is clockwise or anti-clockwise. If equidistant, this info is arbitrary.",
     firstNight:
       "Wake the Shugenja. Point horizontally in the direction of the closest evil player.",
+  },
+  ojo: {
+    ability:
+      "Each night*, choose a character: they die. If they are not in play, the Storyteller chooses who dies.",
+    otherNights:
+      "The Ojo chooses a character. If that character is in play, that player dies. If that character is not in play, choose any player. That player dies.",
+  },
+  hatter: {
+    ability:
+      "If you died today or tonight, the Minion & Demon players may choose new Minion & Demon characters to be.",
+    otherNights:
+      "If the Hatter died, show the Minion and Demon players the THIS CHARACTER SELECTED YOU and allow them to pick a new character.",
+  },
+  kazali: {
+    ability:
+      "Each night*, choose a player: they die. [You choose which players are which Minions. −? to +? Outsiders]",
+    otherNights: "The Kazali chooses a player. That player dies.",
+  },
+  villageidiot: {
+    ability:
+      "Each night, choose a player: you learn their alignment. [+0 to +2 Village Idiots. 1 of the extras is drunk]",
+    firstNight:
+      "Choose an extra Village Idiot to be drunk. Each Village Idiot chooses a player. Show them the alignment of that player.",
+    otherNights:
+      "Each Village Idiot chooses a player. Show them the alignment of that player.",
+  },
+  yaggababble: {
+    ability:
+      "You start knowing a secret phrase. For each time you said it publicly today, a player might die.",
+    firstNight: "Show the Yaggababble their secret phrase.",
+    otherNights:
+      "Choose a number of players up to the total number of times the Yaggababble said their secret phrase publicly; those players die.",
+  },
+  summoner: {
+    ability:
+      "You get 3 bluffs. On the 3rd night, choose a player: they become an evil Demon of your choice. [No Demon]",
+    firstNight:
+      "Show the Summoner THESE CHARACTERS ARE NOT IN PLAY and three bluffs.",
+    otherNights: `If it is the 3rd night, wake the Summoner.
+      <tab>They point to a player and a Demon on the character sheet - that player becomes that Demon.
+      <tab>Show the player YOU ARE and the demon token, and YOU ARE EVIL.`,
+  },
+  banshee: {
+    ability:
+      "If the Demon kills you, all players learn this. From now on, you may nominate twice per day and vote twice per nomination.",
+    otherNights: `If the Demon kills the Banshee, announce that the Banshee has awoken.`,
+  },
+  ogre: {
+    ability:
+      "On your 1st night, choose a player (not yourself): you become their alignment (you don't know which) even if drunk or poisoned.",
+    firstNight:
+      "The Ogre points to a player (not themselves) and becomes their alignment.",
+  },
+  alsaahir: {
+    ability:
+      "Once per day, if you publicly guess which players are Minion(s) and which are Demon(s), good wins.",
+  },
+  zealot: {
+    ability:
+      "If there are 5 or more players alive, you must vote for every nomination.",
+  },
+  lordoftyphon: {
+    ability:
+      "Each night*, choose a player: they die. [Evil characters are in a line. You are in the middle. +1 Minion. −? to +? Outsiders]",
+    firstNight: `Wake the appropriate number of minions around the Lord of Typhon.
+      <tab>Show them YOU ARE and a unique Minion token, tell them YOU ARE EVIL, and put them to sleep.`,
+    otherNights: "The Lord of Typhon chooses a player. That player dies.",
+  },
+  boffin: {
+    ability:
+      "The Demon (even if drunk or poisoned) has a not-in-play good character's ability. You both know which.",
+    firstNight: `Show the Boffin and the Demon the THIS CHARACTER SELECTED YOU token, then the Boffin token, then the good character's token.`,
   },
 };
 
@@ -178,6 +295,8 @@ At night*, each visitor learns how many visitors are evil, but 1 gets false info
   stormcatcher: {
     ability: `Name a good character. If in play, they can only
 die by execution, but evil players learn which player it is.`,
+    firstNight: `If the named character is in play, show the evil players THIS PLAYER IS and the character token.
+If not, show them STORM CAUGHT CHARACTER IS NOT IN PLAY.`,
   },
   angel: {
     ability: `Something bad might happen to whoever is most responsible for the death of a new player.`,
@@ -197,88 +316,28 @@ die by execution, but evil players learn which player it is.`,
   fibbin: {
     ability: `Once per game, 1 good player might get incorrect information.`,
   },
-};
-
-// homebrew characters
-const homebrewRoles: Overrides = {
-  actor: {
-    ability: `Whoever wins, loses & whoever loses, wins, even if you are dead. [All good players are Actors and know each other]`,
-    firstNight: `Wake up all Actors and let them see each other.`,
-    homebrew: {
-      name: "Actor",
-      roleType: "townsfolk",
-      firstNightIndex: nightorder.firstNight("Pukka") + 1,
-    },
+  gardener: {
+    ability: `The Storyteller assigns 1 or more players' characters.`,
   },
-  drunk: {
-    ability: `You do not know you are the Drunk. You think you are a Townsfolk character, but you are not.`,
-    firstNight: `Assign which Townsfolk is actually the Drunk.`,
-    homebrew: {
-      name: "Drunk",
-      roleType: "outsider",
-      // very early
-      firstNightIndex: -1,
-    },
+  ferryman: {
+    ability: `On the final day, all dead players regain their vote token.`,
   },
-  lout: {
-    ability: `On night three, learn an evil townsfolk. [1 Townsfolk is evil]`,
-    firstNight: `Wake the townsfolk who is evil and show them YOU ARE EVIL and the thumbs-down sign.`,
-    otherNights: `If it is night three, wake the Lout and point to an evil townsfolk.`,
-    homebrew: {
-      name: "Lout",
-      roleType: "outsider",
-      // very early
-      firstNightIndex: 1,
-      otherNightsIndex: nightorder.otherNights("Empath"),
-    },
+  revolutionary: {
+    ability: `2 neighboring players are known to be the same alignment. Once per game, 1 of them registers falsely.`,
   },
 };
 
-// amnesiacs of any category
-const amnesiacs: Overrides = {
-  amnesiacoutsider: {
-    ability: `Outsider. You do not know what your ability is. Each day, privately guess what it is: you learn how accurate you are.`,
-    firstNight: `Decide the Amnesiac's entire ability.
-    If the Amnesiac's ability causes them to wake tonight:
-    Wake the Amnesiac and run their ability.`,
-    otherNights: `If the Amnesiac's ability causes them to wake tonight:
-    Wake the Amnesiac and run their ability.`,
-    homebrew: {
-      name: "Amnesiac (O)",
-      roleType: "outsider",
-      firstNightIndex: nightorder.firstNight("Amnesiac"),
-      otherNightsIndex: nightorder.otherNights("Amnesiac"),
-    },
-  },
-  amnesiacminion: {
-    ability: `Minion. You do not know what your ability is. Each day, privately guess what it is: you learn how accurate you are.`,
-    firstNight: `Decide the Amnesiac's entire ability.
-    If the Amnesiac's ability causes them to wake tonight:
-    Wake the Amnesiac and run their ability.`,
-    otherNights: `If the Amnesiac's ability causes them to wake tonight:
-    Wake the Amnesiac and run their ability.`,
-    homebrew: {
-      name: "Amnesiac (M)",
-      roleType: "minion",
-      firstNightIndex: nightorder.firstNight("Amnesiac"),
-      otherNightsIndex: nightorder.otherNights("Amnesiac"),
-    },
-  },
-  amnesiacdemon: {
-    ability: `Demon. You do not know what your ability is. Each day, privately guess what it is: you learn how accurate you are.`,
-    firstNight: `Decide the Amnesiac's entire ability.
-    If the Amnesiac's ability causes them to wake tonight:
-    Wake the Amnesiac and run their ability.`,
-    otherNights: `If the Amnesiac's ability causes them to wake tonight:
-    Wake the Amnesiac and run their ability.`,
-    homebrew: {
-      name: "Amnesiac (D)",
-      roleType: "demon",
-      firstNightIndex: nightorder.firstNight("Amnesiac"),
-      otherNightsIndex: nightorder.otherNights("Amnesiac"),
-    },
-  },
-};
+function homebrewOverrides(): Overrides {
+  const homebrew: Overrides = {};
+  for (const script of homebrews) {
+    for (const id in script.characters) {
+      homebrew[nameToId(id)] = (
+        script.characters as { [key: string]: Override }
+      )[id];
+    }
+  }
+  return homebrew;
+}
 
 const overrideList: { [key: string]: Override } = {
   ...baseOverrides,
@@ -287,6 +346,7 @@ const overrideList: { [key: string]: Override } = {
   ...homebrewRoles,
   ...amnesiacs,
   ...aliceInWonderland,
+  ...homebrewOverrides(),
 };
 
 function getOverride(id: string): Override {

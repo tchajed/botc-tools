@@ -1,5 +1,5 @@
 import { Script } from "./botc/script";
-import { splitSelectedChars } from "./botc/setup";
+import { selectableCharacters, splitSelectedChars } from "./botc/setup";
 import { Nav } from "./components/nav";
 import { NightOrder } from "./nightsheet/night_order";
 import { Randomizer } from "./randomizer/randomizer";
@@ -45,7 +45,7 @@ function addMetaProperty(name: string, content: string) {
 
 function ScriptApp({ script }: { script: Script }): JSX.Element {
   const [currentPage, setCurrentPage] = useState<Page>(getUrlPage() || "roles");
-  const characters = script.characters;
+  const characters = selectableCharacters(script.characters);
 
   // mostly randomizer state (but influences night sheet)
   const [numPlayers, setNumPlayers] = useState<number>(

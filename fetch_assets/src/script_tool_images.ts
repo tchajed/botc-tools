@@ -2,7 +2,7 @@ import axios from "axios";
 import fs from "fs";
 import sharp from "sharp";
 
-interface Role {
+export interface Role {
   id: string; // actually is the name
   icon: string;
   version: string; // Extras for fabled
@@ -10,21 +10,26 @@ interface Role {
 
 const BASE_URL = "https://script.bloodontheclocktower.com";
 
+export const IMAGE_SIZE = 177;
+
 /** Make an icon square by adding padding.
  *
  * This is done in two steps: first we remove any existing border and only then
- * do we fit it into a 177x177 square.
+ * do we fit it into a size x size square.
  *
  */
-export async function makeSquare(data: ArrayBuffer): Promise<sharp.Sharp> {
+export async function makeSquare(
+  data: ArrayBuffer,
+  size: number,
+): Promise<sharp.Sharp> {
   let img = sharp(Buffer.from(data));
   // remove existing border
   img = img.trim();
   // contain puts the image into exactly these dimensions, filling with a
   // background image
   img = img.resize({
-    width: 177,
-    height: 177,
+    width: size,
+    height: size,
     fit: "contain",
     position: "centre",
     // fill with transparent background
@@ -34,7 +39,13 @@ export async function makeSquare(data: ArrayBuffer): Promise<sharp.Sharp> {
 }
 
 async function downloadRole(r: Role): Promise<ArrayBuffer> {
-  const { data } = await axios.get(`${BASE_URL}/${r.icon}`, {
+  let url: string;
+  if (r.icon.startsWith("https://") || r.icon.startsWith("http://")) {
+    url = r.icon;
+  } else {
+    url = `${BASE_URL}/${r.icon}`;
+  }
+  const { data } = await axios.get(url, {
     responseType: "arraybuffer",
     responseEncoding: "binary",
     maxRate: 3000 * 1024, // 3MB/s
@@ -42,8 +53,12 @@ async function downloadRole(r: Role): Promise<ArrayBuffer> {
   return data;
 }
 
+function normalizeId(id: string) {
+  return id.toLowerCase().replaceAll(/[ \-_]+/g, "");
+}
+
 function roleIconFile(r: Role): string {
-  const name = r.id;
+  const name = normalizeId(r.id);
   const id = name.toLowerCase().replaceAll(/['\- ]/g, "");
   return `Icon_${id}.webp`;
 }
@@ -59,10 +74,10 @@ export async function downloadRoles(
 ) {
   const promises: Promise<sharp.OutputInfo>[] = [];
   for (const r of rs) {
-    const img = await makeSquare(await downloadRole(r));
+    const img = await makeSquare(await downloadRole(r), IMAGE_SIZE);
     progressCb(1);
     const path = `${imgDir}/${roleIconFile(r)}`;
-    promises.push(img.toFile(path));
+    promises.push(img.webp({ effort: 6 }).toFile(path));
   }
   await Promise.all(promises);
 }

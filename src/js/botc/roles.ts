@@ -16,10 +16,9 @@ import botc_roles from "../../../assets/data/botc_online_roles.json";
 import script_roles from "../../../assets/data/roles.json";
 import { nightorder } from "./nightorder";
 
-/* Custom overrides provided by this app. Most of these are simplifications to
- * the night sheet to surface more important instructions, but this also
- * includes fabled abilities which are otherwise not available anywhere.
- */
+/* Custom overrides provided by this app. Some of these simplify or otherwise
+ * clarify roles that are in roles.json, some are experimental characters not in
+ * that file, and others are homebrew or "oops all amnesiacs" roles. */
 import { overrides } from "./overrides";
 
 export interface NightAction {
@@ -134,7 +133,10 @@ NonTeensyDemonInfo.firstNight = {
 };
 
 export function nameToId(name: string): string {
-  return name.toLowerCase().replaceAll(/[ '-_]/g, "");
+  if (name.toLowerCase() !== name) {
+    console.warn("nameToId called on non-lowercase name", name);
+  }
+  return name.toLowerCase().replaceAll(/[ '_-]/g, "");
 }
 
 function versionToEdition(version: string): Edition {
@@ -151,7 +153,7 @@ function versionToEdition(version: string): Edition {
 function useOverride(id: string, info: CharacterInfo) {
   info.ability = overrides.ability(id) ?? info.ability;
   const firstNight = overrides.firstNight(id);
-  if (firstNight) {
+  if (firstNight !== null) {
     const index =
       overrides.firstNightIndex(id) ?? nightorder.firstNight(info.name);
     info.firstNight = {
@@ -160,7 +162,7 @@ function useOverride(id: string, info: CharacterInfo) {
     };
   }
   const otherNights = overrides.otherNights(id);
-  if (otherNights) {
+  if (otherNights !== null) {
     const index =
       overrides.otherNightsIndex(id) ?? nightorder.otherNights(info.name);
     info.otherNights = {
@@ -174,7 +176,8 @@ function createRoleData(): Map<string, CharacterInfo> {
   const roles: Map<string, CharacterInfo> = new Map();
 
   for (const role of script_roles) {
-    const id = nameToId(role.id);
+    // these "id" fields are actually names
+    const id = nameToId(role.id.toLowerCase());
     const name: string = role.name;
     const roleType = role.roleType;
     const validRole = RoleTypes.find((r) => r == roleType);
@@ -243,8 +246,32 @@ function createRoleData(): Map<string, CharacterInfo> {
     useOverride(id, info);
   }
 
+  // drunk override puts it in the night order; need to give it a position
+  roles.get("drunk")!.firstNight!.index = -1;
+
   roles.set("MINION", MinionInfo);
   roles.set("DEMON", DemonInfo);
+
+  // add two copies of Village Idiot or Legionary for the extra selections
+  for (const id of ["villageidiot", "legionaryfallofrome"]) {
+    const role = roles.get(id);
+    if (role === undefined) {
+      console.error(`could not duplicate ${id} (not found)`);
+      continue;
+    }
+    for (let i = 1; i <= 2; i++) {
+      const info = new CharacterInfo(
+        `${id}-${i}`,
+        role.name,
+        role.roleType,
+        role.edition,
+      );
+      info.ability = role.ability;
+      info.firstNight = role.firstNight;
+      info.otherNights = role.otherNights;
+      roles.set(info.id, info);
+    }
+  }
 
   return roles;
 }
@@ -259,6 +286,8 @@ export function getCharacter(id: string): CharacterInfo {
   return c;
 }
 
+// Lunatic with night instructions customized to Teensyville (where Lunatic and
+// Demon should not learn Minions or bluffs).
 export const TeensyLunatic: CharacterInfo = ((lunatic) => {
   if (!lunatic) {
     throw new Error("could not get lunatic character");
@@ -282,3 +311,17 @@ export const TeensyLunatic: CharacterInfo = ((lunatic) => {
   };
   return info;
 })(roles.get("lunatic"));
+
+// regular expression to remove a number from a character id, used to allow
+// selecting multiple copies of Village Idiot
+const NameNumberRe = /(?<name>[a-zA-Z]+)-(?<number>\d+)/;
+
+/** Remove a number suffix, turning villageidiot-1 into villageidiot for example,
+ * if the normalized identifier is needed. */
+export function characterIdWithoutNumber(id: string): string {
+  const match = id.match(NameNumberRe);
+  if (match && match.groups) {
+    return match.groups.name;
+  }
+  return id;
+}

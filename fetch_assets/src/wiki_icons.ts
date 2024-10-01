@@ -3,6 +3,13 @@ import fs from "fs";
 import http from "http";
 import sharp from "sharp";
 
+/** Fetch official art from the wiki. Left here for historical purposes (and
+ * using the WikiMedia API might still be useful for some other purpose in the
+ * future).
+ *
+ * We don't use the official art any more (in compliance with TPI's legal
+ * requirements). */
+
 http.globalAgent.maxSockets = 10;
 
 /** Recursively fetch a paged query with a continue parameter until it has no more results.
@@ -148,7 +155,9 @@ export async function saveIcons(downloads: DownloadedIcon[], imgDir: string) {
   await Promise.all(
     downloads.map((dl) => {
       const path = `${imgDir}/${iconFileName(dl.icon)}`;
-      return rescaleIcon(dl.data).then((img) => img.toFile(path));
+      return rescaleIcon(dl.data).then((img) =>
+        img.webp({ effort: 6 }).toFile(path),
+      );
     }),
   );
 }

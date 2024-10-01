@@ -5,6 +5,8 @@ import { nameToId } from "botc/roles";
 import {
   ScriptData,
   getCharacterList,
+  hasAtheist,
+  hasHeretic,
   isTeensyville,
   onlyBaseThree,
 } from "botc/script";
@@ -28,6 +30,18 @@ function ScriptTitleTags({ script }: { script: ScriptData }): JSX.Element {
   return (
     <>
       <a href={pageUrl("roles", script.pk)}>{script.title}</a>
+      {/* atheist and heretic change the nature of the entire script enough (in
+      my opinion) to be worth highlighting */}
+      {hasAtheist(chars) && (
+        <>
+          &nbsp;<TagSpan>atheist</TagSpan>
+        </>
+      )}
+      {hasHeretic(chars) && (
+        <>
+          &nbsp;<TagSpan>heretic</TagSpan>
+        </>
+      )}
       {isTeensyville(chars) && (
         <>
           &nbsp;<TagSpan>teensy</TagSpan>

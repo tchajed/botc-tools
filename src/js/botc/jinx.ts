@@ -35,12 +35,12 @@ export interface Jinx {
 export function getJinxList(characters: string[]): Jinx[] {
   const js: Jinx[] = [];
   for (const jinx1 of allJinxes) {
-    const character1 = nameToId(jinx1.id);
+    const character1 = nameToId(jinx1.id.toLowerCase());
     if (!characters.includes(character1)) {
       continue;
     }
     for (const jinx2 of jinx1.jinx) {
-      const character2 = nameToId(jinx2.id);
+      const character2 = nameToId(jinx2.id.toLowerCase());
       if (!characters.includes(character2)) {
         continue;
       }

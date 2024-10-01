@@ -1,7 +1,7 @@
 {
   "short_name": "BotC tools",
   "name": "BotC tools",
-  "description": "BotC roles, night sheets, and storyteller role assignment tools.",
+  "description": "Tools for running Blood on the Clocktower in person: character sheets, night sheets, and game setup help.",
   "id": "/",
   "start_url": "./",
   "scope": ".",
@@ -22,6 +22,29 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "../screenshots/desktop/home.webp",
+      "sizes": "1456x1800",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Home screen"
+    },
+    {
+      "src": "../screenshots/desktop/town-square.webp",
+      "sizes": "1456x1800",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Town square image to use for a digital grimoire"
+    },
+    {
+      "src": "../screenshots/desktop/role-sheet.webp",
+      "sizes": "1456x1800",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Character sheet for a custom script"
     }
   ],
   "categories": ["utilities", "games"]

@@ -3,15 +3,15 @@ import { ScriptData } from "../botc/script";
 import { matchSorter } from "match-sorter";
 
 const FAVORITE_TITLES: Set<string> = new Set([
-  "Chad Versus Virgin",
-  "You're Not Evil, I'm Evil!",
-  "The Spy Who Pinged Me",
+  "Reptiles II: Lizard in the City",
+  "Catfishing",
   "No Roles Barred",
-  "Whose Cult is it Anyway?",
-  "Laissez un Faire",
-  "High Stakes Betting",
-  "Faith, Trust and Pixie Dust",
+  "Whose Cult Is It Anyway?",
+  "Creme De La Creme",
+  // "Laissez un Faire",
+  // "High Stakes Betting",
   "Race to the Bottom",
+  "Onion Pies",
 ]);
 
 function characterList(script: ScriptData): string[] {
@@ -36,6 +36,7 @@ function characterQueryMatches(
     (results, char) =>
       matchSorter(results, char.replace("-", ""), {
         keys: [characterList],
+        threshold: matchSorter.rankings.WORD_STARTS_WITH,
       }),
     scripts,
   );

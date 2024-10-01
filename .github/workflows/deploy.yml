@@ -16,23 +16,22 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: '22.6'
           cache: yarn
       - name: Cache assets
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
-            assets/img
             assets/icons
             assets/static
             assets/data
@@ -45,7 +44,7 @@ jobs:
       - name: Build site
         run: yarn build
       - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         if: github.ref == 'refs/heads/main'
         with:
           path: ./dist
@@ -64,4 +63,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4

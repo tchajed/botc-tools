@@ -9,6 +9,11 @@ export interface ScriptData {
   characters: string[];
 }
 
+export type ScriptsFile = {
+  scripts: ScriptData[];
+  lastUpdate: string;
+};
+
 export interface NightOrders {
   // already sorted
   firstNight: CharacterInfo[];
@@ -75,6 +80,14 @@ export function onlyBaseThree(characters: CharacterInfo[]): boolean {
   );
 }
 
+export function hasAtheist(characters: CharacterInfo[]): boolean {
+  return characters.some((c) => c.id == "atheist");
+}
+
+export function hasHeretic(characters: CharacterInfo[]): boolean {
+  return characters.some((c) => c.id == "heretic");
+}
+
 export class Script {
   readonly id: number;
   readonly title: string;
@@ -100,5 +113,12 @@ export class Script {
     this.teensyville = isTeensyville(characters);
     this.orders = getNightOrders(characters);
     this.jinxes = getJinxList(data.characters);
+  }
+
+  get toPocketGrimoire(): string {
+    return JSON.stringify([
+      { id: "_meta", name: this.title },
+      ...this.characters.map((c: CharacterInfo) => ({ id: c.id })),
+    ]);
   }
 }

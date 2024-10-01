@@ -1,14 +1,15 @@
 # BotC storyteller tools
 
 [![build](https://github.com/tchajed/botc-tools/actions/workflows/deploy.yml/badge.svg)](https://github.com/tchajed/botc-tools/actions/workflows/deploy.yml)
+[![refresh](https://github.com/tchajed/botc-tools/actions/workflows/refresh.yml/badge.svg)](https://github.com/tchajed/botc-tools/actions/workflows/refresh.yml)
 
 Tools for the storyteller in Blood on the Clocktower, for supporting in-person games.
 
 **Role assignment:** Select roles for a script and randomize them. Helps set up
-a game that will otherwise be run from a piece of paper (or an iPad).
+a game that will otherwise be run from a tablet or a piece of paper.
 
 **Night sheet:** Generate a good-looking and useful night sheet for a custom
-script, with instructions for each characters, similar in style to the base 3
+script, with instructions for each character, similar in style to the base 3
 scripts. These print nicely, with a page for the first night and another for
 other nights.
 
@@ -19,10 +20,11 @@ options on mobile.
 ## Role assignment features
 
 The highlights are that the tool helps you pick characters and distribute them
-to players, and it all works offline. See this [detailed list of
-features](FEATURES.md) for more, as well as some screenshots.
+to players, and it all works offline. The app has all scripts from the
+[unofficial script database](https://botcscripts.com). See this [detailed list
+of features](FEATURES.md) for more, as well as some screenshots.
 
-## Setting up
+## Setting up for development
 
 Run `yarn` to get the dependencies.
 
@@ -42,7 +44,7 @@ some time). If you want to re-fetch, delete the downloaded assets:
 yarn fetch-assets --clean
 ```
 
-## Running the web site
+## Running the website
 
 Use `yarn start` to run a development server.
 
@@ -63,7 +65,7 @@ yarn test-screenshots
 `test-screenshots` takes some options, run it with `yarn test-screenshots
 --help` to see them.
 
-## Acknowledgements and Copyrights
+## Acknowledgments and Copyrights
 
 - [Blood on the Clocktower](https://bloodontheclocktower.com/) is a trademark of
   Steven Medway and The Pandemonium Institute

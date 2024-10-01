@@ -1,0 +1,35 @@
+{
+  "pk": 900003,
+  "title": "Block Party",
+  "author": "Huckler",
+  "characters": [
+    "knight",
+    "noble",
+    "washerwoman",
+    "shugenja",
+    "chambermaid",
+    "snake_charmer",
+    "village_idiot",
+    "balloonist",
+    "fortune_teller",
+    "seamstress",
+    "alchemist",
+    "minstrel",
+    "mayor",
+
+    "goon",
+    "puzzlemaster",
+    "saint",
+    "hatter",
+
+    "poisoner",
+    "witch",
+    "fearmonger",
+    "evil_twin",
+
+    "kazali",
+    "pukka",
+    "ojo",
+    "vortox"
+  ]
+}

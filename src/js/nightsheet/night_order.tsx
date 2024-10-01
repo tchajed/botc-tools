@@ -7,7 +7,6 @@ import {
 import { NightOrders, Script } from "../botc/script";
 import {
   characterClass,
-  iconPath,
   CharacterIconElement,
 } from "../components/character_icon";
 import { Fullscreen } from "../components/fullscreen_modal";
@@ -25,36 +24,49 @@ import { FullscreenBluffs } from "randomizer/components/bluffs";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import reactStringReplace from "react-string-replace";
 
+// list of token names to display as cards
 const tokenNames = [
   "THIS IS THE DEMON",
   "THESE ARE YOUR MINIONS",
   "THESE CHARACTERS ARE NOT IN PLAY",
-  // make sure prefixes go first
   "YOU ARE EVIL",
   "YOU ARE GOOD",
   "YOU ARE",
   "THIS CHARACTER SELECTED YOU",
   "THIS PLAYER IS",
   "THIS CHARACTER IS IN PLAY",
+  "STORM CAUGHT CHARACTER IS NOT IN PLAY",
 ];
+// sort by reverse length so we try to match longer names first, to handle
+// one name which is a prefix of another correctly
 tokenNames.sort((a, b) => b.length - a.length);
 
 /** For a token in char's night action, return the character we should show
  * alongside the token text. */
 function characterToShow(token: string, char: CardInfo): CardInfo | null {
   // These tokens always involve showing the triggering character (as far as I
-  // know)
+  // know). For Storm Catcher it isn't strictly necessary but it's okay.
   const showPlayerTokens = new Set([
     "THIS CHARACTER SELECTED YOU",
     "THIS PLAYER IS",
     "THIS CHARACTER IS IN PLAY",
+    "STORM CAUGHT CHARACTER IS NOT IN PLAY",
   ]);
   if (showPlayerTokens.has(token)) {
     return char;
   }
-  // For Imp and Farmer, the character jumps and "YOU ARE" means someone else is
-  // the Imp/Farmer.
-  if (token == "YOU ARE" && ["imp", "farmer"].includes(char.id)) {
+  // For these roles, when shown "YOU ARE" the role has jumped to you.
+  if (
+    token == "YOU ARE" &&
+    [
+      "imp",
+      "farmer",
+      "fanggu",
+      "crassusfallofrome",
+      "hannibalfallofrome",
+      "blacksmithfallofrome",
+    ].includes(char.id)
+  ) {
     return char;
   }
   return null;

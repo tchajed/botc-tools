@@ -90,9 +90,21 @@ function addMandatorySelections(selection: Selection) {
   if (selection.has("huntsman")) {
     selection.add("damsel");
   }
+  // Haruspex [+ Spartacus]
+  if (selection.has("haruspexfallofrome")) {
+    selection.add("spartacusfallofrome");
+  }
   // Choirboy [+ King]
   if (selection.has("choirboy")) {
     selection.add("king");
+  }
+  // for internal sanity make sure the original villageidiot is selected first
+  if (selection.has("villageidiot-1") || selection.has("villageidiot-2")) {
+    selection.add("villageidiot");
+  }
+  // same as village idiot
+  if (selection.has("legionary-1") || selection.has("legionary-2")) {
+    selection.add("legionary");
   }
 }
 

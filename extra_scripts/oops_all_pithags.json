@@ -1,5 +1,5 @@
 {
-  "pk": 900001,
+  "pk": 900002,
   "title": "Oops! All Pit-Hags",
   "author": "Matheus",
   "characters": [
@@ -52,6 +52,7 @@
     "sailor",
     "savant",
     "seamstress",
+    "shugenja",
     "slayer",
     "snake_charmer",
     "soldier",
@@ -106,6 +107,7 @@
     "lil_monsta",
     "lleech",
     "no_dashii",
+    "ojo",
     "po",
     "pukka",
     "shabaloth",

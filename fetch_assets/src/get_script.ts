@@ -1,7 +1,6 @@
 import axios from "axios";
 
-/** Format for a single saved script. assets/static/scripts.json is an array of
-`ScriptData`. */
+/** Format for a single saved script. */
 export interface ScriptData {
   pk: number;
   title: string;
@@ -9,6 +8,11 @@ export interface ScriptData {
   score: number;
   characters: string[];
 }
+/** Format for assets/static/scripts.json `ScriptData`. */
+export type ScriptsFile = {
+  scripts: ScriptData[];
+  lastUpdate: string;
+};
 
 const apiBase = "https://botc-scripts.azurewebsites.net/api";
 
@@ -41,7 +45,7 @@ function metaFromContents(
 }
 
 function idsFromContents(content: ContentRow[]): string[] {
-  return content.map((c) => c.id).filter((id) => id != "_meta");
+  return content.map((c) => c.id.toLowerCase()).filter((id) => id != "_meta");
 }
 
 async function getScriptResp(
