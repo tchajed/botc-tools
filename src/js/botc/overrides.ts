@@ -179,7 +179,7 @@ const newRoles: Overrides = {
   },
   organgrinder: {
     ability:
-      "All players keep their eyes closed when voting & the vote tally is secret. Votes for you only count if you vote.",
+      "All players keep their eyes closed when voting and the vote tally is secret. Each night, choose if you are drunk or not.",
   },
   highpriestess: {
     ability:
