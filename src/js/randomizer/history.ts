@@ -87,8 +87,8 @@ export type SetHistory = Dispatch<
 >;
 
 export function pureHistoryApply<T>(
-  setHistory: Dispatch<SetStateAction<History<T>>>,
-  a: PureHistoryAction<T>,
+  setHistory: Dispatch<SetStateAction<History<Partial<T>>>>,
+  a: PureHistoryAction<Partial<T>>,
 ) {
   setHistory((h) => historyStep(h, a).h);
 }
