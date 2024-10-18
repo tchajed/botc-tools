@@ -19,7 +19,6 @@ function splitLinesCircle(
     const lineWidth = circleWidthAt(radius, radius - y) * widthFraction;
     // the current line is text.slice(0, i);
     let i = -1;
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       const nextSplit = text.indexOf(" ", i + 1);
       // if there are no more spaces, just use the rest of the text

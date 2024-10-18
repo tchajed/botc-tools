@@ -36,7 +36,7 @@ const RoleTypes = [
 ] as const;
 export type RoleType = (typeof RoleTypes)[number];
 
-const Editions = ["tb", "snv", "bmr", "other"] as const;
+export const Editions = ["tb", "snv", "bmr", "other"] as const;
 export type Edition = (typeof Editions)[number];
 
 // TODO: this is the only class in use, perhaps it would be good to make it a
