@@ -41,6 +41,8 @@ jobs:
         run: yarn install --frozen-lockfile
       - name: Fetch assets
         run: yarn fetch-assets
+      - name: Lint and typecheck
+        run: yarn run check
       - name: Build site
         run: yarn build
       - name: Upload pages artifact
