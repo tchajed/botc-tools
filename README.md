@@ -26,25 +26,38 @@ of features](FEATURES.md) for more, as well as some screenshots.
 
 ## Setting up for development
 
-Run `yarn` to get the dependencies.
+Install yarn and nvm.
 
-We provide scripts `yarn lint` for linting (using eslint), `yarn fmt` for
-formatting (using prettier), and `yarn typecheck` to run TypeScript.
+```
+nvm use
+yarn install
+yarn fetch-assets --json
+yarn run check
+```
 
-## Downloading the assets
+Parcel does not work on Node 22.7+, so `nvm use` is there to make it easy to get 22.6.
+
+The last command fetches the JSON assets, which are needed for the code to build.
+
+Run `yarn run check` to run eslint, check formatting, and check types with
+TypeScript. Run `yarn run fmt` to automatically fix formatting with prettier.
+
+### Download assets
 
 ```sh
 yarn fetch-assets
 ```
 
-Running this multiple times won't re-download images and scripts (which take
-some time). If you want to re-fetch, delete the downloaded assets:
+This fetches character icons, and all the scripts from
+<https://botc-scripts.azurewebsites.net> - it will take a couple minutes.
+Running multiple times won't re-download images and scripts. If you want to
+re-fetch, delete the downloaded assets:
 
 ```sh
 yarn fetch-assets --clean
 ```
 
-## Running the website
+### Running the website
 
 Use `yarn start` to run a development server.
 
