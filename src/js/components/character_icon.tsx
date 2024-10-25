@@ -1,4 +1,7 @@
+// This is a Parcel glob import: https://parceljs.org/features/dependency-resolution/#glob-specifiers
+// vite.config.ts replaces this import by loading `character_icons_vite.ts` instead.
 import images from "../../../assets/icons/*.webp";
+
 import { css } from "@emotion/react";
 import { characterIdWithoutNumber, getCharacter } from "botc/roles";
 
