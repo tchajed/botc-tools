@@ -21,11 +21,6 @@ const alias: AliasOptions = [
     };
   }),
   {
-    // Replace a Parcel-specific way of fetching `scripts.json` with a Vite-specific way.
-    find: /^.*get_scripts$/,
-    replacement: path.resolve(__dirname, "src", "js", "get_scripts_vite"),
-  },
-  {
     // Parcel imports our character icons using a Parcel-specific glob syntax.
     // Redirect to character_icons_vite.ts, where we'll use a Vite-specific glob syntax instead.
     find: /^.*\/assets\/icons\/\*\.webp$/,
