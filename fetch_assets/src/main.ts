@@ -1,4 +1,3 @@
-import path from "path";
 import { fetchAllScripts, readScripts } from "./all_scripts";
 import { downloadCharacterData } from "./character_json";
 import { downloadExtraIcons } from "./extra_icons";
@@ -25,6 +24,7 @@ import {
 import cliProgress from "cli-progress";
 import { Command, Option } from "commander";
 import fs from "fs";
+import path from "path";
 
 const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435,811";
 

@@ -1,11 +1,11 @@
-import fs from "fs";
+import { ScriptData } from "./get_script";
 import {
   Role,
   downloadRoles,
   findNotDownloadedIcons,
 } from "./script_tool_images";
 import cliProgress from "cli-progress";
-import { ScriptData } from "./get_script";
+import fs from "fs";
 
 interface HomebrewMeta {
   id: "_meta";

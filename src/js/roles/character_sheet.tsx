@@ -1,4 +1,3 @@
-import { faCopy } from "@fortawesome/free-solid-svg-icons/faCopy";
 import { CharacterInfo, RoleType } from "../botc/roles";
 import { Script } from "../botc/script";
 import {
@@ -11,6 +10,7 @@ import { FullscreenRole } from "../components/role_fullscreen";
 import { restoreScroll } from "../routing";
 import { visibleClass } from "../tabs";
 import { css } from "@emotion/react";
+import { faCopy } from "@fortawesome/free-solid-svg-icons/faCopy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
