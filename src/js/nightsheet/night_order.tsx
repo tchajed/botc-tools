@@ -80,7 +80,10 @@ const HeaderLabel = styled.span`
   margin-right: 1rem;
 `;
 
-function Header(props: { title: string; firstNight: boolean }): JSX.Element {
+function Header(props: {
+  title: string;
+  firstNight: boolean;
+}): React.JSX.Element {
   const { firstNight } = props;
   const nightLabel = firstNight ? "FIRST NIGHT" : "OTHER NIGHTS";
   return (
@@ -109,7 +112,7 @@ function Details(props: {
   char: CardInfo;
   details: string;
   setCard: SetFullscreenCard;
-}): JSX.Element {
+}): React.JSX.Element {
   const showBluffs = useContext(ShowBluffsContext);
   let details: string = props.details;
   details = details.replace(/If [^.]*:/g, "\n$&\n");
@@ -154,7 +157,7 @@ function CharacterRow(props: {
   firstNight: boolean;
   selected: boolean;
   setCard: SetFullscreenCard;
-}): JSX.Element {
+}): React.JSX.Element {
   const { character, firstNight } = props;
   const details = character.nightDetails(firstNight)?.details || "";
   return (
@@ -191,7 +194,7 @@ function CharacterList(props: {
   selection: Selection | null;
   teensy: boolean;
   setCard: SetFullscreenCard;
-}): JSX.Element {
+}): React.JSX.Element {
   const theme = useTheme();
   const { orders, firstNight } = props;
   let order = [...(firstNight ? orders.firstNight : orders.otherNights)];
@@ -271,7 +274,7 @@ function Sheet(props: {
   selection: Selection | null;
   teensy: boolean;
   setCard: SetFullscreenCard;
-}): JSX.Element {
+}): React.JSX.Element {
   const { script, firstNight, selection, setCard } = props;
   return (
     <div>
@@ -307,7 +310,7 @@ function FullscreenCard({
 }: {
   card: InfoCard | null;
   setCard: SetFullscreenCard;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <Fullscreen
       data={card}
@@ -347,7 +350,7 @@ const ShowBluffsContext: React.Context<() => void> = createContext(() => {
   return;
 });
 
-function PageDivider(): JSX.Element {
+function PageDivider(): React.JSX.Element {
   const height = "10pt";
   return (
     <>
@@ -381,7 +384,7 @@ export function NightOrder(props: {
   validSetup: boolean;
   teensy: boolean;
   anySetup: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const { active, selection, bluffs, validSetup, anySetup } = props;
 
   useEffect(() => {

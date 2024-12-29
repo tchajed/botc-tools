@@ -43,7 +43,7 @@ function addMetaProperty(name: string, content: string) {
   document.head.appendChild(meta);
 }
 
-function ScriptApp({ script }: { script: Script }): JSX.Element {
+function ScriptApp({ script }: { script: Script }): React.JSX.Element {
   const [currentPage, setCurrentPage] = useState<Page>(getUrlPage() || "roles");
   const characters = selectableCharacters(script.characters);
 

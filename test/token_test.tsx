@@ -4,7 +4,7 @@ import { Global, css } from "@emotion/react";
 import { GlobalStyle } from "styles/global_style";
 
 /** All the tokens */
-export function AllTokens(): JSX.Element {
+export function AllTokens(): React.JSX.Element {
   const characters = [...roles.entries()].map(([_, character]) => character);
   return (
     <div className="main">

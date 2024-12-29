@@ -23,7 +23,11 @@ const TagSpan = styled.span`
   padding: 0.1rem;
 `;
 
-function ScriptTitleTags({ script }: { script: ScriptData }): JSX.Element {
+function ScriptTitleTags({
+  script,
+}: {
+  script: ScriptData;
+}): React.JSX.Element {
   // TODO: normalizing these ids is an ugly hack, we should standardize on
   // script tool IDs
   const chars = getCharacterList(script.characters.map((id) => nameToId(id)));
@@ -63,7 +67,9 @@ const listStyle = css`
   }
 `;
 
-export function ScriptList(props: { scripts: ScriptData[] }): JSX.Element {
+export function ScriptList(props: {
+  scripts: ScriptData[];
+}): React.JSX.Element {
   return (
     <ul css={listStyle}>
       {props.scripts.map((script) => {
