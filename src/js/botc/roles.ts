@@ -15,7 +15,6 @@
 import botc_roles from "../../../assets/data/botc_online_roles.json";
 import script_roles from "../../../assets/data/roles.json";
 import { nightorder } from "./nightorder";
-
 /* Custom overrides provided by this app. Some of these simplify or otherwise
  * clarify roles that are in roles.json, some are experimental characters not in
  * that file, and others are homebrew or "oops all amnesiacs" roles. */

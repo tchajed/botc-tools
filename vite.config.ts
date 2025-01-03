@@ -1,7 +1,6 @@
+import react from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
-
-import react from "@vitejs/plugin-react";
 import posthtml from "posthtml";
 import type {
   AliasOptions,

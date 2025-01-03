@@ -13,13 +13,13 @@ import { SearchResults } from "./search_results";
 import { Global, ThemeProvider, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { differenceInDays } from "date-fns";
 import { isCorrectPassword } from "password";
 import { lighten } from "polished";
 import { useEffect, useState } from "react";
 import { GlobalStyle } from "styles/global_style";
 import { IndexStyles } from "styles/index_style";
 import { theme } from "theme";
-import { differenceInDays } from "date-fns";
 
 const BtnSpan = styled.span`
   padding: 0.4rem 0.5rem;
