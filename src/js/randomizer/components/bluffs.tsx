@@ -10,7 +10,7 @@ import React, { useState } from "react";
 export function BluffsToggleBtn(props: {
   selectBluffs: boolean;
   setSelectBluffs: (b: boolean) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { selectBluffs } = props;
   function onChange(e: React.ChangeEvent<HTMLInputElement>) {
     props.setSelectBluffs(e.target.checked);
@@ -38,7 +38,7 @@ export function BluffsToggleBtn(props: {
 export function FullscreenBluffs(props: {
   showBluffs: CharacterInfo[] | null;
   setShowBluffs: (x: null) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <Fullscreen
       data={props.showBluffs}
@@ -66,7 +66,7 @@ export function FullscreenBluffs(props: {
   );
 }
 
-export function BluffList(props: { bluffs: Selection }): JSX.Element {
+export function BluffList(props: { bluffs: Selection }): React.JSX.Element {
   const [showBluffs, setShowBluffs] = useState<CharacterInfo[] | null>(null);
   const { bluffs } = props;
   const bluffList = [...bluffs.values()].map((id) => getCharacter(id));
