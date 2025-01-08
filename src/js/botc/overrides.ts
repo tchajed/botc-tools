@@ -274,6 +274,15 @@ const newRoles: Overrides = {
       "The Demon (even if drunk or poisoned) has a not-in-play good character's ability. You both know which.",
     firstNight: `Show the Boffin and the Demon the THIS CHARACTER SELECTED YOU token, then the Boffin token, then the good character's token.`,
   },
+  xaan: {
+    ability: "On night X, all Townsfolk are poisoned until dusk. [X Outsiders]",
+    firstNight: `If there is 1 Outsider, all Townsfolk are poisoned until dusk.`,
+    otherNights: `If it is Night X, all Townsfolk are poisoned until dusk.`,
+  },
+  wizard: {
+    ability:
+      "Once per game, choose to make a wish.If granted, it might have a price & leave a clue as to its nature.",
+  },
 };
 
 // fabled do not have abilities in the botc online data

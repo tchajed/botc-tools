@@ -49,7 +49,19 @@ export function CharacterIconElement(props: {
     if (!["MINION", "DEMON"].includes(id)) {
       console.warn(`no icon for ${id}`);
     }
-    return <></>;
+    const char = getCharacter(id);
+    // create a fallback icon based on character type (these are provided by the
+    // pocket-grimoire icons)
+    return (
+      <div css={iconStyle.container}>
+        <img
+          css={iconStyle.img}
+          src={iconPath(char.roleType)}
+          alt={name}
+          draggable={false}
+        />
+      </div>
+    );
   }
   return (
     <div css={iconStyle.container}>
