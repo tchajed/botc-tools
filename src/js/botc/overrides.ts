@@ -283,6 +283,9 @@ const newRoles: Overrides = {
     ability:
       "Once per game, choose to make a wish.If granted, it might have a price & leave a clue as to its nature.",
   },
+  bootlegger: {
+    ability: "This script has homebrew characters or rules.",
+  },
 };
 
 // fabled do not have abilities in the botc online data
