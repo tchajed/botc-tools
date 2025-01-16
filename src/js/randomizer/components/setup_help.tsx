@@ -163,6 +163,9 @@ function ModificationExplanation(props: {
         </span>
       );
     }
+    case "xaan": {
+      return <span>(X outsiders)</span>;
+    }
     case "lordoftyphon":
       return (
         <span>
@@ -290,8 +293,12 @@ export function SetupModifiers(props: {
   }
   // TODO: want lord of typhon to be presented differently if it allows
   // selecting minions that don't go in the bag
-  if (selection.has("kazali") || selection.has("lordoftyphon")) {
-    const newKazaliDistributions: Distribution[] = uniqueDistributions(
+  if (
+    selection.has("kazali") ||
+    selection.has("lordoftyphon") ||
+    selection.has("xaan")
+  ) {
+    const collapsedGoodDistributions: Distribution[] = uniqueDistributions(
       newDistributions.map((dist) => {
         return {
           townsfolk: dist.townsfolk + dist.outsider,
@@ -302,7 +309,7 @@ export function SetupModifiers(props: {
       }),
     );
     goalDistributionElement = elementOrList(
-      newKazaliDistributions.map((dist, i) => (
+      collapsedGoodDistributions.map((dist, i) => (
         <KazaliDistr dist={dist} key={i} />
       )),
     );

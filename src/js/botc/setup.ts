@@ -139,6 +139,8 @@ export type SetupModification = (
   | { type: "lordoftyphon" }
   // no demon in bag, +1 townsfolk
   | { type: "summoner" }
+  // arbitrary number of outsiders (X)
+  | { type: "xaan" }
   // +Spartacus (similar to Huntsman)
   | { type: "haruspex" }
   // +0 to +2 legionary, like Village Idiot
@@ -171,6 +173,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   villageidiot: { type: "villageidiot" },
   summoner: { type: "summoner" },
   lordoftyphon: { type: "lordoftyphon" },
+  xaan: { type: "xaan" },
 
   // Fall of Rome
   badomenfallofrome: { type: "drunk", notInBag: true },
@@ -308,6 +311,9 @@ function applyModification(
       start.townsfolk += old_dist.minion;
       start.minion = 0;
       return arbitraryOutsiders(start);
+    }
+    case "xaan": {
+      return arbitraryOutsiders(old_dist);
     }
     case "summoner": {
       const dist = { ...old_dist };
