@@ -11,7 +11,7 @@ export const homebrewRoles: Overrides = {
     homebrew: {
       name: "Actor",
       roleType: "townsfolk",
-      firstNightIndex: nightorder.firstNight("Pukka") + 1,
+      firstNightIndex: nightorder.firstNight("pukka") + 1,
     },
   },
   lout: {
@@ -23,7 +23,7 @@ export const homebrewRoles: Overrides = {
       roleType: "outsider",
       // very early
       firstNightIndex: 1,
-      otherNightsIndex: nightorder.otherNights("Empath"),
+      otherNightsIndex: nightorder.otherNights("empath"),
     },
   },
 };
@@ -40,8 +40,8 @@ export const amnesiacs: Overrides = {
     homebrew: {
       name: "Amnesiac (O)",
       roleType: "outsider",
-      firstNightIndex: nightorder.firstNight("Amnesiac"),
-      otherNightsIndex: nightorder.otherNights("Amnesiac"),
+      firstNightIndex: nightorder.firstNight("amnesiac"),
+      otherNightsIndex: nightorder.otherNights("amnesiac"),
     },
   },
   amnesiacminion: {
@@ -54,8 +54,8 @@ export const amnesiacs: Overrides = {
     homebrew: {
       name: "Amnesiac (M)",
       roleType: "minion",
-      firstNightIndex: nightorder.firstNight("Amnesiac"),
-      otherNightsIndex: nightorder.otherNights("Amnesiac"),
+      firstNightIndex: nightorder.firstNight("amnesiac"),
+      otherNightsIndex: nightorder.otherNights("amnesiac"),
     },
   },
   amnesiacdemon: {
@@ -68,8 +68,8 @@ export const amnesiacs: Overrides = {
     homebrew: {
       name: "Amnesiac (D)",
       roleType: "demon",
-      firstNightIndex: nightorder.firstNight("Amnesiac"),
-      otherNightsIndex: nightorder.otherNights("Amnesiac"),
+      firstNightIndex: nightorder.firstNight("amnesiac"),
+      otherNightsIndex: nightorder.otherNights("amnesiac"),
     },
   },
 };

@@ -47,8 +47,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Cheshire Cat",
       roleType: "demon",
-      firstNightIndex: nightorder.firstNight("Pukka"),
-      otherNightsIndex: nightorder.otherNights("Pukka"),
+      firstNightIndex: nightorder.firstNight("pukka"),
+      otherNightsIndex: nightorder.otherNights("pukka"),
     },
   },
   whiterabbit: {
@@ -58,7 +58,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "White Rabbit",
       roleType: "townsfolk",
-      otherNightsIndex: nightorder.otherNights("Balloonist"),
+      otherNightsIndex: nightorder.otherNights("balloonist"),
     },
   },
   queenofhearts: {
@@ -68,7 +68,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Queen of Hearts",
       roleType: "townsfolk",
-      otherNightsIndex: nightorder.otherNights("Bounty Hunter"),
+      otherNightsIndex: nightorder.otherNights("bountyhunter"),
     },
   },
   lookingglass: {
@@ -80,7 +80,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
       name: "Looking Glass",
       roleType: "outsider",
       // most similar to Sweetheart
-      firstNightIndex: nightorder.firstNight("Empath"),
+      firstNightIndex: nightorder.firstNight("empath"),
     },
   },
   jabberwock: {
@@ -93,8 +93,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Jabberwock",
       roleType: "minion",
-      firstNightIndex: nightorder.firstNight("Cerenovus"),
-      otherNightsIndex: nightorder.otherNights("Cerenovus"),
+      firstNightIndex: nightorder.firstNight("cerenovus"),
+      otherNightsIndex: nightorder.otherNights("cerenovus"),
     },
   },
   knaveofhearts: {
@@ -105,8 +105,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Knave of Hearts",
       roleType: "minion",
-      firstNightIndex: nightorder.firstNight("Poisoner"),
-      otherNightsIndex: nightorder.otherNights("Pit-Hag"),
+      firstNightIndex: nightorder.firstNight("poisoner"),
+      otherNightsIndex: nightorder.otherNights("pithag"),
     },
   },
   tweedledum: {
@@ -117,7 +117,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Tweedledum",
       roleType: "outsider",
-      firstNightIndex: nightorder.firstNight("Butler"),
+      firstNightIndex: nightorder.firstNight("butler"),
     },
   },
   dodo: {
@@ -126,8 +126,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Dodo",
       roleType: "outsider",
-      firstNightIndex: nightorder.firstNight("Empath"),
-      otherNightsIndex: nightorder.otherNights("Undertaker") + 1,
+      firstNightIndex: nightorder.firstNight("empath"),
+      otherNightsIndex: nightorder.otherNights("undertaker") + 1,
     },
   },
   cook: {
@@ -141,7 +141,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Cook",
       roleType: "townsfolk",
-      firstNightIndex: nightorder.firstNight("Chef"),
+      firstNightIndex: nightorder.firstNight("chef"),
     },
   },
   playingcard: {
@@ -152,8 +152,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Playing Card",
       roleType: "townsfolk",
-      firstNightIndex: nightorder.firstNight("Philosopher"),
-      otherNightsIndex: nightorder.otherNights("Philosopher"),
+      firstNightIndex: nightorder.firstNight("philosopher"),
+      otherNightsIndex: nightorder.otherNights("philosopher"),
     },
   },
   marchhare: {
@@ -165,8 +165,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "March Hare",
       roleType: "townsfolk",
-      firstNightIndex: nightorder.firstNight("Washerwoman"),
-      otherNightsIndex: nightorder.otherNights("Undertaker"),
+      firstNightIndex: nightorder.firstNight("washerwoman"),
+      otherNightsIndex: nightorder.otherNights("undertaker"),
     },
   },
   madhatter: {
@@ -177,8 +177,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
       name: "Mad Hatter",
       roleType: "townsfolk",
       // closest to Savant
-      firstNightIndex: nightorder.firstNight("Dreamer") - 1,
-      otherNightsIndex: nightorder.otherNights("Dreamer") - 1,
+      firstNightIndex: nightorder.firstNight("dreamer") - 1,
+      otherNightsIndex: nightorder.otherNights("dreamer") - 1,
     },
   },
   dormouse: {
@@ -189,8 +189,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Dormouse",
       roleType: "townsfolk",
-      firstNightIndex: nightorder.firstNight("Dreamer"),
-      otherNightsIndex: nightorder.otherNights("Dreamer"),
+      firstNightIndex: nightorder.firstNight("dreamer"),
+      otherNightsIndex: nightorder.otherNights("dreamer"),
     },
   },
   walrus: {
@@ -217,7 +217,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Caterpillar",
       roleType: "minion",
-      firstNightIndex: nightorder.firstNight("Poisoner"),
+      firstNightIndex: nightorder.firstNight("poisoner"),
     },
   },
   humptydumpty: {
@@ -228,8 +228,8 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Humpty Dumpty",
       roleType: "townsfolk",
-      firstNightIndex: nightorder.firstNight("Fortune Teller"),
-      otherNightsIndex: nightorder.otherNights("Gambler"),
+      firstNightIndex: nightorder.firstNight("fortuneteller"),
+      otherNightsIndex: nightorder.otherNights("gambler"),
     },
   },
   mockturtle: {
@@ -241,7 +241,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Mock Turtle",
       roleType: "townsfolk",
-      firstNightIndex: nightorder.firstNight("Pixie"),
+      firstNightIndex: nightorder.firstNight("pixie"),
     },
   },
   aliceduchess: {
@@ -251,7 +251,7 @@ export const aliceInWonderland: { [key: string]: Override } = {
     homebrew: {
       name: "Duchess",
       roleType: "townsfolk",
-      otherNightsIndex: nightorder.otherNights("Fortune Teller"),
+      otherNightsIndex: nightorder.otherNights("fortuneteller"),
     },
   },
 };

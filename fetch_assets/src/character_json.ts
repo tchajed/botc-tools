@@ -3,17 +3,23 @@ import fs from "fs";
 
 /** Download JSON files with character metadata and text. */
 export async function downloadCharacterData(assetsPath: string) {
-  // there's also tether.json and game-characters-restrictions.json which we don't download
-  const downloads = ["roles", "jinx", "nightsheet"].map((file) => {
-    return {
-      url: `https://script.bloodontheclocktower.com/data/${file}.json`,
-      name: `${file}.json`,
-    };
-  });
-  downloads.push({
-    url: "https://raw.githubusercontent.com/bra1n/townsquare/develop/src/roles.json",
-    name: "botc_online_roles.json",
-  });
+  // we no longer get any data from
+  // https://script.bloodontheclocktower.com/data/${file}.json, preferring the
+  // unofficial but well-maintained nicholas-eden/townsquare data
+  //
+  // see https://github.com/nicholas-eden/townsquare/tree/develop/src
+  const downloads: { url: string; name: string }[] = [];
+  for (const { name, dest } of [
+    { name: "roles.json", dest: "roles.json" },
+    { name: "nightsheet.json", dest: "nightsheet.json" },
+    { name: "hatred.json", dest: "jinx.json" },
+    { name: "fabled.json", dest: "fabled.json" },
+  ]) {
+    downloads.push({
+      url: `https://raw.githubusercontent.com/nicholas-eden/townsquare/refs/heads/develop/src/${name}`,
+      name: dest,
+    });
+  }
   await Promise.all(
     downloads.map(async (file) => {
       const destFile = `${assetsPath}/${file.name}`;

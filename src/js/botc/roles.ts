@@ -12,8 +12,8 @@
  * for a night sheet. There are also night orderings here, but they're ignored
  * in favor of the official script tool.
  */
-import botc_roles from "../../../assets/data/botc_online_roles.json";
-import script_roles from "../../../assets/data/roles.json";
+import fabled_botc_roles from "../../../assets/data/fabled.json";
+import botc_roles from "../../../assets/data/roles.json";
 import { nightorder } from "./nightorder";
 /* Custom overrides provided by this app. Some of these simplify or otherwise
  * clarify roles that are in roles.json, some are experimental characters not in
@@ -90,7 +90,7 @@ export const MinionInfo: CharacterInfo = new CharacterInfo(
 MinionInfo.firstNight = {
   details: `If 7 or more players: <tab>Wake all Minions. Show the THIS IS THE DEMON token.
     <tab>Point to the Demon.`,
-  index: nightorder.firstNight("MINION"),
+  index: nightorder.firstNight("minion"),
 };
 
 export const NonTeensyMinionInfo: CharacterInfo = new CharacterInfo(
@@ -102,7 +102,7 @@ export const NonTeensyMinionInfo: CharacterInfo = new CharacterInfo(
 NonTeensyMinionInfo.firstNight = {
   details: `Wake all Minions. Show the THIS IS THE DEMON token.
   Point to the Demon.`,
-  index: nightorder.firstNight("MINION"),
+  index: nightorder.firstNight("minion"),
 };
 
 export const DemonInfo: CharacterInfo = new CharacterInfo(
@@ -115,7 +115,7 @@ DemonInfo.firstNight = {
   details: `If there are 7 or more players:<tab>Wake the Demon.
   <tab>Show the THESE ARE YOUR MINIONS token. Point to all Minions.
   <tab>Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
-  index: nightorder.firstNight("DEMON"),
+  index: nightorder.firstNight("demon"),
 };
 
 export const NonTeensyDemonInfo: CharacterInfo = new CharacterInfo(
@@ -128,7 +128,7 @@ NonTeensyDemonInfo.firstNight = {
   details: `Wake the Demon.
   Show the THESE ARE YOUR MINIONS token. Point to all Minions.
   Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
-  index: nightorder.firstNight("DEMON"),
+  index: nightorder.firstNight("demon"),
 };
 
 export function nameToId(name: string): string {
@@ -138,23 +138,12 @@ export function nameToId(name: string): string {
   return name.toLowerCase().replaceAll(/[ '_-]/g, "");
 }
 
-function versionToEdition(version: string): Edition {
-  if (version == "1 - Trouble Brewing") {
-    return "tb";
-  } else if (version == "2 - Bad Moon Rising") {
-    return "bmr";
-  } else if (version == "3 - Sects and Violets") {
-    return "snv";
-  }
-  return "other";
-}
-
 function useOverride(id: string, info: CharacterInfo) {
   info.ability = overrides.ability(id) ?? info.ability;
   const firstNight = overrides.firstNight(id);
   if (firstNight !== null) {
     const index =
-      overrides.firstNightIndex(id) ?? nightorder.firstNight(info.name);
+      overrides.firstNightIndex(id) ?? nightorder.firstNight(info.id);
     info.firstNight = {
       index,
       details: firstNight,
@@ -163,7 +152,7 @@ function useOverride(id: string, info: CharacterInfo) {
   const otherNights = overrides.otherNights(id);
   if (otherNights !== null) {
     const index =
-      overrides.otherNightsIndex(id) ?? nightorder.otherNights(info.name);
+      overrides.otherNightsIndex(id) ?? nightorder.otherNights(info.id);
     info.otherNights = {
       index,
       details: otherNights,
@@ -171,43 +160,60 @@ function useOverride(id: string, info: CharacterInfo) {
   }
 }
 
+// representation of roles used in roles.json and fabled.json
+type RoleJsonObject = {
+  id: string;
+  name: string;
+  team: string;
+  firstNightReminder: string;
+  firstNight?: number; // only appears in fabled
+  otherNightReminder: string;
+  otherNight?: number; // only appears in fabled
+  reminders: string[];
+  setup: boolean;
+  edition: string;
+  ability: string;
+};
+
+function aggregateRoles(): RoleJsonObject[] {
+  const roles: RoleJsonObject[] = [];
+  for (const role of botc_roles) {
+    roles.push(role);
+  }
+  for (const role of fabled_botc_roles) {
+    roles.push({
+      edition: "other",
+      ...role,
+    });
+  }
+  return roles;
+}
+
 function createRoleData(): Map<string, CharacterInfo> {
   const roles: Map<string, CharacterInfo> = new Map();
 
-  for (const role of script_roles) {
-    // these "id" fields are actually names
+  for (const role of aggregateRoles()) {
     const id = nameToId(role.id.toLowerCase());
     const name: string = role.name;
-    const roleType = role.roleType;
-    const validRole = RoleTypes.find((r) => r == roleType);
-    if (validRole) {
-      const info = new CharacterInfo(
-        id,
-        name,
-        validRole,
-        versionToEdition(role.version),
-      );
-      roles.set(id, info);
-    } else {
-      console.warn(`invalid role ${roleType} for ${id}`);
+    let team: string = role.team;
+    if (team == "traveller") {
+      team = "travellers" as RoleType;
     }
-  }
-
-  for (const role of botc_roles) {
-    const id = role.id;
-    const info = roles.get(id);
-    if (info === undefined) {
-      // a character in the online tool but not known to the script tool -
-      // applies to Mephit (which was renamed)
+    const validRole = RoleTypes.find((r) => r == team);
+    if (!validRole) {
+      console.warn(`invalid team ${team} for ${id}`);
       continue;
     }
+    const edition = Editions.find((e) => e == role.edition) || "other";
 
+    const info = new CharacterInfo(id, name, validRole, edition);
+    roles.set(id, info);
     info.ability = role.ability;
 
     if (role.firstNightReminder != "") {
-      const index = nightorder.getFirstNight(info.name);
+      const index = role.firstNight || nightorder.getFirstNight(info.id);
       if (index == null && info.roleType != "travellers") {
-        console.warn(`${id} not found in night sheet`);
+        console.warn(`${id} not found in first night sheet`);
       }
       info.firstNight = {
         details: role.firstNightReminder,
@@ -215,9 +221,9 @@ function createRoleData(): Map<string, CharacterInfo> {
       };
     }
     if (role.otherNightReminder != "") {
-      const index = nightorder.getOtherNights(info.name);
+      const index = role.otherNight || nightorder.getOtherNights(info.id);
       if (index == null && info.roleType != "travellers") {
-        console.warn(`${id} not found in night sheet`);
+        console.warn(`${id} not found in other night sheet`);
       }
       info.otherNights = {
         details: role.otherNightReminder,
@@ -230,6 +236,7 @@ function createRoleData(): Map<string, CharacterInfo> {
   for (const id of Object.keys(overrides.all)) {
     const override = overrides.all[id];
     if (override.homebrew !== undefined) {
+      // create a brand-new character from scratch
       const data = override.homebrew;
       const char = new CharacterInfo(id, data.name, data.roleType, "other");
       useOverride(id, char);
