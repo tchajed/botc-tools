@@ -13,7 +13,7 @@ export function FullscreenRole(props: {
   allAmne?: boolean;
   fsRole: string | null;
   setFsRole: (r: null) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <Fullscreen
       data={props.fsRole}

@@ -42,7 +42,7 @@ const iconStyle = {
 export function CharacterIconElement(props: {
   id: string;
   name?: string;
-}): JSX.Element {
+}): React.JSX.Element {
   const { id } = props;
   const name = props.name || getCharacter(id).name;
   if (!iconPath(id)) {
