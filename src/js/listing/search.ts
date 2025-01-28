@@ -6,12 +6,13 @@ const FAVORITE_TITLES: Set<string> = new Set([
   "Reptiles II: Lizard in the City",
   "Catfishing",
   "No Roles Barred",
-  "Whose Cult Is It Anyway?",
+  // "Whose Cult Is It Anyway?",
   "Creme De La Creme",
   // "Laissez un Faire",
   // "High Stakes Betting",
   "Race to the Bottom",
-  "Onion Pies",
+  "Magical Onion Pies",
+  "Our Mutual Friend",
 ]);
 
 function characterList(script: ScriptData): string[] {
