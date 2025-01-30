@@ -82,7 +82,7 @@ export class CharacterInfo {
 }
 
 export const MinionInfo: CharacterInfo = new CharacterInfo(
-  "MINION",
+  "minion",
   "Minion Info",
   "minion",
   "other",
@@ -106,7 +106,7 @@ NonTeensyMinionInfo.firstNight = {
 };
 
 export const DemonInfo: CharacterInfo = new CharacterInfo(
-  "DEMON",
+  "demon",
   "Demon Info",
   "demon",
   "other",
@@ -255,8 +255,8 @@ function createRoleData(): Map<string, CharacterInfo> {
   // drunk override puts it in the night order; need to give it a position
   roles.get("drunk")!.firstNight!.index = -1;
 
-  roles.set("MINION", MinionInfo);
-  roles.set("DEMON", DemonInfo);
+  roles.set("minion", MinionInfo);
+  roles.set("demon", DemonInfo);
 
   // add two copies of Village Idiot or Legionary for the extra selections
   for (const id of ["villageidiot", "legionaryfallofrome"]) {

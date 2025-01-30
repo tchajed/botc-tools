@@ -46,7 +46,7 @@ export function CharacterIconElement(props: {
   const { id } = props;
   const name = props.name || getCharacter(id).name;
   if (!iconPath(id)) {
-    if (!["MINION", "DEMON"].includes(id)) {
+    if (!["minion", "demon"].includes(id)) {
       console.warn(`no icon for ${id}`);
     }
     const char = getCharacter(id);

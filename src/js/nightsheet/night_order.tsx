@@ -198,7 +198,7 @@ function CharacterList(props: {
   if (props.selection != null || props.teensy) {
     if (props.teensy) {
       // skip minion and demon info
-      order = order.filter((c) => c.id != "MINION" && c.id != "DEMON");
+      order = order.filter((c) => c.id != "minion" && c.id != "demon");
       order = order.map((c) => {
         if (c.id == "lunatic") {
           return TeensyLunatic;
@@ -207,10 +207,10 @@ function CharacterList(props: {
       });
     } else {
       order = order.map((c) => {
-        if (c.id == "MINION") {
+        if (c.id == "minion") {
           return NonTeensyMinionInfo;
         }
-        if (c.id == "DEMON") {
+        if (c.id == "demon") {
           return NonTeensyDemonInfo;
         }
         return c;
