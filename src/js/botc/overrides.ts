@@ -160,6 +160,10 @@ The new Snake Charmer is poisoned.
       "The Lleech points to a player. Place the Poisoned reminder token.",
     otherNights: "The Lleech points to a player. That player dies.",
   },
+  widow: {
+    firstNight:
+      "Show the Grimoire to the Widow for as long as they need. The Widow points to a player. That player is poisoned. Wake a good player. Show the THIS CHARACTER IS IN PLAY card, then the Widow character token.",
+  },
 };
 
 // new roles not in BotC online
