@@ -4,9 +4,17 @@ import images from "../../../assets/icons/*.webp";
 import { css } from "@emotion/react";
 import { characterIdWithoutNumber, getCharacter } from "botc/roles";
 
-export function iconPath(id: string): string {
+function iconPath(id: string): string {
   id = characterIdWithoutNumber(id);
   return images[`Icon_${id}`];
+}
+
+export function characterIconPath(char: {
+  id: string;
+  roleType: string;
+}): string {
+  // fallback to role type for a generic icon
+  return iconPath(char.id) ?? iconPath(char.roleType);
 }
 
 export function characterClass(character: { roleType: string }): string {
@@ -44,30 +52,17 @@ export function CharacterIconElement(props: {
   name?: string;
 }): JSX.Element {
   const { id } = props;
-  const name = props.name || getCharacter(id).name;
-  if (!iconPath(id)) {
-    if (!["minion", "demon"].includes(id)) {
-      console.warn(`no icon for ${id}`);
-    }
-    const char = getCharacter(id);
-    // create a fallback icon based on character type (these are provided by the
-    // pocket-grimoire icons)
-    return (
-      <div css={iconStyle.container}>
-        <img
-          css={iconStyle.img}
-          src={iconPath(char.roleType)}
-          alt={name}
-          draggable={false}
-        />
-      </div>
-    );
+  const char = getCharacter(id);
+  const name = props.name || char.name;
+  if (!iconPath(id) && !["minion", "demon"].includes(id)) {
+    // warn that a fallback is being used
+    console.warn(`no icon for ${id}`);
   }
   return (
     <div css={iconStyle.container}>
       <img
         css={iconStyle.img}
-        src={iconPath(id)}
+        src={characterIconPath(char)}
         alt={name}
         draggable={false}
       />

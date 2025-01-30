@@ -1,5 +1,5 @@
 import { BagCharacter } from "../../botc/setup";
-import { iconPath } from "../../components/character_icon";
+import { characterIconPath } from "../../components/character_icon";
 import { circleWidthAt, drawTextAlongArc, setCanvasResolution } from "./canvas";
 import React, { useEffect, useRef } from "react";
 
@@ -149,7 +149,7 @@ export function drawToken(
 
   // create an image with the icon and draw to ctx when ready
   const img = new Image();
-  img.src = iconPath(character.id);
+  img.src = characterIconPath(character);
   // make sure asynchronous draw uses the current transform
   const tform = ctx.getTransform();
   const r = new Promise<void>((resolve) => {
