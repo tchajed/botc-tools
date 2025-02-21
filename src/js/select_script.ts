@@ -16,23 +16,42 @@ function selectedScriptId(): string {
   return "178";
 }
 
+interface ScriptMeta {
+  id: string;
+  name: string;
+  author: string;
+}
+
+interface ScriptCharacter {
+  id: string;
+}
+
+function parseJson(json: string): ScriptData {
+  const parsed: (ScriptMeta | ScriptCharacter | string)[] = JSON.parse(json);
+  const meta = parsed.find(
+    (item): item is ScriptMeta =>
+      typeof item === "object" && item.id === "_meta",
+  )!;
+  const characters = parsed
+    .filter((item): item is ScriptCharacter | string => item !== meta)
+    .map((item) => (typeof item === "string" ? item : item.id));
+
+  return {
+    pk: 0,
+    title: meta ? meta.name : "Unknown Title",
+    author: meta ? meta.author : "Unknown Author",
+    characters: characters,
+    allAmne: false,
+  };
+}
+
 function getJson(): ScriptData | null {
   const params = new URLSearchParams(window.location.search);
   const json = params.get("json");
   if (json === null) {
     return null;
   }
-  const parsed = JSON.parse(json);
-  const title = parsed[0];
-  const characters = parsed.slice(1);
-
-  return {
-    pk: 0,
-    title: title,
-    author: "author",
-    characters: characters,
-    allAmne: false,
-  };
+  return parseJson(json);
 }
 
 export async function selectedScript(): Promise<ScriptData> {

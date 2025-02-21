@@ -3,3 +3,4 @@ dist/
 .parcel-cache/
 yarn-error.log
 test/screenshots/
+/.idea/
