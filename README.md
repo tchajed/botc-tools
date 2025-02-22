@@ -78,6 +78,55 @@ yarn test-screenshots
 `test-screenshots` takes some options, run it with `yarn test-screenshots
 --help` to see them.
 
+
+## Building and Running with Docker
+
+To build and run the application using Docker, follow these steps:
+
+### Build the Docker Image
+
+First, build the Docker image using the provided `Dockerfile`:
+
+```sh
+docker build -t botc:latest .
+```
+
+### Run the Docker Container
+
+To run the Docker container and map the necessary ports, use the following command:
+
+```sh
+docker run -p 8000:8000 -it botc:latest
+```
+
+This command maps port 8000 on your host machine to port 8000 in the container, making the application accessible at `http://localhost:8000`.
+
+### Using Docker Compose
+
+Alternatively, you can use Docker Compose to build and run the application. Ensure you have a `docker-compose.yml` file with the appropriate configuration.
+
+To start the application with Docker Compose, run:
+
+```sh
+docker-compose up
+```
+
+This will build the image (if not already built) and start the container with the port mappings specified in the `docker-compose.yml` file.
+
+### Stopping the Docker Container
+
+To stop the running Docker container, press `Ctrl+C` in the terminal where the container is running, or use the following command to stop it gracefully:
+
+```sh
+docker stop <container_id>
+```
+
+Replace `<container_id>` with the actual container ID, which you can find using:
+
+```sh
+docker ps
+```
+
 ## Acknowledgments and Copyrights
 
 - [Blood on the Clocktower](https://bloodontheclocktower.com/) is a trademark of
