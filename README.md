@@ -78,7 +78,6 @@ yarn test-screenshots
 `test-screenshots` takes some options, run it with `yarn test-screenshots
 --help` to see them.
 
-
 ## Building and Running with Docker
 
 To build and run the application using Docker, follow these steps:
