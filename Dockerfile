@@ -28,6 +28,12 @@ WORKDIR /app
 # Copy the built files from the builder stage
 COPY --from=builder /app/dist /app
 
+# User
+RUN groupadd -r botc && useradd -r -g botc -d /app -c "BOTC User" -s /bin/bash botc
+RUN chown -R botc:botc /app
+USER botc:botc
+
+
 # Expose the port the app runs on
 EXPOSE 8000
 
