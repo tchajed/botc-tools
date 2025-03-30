@@ -225,7 +225,7 @@
     "name": "New Player",
     "team": "minion",
     "ability": "Each night, choose a player: they are drunk tonight and tomorrow day.",
-    "firstNight": 14,
+    "firstNight": 13,
     "otherNight": 1
   },
   {
