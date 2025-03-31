@@ -186,6 +186,12 @@ function ModificationExplanation(props: {
           bag)
         </span>
       );
+    case "minion_ppp":
+      return (
+        <span>
+          (-1 <span className="evil">Minion</span>)
+        </span>
+      );
   }
 }
 

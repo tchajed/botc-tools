@@ -147,6 +147,8 @@ export type SetupModification = (
   | { type: "legionary" }
   // +2 good, no demon in bag
   | { type: "hannibal"; notInBag: true }
+  // -1 Minion
+  | { type: "minion_ppp" }
 ) & { notInBag?: boolean };
 
 function outsiders(...delta: number[]): SetupModification {
@@ -163,6 +165,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   marionette: { type: "marionette", notInBag: true },
   godfather: outsiders(+1, -1),
   sentinel: outsiders(0, +1, -1),
+  lyingppp: outsiders(+1, -1),
   huntsman: { type: "huntsman" },
   riot: { type: "riot" },
   legion: { type: "legion" },
@@ -181,6 +184,9 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   haruspexfallofrome: { type: "haruspex" },
   legionaryfallofrome: { type: "legionary" },
   hannibalfallofrome: { type: "hannibal", notInBag: true },
+
+  // Pedagogic Pits & Pendulums
+  minionppp: { type: "minion_ppp" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -338,6 +344,12 @@ function applyModification(
       const dist = { ...old_dist };
       // the demon remains selected, but isn't distributed
       // an extra townsfolk is added so two good players can be Hannibal
+      dist.townsfolk++;
+      return [dist];
+    }
+    case "minion_ppp": {
+      const dist = { ...old_dist };
+      dist.minion--;
       dist.townsfolk++;
       return [dist];
     }
