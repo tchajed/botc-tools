@@ -11,7 +11,7 @@
     "reminders": ["Learns"],
     "name": "Démone",
     "team": "townsfolk",
-    "ability": "You start knowing which Demon is in-play.",
+    "ability": "You start knowing which Demon is in-play. If there are 3 Demons in-play, good wins.",
     "firstNight": 21
   },
   {
@@ -28,10 +28,10 @@
   {
     "id": "notanoutsider_ppp",
     "image": ["https://i.imgur.com/KCQCjQg.png"],
-    "firstNightReminder": "Show the Not-An-Outsider 1 not-in-play Outsider character token.",
+    "firstNightReminder": "Show the Not-An-Outsider three true statements.",
     "name": "Not-An-Outsider",
     "team": "townsfolk",
-    "ability": "You start knowing 1 Outsider that is not-in-play.",
+    "ability": "You start knowing 3 true statements. 1 of them, if said publicly, will cause you to join the team that loses, even if you are dead.",
     "firstNight": 20
   },
   {
@@ -42,18 +42,17 @@
     "setup": true,
     "name": "Evil",
     "team": "townsfolk",
-    "ability": "Each night, choose 2 players: learn how many are evil. Choose new players each night.",
+    "ability": "Each night, choose 2 players: learn how many are evil. You must choose new players each night.",
     "firstNight": 23,
     "otherNight": 21
   },
   {
     "id": "acharacter_ppp",
     "image": ["https://i.imgur.com/zDtURUe.png"],
-    "otherNightReminder": "Show the hand signal for the number (0, 1, 2, etc) of players who publicly stated their character truthfully today.",
-    "reminders": ["Learns", "Learns", "Learns", "Learns", "Learns"],
+    "otherNightReminder": "Do whatever is needed to simulate the character A Character thinks they are.",
     "name": "A Character",
     "team": "townsfolk",
-    "ability": "Each night*, you learn how many players stated their true character publicly.",
+    "ability": "You think you are a good character not on this script, & might have their ability. Each night you might become a good character not on this script.",
     "otherNight": 22
   },
   {
@@ -189,7 +188,7 @@
     "setup": true,
     "name": "Lying",
     "team": "minion",
-    "ability": "Players publicly lying about their character during nominations might be executed. You register as Good. [+1 or -1 Outsider]"
+    "ability": "Players publicly 'mad' about being a character they are not might be executed. You register as Good. [+1 or -1 Outsider]"
   },
   {
     "id": "anything_ppp",
@@ -211,21 +210,21 @@
   {
     "id": "impish_ppp",
     "image": ["https://i.imgur.com/hrsIsjM.png"],
-    "otherNightReminder": "The Impish points to a player. That player dies. Or, if that player was a \"new player\" and there are no other Impish in play: The Impish dies instead of the chosen player. The chosen player is now an evil Impish. Wake the new Impish. Show the YOU ARE card, then the Impish token. Show YOU ARE EVIL.",
+    "otherNightReminder": "The Impish points to a player. That player dies. Or, if that player was a \"new player\" and there are no other Impish in play: The Impish dies instead of the chosen player. The chosen player is now an evil Impish. Wake the new Impish. Show the YOU ARE card, then the Imp! token. Show YOU ARE EVIL.",
     "reminders": ["Dead"],
     "name": "Impish",
     "team": "demon",
-    "ability": "Each night*, choose a player: they die. The 1st \"new player\" this kills becomes an evil Impish & you die instead.",
+    "ability": "Each night*, choose a player: they die. The 1st \"new player\" this kills becomes an evil \"Imp!\" & you die instead.",
     "otherNight": 12
   },
   {
     "id": "regularimp_ppp",
     "image": ["https://i.imgur.com/gIQNouK.png"],
-    "otherNightReminder": "If a Minion became the Regular Imp today: Show the YOU ARE card, then the Regular Imp token. The Regular Imp points to a player. That player might die.",
+    "otherNightReminder": "If a Minion became the Regular Imp today: Show the YOU ARE card, then the Impish token. The Impish points to a player. That player might die.",
     "reminders": ["Dead"],
     "name": "Regular Imp",
     "team": "demon",
-    "ability": "Each night*, choose a player: they might die. The 1st time you die, a Minion becomes the Regular Imp.",
+    "ability": "Each night*, choose a player: they might die. The 1st time you die, a Minion becomes the Impish.",
     "otherNight": 13
   },
   {
@@ -236,18 +235,18 @@
     "reminders": ["Dead", "Poisoned", "Poisoned"],
     "name": "Not An Imp Game",
     "team": "demon",
-    "ability": "Each night, choose a player: they are poisoned. The previously poisoned player dies then becomes healthy.",
+    "ability": "Each night, choose a player: they are poisoned. The previously chosen player dies then becomes healthy.",
     "firstNight": 14,
     "otherNight": 14
   },
   {
     "id": "imp_ppp",
     "image": ["https://i.imgur.com/iceaOZE.png"],
-    "otherNightReminder": "The Imp! kills a player. If they chose themselves: replace an alive Minion with an Imp! token. Show them YOU ARE and then the Imp! token.",
+    "otherNightReminder": "The Imp! kills a player. If they chose themselves: replace an alive Minion with a Regular Imp token. Show them YOU ARE and then the Regular Imp token.",
     "reminders": ["Dead"],
     "name": "Imp!",
     "team": "demon",
-    "ability": "Each night*, choose a player: they die. If you kill yourself this way, a Minion becomes the Imp!",
+    "ability": "Each night*, choose a player: they die. If you kill yourself this way, a Minion becomes the Regular Imp",
     "otherNight": 15
   }
 ]

@@ -1,5 +1,6 @@
 import {
   CharacterInfo,
+  getCharacter,
   NonTeensyDemonInfo,
   NonTeensyMinionInfo,
   TeensyLunatic,
@@ -68,6 +69,17 @@ function characterToShow(token: string, char: CardInfo): CardInfo | null {
     ].includes(char.id)
   ) {
     return char;
+  }
+  if (token == "YOU ARE") {
+    if (char.id == "imp" + "ppp") {
+      return getCharacter("regularimp" + "ppp");
+    }
+    if (char.id == "regularimp" + "ppp") {
+      return getCharacter("impish" + "ppp");
+    }
+    if (char.id == "impish" + "ppp") {
+      return getCharacter("imp" + "ppp");
+    }
   }
   return null;
 }
