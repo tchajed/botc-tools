@@ -197,6 +197,26 @@
   },
   {
     "id": "regularimp_ppp",
+    "otherNightReminder": "If a Minion became the Regular Imp today: Show the YOU ARE card, then the Impish token. The Impish points to a player. That player might die.",
+    "reminders": ["Dead"],
+    "name": "Regular Imp",
+    "team": "demon",
+    "ability": "Each night*, choose a player: they might die. The 1st time you die, a Minion becomes the Impish.",
+    "otherNight": 13
+  },
+  {
+    "id": "notanimpgame_ppp",
+    "firstNightReminder": "The Not An Imp Game points to a player. That player is poisoned.",
+    "otherNightReminder": "The Not An Imp Game points to a player. That player is poisoned. The previously poisoned player dies.",
+    "reminders": ["Dead", "Poisoned", "Poisoned"],
+    "name": "Not An Imp Game",
+    "team": "demon",
+    "ability": "Each night, choose a player: they are poisoned. The previously chosen player dies then becomes healthy.",
+    "firstNight": 14,
+    "otherNight": 14
+  },
+  {
+    "id": "imp_ppp",
     "otherNightReminder": "The Imp! kills a player. If they chose themselves: replace an alive Minion with a Regular Imp token. Show them YOU ARE and then the Regular Imp token.",
     "reminders": ["Dead"],
     "name": "Imp!",
