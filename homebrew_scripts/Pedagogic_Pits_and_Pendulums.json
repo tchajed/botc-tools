@@ -6,7 +6,6 @@
   },
   {
     "id": "démone_ppp",
-    "image": ["https://i.imgur.com/ataNzAa.png"],
     "firstNightReminder": "Show the Démone the in-play Demon character token.",
     "reminders": ["Learns"],
     "name": "Démone",
@@ -16,7 +15,6 @@
   },
   {
     "id": "minion_ppp",
-    "image": ["https://i.imgur.com/jJneifV.png"],
     "otherNightReminder": "If the Minion was executed today: Wake a Townsfolk player, show THIS CHARACTER SELECTED YOU, the Minion token, and the Minion character ability they've gained. Show YOU ARE EVIL.",
     "setup": true,
     "reminders": ["Minion"],
@@ -27,7 +25,6 @@
   },
   {
     "id": "notanoutsider_ppp",
-    "image": ["https://i.imgur.com/KCQCjQg.png"],
     "firstNightReminder": "Show the Not-An-Outsider three true statements.",
     "name": "Not-An-Outsider",
     "team": "townsfolk",
@@ -36,7 +33,6 @@
   },
   {
     "id": "evil_ppp",
-    "image": ["https://i.imgur.com/613Bk1U.png"],
     "firstNightReminder": "The Evil points to two players. Show the finger signal (0, 1, 2) for the number of evil players among them.",
     "otherNightReminder": "The Evil points to two players. Show the finger signal (0, 1, 2) for the number of evil players among them.",
     "setup": true,
@@ -48,7 +44,6 @@
   },
   {
     "id": "acharacter_ppp",
-    "image": ["https://i.imgur.com/zDtURUe.png"],
     "otherNightReminder": "Do whatever is needed to simulate the character A Character thinks they are.",
     "name": "A Character",
     "team": "townsfolk",
@@ -57,7 +52,6 @@
   },
   {
     "id": "poisoned_ppp",
-    "image": ["https://i.imgur.com/eLBDpnl.png"],
     "otherNightReminder": "The Poisoned points to a living player. Either the Poisoned, or the chosen player, is poisoned. Show the Poisoned their chosen player's alignment.",
     "reminders": ["Poisoned"],
     "name": "Poisoned",
@@ -67,14 +61,12 @@
   },
   {
     "id": "townsfolk_ppp",
-    "image": ["https://i.imgur.com/9hb2REv.png"],
     "name": "Townsfolk",
     "team": "townsfolk",
     "ability": "Each day, you may visit the Storyteller to learn if you become a Townsfolk."
   },
   {
     "id": "storyteller_ppp",
-    "image": ["https://i.imgur.com/4yORpBV.png"],
     "reminders": ["Will", "Won't"],
     "name": "Storyteller",
     "team": "townsfolk",
@@ -82,7 +74,6 @@
   },
   {
     "id": "hardclaiming_ppp",
-    "image": ["https://i.imgur.com/zKioinZ.png"],
     "reminders": ["Hard Claim"],
     "otherNightReminder": "If the Hard Claim target died tonight, the game is over and good has won.",
     "name": "Hard Claiming",
@@ -92,7 +83,6 @@
   },
   {
     "id": "outsider_ppp",
-    "image": ["https://i.imgur.com/e3QGHLp.png"],
     "otherNightReminder": "If the Outsider died tonight: Show the Outsider the Grimoire with all the tokens jumbled for a few seconds.",
     "name": "Outsider",
     "team": "townsfolk",
@@ -101,7 +91,6 @@
   },
   {
     "id": "executed_ppp",
-    "image": ["https://i.imgur.com/fRJJRR0.png"],
     "otherNightReminder": "If Executed was executed today: Show that player 2 character tokens belonging to players that voted.",
     "reminders": ["Executed Today"],
     "name": "Executed",
@@ -111,7 +100,6 @@
   },
   {
     "id": "notdead_ppp",
-    "image": ["https://i.imgur.com/vCZAsbQ.png"],
     "otherNightReminder": "If the Not Dead died today: Show them a dead character's token. If they have been executed twice, they might resurrect.",
     "reminders": ["Learns", "Executed Twice", "Resurrects"],
     "name": "Not Dead",
@@ -121,7 +109,6 @@
   },
   {
     "id": "aiyamdrunk_ppp",
-    "image": ["https://i.imgur.com/Rv5bEXZ.png"],
     "reminders": ["Mad"],
     "setup": true,
     "name": "Aiyamdrunk",
@@ -130,7 +117,6 @@
   },
   {
     "id": "notgood_ppp",
-    "image": ["https://i.imgur.com/bGIvNFp.png"],
     "firstNightReminder": "Publicly announce that a mistake has been made.",
     "otherNightReminder": "Publicly announce that a mistake has been made.",
     "reminders": ["Announce"],
@@ -142,7 +128,6 @@
   },
   {
     "id": "nominatingmyself_ppp",
-    "image": ["https://i.imgur.com/fStA005.png"],
     "otherNightReminder": "The Nominating Myself might die or resurrect.",
     "reminders": ["Resurrected", "Died"],
     "name": "Nominating Myself",
@@ -152,14 +137,12 @@
   },
   {
     "id": "oneofthesethree_ppp",
-    "image": ["https://i.imgur.com/906Iz1l.png"],
     "name": "One'ofthese'Three",
     "team": "outsider",
     "ability": "You might register as your living neighbors' characters, & as an evil Minion."
   },
   {
     "id": "mad_ppp",
-    "image": ["https://i.imgur.com/1VlBkqt.png"],
     "reminders": ["Ability works"],
     "firstNightReminder": "Wake the Mad and have them use the ability they think they have. It might work.",
     "otherNightReminder": "Wake the Mad and have them use the ability they think they have. It might work.",
@@ -171,7 +154,6 @@
   },
   {
     "id": "newplayer_ppp",
-    "image": ["https://i.imgur.com/vUXfLC5.png"],
     "firstNightReminder": "The New Player picks a player to drunk.",
     "otherNightReminder": "The New Player picks a player to drunk.",
     "reminders": ["Drunk"],
@@ -183,7 +165,6 @@
   },
   {
     "id": "lying_ppp",
-    "image": ["https://i.imgur.com/Lcy0YWJ.png"],
     "reminders": ["Lying"],
     "setup": true,
     "name": "Lying",
@@ -192,7 +173,6 @@
   },
   {
     "id": "anything_ppp",
-    "image": ["https://i.imgur.com/k72JErT.png"],
     "otherNightReminder": "Wake the Anything and use their newest ability.",
     "reminders": ["Wake"],
     "name": "Anything",
@@ -202,14 +182,12 @@
   },
   {
     "id": "inplay_ppp",
-    "image": ["https://i.imgur.com/nscvpbC.png"],
     "name": "In-Play",
     "team": "minion",
     "ability": "Once per game, you may publicly guess all players' characters. If all good player guesses are correct, your team wins."
   },
   {
     "id": "impish_ppp",
-    "image": ["https://i.imgur.com/hrsIsjM.png"],
     "otherNightReminder": "The Impish points to a player. That player dies. Or, if that player was a \"new player\" and there are no other Impish in play: The Impish dies instead of the chosen player. The chosen player is now an evil Impish. Wake the new Impish. Show the YOU ARE card, then the Imp! token. Show YOU ARE EVIL.",
     "reminders": ["Dead"],
     "name": "Impish",
@@ -219,29 +197,6 @@
   },
   {
     "id": "regularimp_ppp",
-    "image": ["https://i.imgur.com/gIQNouK.png"],
-    "otherNightReminder": "If a Minion became the Regular Imp today: Show the YOU ARE card, then the Impish token. The Impish points to a player. That player might die.",
-    "reminders": ["Dead"],
-    "name": "Regular Imp",
-    "team": "demon",
-    "ability": "Each night*, choose a player: they might die. The 1st time you die, a Minion becomes the Impish.",
-    "otherNight": 13
-  },
-  {
-    "id": "notanimpgame_ppp",
-    "image": ["https://i.imgur.com/I7532wG.png"],
-    "firstNightReminder": "The Not An Imp Game points to a player. That player is poisoned.",
-    "otherNightReminder": "The Not An Imp Game points to a player. That player is poisoned. The previously poisoned player dies.",
-    "reminders": ["Dead", "Poisoned", "Poisoned"],
-    "name": "Not An Imp Game",
-    "team": "demon",
-    "ability": "Each night, choose a player: they are poisoned. The previously chosen player dies then becomes healthy.",
-    "firstNight": 14,
-    "otherNight": 14
-  },
-  {
-    "id": "imp_ppp",
-    "image": ["https://i.imgur.com/iceaOZE.png"],
     "otherNightReminder": "The Imp! kills a player. If they chose themselves: replace an alive Minion with a Regular Imp token. Show them YOU ARE and then the Regular Imp token.",
     "reminders": ["Dead"],
     "name": "Imp!",

@@ -74,10 +74,12 @@ export async function downloadRoles(
 ) {
   const promises: Promise<sharp.OutputInfo>[] = [];
   for (const r of rs) {
-    const img = await makeSquare(await downloadRole(r), IMAGE_SIZE);
+    if (r.icon) {
+      const img = await makeSquare(await downloadRole(r), IMAGE_SIZE);
+      const path = `${imgDir}/${roleIconFile(r)}`;
+      promises.push(img.webp({ effort: 6 }).toFile(path));
+    }
     progressCb(1);
-    const path = `${imgDir}/${roleIconFile(r)}`;
-    promises.push(img.webp({ effort: 6 }).toFile(path));
   }
   await Promise.all(promises);
 }

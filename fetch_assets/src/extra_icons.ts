@@ -25,10 +25,11 @@ export interface Icon {
 function iconEntries(zip: AdmZip, iconsDir: string): Icon[] {
   const icons: Icon[] = [];
   for (const entry of zip.getEntries()) {
-    if (!entry.entryName.endsWith(".png")) {
+    const entryName = entry.entryName;
+    if (!(entryName.endsWith(".png") || entryName.endsWith(".webp"))) {
       continue;
     }
-    const id = entry.name.replace(/\.png$/, "").replaceAll(/[-'_]/g, "");
+    const id = entry.name.replace(/\.(png|webp)$/, "").replaceAll(/[-'_]/g, "");
     const destPath = `${iconsDir}/Icon_${id}.webp`;
     if (fs.existsSync(destPath)) {
       continue;
