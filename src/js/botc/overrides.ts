@@ -347,9 +347,12 @@ function homebrewOverrides(): Overrides {
   const homebrew: Overrides = {};
   for (const script of homebrews) {
     for (const id in script.characters) {
-      homebrew[nameToId(id)] = (
-        script.characters as { [key: string]: Override }
+      const override: Override | undefined = (
+        script.characters as { [key: string]: Override | undefined }
       )[id];
+      if (override) {
+        homebrew[nameToId(id)] = override;
+      }
     }
   }
   return homebrew;
