@@ -34,7 +34,7 @@
     "team": "townsfolk",
     "ability": "Each night, choose 2 dead players: you learn how many died tonight.",
     "firstNight": 10,
-    "firstNight": 19
+    "otherNight": 19
   },
   {
     "id": "briefcase_smr",
