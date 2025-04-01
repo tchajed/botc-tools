@@ -150,7 +150,7 @@ export type SetupModification = (
   // -1 Minion
   | { type: "minion_ppp" }
   // +2 Minion
-  | { type: "babygronk" }
+  | { type: "babygronk_battc" }
 ) & { notInBag?: boolean };
 
 function outsiders(...delta: number[]): SetupModification {
@@ -191,7 +191,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   minionppp: { type: "minion_ppp" },
 
   // Brainrot at the Twitch Chat
-  babygronk: { type: "babygronk" },
+  babygronkbattc: { type: "babygronk_battc" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -358,7 +358,7 @@ function applyModification(
       dist.townsfolk++;
       return [dist];
     }
-    case "babygronk": {
+    case "babygronk_battc": {
       const dist = { ...old_dist };
       dist.minion++;
       dist.minion++;

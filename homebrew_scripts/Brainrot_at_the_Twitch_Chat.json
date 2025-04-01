@@ -5,20 +5,20 @@
     "author": "Steven Medway"
   },
   {
-    "id": "sigma",
+    "id": "sigma_battc",
     "name": "Sigma",
     "team": "townsfolk",
     "ability": "You cannot die by execution."
   },
   {
-    "id": "looksmaxxer",
+    "id": "looksmaxxer_battc",
     "reminders": ["Healthy"],
     "name": "Looksmaxxer",
     "team": "townsfolk",
     "ability": "Once per day, the person who nominates you becomes sober and healthy."
   },
   {
-    "id": "hawktuahgirl",
+    "id": "hawktuahgirl_battc",
     "reminders": ["Dead"],
     "otherNightReminder": "If 3 days have passed, Hawk Tuah Girl dies.",
     "name": "Hawk Tuah Girl",
@@ -27,7 +27,7 @@
     "otherNight": 11
   },
   {
-    "id": "fanumtaxer",
+    "id": "fanumtaxer_battc",
     "reminders": ["Dead", "Gained Ability"],
     "firstNightReminder": "The Fanum Taxer shows a 'no' head signal, or chooses a player: if evil, Fanum Taxer dies. Otherwise, gain their ability.",
     "otherNightReminder": "The Fanum Taxer shows a 'no' head signal, or chooses a player: if evil, Fanum Taxer dies. Otherwise, gain their ability.",
@@ -38,28 +38,28 @@
     "otherNight": 8
   },
   {
-    "id": "mogger",
+    "id": "mogger_battc",
     "reminders": ["Mogged"],
     "name": "Mogger",
     "team": "townsfolk",
     "ability": "Once per game, publically choose a dead player. They can nominate and vote normally."
   },
   {
-    "id": "costcoguy",
+    "id": "costcoguy_battc",
     "reminders": ["At Costco"],
     "name": "Costco Guy",
     "team": "townsfolk",
     "ability": "Each day, publically choose a player. They cannot die. Cannot choose yourself."
   },
   {
-    "id": "mewer",
+    "id": "mewer_battc",
     "reminders": ["Mewing"],
     "name": "Mewer",
     "team": "townsfolk",
     "ability": "Each day, you must publically \"mew\". If your mewing streak ends, you die. Mewing prevents you from dying at night."
   },
   {
-    "id": "ohioan",
+    "id": "ohioan_battc",
     "firstNightReminder": "Show the Ohioan 1 in-play role.",
     "name": "Ohioan",
     "team": "townsfolk",
@@ -67,20 +67,20 @@
     "firstNight": 4
   },
   {
-    "id": "lightskin",
+    "id": "lightskin_battc",
     "name": "Lightskin",
     "team": "townsfolk",
     "ability": "Pick a player first night*. They cannot be poisoned"
   },
   {
-    "id": "streamer",
+    "id": "streamer_battc",
     "reminders": ["No Ability"],
     "name": "Streamer",
     "team": "townsfolk",
     "ability": "Once per game, publicly choose a player. Everybody learns their role."
   },
   {
-    "id": "simp",
+    "id": "simp_battc",
     "reminders": ["Simping"],
     "firstNightReminder": "Point to the marked player.",
     "name": "Simp",
@@ -89,7 +89,7 @@
     "firstNight": 5
   },
   {
-    "id": "redditor",
+    "id": "redditor_battc",
     "firstNightReminder": "The Redditor points to a player.",
     "otherNightReminder": "The Redditor points to a player.",
     "name": "Redditor",
@@ -99,7 +99,7 @@
     "otherNight": 9
   },
   {
-    "id": "edgar",
+    "id": "edgar_battc",
     "firstNightReminder": "Wake Edgar and show thumbs up or thumbs down.",
     "otherNightReminder": "Wake Edgar and show thumbs up or thumbs down.",
     "name": "Edgar",
@@ -109,20 +109,20 @@
     "otherNight": 10
   },
   {
-    "id": "racist",
+    "id": "racist_battc",
     "reminders": ["Turns Evil"],
     "name": "Racist",
     "team": "outsider",
     "ability": "If there are more outsiders [+travelers] than townsfolk, you become evil."
   },
   {
-    "id": "gooner",
+    "id": "gooner_battc",
     "name": "Gooner",
     "team": "outsider",
     "ability": "Each night, the 1st player to choose you with their ability is drunk until dusk. You become their alignment."
   },
   {
-    "id": "Furry",
+    "id": "furry_battc",
     "firstNightReminder": "If a townsfolk picked the Furry tonight: replace that player's character token with a Furry token. Show that player YOU ARE and the Furry token.",
     "otherNightReminder": "If a townsfolk picked the Furry tonight: replace that player's character token with a Furry token. Show that player YOU ARE and the Furry token.",
     "name": "Furry",
@@ -132,7 +132,7 @@
     "otherNight": 12
   },
   {
-    "id": "delulu",
+    "id": "delulu_battc",
     "reminders": ["Chosen", "Chosen", "Chosen"],
     "firstNightReminder": "If 7 or more players: Show THIS IS THE DEMON token. Point to the \"Demon\". Show THESE ARE YOUR MINIONS token. Point to \"Minions\". Put the Delulu to sleep..",
     "otherNightReminder": "Do whatever is needed to simulate the minion.",
@@ -143,14 +143,14 @@
     "otherNight": 4
   },
   {
-    "id": "skibiditoilet",
+    "id": "skibiditoilet_battc",
     "reminders": ["Poisoned", "Poisoned"],
     "name": "Skibidi Toilet",
     "team": "minion",
     "ability": "Your townsfolk neighbors are poisoned until you die."
   },
   {
-    "id": "rizzler",
+    "id": "rizzler_battc",
     "otherNightReminder": "The Rizzler either shows a 'no' head signal, or points to two players.",
     "reminders": ["Ability Swapped", "Ability Swapped"],
     "name": "Rizzler",
@@ -159,7 +159,7 @@
     "otherNight": 1
   },
   {
-    "id": "grimace",
+    "id": "grimace_battc",
     "otherNightReminder": "The Grimace picks a player to poison. If that player is already poisoned, they die.",
     "reminders": ["Poisoned", "Poisoned", "Poisoned", "Poisoned", "Dead"],
     "name": "Grimace",
@@ -168,7 +168,7 @@
     "otherNight": 2
   },
   {
-    "id": "joker",
+    "id": "joker_battc",
     "otherNightReminder": "The Joker picks a player. If that player wakes, ask the Joker what to tell them if they learn any information.",
     "name": "Joker",
     "team": "minion",
@@ -176,7 +176,7 @@
     "otherNight": 3
   },
   {
-    "id": "imposter",
+    "id": "imposter_battc",
     "otherNightReminder": "The Imposter kills a player.",
     "reminders": ["Dead"],
     "name": "Imposter",
@@ -185,7 +185,7 @@
     "otherNight": 5
   },
   {
-    "id": "thickofit",
+    "id": "thickofit_battc",
     "otherNightReminder": "The Thick of It chooses a number of players equal to the number of nominations that occurred today. Those players die.",
     "reminders": ["Dead", "Dead", "Dead", "Dead", "No Nominations"],
     "name": "Thick of It",
@@ -194,7 +194,7 @@
     "otherNight": 6
   },
   {
-    "id": "babygronk",
+    "id": "babygronk_battc",
     "otherNightReminder": "If it is an even-numbered night: the Baby Gronk chooses a player: they die.",
     "setup": true,
     "reminders": ["Dead"],
