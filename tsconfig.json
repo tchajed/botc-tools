@@ -9,6 +9,7 @@
     "moduleResolution": "Bundler",
     "target": "es2018",
     "lib": ["dom", "es2021"],
+    "skipLibCheck": true,
     "strict": true,
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react"

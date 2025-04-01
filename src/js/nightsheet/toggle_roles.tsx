@@ -36,7 +36,7 @@ export function ToggleAllRoles(props: {
   showAll: boolean;
   setShowAll: (x: boolean) => void;
   validSetup: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   function onChange(e: ChangeEvent<HTMLInputElement>) {
     props.setShowAll(e.target.checked);
   }

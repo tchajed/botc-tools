@@ -21,7 +21,11 @@ import { Distr } from "components/num_players";
 import { useContext } from "react";
 import { ErrorSpan, SuccessSpan } from "styles/error_msg";
 
-export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
+export function LegionDistr({
+  dist,
+}: {
+  dist: Distribution;
+}): React.JSX.Element {
   const Num = styled.span`
     // make each number fixed-width
     display: inline-block;
@@ -36,7 +40,11 @@ export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
   );
 }
 
-export function KazaliDistr({ dist }: { dist: Distribution }): JSX.Element {
+export function KazaliDistr({
+  dist,
+}: {
+  dist: Distribution;
+}): React.JSX.Element {
   const Num = styled.span`
     // make each number fixed-width
     display: inline-block;
@@ -51,7 +59,7 @@ export function KazaliDistr({ dist }: { dist: Distribution }): JSX.Element {
   );
 }
 
-export function AtheistDistr(props: { numPlayers: number }): JSX.Element {
+export function AtheistDistr(props: { numPlayers: number }): React.JSX.Element {
   return (
     <span className="distribution">
       <span className="good">{props.numPlayers}</span>/
@@ -66,7 +74,7 @@ function arrayEq<T>(a1: T[], a2: T[]): boolean {
 
 function ModificationExplanation(props: {
   mod: SetupModification;
-}): JSX.Element {
+}): React.JSX.Element {
   const { mod } = props;
   switch (mod.type) {
     case "outsider_count": {
@@ -201,7 +209,7 @@ function ModificationExplanation(props: {
   }
 }
 
-function elementOrList(els: JSX.Element[]): JSX.Element {
+function elementOrList(els: React.JSX.Element[]): React.JSX.Element {
   return (
     <>
       {els.reduce((acc, x) =>
@@ -217,7 +225,9 @@ function elementOrList(els: JSX.Element[]): JSX.Element {
   );
 }
 
-function ModificationList(props: { modified: CharacterInfo[] }): JSX.Element {
+function ModificationList(props: {
+  modified: CharacterInfo[];
+}): React.JSX.Element {
   const { modified } = props;
   return (
     <>
@@ -279,7 +289,7 @@ export function SetupModifiers(props: {
     sameDistribution(dist, actual),
   );
 
-  let goalDistributionElement: JSX.Element = elementOrList(
+  let goalDistributionElement: React.JSX.Element = elementOrList(
     newDistributions.map((dist, i) => <Distr dist={dist} key={i} />),
   );
   if (selection.has("legion")) {
@@ -361,7 +371,7 @@ export function SetupModifiers(props: {
 export function BagSetupHelp(props: {
   numPlayers: number;
   selection: Selection;
-}): JSX.Element {
+}): React.JSX.Element {
   const { numPlayers, selection } = props;
   const characters = useContext(CharacterContext);
   const modified = modifyingCharacters(selection);
