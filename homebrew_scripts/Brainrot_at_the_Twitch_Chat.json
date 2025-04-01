@@ -1,0 +1,206 @@
+[
+  {
+    "id": "_meta",
+    "name": "Brainrot at the Twitch Chat",
+    "author": "Steven Medway"
+  },
+  {
+    "id": "sigma",
+    "name": "Sigma",
+    "team": "townsfolk",
+    "ability": "You cannot die by execution."
+  },
+  {
+    "id": "looksmaxxer",
+    "reminders": ["Healthy"],
+    "name": "Looksmaxxer",
+    "team": "townsfolk",
+    "ability": "Once per day, the person who nominates you becomes sober and healthy."
+  },
+  {
+    "id": "hawktuahgirl",
+    "reminders": ["Dead"],
+    "otherNightReminder": "If 3 days have passed, Hawk Tuah Girl dies.",
+    "name": "Hawk Tuah Girl",
+    "team": "townsfolk",
+    "ability": "After the 3rd day, you die.",
+    "otherNight": 11
+  },
+  {
+    "id": "fanumtaxer",
+    "reminders": ["Dead", "Gained Ability"],
+    "firstNightReminder": "The Fanum Taxer shows a 'no' head signal, or chooses a player: if evil, Fanum Taxer dies. Otherwise, gain their ability.",
+    "otherNightReminder": "The Fanum Taxer shows a 'no' head signal, or chooses a player: if evil, Fanum Taxer dies. Otherwise, gain their ability.",
+    "name": "Fanum Taxer",
+    "team": "townsfolk",
+    "ability": "Once per game, choose a player at night. You gain their ability. If evil, you die.",
+    "firstNight": 6,
+    "otherNight": 8
+  },
+  {
+    "id": "mogger",
+    "reminders": ["Mogged"],
+    "name": "Mogger",
+    "team": "townsfolk",
+    "ability": "Once per game, publically choose a dead player. They can nominate and vote normally."
+  },
+  {
+    "id": "costcoguy",
+    "reminders": ["At Costco"],
+    "name": "Costco Guy",
+    "team": "townsfolk",
+    "ability": "Each day, publically choose a player. They cannot die. Cannot choose yourself."
+  },
+  {
+    "id": "mewer",
+    "reminders": ["Mewing"],
+    "name": "Mewer",
+    "team": "townsfolk",
+    "ability": "Each day, you must publically \"mew\". If your mewing streak ends, you die. Mewing prevents you from dying at night."
+  },
+  {
+    "id": "ohioan",
+    "firstNightReminder": "Show the Ohioan 1 in-play role.",
+    "name": "Ohioan",
+    "team": "townsfolk",
+    "ability": "You start knowing a random role in play.",
+    "firstNight": 4
+  },
+  {
+    "id": "lightskin",
+    "name": "Lightskin",
+    "team": "townsfolk",
+    "ability": "Pick a player first night*. They cannot be poisoned"
+  },
+  {
+    "id": "streamer",
+    "reminders": ["No Ability"],
+    "name": "Streamer",
+    "team": "townsfolk",
+    "ability": "Once per game, publicly choose a player. Everybody learns their role."
+  },
+  {
+    "id": "simp",
+    "reminders": ["Simping"],
+    "firstNightReminder": "Point to the marked player.",
+    "name": "Simp",
+    "team": "townsfolk",
+    "ability": "You start knowing if a random townsfolk is good.",
+    "firstNight": 5
+  },
+  {
+    "id": "redditor",
+    "firstNightReminder": "The Redditor points to a player.",
+    "otherNightReminder": "The Redditor points to a player.",
+    "name": "Redditor",
+    "team": "townsfolk",
+    "ability": "Each night, pick a player. Their vote counts as a downvote [negatively].",
+    "firstNight": 7,
+    "otherNight": 9
+  },
+  {
+    "id": "edgar",
+    "firstNightReminder": "Wake Edgar and show thumbs up or thumbs down.",
+    "otherNightReminder": "Wake Edgar and show thumbs up or thumbs down.",
+    "name": "Edgar",
+    "team": "townsfolk",
+    "ability": "Each night, you learn a player's alignment in a clockwise direction.",
+    "firstNight": 8,
+    "otherNight": 10
+  },
+  {
+    "id": "racist",
+    "reminders": ["Turns Evil"],
+    "name": "Racist",
+    "team": "outsider",
+    "ability": "If there are more outsiders [+travelers] than townsfolk, you become evil."
+  },
+  {
+    "id": "gooner",
+    "name": "Gooner",
+    "team": "outsider",
+    "ability": "Each night, the 1st player to choose you with their ability is drunk until dusk. You become their alignment."
+  },
+  {
+    "id": "Furry",
+    "firstNightReminder": "If a townsfolk picked the Furry tonight: replace that player's character token with a Furry token. Show that player YOU ARE and the Furry token.",
+    "otherNightReminder": "If a townsfolk picked the Furry tonight: replace that player's character token with a Furry token. Show that player YOU ARE and the Furry token.",
+    "name": "Furry",
+    "team": "outsider",
+    "ability": "If a townsfolk picks you at night, they become a furry too. If one furry dies, the rest do too.",
+    "firstNight": 9,
+    "otherNight": 12
+  },
+  {
+    "id": "delulu",
+    "reminders": ["Chosen", "Chosen", "Chosen"],
+    "firstNightReminder": "If 7 or more players: Show THIS IS THE DEMON token. Point to the \"Demon\". Show THESE ARE YOUR MINIONS token. Point to \"Minions\". Put the Delulu to sleep..",
+    "otherNightReminder": "Do whatever is needed to simulate the minion.",
+    "name": "Delulu",
+    "team": "outsider",
+    "ability": "You think you are a minion. You don't know that you are delulu.",
+    "firstNight": 3,
+    "otherNight": 4
+  },
+  {
+    "id": "skibiditoilet",
+    "reminders": ["Poisoned", "Poisoned"],
+    "name": "Skibidi Toilet",
+    "team": "minion",
+    "ability": "Your townsfolk neighbors are poisoned until you die."
+  },
+  {
+    "id": "rizzler",
+    "otherNightReminder": "The Rizzler either shows a 'no' head signal, or points to two players.",
+    "reminders": ["Ability Swapped", "Ability Swapped"],
+    "name": "Rizzler",
+    "team": "minion",
+    "ability": "Once per game*, choose 2 players. Their abilities are swapped.",
+    "otherNight": 1
+  },
+  {
+    "id": "grimace",
+    "otherNightReminder": "The Grimace picks a player to poison. If that player is already poisoned, they die.",
+    "reminders": ["Poisoned", "Poisoned", "Poisoned", "Poisoned", "Dead"],
+    "name": "Grimace",
+    "team": "minion",
+    "ability": "Each night*, choose a palyer. They are poisoned. If already poisoned, they die.",
+    "otherNight": 2
+  },
+  {
+    "id": "joker",
+    "otherNightReminder": "The Joker picks a player. If that player wakes, ask the Joker what to tell them if they learn any information.",
+    "name": "Joker",
+    "team": "minion",
+    "ability": "Each night*, choose a player. You get to choose what information to give them.",
+    "otherNight": 3
+  },
+  {
+    "id": "imposter",
+    "otherNightReminder": "The Imposter kills a player.",
+    "reminders": ["Dead"],
+    "name": "Imposter",
+    "team": "demon",
+    "ability": "Each night*, choose a player: they die. You register as good.",
+    "otherNight": 5
+  },
+  {
+    "id": "thickofit",
+    "otherNightReminder": "The Thick of It chooses a number of players equal to the number of nominations that occurred today. Those players die.",
+    "reminders": ["Dead", "Dead", "Dead", "Dead", "No Nominations"],
+    "name": "Thick of It",
+    "team": "demon",
+    "ability": "Each time someone is nominated, you gain a kill that night. If nobody is nominated, you cannot kill.",
+    "otherNight": 6
+  },
+  {
+    "id": "babygronk",
+    "otherNightReminder": "If it is an even-numbered night: the Baby Gronk chooses a player: they die.",
+    "setup": true,
+    "reminders": ["Dead"],
+    "name": "Baby Gronk",
+    "team": "demon",
+    "ability": "Every other night*, Choose a player, they die. You add 2 minions in play.",
+    "otherNight": 7
+  }
+]
