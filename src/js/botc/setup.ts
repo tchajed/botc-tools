@@ -189,7 +189,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
 
   // Pedagogic Pits & Pendulums
   minionppp: { type: "minion_ppp" },
-  
+
   // Brainrot at the Twitch Chat
   babygronk: { type: "babygronk" },
 };
