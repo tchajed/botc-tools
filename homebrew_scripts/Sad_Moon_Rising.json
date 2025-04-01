@@ -1,0 +1,237 @@
+[
+  {
+    "id": "_meta",
+    "name": "Sad Moon Rising",
+    "author": "Steven Medway"
+  },
+  {
+    "id": "granddad_smr",
+    "reminders": ["Grandchild"],
+    "firstNightReminder": "Show the Grand Dad token. Point to the marked player.",
+    "otherNightReminder": "If the Grand Dad was killed by the Demon tonight: the Grand Dad's grandchild dies.",
+    "name": "Grand Dad",
+    "team": "townsfolk",
+    "ability": "You start knowing another player and your character. If the Demon kills you, they die too.",
+    "firstNight": 9,
+    "otherNight": 18
+  },
+  {
+    "id": "pirate_smr",
+    "firstNightReminder": "The Pirate points to a living player. Both players are drunk.",
+    "otherNightReminder": "The Pirate points to a living player. Both players are drunk.",
+    "reminders": ["Drunk","Drunk"],
+    "name": "Pirate",
+    "team": "townsfolk",
+    "ability": "Each night, choose a player: both of you are drunk until dusk. Nobody can die.",
+    "firstNight": 4,
+    "otherNight": 1
+  },
+  {
+    "id": "bedroom_smr",
+    "firstNightReminder": "The Bedroom points to two dead players. Show the number signal (0, 1, 2,...) for how many of those players died tonight.",
+    "otherNightReminder": "The Bedroom points to two dead players. Show the number signal (0, 1, 2,...) for how many of those players died tonight.",
+    "name": "Bedroom",
+    "team": "townsfolk",
+    "ability": "Each night, choose 2 dead players: you learn how many died tonight.",
+    "firstNight": 10,
+    "firstNight": 19
+  },
+  {
+    "id": "briefcase_smr",
+    "otherNightReminder": "The Briefcase points to a player. If that player is the Demon: Wake the Demon. Show THIS PLAYER IS and the Briefcase token.",
+    "name": "Briefcase",
+    "team": "townsfolk",
+    "ability": "Each night*, choose a player: the Demon, if chosen, learns who you are.",
+    "otherNight": 7
+  },
+  {
+    "id": "outkeeper_smr",
+    "otherNightReminder": "The Outkeeper points to two players, who do not wake tonight. One is drunk.",
+    "reminders": ["Asleep","Asleep","Drunk"],
+    "name": "Outkeeper",
+    "team": "townsfolk",
+    "ability": "Each night*, choose 2 players: they can't wake up tonight, but 1 is drunk until dusk.",
+    "otherNight": 3
+  },
+  {
+    "id": "gambler_smr",
+    "otherNightReminder": "The gambler :( rolls a dice and guesses the result. If incorrect, the gambler :( dies.",
+    "name": "gambler :(",
+    "team": "townsfolk",
+    "ability": "Each night*, roll a dice & guess the result. If you guess wrong, you die.",
+    "otherNight": 4
+  },
+  {
+    "id": "speaker_smr",
+    "otherNightReminder": "The Townsfolk chooses a player or is shown any information needed based on the ability.",
+    "name": "Speaker",
+    "team": "townsfolk",
+    "ability": "Each day, you may make a public statement.",
+    "otherNight": 8
+  },
+  {
+    "id": "curtain_smr",
+    "firstNightReminder": "The Curtain either shows a 'no' head signal, or points to a character on the sheet. If the Curtain used their ability: if that character is in play, that player cannot wake.",
+    "otherNightReminder": "The Curtain either shows a 'no' head signal, or points to a character on the sheet. If the Curtain used their ability: if that character is in play, that player cannot wake.",
+    "reminders": ["Asleep 1","Asleep 2","Asleep 3","No Ability"],
+    "name": "Curtain",
+    "team": "townsfolk",
+    "ability": "Once per game, at night, choose a character: They don't wake up for 3 nights and 3 days.",
+    "firstNight": 5,
+    "otherNight": 2
+  },
+  {
+    "id": "teacher_smr",
+    "otherNightReminder": "If the Teacher has not used their ability: The Teacher either shakes their head no, or points to a player. That player now registers as being alive.",
+    "reminders": ["No Ability"],
+    "name": "Teacher",
+    "team": "townsfolk",
+    "ability": "Once per game, at night*, choose a dead player: they now register as being alive.",
+    "otherNight": 15
+  },
+  {
+    "id": "smarties_smr",
+    "otherNightReminder": "If the Outsider died tonight, set-up Grimoire as needed. Show the Grimoire for 1 second. Reset Grimoire.",
+    "reminders": ["All Drunk"],
+    "name": "Smarties",
+    "team": "townsfolk",
+    "ability": "When a player dies, all other players are drunk until dusk tomorrow.",
+    "otherNight": 16
+  },
+  {
+    "id": "coffeelady_smr",
+    "otherNightReminder": "If Executed was executed today, show 2 character tokens that voted.",
+    "name": "Coffee Lady",
+    "team": "townsfolk",
+    "ability": "If both your neighbors are alive, they can't die.",
+    "otherNight": 14
+  },
+  {
+    "id": "pacifier_smr",
+    "otherNightReminder": "If the Not Dead died, show a dead character token. If the Not Dead was executed twice this game, they might be resurrected.",
+    "name": "Pacifier",
+    "team": "townsfolk",
+    "ability": "Players might not die.",
+    "otherNight": 15
+  },
+  {
+    "id": "fuel_smr",
+    "otherNightReminder": "If the Fuel has died twice, they are resurrected.",
+    "reminders": ["Died Twice"],
+    "name": "Fuel",
+    "team": "townsfolk",
+    "ability": "The second time you die, you are resurrected.",
+    "otherNight": 17
+  },
+  {
+    "id": "tinkle_smr",
+    "otherNightReminder": "The Tinkle will die.",
+    "reminders": ["Dead"],
+    "name": "Tinkle",
+    "team": "outsider",
+    "ability": "You will die.",
+    "otherNight": 16
+  },
+  {
+    "id": "sunchild_smr",
+    "name": "Sunchild",
+    "team": "outsider",
+    "ability": "When you learn that you live, publicly choose 1 alive player. If good, they die."
+  },
+  {
+    "id": "gun_smr",
+    "firstNightReminder": "Kill the first player who chose the Gun tonight.",
+    "otherNightReminder": "Kill the first player who chose the Gun tonight.",
+    "reminders": ["Dead"],
+    "name": "Gun",
+    "team": "outsider",
+    "ability": "Each night, the 1st player to choose you dies. You become the winning team's alignment.",
+    "firstNight": 14,
+    "otherNight": 14
+  },
+  {
+    "id": "fanatic_smr",
+    "reminders": ["Chosen","Chosen","Chosen"],
+    "firstNightReminder": "If 7 or more players: Show THESE ARE YOUR MINIONS. Point to all Minions. Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs. Wake the other Demon. Show THIS PLAYER IS and their Demon token, point to the Fanatic.",
+    "otherNightReminder": "Do whatever the Demon usually does.",
+    "name": "Fanatic",
+    "team": "outsider",
+    "ability": "You think you are a Demon, but are. The Demon knows you are & who you choose at night & your home address.",
+    "firstNight": 3,
+    "otherNight": 6
+  },
+  {
+    "id": "codfather_smr",
+    "firstNightReminder": "Show each of the players in play.",
+    "otherNightReminder": "If a player died today: replace them with another player.",
+    "reminders": ["Replaced"],
+    "name": "Codfather",
+    "team": "minion",
+    "ability": "You start knowing which players are playing. If 1 was executed today, they are replaced by someone else tonight. [-1 or +1 Player]",
+    "firstNight": 6,
+    "otherNight": 13
+  },
+  {
+    "id": "devilsavocado_smr",
+    "firstNightReminder": "The Devil's Avocado points to a living player. The storyteller will discourage the town from executing that player tomorrow.",
+    "otherNightReminder": "The Devil's Avocado points to a living player. The storyteller will discourage the town from executing that player tomorrow.",
+    "reminders": ["Discourage Town"],
+    "name": "Devil's Avocado",
+    "team": "minion",
+    "ability": "Each night, choose a player. The storyteller will publicly discourage town from executing them.",
+    "firstNight": 7,
+    "otherNight": 5
+  },
+  {
+    "id": "assassassin_smr",
+    "otherNightReminder": "If the Assassassin has not yet used thier ability: The Assassassin either shows the 'no' head signal, or goes and murders another player.",
+    "name": "Assassassin",
+    "team": "minion",
+    "ability": "Once per game, you may murder a player.",
+    "otherNight": 12
+  },
+  {
+    "id": "mistermind_smr",
+    "name": "Mister Mind",
+    "team": "minion",
+    "ability": "When the game ends, play for one more day."
+  },
+  {
+    "id": "zombie_smr",
+    "otherNightReminder": "If a player died last night and the Zombie publicly chose a player. Wake that player. Show YOU ARE and the Zombie token.",
+    "reminders": ["Zombified"],
+    "name": "Zombie",
+    "team": "demon",
+    "ability": "Each day, if a player died last night, publicly choose a player. They become a Zombie. The first time you die, you die.",
+    "otherNight": 8
+  },
+  {
+    "id": "fucker_smr",
+    "firstNightReminder": "The Fucker points to a player. That player is dead.",
+    "otherNightReminder": "The Fucker points to a player. That player is dead. The previously dead player is removed from the game.",
+    "reminders": ["Dead"],
+    "name": "Fucker",
+    "team": "demon",
+    "ability": "Each night, choose a player: they die. The previously killed player is removed from the game.",
+    "firstNight": 8,
+    "otherNight": 9
+  },
+  {
+    "id": "shbalath_smr",
+    "otherNightReminder": "The shbalath points to two players. Those players die. There might be a burp.",
+    "reminders": ["Dead", "Dead"],
+    "name": "Shbalath",
+    "team": "demon",
+    "ability": "monch monch*. but burp?",
+    "otherNight": 10
+  },
+  {
+    "id": "poo_smr",
+    "otherNightReminder": "If the Poo chose no-one the previous night: they die. The poo points to three players. Chosen players might die.",
+    "reminders": ["Dead","Dead","Dead"],
+    "name": "Poo",
+    "team": "demon",
+    "ability": "Each night, you may choose 3 players: they might die. If your last choice was no-one, you die.",
+    "otherNight": 11
+  }
+]

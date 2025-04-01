@@ -34,7 +34,6 @@
     "id": "evil_ppp",
     "firstNightReminder": "The Evil chooses 2 players. Give a finger signal.",
     "otherNightReminder": "The Evil chooses 2 players. Give a finger signal.",
-    "setup": true,
     "name": "Evil",
     "team": "townsfolk",
     "ability": "Each night, choose 2 players: learn how many are evil. You must choose new players each night.",
@@ -112,7 +111,6 @@
   {
     "id": "aiyamdrunk_ppp",
     "reminders": ["Mad"],
-    "setup": true,
     "name": "Aiyamdrunk",
     "team": "townsfolk",
     "ability": "All other players are sober & healthy. If you are \"mad\" about your character, Townsfolk abilities yield false info, even if you are dead."
