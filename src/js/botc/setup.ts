@@ -149,6 +149,8 @@ export type SetupModification = (
   | { type: "hannibal"; notInBag: true }
   // -1 Minion
   | { type: "minion_ppp" }
+  // +2 Minion
+  | { type: "babygronk" }
 ) & { notInBag?: boolean };
 
 function outsiders(...delta: number[]): SetupModification {
@@ -187,6 +189,9 @@ export const SetupChanges: { [key: string]: SetupModification } = {
 
   // Pedagogic Pits & Pendulums
   minionppp: { type: "minion_ppp" },
+
+  // Brainrot at the Twitch Chat
+  babygronk: { type: "babygronk" },
 };
 
 export function goesInBag(char: CardInfo): boolean {
@@ -351,6 +356,14 @@ function applyModification(
       const dist = { ...old_dist };
       dist.minion--;
       dist.townsfolk++;
+      return [dist];
+    }
+    case "babygronk": {
+      const dist = { ...old_dist };
+      dist.minion++;
+      dist.minion++;
+      dist.townsfolk--;
+      dist.townsfolk--;
       return [dist];
     }
   }

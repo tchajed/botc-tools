@@ -192,6 +192,12 @@ function ModificationExplanation(props: {
           (-1 <span className="evil">Minion</span>)
         </span>
       );
+    case "babygronk":
+      return (
+        <span>
+          (+2 <span className="evil">Minion</span>)
+        </span>
+      );
   }
 }
 
