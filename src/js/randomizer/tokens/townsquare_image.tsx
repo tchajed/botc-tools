@@ -3,7 +3,7 @@ import { TownsquareData, drawTownsquare } from "./townsquare_canvas";
 import { css } from "@emotion/react";
 import { useState, useEffect } from "react";
 
-export function TownsquareImage(props: TownsquareData): JSX.Element {
+export function TownsquareImage(props: TownsquareData): React.JSX.Element {
   const [img, setImg] = useState<{ dataURL: string; blob: Blob } | null>(null);
 
   function copyImageToClipboard() {

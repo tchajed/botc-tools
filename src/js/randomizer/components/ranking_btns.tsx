@@ -30,7 +30,7 @@ function ShuffleBagBtn(
     setRanking: (r: Ranking) => void;
     setHistory: SetHistory;
   }>,
-): JSX.Element {
+): React.JSX.Element {
   const characters = useContext(CharacterContext);
 
   function handleClick() {
@@ -69,7 +69,7 @@ function ClearSelectionBtn(
     setRanking: Dispatch<Ranking>;
     setHistory: SetHistory;
   }>,
-): JSX.Element {
+): React.JSX.Element {
   const characters = useContext(CharacterContext);
   const { selection, bluffs } = props.sels;
 
@@ -112,7 +112,7 @@ function HistoryBtns(props: {
   bluffsDispatch: Dispatch<SelAction>;
   history: History<Partial<ScriptState>>;
   setHistory: SetHistory;
-}): JSX.Element {
+}): React.JSX.Element {
   const { history, setHistory } = props;
 
   const histUndoRedo = (direction: "undo" | "redo") => {
@@ -165,7 +165,7 @@ export function RankingBtns(props: {
   setFsRole: (r: string) => void;
   history: History<Partial<ScriptState>>;
   setHistory: SetHistory;
-}): JSX.Element {
+}): React.JSX.Element {
   const { ranking, sels } = props;
   return (
     <div id="bag-btns">

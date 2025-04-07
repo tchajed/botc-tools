@@ -184,7 +184,7 @@ export function TokenCanvas(props: {
   character: BagCharacter;
   size: string;
   maxSize?: string;
-}): JSX.Element {
+}): React.JSX.Element {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

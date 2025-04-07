@@ -33,8 +33,8 @@ const FullscreenContents = styled.div`
 export function Fullscreen<T>(props: {
   data: T | null;
   setData: (r: null) => void;
-  render: (x: T) => JSX.Element;
-}): JSX.Element {
+  render: (x: T) => React.JSX.Element;
+}): React.JSX.Element {
   if (props.data == null) {
     return <div className="hidden"></div>;
   }

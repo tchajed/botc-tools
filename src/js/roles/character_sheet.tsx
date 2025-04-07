@@ -19,7 +19,7 @@ import reactStringReplace from "react-string-replace";
 function QrLink(props: {
   url: string;
   setUrl: (url: string) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { url } = props;
   const handleClick = (ev: React.MouseEvent<HTMLAnchorElement>) => {
     props.setUrl(url);
@@ -36,7 +36,7 @@ function QrLink(props: {
 function FullscreenQr(props: {
   url: string | null;
   setUrl: (url: string | null) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <Fullscreen
       data={props.url}
@@ -63,7 +63,7 @@ function FullscreenQr(props: {
   );
 }
 
-function CopyJsonLink(props: { script: Script }): JSX.Element {
+function CopyJsonLink(props: { script: Script }): React.JSX.Element {
   const { script } = props;
   const handleClick = React.useCallback(
     async (ev: React.MouseEvent<HTMLAnchorElement>) => {
@@ -79,7 +79,7 @@ function CopyJsonLink(props: { script: Script }): JSX.Element {
   );
 }
 
-function Ability(props: { ability: string | null }): JSX.Element {
+function Ability(props: { ability: string | null }): React.JSX.Element {
   // bold any setup text in brackets (eg, [+2 Outsiders])
   const html = reactStringReplace(
     props.ability || "",
@@ -94,7 +94,7 @@ function Ability(props: { ability: string | null }): JSX.Element {
 function Character(props: {
   character: CharacterInfo;
   onClick: React.MouseEventHandler<HTMLElement>;
-}): JSX.Element {
+}): React.JSX.Element {
   const { character } = props;
   return (
     <tr className={characterClass(character)}>
@@ -119,7 +119,7 @@ function pluralRole(roleType: string): string {
     : roleType + "s";
 }
 
-function RoleTypeRow(props: { roleType: string }): JSX.Element {
+function RoleTypeRow(props: { roleType: string }): React.JSX.Element {
   const label = pluralRole(props.roleType).toUpperCase();
   return (
     <tr>
@@ -135,7 +135,7 @@ function RoleTypeRow(props: { roleType: string }): JSX.Element {
 function CharacterList(props: {
   characters: CharacterInfo[];
   setFsRole: (id: string) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const rows: (CharacterInfo | RoleType)[] = [];
   const rolesSeen: { [key: string]: boolean } = {};
   for (const c of props.characters) {
@@ -182,7 +182,7 @@ export function CharacterSheet(props: {
   script: Script;
   active: boolean;
   completeSetup: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const { script, active, completeSetup } = props;
   useEffect(() => {
     if (active) {

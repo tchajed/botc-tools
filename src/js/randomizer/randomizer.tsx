@@ -52,7 +52,7 @@ export function Randomizer({
   bluffsDispatch: React.Dispatch<SelAction>;
   numPlayers: number;
   setNumPlayers: React.Dispatch<SetStateAction<number>>;
-}): JSX.Element {
+}): React.JSX.Element {
   const characters = selectableCharacters(script.characters);
   const [ranking, setRanking] = useState(randomRanking(characters));
   const [fsRole, setFsRole] = useState<string | null>(null);

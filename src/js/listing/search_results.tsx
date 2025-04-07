@@ -9,7 +9,7 @@ export function SearchResults(props: {
   scripts: ScriptData[];
   query: string;
   setQuery: (q: string) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { scripts, query, setQuery } = props;
 
   // on Safari the search box already has a magnifying glass icon so avoid
