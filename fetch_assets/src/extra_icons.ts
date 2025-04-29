@@ -1,4 +1,4 @@
-import { IMAGE_SIZE, makeSquare } from "./script_tool_images";
+import { IMAGE_SIZE, makeSquare } from "./script_tool_images.ts";
 import AdmZip from "adm-zip";
 import axios from "axios";
 import fs from "fs";

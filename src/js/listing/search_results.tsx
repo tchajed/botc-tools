@@ -1,8 +1,8 @@
+import type { ScriptData } from "../../../common/src/script";
 import { ScriptList } from "./script_list";
 import { useQueryMatches, searchNormalize } from "./search";
 import { css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ScriptData } from "botc/script";
 import { isSafari } from "detect";
 
 export function SearchResults(props: {

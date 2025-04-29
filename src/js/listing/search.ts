@@ -1,6 +1,9 @@
-import { nameToId, roles } from "../botc/roles";
-import { ScriptData } from "../botc/script";
-import Fuse from "fuse.js/basic";
+import { type ScriptData } from "../../../common/src/script";
+import {
+  makeCharacterSearcher,
+  makeTitleSearcher,
+} from "../../../common/src/search";
+import { roles } from "../botc/roles";
 import type { DebouncedFunc } from "lodash";
 import debounce from "lodash.debounce";
 import React from "react";
@@ -17,17 +20,6 @@ const FAVORITE_TITLES: Set<string> = new Set([
   "Magical Onion Pies",
   "Our Mutual Friend",
 ]);
-
-function characterList(script: ScriptData): string[] {
-  const characters: string[] = [];
-  for (const id of script.characters) {
-    const char = roles.get(nameToId(id));
-    if (char !== undefined) {
-      characters.push(char.name);
-    }
-  }
-  return characters;
-}
 
 /**
  * Fuzzily search through scripts by title, author, and characters
@@ -51,27 +43,13 @@ export function useQueryMatches(
   );
 
   const title_searcher = React.useMemo(
-    () =>
-      new Fuse(scripts, {
-        keys: [
-          {
-            name: "title",
-            getFn: (script) => script.title.replace(/[^A-Za-z]/g, ""),
-          },
-          { name: "author" },
-        ],
-      }),
+    () => makeTitleSearcher(scripts),
     [scripts],
   );
 
   const character_searcher = React.useMemo(
-    () =>
-      new Fuse(scripts, {
-        keys: [
-          { name: "characters", getFn: (script) => characterList(script) },
-        ],
-      }),
-    [scripts],
+    () => makeCharacterSearcher(roles, scripts),
+    [roles, scripts],
   );
 
   const [matches, setMatches] = React.useState(favorite_scripts);

@@ -1,8 +1,5 @@
-import {
-  ScriptData,
-  ScriptInstanceResp,
-  parseScriptInstance,
-} from "./get_script";
+import type { ScriptData } from "../../common/src/script.ts";
+import { ScriptInstanceResp, parseScriptInstance } from "./get_script.ts";
 import axios from "axios";
 import cliProgress from "cli-progress";
 import { readFile, readdir } from "fs/promises";

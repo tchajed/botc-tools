@@ -1,9 +1,9 @@
+import { nameToId } from "../../../common/src/script";
+import type { ScriptData } from "../../../common/src/script";
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { nameToId } from "botc/roles";
 import {
-  ScriptData,
   getCharacterList,
   hasAtheist,
   hasHeretic,

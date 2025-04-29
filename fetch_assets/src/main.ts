@@ -1,26 +1,27 @@
-import { fetchAllScripts, readScripts } from "./all_scripts";
-import { downloadCharacterData } from "./character_json";
-import { downloadExtraIcons } from "./extra_icons";
-import { ScriptData, ScriptsFile, getScript } from "./get_script";
+import type { ScriptData, ScriptsFile } from "../../common/src/script.ts";
+import { fetchAllScripts, readScripts } from "./all_scripts.ts";
+import { downloadCharacterData } from "./character_json.ts";
+import { downloadExtraIcons } from "./extra_icons.ts";
+import { getScript } from "./get_script.ts";
 import {
   HomebrewJson,
   HomebrewScript,
   downloadAllHomebrew,
   homebrewToJsonData,
   loadAllHomebrew,
-} from "./homebrew_import";
-import { downloadPocketGrimoireIcons } from "./pocket_grimoire_images";
+} from "./homebrew_import.ts";
+import { downloadPocketGrimoireIcons } from "./pocket_grimoire_images.ts";
 import {
   downloadRoles,
   findNotDownloadedIcons,
   getRoles,
-} from "./script_tool_images";
+} from "./script_tool_images.ts";
 import {
   allIcons,
   downloadIcons,
   findNotDownloaded,
   saveIcons,
-} from "./wiki_icons";
+} from "./wiki_icons.ts";
 import cliProgress from "cli-progress";
 import { Command, Option } from "commander";
 import fs from "fs";

@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "rewriteRelativeImportExtensions": true,
+    "sourceMap": true,
+    "composite": true,
+    "incremental": true,
+    "rootDir": ".",
+    "outDir": "./ts_out"
+  }
+}

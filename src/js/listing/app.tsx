@@ -1,4 +1,4 @@
-import { ScriptsFile } from "../botc/script";
+import type { ScriptsFile } from "../../../common/src/script";
 import "../icons";
 import {
   ScriptState,

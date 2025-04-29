@@ -1,11 +1,7 @@
 /** Encode the rules for BotC setup. */
+import type { RoleType } from "../../../common/src/script";
 import { CardInfo } from "../randomizer/components/characters";
-import {
-  CharacterInfo,
-  RoleType,
-  characterIdWithoutNumber,
-  getCharacter,
-} from "./roles";
+import { CharacterInfo, characterIdWithoutNumber, getCharacter } from "./roles";
 
 export interface Distribution {
   townsfolk: number;

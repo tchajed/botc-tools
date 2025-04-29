@@ -1,4 +1,4 @@
-import { ScriptData } from "./botc/script";
+import type { ScriptData } from "../../common/src/script";
 import { getScripts } from "./get_scripts";
 import { getAuthenticated } from "randomizer/state";
 

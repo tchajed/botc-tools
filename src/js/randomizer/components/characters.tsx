@@ -1,4 +1,5 @@
-import { CharacterInfo, NightAction, RoleType } from "../../botc/roles";
+import type { NightAction, RoleType } from "../../../../common/src/script";
+import { CharacterInfo } from "../../botc/roles";
 import {
   CharacterIconElement,
   characterClass,

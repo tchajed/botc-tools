@@ -1,9 +1,9 @@
-import { ScriptData } from "./get_script";
+import { ScriptData } from "../../common/src/script.ts";
 import {
   Role,
   downloadRoles,
   findNotDownloadedIcons,
-} from "./script_tool_images";
+} from "./script_tool_images.ts";
 import cliProgress from "cli-progress";
 import fs from "fs";
 

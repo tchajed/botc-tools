@@ -1,5 +1,5 @@
 import script_jinxes from "../../../assets/data/jinx.json";
-import { nameToId } from "./roles";
+import { nameToId } from "../../../common/src/script";
 
 // the format of jinx.json
 interface JinxData {

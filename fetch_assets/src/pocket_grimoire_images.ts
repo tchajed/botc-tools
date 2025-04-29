@@ -1,4 +1,4 @@
-import { downloadRepo, extractIconFiles, Icon } from "./extra_icons";
+import { downloadRepo, extractIconFiles, Icon } from "./extra_icons.ts";
 import AdmZip from "adm-zip";
 import fs from "fs";
 
