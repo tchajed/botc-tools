@@ -7,7 +7,7 @@
     "rewriteRelativeImportExtensions": true,
     "moduleResolution": "nodenext"
   },
-  "include": ["**/*", "../common/**/*"],
+  "include": ["**/*", "../assets/**/*.json", "../common/**/*"],
   "references": [{ "path": "../common/tsconfig.json" }],
   "extends": ["../tsconfig-base.json"]
 }

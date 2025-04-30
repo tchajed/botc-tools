@@ -1,9 +1,10 @@
-import { type ScriptData } from "../../../common/src/script";
+import { type ScriptData, type ScriptsFile } from "../../../common/src/script";
 import {
   makeCharacterSearcher,
   makeTitleSearcher,
 } from "../../../common/src/search";
 import { roles } from "../botc/roles";
+import { BaseThree } from "./script_list";
 import type { DebouncedFunc } from "lodash";
 import debounce from "lodash.debounce";
 import React from "react";
@@ -29,30 +30,37 @@ const FAVORITE_TITLES: Set<string> = new Set([
  * @returns A Map from primary key to script, sorted with most relevant results first
  */
 export function useQueryMatches(
-  scripts: ScriptData[],
+  scriptsFile: ScriptsFile,
   query: string,
+  limit: number,
+  authenticated: boolean,
 ): Map<number, ScriptData> {
-  const favorite_scripts = React.useMemo(
+  const favoriteScripts = React.useMemo(
     () =>
       new Map(
-        scripts
+        scriptsFile.scripts
           .filter((s) => FAVORITE_TITLES.has(s.title))
           .map((s) => [s.pk, s]),
       ),
-    [scripts],
+    [scriptsFile],
   );
 
-  const title_searcher = React.useMemo(
-    () => makeTitleSearcher(scripts),
-    [scripts],
+  const titleSearcher = React.useMemo(
+    () => makeTitleSearcher(scriptsFile.scripts, scriptsFile.titleFuseIndex),
+    [scriptsFile],
   );
 
-  const character_searcher = React.useMemo(
-    () => makeCharacterSearcher(roles, scripts),
-    [roles, scripts],
+  const characterSearcher = React.useMemo(
+    () =>
+      makeCharacterSearcher(
+        roles,
+        scriptsFile.scripts,
+        scriptsFile.characterFuseIndex,
+      ),
+    [scriptsFile],
   );
 
-  const [matches, setMatches] = React.useState(favorite_scripts);
+  const [matches, setMatches] = React.useState(favoriteScripts);
 
   // Wait for the user to stop typing before searching
   const debounceSearchRef =
@@ -60,23 +68,38 @@ export function useQueryMatches(
   React.useEffect(() => {
     const debounceSearch = debounce((query: string) => {
       if (query === "") {
-        setMatches(favorite_scripts);
+        setMatches(favoriteScripts);
         return;
       }
 
       const matches = new Map<number, ScriptData>();
-      const scripts_with_titles_or_authors = title_searcher.search(query);
-      for (const match_result of scripts_with_titles_or_authors) {
-        const script = match_result.item;
+      console.time("title-search");
+      const scriptsWithTitlesOrAuthors = titleSearcher.search(query, {
+        limit,
+      });
+      for (const matchResult of scriptsWithTitlesOrAuthors) {
+        const script = matchResult.item;
+        if (BaseThree.includes(script.pk)) {
+          // Filter the base three scripts from search results
+          continue;
+        } else if (!authenticated && script.allAmne) {
+          // Filter the hidden script from search results
+          continue;
+        }
         matches.set(script.pk, script);
       }
-      if (matches.size < 10) {
+      console.timeEnd("title-search");
+      if (matches.size < 10 && query.length > 0) {
+        console.time("char-search");
         // fill in results with character-based search
-        const scripts_with_characters = character_searcher.search(query);
-        for (const match_result of scripts_with_characters) {
-          const script = match_result.item;
+        const scriptsWithCharacters = characterSearcher.search(query, {
+          limit,
+        });
+        for (const matchResult of scriptsWithCharacters) {
+          const script = matchResult.item;
           matches.set(script.pk, script);
         }
+        console.timeEnd("char-search");
       }
 
       setMatches(matches);
@@ -86,7 +109,7 @@ export function useQueryMatches(
       debounceSearchRef.current = undefined;
       debounceSearch.cancel();
     };
-  }, [favorite_scripts, title_searcher, character_searcher]);
+  }, [favoriteScripts, titleSearcher, characterSearcher]);
 
   // Run the debounced search when the query changes
   React.useEffect(() => {

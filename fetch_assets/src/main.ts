@@ -1,4 +1,8 @@
 import type { ScriptData, ScriptsFile } from "../../common/src/script.ts";
+import {
+  makeCharacterSearcher,
+  makeTitleSearcher,
+} from "../../common/src/search.ts";
 import { fetchAllScripts, readScripts } from "./all_scripts.ts";
 import { downloadCharacterData } from "./character_json.ts";
 import { downloadExtraIcons } from "./extra_icons.ts";
@@ -25,6 +29,7 @@ import {
 import cliProgress from "cli-progress";
 import { Command, Option } from "commander";
 import fs from "fs";
+import type { FuseIndex } from "fuse.js/basic";
 import path from "path";
 
 const FAVORITE_SCRIPTS = "19,178,180,181,10,360,1273,1245,83,81,4,23,2,435,811";
@@ -109,6 +114,24 @@ async function getHomebrewScripts(homebrewPath: string): Promise<ScriptData[]> {
   return [];
 }
 
+async function makeCharacterFuseIndex(
+  scripts: ScriptData[],
+): Promise<FuseIndex<ScriptData>> {
+  const { default: characters } = await import("../../assets/data/roles.json", {
+    with: { type: "json" },
+  });
+  const roles = new Map(
+    characters.map((c) => [c.id, { id: c.id, name: c.name }]),
+  );
+  const characterSearcher = makeCharacterSearcher(roles, scripts);
+  return characterSearcher.getIndex();
+}
+
+function makeTitleFuseIndex(scripts: ScriptData[]): FuseIndex<ScriptData> {
+  const titleSearcher = makeTitleSearcher(scripts);
+  return titleSearcher.getIndex();
+}
+
 async function getAllScripts(
   homebrewPath: string,
   extraScriptsDir: string,
@@ -128,9 +151,14 @@ async function getAllScripts(
     const allScriptsMinusExtra = allScripts.scripts.filter(
       (s) => !extraScripts.some((s2) => s2.pk == s.pk),
     );
+    const scripts = extraScripts.concat(allScriptsMinusExtra);
+    const characterFuseIndex = await makeCharacterFuseIndex(scripts);
+    const titleFuseIndex = makeTitleFuseIndex(scripts);
     return {
-      scripts: extraScripts.concat(allScriptsMinusExtra),
+      scripts,
       lastUpdate: allScripts.lastUpdate,
+      characterFuseIndex,
+      titleFuseIndex,
     };
   }
   console.log("downloading all scripts");
@@ -139,9 +167,14 @@ async function getAllScripts(
   const extraScripts = (await readScripts(extraScriptsDir)).concat(
     await getHomebrewScripts(homebrewPath),
   );
+  const scripts = extraScripts.concat(allScripts);
+  const characterFuseIndex = await makeCharacterFuseIndex(scripts);
+  const titleFuseIndex = makeTitleFuseIndex(scripts);
   return {
-    scripts: extraScripts.concat(allScripts),
+    scripts,
     lastUpdate: updateTime.toJSON(),
+    characterFuseIndex,
+    titleFuseIndex,
   };
 }
 

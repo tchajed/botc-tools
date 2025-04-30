@@ -19,7 +19,7 @@ import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { differenceInDays } from "date-fns";
 import { lighten } from "polished";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 const BtnSpan = styled.span`
   padding: 0.4rem 0.5rem;
@@ -244,21 +244,10 @@ export function App(props: { scriptsFile: ScriptsFile }): JSX.Element {
     });
   }, [password]);
 
-  const scripts = props.scriptsFile.scripts;
+  const { scripts } = props.scriptsFile;
   const lastUpdate = new Date(Date.parse(props.scriptsFile.lastUpdate));
   const baseThree = scripts.filter((s) => BaseThree.includes(s.pk));
   baseThree.sort((s1, s2) => s1.pk - s2.pk);
-
-  const custom = useMemo(
-    () =>
-      scripts.filter((s) => {
-        if (BaseThree.includes(s.pk)) {
-          return false;
-        }
-        return authenticated || !s.allAmne;
-      }),
-    [scripts, authenticated],
-  );
 
   function removePrefix(s: string, prefix: string): string {
     if (s.startsWith(prefix)) {
@@ -350,7 +339,12 @@ export function App(props: { scriptsFile: ScriptsFile }): JSX.Element {
           <h2>Base 3</h2>
           <ScriptList scripts={baseThree} />
           <h2>Custom</h2>
-          <SearchResults scripts={custom} query={query} setQuery={setQuery} />
+          <SearchResults
+            scriptsFile={props.scriptsFile}
+            query={query}
+            setQuery={setQuery}
+            authenticated={authenticated}
+          />
           <HelpText />
           <Footer
             lastUpdate={lastUpdate}

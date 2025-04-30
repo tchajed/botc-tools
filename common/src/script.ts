@@ -12,6 +12,8 @@ export interface ScriptData {
 export interface ScriptsFile {
   scripts: ScriptData[];
   lastUpdate: string;
+  titleFuseIndex?: unknown;
+  characterFuseIndex?: unknown;
 }
 
 export interface NightAction {

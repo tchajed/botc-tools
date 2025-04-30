@@ -1,4 +1,4 @@
-import type { ScriptData } from "../../../common/src/script";
+import type { ScriptsFile } from "../../../common/src/script";
 import { isSafari } from "../detect";
 import { ScriptList } from "./script_list";
 import { useQueryMatches, searchNormalize } from "./search";
@@ -6,11 +6,12 @@ import { css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function SearchResults(props: {
-  scripts: ScriptData[];
+  scriptsFile: ScriptsFile;
   query: string;
   setQuery: (q: string) => void;
+  authenticated: boolean;
 }): JSX.Element {
-  const { scripts, query, setQuery } = props;
+  const { scriptsFile, query, setQuery } = props;
 
   // on Safari the search box already has a magnifying glass icon so avoid
   // adding a redundant one
@@ -22,7 +23,12 @@ export function SearchResults(props: {
     window.location.hash = searchNormalize(newQuery);
   }
 
-  const allResults = useQueryMatches(scripts, query);
+  const allResults = useQueryMatches(
+    scriptsFile,
+    query,
+    21,
+    props.authenticated,
+  );
   const results = [];
   for (const result of allResults.values()) {
     if (results.length >= 20) {
@@ -71,7 +77,7 @@ export function SearchResults(props: {
       </div>
       {allResults.size === 0 && <span>No results</span>}
       <ScriptList scripts={results} />
-      {numExtraResults > 0 && <span>... plus {numExtraResults} more</span>}
+      {numExtraResults > 0 && <span>...</span>}
     </>
   );
 }
