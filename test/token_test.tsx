@@ -1,7 +1,7 @@
-import { roles } from "../src/js/botc/roles";
-import { TokenCanvas } from "../src/js/randomizer/tokens/token_canvas";
+import { roles } from "../src/js/botc/roles.ts";
+import { TokenCanvas } from "../src/js/randomizer/tokens/token_canvas.ts";
+import { GlobalStyle } from "../src/js/styles/global_style.ts";
 import { Global, css } from "@emotion/react";
-import { GlobalStyle } from "styles/global_style";
 
 /** All the tokens */
 export function AllTokens(): JSX.Element {

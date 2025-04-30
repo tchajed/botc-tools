@@ -1,3 +1,17 @@
+import { CharacterInfo, getCharacter } from "../botc/roles";
+import { Script } from "../botc/script";
+import {
+  effectiveDistribution,
+  modifyingCharacters,
+  roleTypesDefinitelyDone,
+  selectableCharacters,
+  splitSelectedChars,
+  targetDistributions,
+} from "../botc/setup";
+import { NumPlayerSelector } from "../components/num_players";
+import { FullscreenRole } from "../components/role_fullscreen";
+import { restoreScroll } from "../routing";
+import { visibleClass } from "../tabs";
 import { CharacterContext } from "./character_context";
 import { Column, ColumnContainer } from "./columns";
 import { SelectedCharacters, sortBag } from "./components/bag";
@@ -18,21 +32,7 @@ import {
 } from "./state";
 import { TownsquareImage } from "./tokens/townsquare_image";
 import { css } from "@emotion/react";
-import { CharacterInfo, getCharacter } from "botc/roles";
-import { Script } from "botc/script";
-import {
-  effectiveDistribution,
-  modifyingCharacters,
-  roleTypesDefinitelyDone,
-  selectableCharacters,
-  splitSelectedChars,
-  targetDistributions,
-} from "botc/setup";
-import { NumPlayerSelector } from "components/num_players";
-import { FullscreenRole } from "components/role_fullscreen";
 import React, { SetStateAction, useEffect, useState } from "react";
-import { restoreScroll } from "routing";
-import { visibleClass } from "tabs";
 
 export function Randomizer({
   script,

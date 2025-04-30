@@ -14,34 +14,23 @@
  */
 import fabled_botc_roles from "../../../assets/data/fabled.json";
 import botc_roles from "../../../assets/data/roles.json";
+import { Editions, nameToId, RoleTypes } from "../../../common/src/script";
+import type {
+  Character,
+  Edition,
+  NightAction,
+  RoleType,
+} from "../../../common/src/script";
 import { nightorder } from "./nightorder";
 /* Custom overrides provided by this app. Some of these simplify or otherwise
  * clarify roles that are in roles.json, some are experimental characters not in
  * that file, and others are homebrew or "oops all amnesiacs" roles. */
 import { overrides } from "./overrides";
 
-export interface NightAction {
-  details: string;
-  index: number;
-}
-
-const RoleTypes = [
-  "townsfolk",
-  "outsider",
-  "minion",
-  "demon",
-  "fabled",
-  "travellers",
-] as const;
-export type RoleType = (typeof RoleTypes)[number];
-
-export const Editions = ["tb", "snv", "bmr", "other"] as const;
-export type Edition = (typeof Editions)[number];
-
 // TODO: this is the only class in use, perhaps it would be good to make it a
 // mere interface and handle these methods some other way (currently it creates
 // some awkwardness when we need CardInfo & {demonNum: number}).
-export class CharacterInfo {
+export class CharacterInfo implements Character {
   readonly id: string;
   readonly name: string;
   readonly roleType: RoleType;
@@ -130,13 +119,6 @@ NonTeensyDemonInfo.firstNight = {
   Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
   index: nightorder.firstNight("demon"),
 };
-
-export function nameToId(name: string): string {
-  if (name.toLowerCase() !== name) {
-    console.warn("nameToId called on non-lowercase name", name);
-  }
-  return name.toLowerCase().replaceAll(/[ '_-]/g, "");
-}
 
 function useOverride(id: string, info: CharacterInfo) {
   info.ability = overrides.ability(id) ?? info.ability;

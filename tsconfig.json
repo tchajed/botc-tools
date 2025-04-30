@@ -1,16 +1,10 @@
 {
-  "compilerOptions": {
-    "baseUrl": "src/js",
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "target": "es2018",
-    "lib": ["dom", "es2021"],
-    "strict": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react"
-  }
+  "include": [],
+  "references": [
+    { "path": "./tsconfig-vite.json" },
+    { "path": "./tsconfig-web.json" },
+    { "path": "./hash_password/tsconfig.json" },
+    { "path": "./fetch_assets/tsconfig.json" },
+    { "path": "./test/tsconfig.json" }
+  ]
 }

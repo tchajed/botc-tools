@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "lib": ["DOM", "es2021"]
+  },
+  "include": ["posthtml_include.d.ts", "vite.config.ts"],
+  "extends": ["./tsconfig-base.json"]
+}

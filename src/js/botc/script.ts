@@ -1,18 +1,7 @@
+import { nameToId } from "../../../common/src/script";
+import type { ScriptData } from "../../../common/src/script";
 import { Jinx, getJinxList } from "./jinx";
-import { CharacterInfo, DemonInfo, MinionInfo, nameToId, roles } from "./roles";
-
-export interface ScriptData {
-  pk: number;
-  title: string;
-  author?: string;
-  allAmne?: boolean;
-  characters: string[];
-}
-
-export type ScriptsFile = {
-  scripts: ScriptData[];
-  lastUpdate: string;
-};
+import { CharacterInfo, DemonInfo, MinionInfo, roles } from "./roles";
 
 export interface NightOrders {
   // already sorted

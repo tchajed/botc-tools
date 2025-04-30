@@ -1,3 +1,4 @@
+import { getCharacter } from "./botc/roles";
 import { Script } from "./botc/script";
 import { selectableCharacters, splitSelectedChars } from "./botc/setup";
 import { Nav } from "./components/nav";
@@ -8,17 +9,16 @@ import {
   createSelectionReducer,
   initialSelection,
 } from "./randomizer/selection";
+import { initStorage } from "./randomizer/state";
 import { CharacterSheet } from "./roles/character_sheet";
 import { Page } from "./routing";
 import { selectedScript } from "./select_script";
+import { GlobalStyle } from "./styles/global_style";
+import { ScriptStyles } from "./styles/script_styles";
+import { theme } from "./theme";
 import { Global, ThemeProvider } from "@emotion/react";
-import { getCharacter } from "botc/roles";
-import { initStorage } from "randomizer/state";
 import React, { useEffect, useReducer, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { GlobalStyle } from "styles/global_style";
-import { ScriptStyles } from "styles/script_styles";
-import { theme } from "theme";
 
 function getUrlPage(): Page | null {
   const params = new URLSearchParams(window.location.search);

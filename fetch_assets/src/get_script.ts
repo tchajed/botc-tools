@@ -1,18 +1,5 @@
+import type { ScriptData } from "../../common/src/script.ts";
 import axios from "axios";
-
-/** Format for a single saved script. */
-export interface ScriptData {
-  pk: number;
-  title: string;
-  author: string;
-  score: number;
-  characters: string[];
-}
-/** Format for assets/static/scripts.json `ScriptData`. */
-export type ScriptsFile = {
-  scripts: ScriptData[];
-  lastUpdate: string;
-};
 
 const apiBase = "https://botc-scripts.azurewebsites.net/api";
 

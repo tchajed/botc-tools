@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2018",
     "module": "NodeNext",
-    "forceConsistentCasingInFileNames": true,
     "lib": ["dom", "es2021"],
-    "esModuleInterop": true,
+    "jsx": "react-jsx",
     "moduleResolution": "nodenext"
-  }
+  },
+  "references": [{ "path": "../tsconfig-web.json" }],
+  "extends": ["../tsconfig-base.json"]
 }

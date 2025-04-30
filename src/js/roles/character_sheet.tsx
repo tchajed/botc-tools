@@ -1,4 +1,5 @@
-import { CharacterInfo, RoleType } from "../botc/roles";
+import type { RoleType } from "../../../common/src/script";
+import { CharacterInfo } from "../botc/roles";
 import { Script } from "../botc/script";
 import {
   CharacterIconElement,

@@ -1,12 +1,13 @@
 {
   "name": "botc_tools",
+  "type": "module",
   "source": [
     "src/index.html",
     "src/script.html"
   ],
   "scripts": {
-    "fetch-assets": "ts-node fetch_assets/src/main.ts",
-    "test-screenshots": "ts-node test/screenshot.ts",
+    "fetch-assets": "tsc -b fetch_assets && node ts_out/fetch_assets/src/main.js",
+    "test-screenshots": "tsc -b test && node ts_out/test/screenshot.js",
     "start": "parcel serve",
     "start:vite": "vite preview",
     "build": "parcel build --public-url '.'",
@@ -17,7 +18,7 @@
     "fullbuild:vite": "yarn run fetch-assets && yarn run build:vite",
     "lint": "eslint src fetch_assets test",
     "fmt": "prettier --write --list-different .",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc -b",
     "check": "yarn run lint && yarn run prettier --check . && yarn run typecheck",
     "clean": "rm -rf .parcel-cache/ dist/"
   },
@@ -59,7 +60,6 @@
     "puppeteer": "^22.3.0",
     "querystring-es3": "^0.2.1",
     "stream-browserify": "^3.0.0",
-    "ts-node": "^10.9.1",
     "typescript": "~5.7",
     "typescript-eslint": "^8.10.0",
     "url": "^0.11.0",
@@ -84,9 +84,9 @@
     "cli-progress": "^3.12.0",
     "commander": "^12.0.0",
     "date-fns": "^3.6.0",
+    "fuse.js": "7.0.0",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
-    "match-sorter": "^6.3.1",
     "node-gzip": "^1.1.2",
     "polished": "^4.2.2",
     "react": "^18.2.0",

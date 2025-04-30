@@ -1,12 +1,12 @@
 import "../icons";
 import { Page, pageUrl, saveScroll } from "../routing";
+import { theme } from "../theme";
 import { Global, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
 import { lighten } from "polished";
 import React, { PropsWithChildren } from "react";
-import { theme } from "theme";
 
 const NavItem = styled.a`
   display: flex;

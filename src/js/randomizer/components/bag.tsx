@@ -1,6 +1,7 @@
 import { BagCharacter, splitSelectedChars } from "../../botc/setup";
 import "../../icons";
 import { CharacterContext } from "../character_context";
+import { Column, ColumnContainer } from "../columns";
 import { History, SetHistory } from "../history";
 import { CharacterSelectionVars, Selection } from "../selection";
 import { ScriptState } from "../state";
@@ -9,7 +10,6 @@ import { CardInfo, CharacterCard } from "./characters";
 import { RankingBtns } from "./ranking_btns";
 import { BagSetupHelp } from "./setup_help";
 import { css } from "@emotion/react";
-import { Column, ColumnContainer } from "randomizer/columns";
 import { Ranking } from "randomizer/ranking";
 import { useContext } from "react";
 
