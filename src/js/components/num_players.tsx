@@ -1,13 +1,13 @@
-import "../icons";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Distribution,
   distributionForCount,
   zeroDistribution,
-} from "botc/setup";
-import { Button } from "randomizer/components/button";
+} from "../botc/setup";
+import "../icons";
+import { Button } from "../randomizer/components/button";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SetStateAction } from "react";
 import React from "react";
 

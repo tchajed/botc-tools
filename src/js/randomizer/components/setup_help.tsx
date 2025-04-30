@@ -1,9 +1,4 @@
-import "../../icons";
-import { CharacterContext } from "../character_context";
-import { Selection } from "../selection";
-import styled from "@emotion/styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { CharacterInfo } from "botc/roles";
+import { CharacterInfo } from "../../botc/roles";
 import {
   SetupModification,
   SetupChanges,
@@ -14,12 +9,17 @@ import {
   targetDistributions,
   splitSelectedChars,
   uniqueDistributions,
-} from "botc/setup";
+} from "../../botc/setup";
+import { characterClass } from "../../components/character_icon";
+import { Distr } from "../../components/num_players";
+import "../../icons";
+import { ErrorSpan, SuccessSpan } from "../../styles/error_msg";
+import { CharacterContext } from "../character_context";
+import { Selection } from "../selection";
+import styled from "@emotion/styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classnames from "classnames";
-import { characterClass } from "components/character_icon";
-import { Distr } from "components/num_players";
 import { useContext } from "react";
-import { ErrorSpan, SuccessSpan } from "styles/error_msg";
 
 export function LegionDistr({ dist }: { dist: Distribution }): JSX.Element {
   const Num = styled.span`

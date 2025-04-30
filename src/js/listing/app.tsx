@@ -1,5 +1,6 @@
 import type { ScriptsFile } from "../../../common/src/script";
 import "../icons";
+import { isCorrectPassword } from "../password";
 import {
   ScriptState,
   getPassword,
@@ -7,6 +8,9 @@ import {
   storePassword,
 } from "../randomizer/state";
 import { clearSavedScroll, pageUrl } from "../routing";
+import { GlobalStyle } from "../styles/global_style";
+import { IndexStyles } from "../styles/index_style";
+import { theme } from "../theme";
 import { BaseThree, ScriptList } from "./script_list";
 import { searchNormalize } from "./search";
 import { SearchResults } from "./search_results";
@@ -14,12 +18,8 @@ import { Global, ThemeProvider, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { differenceInDays } from "date-fns";
-import { isCorrectPassword } from "password";
 import { lighten } from "polished";
 import { useEffect, useMemo, useState } from "react";
-import { GlobalStyle } from "styles/global_style";
-import { IndexStyles } from "styles/index_style";
-import { theme } from "theme";
 
 const BtnSpan = styled.span`
   padding: 0.4rem 0.5rem;

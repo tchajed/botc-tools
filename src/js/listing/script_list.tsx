@@ -1,17 +1,17 @@
 import { nameToId } from "../../../common/src/script";
 import type { ScriptData } from "../../../common/src/script";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   getCharacterList,
   hasAtheist,
   hasHeretic,
   isTeensyville,
   onlyBaseThree,
-} from "botc/script";
+} from "../botc/script";
+import { pageUrl } from "../routing";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { darken } from "polished";
-import { pageUrl } from "routing";
 
 export const BaseThree = [178, 180, 181];
 

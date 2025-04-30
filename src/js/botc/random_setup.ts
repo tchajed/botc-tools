@@ -1,3 +1,4 @@
+import { shuffleArray } from "../randomizer/ranking";
 import { Selection } from "./../randomizer/selection";
 import { CharacterInfo, getCharacter } from "./roles";
 import {
@@ -7,7 +8,6 @@ import {
   sameDistribution,
   targetDistributions,
 } from "./setup";
-import { shuffleArray } from "randomizer/ranking";
 
 function randomChoice<T>(a: T[]): T {
   return a[Math.floor(Math.random() * a.length)];

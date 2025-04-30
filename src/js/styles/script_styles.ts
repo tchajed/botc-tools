@@ -1,5 +1,5 @@
+import { theme } from "../theme";
 import { css } from "@emotion/react";
-import { theme } from "theme";
 
 export const ScriptStyles = css`
   h1 {

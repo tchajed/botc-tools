@@ -1,6 +1,6 @@
 import type { Character, ScriptData } from "./script.ts";
 import { nameToId } from "./script.ts";
-import Fuse from "fuse.js/basic";
+import Fuse from "fuse.js";
 
 function characterList(
   roles: Map<string, Character>,
