@@ -7,6 +7,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "rewriteRelativeImportExtensions": true,
+    "skipLibCheck": true,
     "sourceMap": true,
     "composite": true,
     "incremental": true,
