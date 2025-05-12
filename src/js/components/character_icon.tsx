@@ -54,7 +54,7 @@ export function CharacterIconElement(props: {
   const { id } = props;
   const char = getCharacter(id);
   const name = props.name || char.name;
-  if (!iconPath(id) && !["minion", "demon"].includes(id)) {
+  if (!iconPath(id) && !["minioninfo", "demoninfo"].includes(id)) {
     // warn that a fallback is being used
     console.warn(`no icon for ${id}`);
   }

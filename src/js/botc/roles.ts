@@ -82,15 +82,15 @@ export class CharacterInfo {
 }
 
 export const MinionInfo: CharacterInfo = new CharacterInfo(
-  "minion",
+  "minioninfo", // matches nightsheet.json
   "Minion Info",
-  "minion",
+  "minion", // roleType
   "other",
 );
 MinionInfo.firstNight = {
   details: `If 7 or more players: <tab>Wake all Minions. Show the THIS IS THE DEMON token.
     <tab>Point to the Demon.`,
-  index: nightorder.firstNight("minion"),
+  index: nightorder.firstNight("minioninfo"),
 };
 
 export const NonTeensyMinionInfo: CharacterInfo = new CharacterInfo(
@@ -102,20 +102,20 @@ export const NonTeensyMinionInfo: CharacterInfo = new CharacterInfo(
 NonTeensyMinionInfo.firstNight = {
   details: `Wake all Minions. Show the THIS IS THE DEMON token.
   Point to the Demon.`,
-  index: nightorder.firstNight("minion"),
+  index: nightorder.firstNight("minioninfo"),
 };
 
 export const DemonInfo: CharacterInfo = new CharacterInfo(
-  "demon",
+  "demoninfo",
   "Demon Info",
-  "demon",
+  "demon", // roleType
   "other",
 );
 DemonInfo.firstNight = {
   details: `If there are 7 or more players:<tab>Wake the Demon.
   <tab>Show the THESE ARE YOUR MINIONS token. Point to all Minions.
   <tab>Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
-  index: nightorder.firstNight("demon"),
+  index: nightorder.firstNight("demoninfo"),
 };
 
 export const NonTeensyDemonInfo: CharacterInfo = new CharacterInfo(
@@ -128,7 +128,7 @@ NonTeensyDemonInfo.firstNight = {
   details: `Wake the Demon.
   Show the THESE ARE YOUR MINIONS token. Point to all Minions.
   Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
-  index: nightorder.firstNight("demon"),
+  index: nightorder.firstNight("demoninfo"),
 };
 
 export function nameToId(name: string): string {
@@ -255,8 +255,8 @@ function createRoleData(): Map<string, CharacterInfo> {
   // drunk override puts it in the night order; need to give it a position
   roles.get("drunk")!.firstNight!.index = -1;
 
-  roles.set("minion", MinionInfo);
-  roles.set("demon", DemonInfo);
+  roles.set("minioninfo", MinionInfo);
+  roles.set("demoninfo", DemonInfo);
 
   // add two copies of Village Idiot or Legionary for the extra selections
   for (const id of ["villageidiot", "legionaryfallofrome"]) {
