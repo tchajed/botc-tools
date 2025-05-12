@@ -7,7 +7,7 @@ export function PlayerNameInput(props: {
   numPlayers: number;
   players: string[];
   setPlayers: (players: string[]) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const { numPlayers, players } = props;
 
   function handleChange(ev: React.ChangeEvent<HTMLTextAreaElement>) {

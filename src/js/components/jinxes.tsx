@@ -2,7 +2,7 @@ import { Script } from "../botc/script";
 import { CharacterIconElement } from "./character_icon";
 import { css } from "@emotion/react";
 
-export function Jinxes({ script }: { script: Script }): JSX.Element {
+export function Jinxes({ script }: { script: Script }): React.JSX.Element {
   if (script.jinxes.length == 0) {
     return <></>;
   }

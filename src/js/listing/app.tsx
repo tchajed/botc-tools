@@ -41,7 +41,7 @@ const BtnLink = styled(BtnSpan.withComponent("a"))`
 `;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function UpdateBar(): JSX.Element {
+function UpdateBar(): React.JSX.Element {
   // Set disabled class to hide the bar.
   //
   // Need to hook up to service worker events, and offer a refresh button.
@@ -65,7 +65,7 @@ function UpdateBar(): JSX.Element {
   );
 }
 
-function HelpText(): JSX.Element {
+function HelpText(): React.JSX.Element {
   const buttonHelp = [
     <li key="roles">
       <BtnSpan>
@@ -132,7 +132,7 @@ const BlackBtn = styled.a`
   }
 `;
 
-function GitHubLink(): JSX.Element {
+function GitHubLink(): React.JSX.Element {
   return (
     <BlackBtn href="https://github.com/tchajed/botc-tools" target="_blank">
       <FontAwesomeIcon icon={["fab", "github"]} />
@@ -144,7 +144,7 @@ function GitHubLink(): JSX.Element {
 function EnterPasswordButton(props: {
   password: string;
   setPassword: (password: string) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   const [isCorrect, setIsCorrect] = useState(false);
 
   useEffect(() => {
@@ -197,7 +197,7 @@ function Footer(props: {
   lastUpdate: Date;
   password: string;
   setPassword: (password: string) => void;
-}): JSX.Element {
+}): React.JSX.Element {
   return (
     <footer
       css={css`
@@ -234,7 +234,7 @@ const scriptLinkStyle = {
   `,
 };
 
-export function App(props: { scriptsFile: ScriptsFile }): JSX.Element {
+export function App(props: { scriptsFile: ScriptsFile }): React.JSX.Element {
   const [password, setPassword] = useState<string>("");
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 

@@ -39,7 +39,7 @@ function PageLink(
     page: Page;
     onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   }>,
-): JSX.Element {
+): React.JSX.Element {
   const { currentPage, id, page } = props;
   const current = currentPage == page;
   return (
@@ -104,7 +104,7 @@ export function Nav(props: {
   currentPage: Page;
   setCurrentPage: (p: Page) => void;
   scriptId: number;
-}): JSX.Element {
+}): React.JSX.Element {
   const id = props.scriptId;
   const currentPage = props.currentPage;
 

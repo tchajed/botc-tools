@@ -26,7 +26,7 @@ export const ColumnContainer = styled.div`
 export function Columns(props: {
   numColumns: number;
   children: ReactNode[];
-}): JSX.Element {
+}): React.JSX.Element {
   const cols = splitColumns(Children.toArray(props.children), props.numColumns);
   return (
     <ColumnContainer>

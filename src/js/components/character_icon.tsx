@@ -50,7 +50,7 @@ const iconStyle = {
 export function CharacterIconElement(props: {
   id: string;
   name?: string;
-}): JSX.Element {
+}): React.JSX.Element {
   const { id } = props;
   const char = getCharacter(id);
   const name = props.name || char.name;

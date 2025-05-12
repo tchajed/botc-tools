@@ -323,7 +323,7 @@ export async function drawTownsquare(
 
 // Just an example, we actually use the image version so it can be dragged
 // outside.
-function _TownsquareCanvas(props: TownsquareData): JSX.Element {
+function _TownsquareCanvas(props: TownsquareData): React.JSX.Element {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {

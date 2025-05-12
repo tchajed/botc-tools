@@ -11,7 +11,7 @@ import { Button } from "randomizer/components/button";
 import { SetStateAction } from "react";
 import React from "react";
 
-export function Distr({ dist }: { dist: Distribution }): JSX.Element {
+export function Distr({ dist }: { dist: Distribution }): React.JSX.Element {
   const Num = styled.span`
     // make each number fixed-width
     display: inline-block;
@@ -28,7 +28,7 @@ export function Distr({ dist }: { dist: Distribution }): JSX.Element {
   );
 }
 
-function BaseDistr({ numPlayers }: { numPlayers: number }): JSX.Element {
+function BaseDistr({ numPlayers }: { numPlayers: number }): React.JSX.Element {
   const dist =
     5 <= numPlayers && numPlayers <= 15
       ? distributionForCount(numPlayers)
@@ -48,7 +48,7 @@ export function NumPlayerSelector(props: {
   numPlayers: number;
   setNumPlayers: React.Dispatch<SetStateAction<number>>;
   teenysville: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const { numPlayers } = props;
   function handleIncDec(delta: number): () => void {
     return () => {

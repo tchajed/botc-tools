@@ -19,7 +19,7 @@ const SmallLabel = styled.span`
   font-size: 90%;
 `;
 
-function RoleLabel(props: { roleType: string }): JSX.Element {
+function RoleLabel(props: { roleType: string }): React.JSX.Element {
   const letter = props.roleType.charAt(0).toUpperCase();
   return <SmallLabel>{letter}</SmallLabel>;
 }
@@ -72,7 +72,7 @@ export function CharacterCard(props: {
   selected?: boolean;
   bluffSelected?: boolean;
   notNeeded?: boolean;
-}): JSX.Element {
+}): React.JSX.Element {
   const { character } = props;
   const { roleType } = character;
   const needsLabel = ["outsider", "minion"].includes(roleType);
@@ -98,7 +98,7 @@ export function CharacterSelection(
   props: CharacterSelectionVars & { doneRoles: string[] } & {
     selectBluffs: boolean;
   },
-): JSX.Element {
+): React.JSX.Element {
   const chars = useContext(CharacterContext);
   const { selection, bluffs } = props;
 

@@ -14,7 +14,7 @@ export function RandomSetupButton(props: {
   bluffs: Selection;
   bluffsDispatch: React.Dispatch<SelAction>;
   setHistory: SetHistory;
-}): JSX.Element {
+}): React.JSX.Element {
   const theme = useTheme();
   const characters = useContext(CharacterContext);
   const { numPlayers, selection, selDispatch, bluffs, bluffsDispatch } = props;

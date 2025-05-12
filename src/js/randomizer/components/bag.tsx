@@ -32,7 +32,7 @@ export function SelectedCharacters(
     history: History<Partial<ScriptState>>;
     setHistory: SetHistory;
   },
-): JSX.Element {
+): React.JSX.Element {
   const characters = useContext(CharacterContext);
   const { selection, bluffs, ranking, setFsRole } = props;
 
