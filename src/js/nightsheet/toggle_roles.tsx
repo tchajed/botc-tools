@@ -8,7 +8,7 @@ export function isActive(selection: Selection | null, id: string): boolean {
     return true;
   }
   // always active
-  if (id == "minion" || id == "demon") {
+  if (id == "minioninfo" || id == "demoninfo") {
     return true;
   }
   return selection.has(id);

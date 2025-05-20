@@ -14,7 +14,7 @@ function getFirstNight(id: string): number | null {
     return -1;
   }
   if (id == "stormcatcher") {
-    return nightsheet.firstNight.indexOf("demon");
+    return nightsheet.firstNight.indexOf("demoninfo");
   }
   const n = nightsheet.firstNight.indexOf(id);
   if (n < 0) {

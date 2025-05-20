@@ -212,8 +212,8 @@ function CharacterList(props: {
   let order = [...(firstNight ? orders.firstNight : orders.otherNights)];
   if (props.selection != null || props.teensy) {
     if (props.teensy) {
-      // skip minion and demon info
-      order = order.filter((c) => c.id != "minion" && c.id != "demon");
+      // skip minion and demon info for teensyville
+      order = order.filter((c) => c.id != "minioninfo" && c.id != "demoninfo");
       order = order.map((c) => {
         if (c.id == "lunatic") {
           return TeensyLunatic;
@@ -222,10 +222,10 @@ function CharacterList(props: {
       });
     } else {
       order = order.map((c) => {
-        if (c.id == "minion") {
+        if (c.id == "minioninfo") {
           return NonTeensyMinionInfo;
         }
-        if (c.id == "demon") {
+        if (c.id == "demoninfo") {
           return NonTeensyDemonInfo;
         }
         return c;
