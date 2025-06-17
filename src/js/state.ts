@@ -44,8 +44,15 @@ function toScriptState(state: Partial<ScriptState>): ScriptState {
   };
 }
 
-// load a script without setting its last load time
-async function loadStateRaw(id: number): Promise<ScriptState | null> {
+export async function setLastLoadTime(id: number) {
+  const lastLoad = new Date();
+  await localforage.setItem<LastLoadState>(`lastLoad.${id}`, {
+    id,
+    lastLoad,
+  });
+}
+
+export async function loadState(id: number): Promise<ScriptState | null> {
   const s: Partial<ScriptState> | null = await localforage.getItem(
     `assign.${id}`,
   );
@@ -53,19 +60,6 @@ async function loadStateRaw(id: number): Promise<ScriptState | null> {
     return null;
   }
   return toScriptState(s);
-}
-
-export async function loadState(id: number): Promise<ScriptState | null> {
-  const s = await loadStateRaw(id);
-  if (!s) {
-    return null;
-  }
-  const lastLoad = new Date();
-  await localforage.setItem<LastLoadState>(`lastLoad.${id}`, {
-    id,
-    lastLoad,
-  });
-  return s;
 }
 
 export async function storeState(
@@ -110,15 +104,15 @@ async function recentlyLoaded(
 ): Promise<ScriptStateWithLastLoad[]> {
   const loadStates: LastLoadState[] = [];
   const toDelete: number[] = [];
-  await localforage.iterate<LastLoadState, void>((loadState, key) => {
+  await localforage.iterate<LastLoadState, void>((s, key) => {
     if (!key.startsWith("lastLoad.")) {
       return;
     }
-    if (loadState.lastLoad > after) {
-      loadStates.push(loadState);
+    if (s.lastLoad > after) {
+      loadStates.push(s);
     }
-    if (loadState.lastLoad < deleteOlderThan) {
-      toDelete.push(loadState.id);
+    if (s.lastLoad < deleteOlderThan) {
+      toDelete.push(s.id);
     }
     return;
   });
@@ -128,13 +122,12 @@ async function recentlyLoaded(
   }
 
   const states: ScriptStateWithLastLoad[] = [];
-  for (const loadState of loadStates) {
-    const maybeState = await loadStateRaw(loadState.id);
-    // TODO: need to find script title
-    const s: ScriptState = maybeState || toScriptState({ id: loadState.id });
+  for (const { id, lastLoad } of loadStates) {
+    const maybeState = await loadState(id);
+    const s: ScriptState = maybeState || toScriptState({ id });
     states.push({
       ...s,
-      lastLoad: loadState.lastLoad,
+      lastLoad: lastLoad,
     });
   }
 
