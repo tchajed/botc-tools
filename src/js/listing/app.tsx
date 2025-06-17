@@ -4,7 +4,6 @@ import { clearSavedScroll, pageUrl } from "../routing";
 import {
   ScriptState,
   getPassword,
-  getRecentScripts,
   latestScript,
   storePassword,
 } from "../state";
@@ -253,10 +252,7 @@ export function App(props: {
   const baseThree = scripts.filter((s) => BaseThree.includes(s.pk));
   baseThree.sort((s1, s2) => s1.pk - s2.pk);
 
-  const custom = scripts.filter((s) => {
-    if (BaseThree.includes(s.pk)) {
-      return false;
-    }
+  const searchScripts = scripts.filter((s) => {
     return authenticated || !s.allAmne;
   });
 
@@ -354,7 +350,11 @@ export function App(props: {
             </>
           )}
           <h2>Search</h2>
-          <SearchResults scripts={scripts} query={query} setQuery={setQuery} />
+          <SearchResults
+            scripts={searchScripts}
+            query={query}
+            setQuery={setQuery}
+          />
           <h2>Shortcuts</h2>
           <ScriptList scripts={favorites(scripts)} />
           <HelpText />
