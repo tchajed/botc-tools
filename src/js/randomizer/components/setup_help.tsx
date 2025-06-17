@@ -300,7 +300,7 @@ export function SetupModifiers(props: {
 }) {
   const { numPlayers, selection } = props;
   const characters = useContext(CharacterContext);
-  const modified = modifyingCharacters(selection);
+  const modified = modifyingCharacters(selection, characters);
   const newDistributions = targetDistributions(
     numPlayers,
     modified,
@@ -398,7 +398,7 @@ export function BagSetupHelp(props: {
 }): React.JSX.Element {
   const { numPlayers, selection } = props;
   const characters = useContext(CharacterContext);
-  const modified = modifyingCharacters(selection);
+  const modified = modifyingCharacters(selection, characters);
   const targets = targetDistributions(numPlayers, modified, characters);
   const selected = characters.filter((c) => selection.has(c.id));
   const actual = effectiveDistribution(numPlayers, selected);

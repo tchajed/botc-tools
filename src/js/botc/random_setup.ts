@@ -28,7 +28,7 @@ function nextRandomChar(
 ): { id: string } | "done" | "fail" {
   const newDists = targetDistributions(
     numPlayers,
-    modifyingCharacters(selection),
+    modifyingCharacters(selection, characters),
     characters,
   );
 
