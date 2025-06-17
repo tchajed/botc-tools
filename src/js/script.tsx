@@ -15,7 +15,7 @@ import { Global, ThemeProvider } from "@emotion/react";
 import { getCharacter } from "botc/roles";
 import React, { useEffect, useReducer, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { initStorage } from "state";
+import { initStorage, setLastLoadTime } from "state";
 import { GlobalStyle } from "styles/global_style";
 import { ScriptStyles } from "styles/script_styles";
 import { theme } from "theme";
@@ -149,6 +149,7 @@ function ScriptApp({ script }: { script: Script }): React.JSX.Element {
 async function init() {
   initStorage();
   const script = new Script(await selectedScript());
+  setLastLoadTime(script.id);
   const app = document.getElementById("app");
   if (!app) {
     return;

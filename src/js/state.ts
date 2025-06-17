@@ -12,6 +12,15 @@ export interface ScriptState {
   lastSave: Date;
 }
 
+interface ScriptStateWithLastLoad extends ScriptState {
+  lastLoad: Date;
+}
+
+export interface LastLoadState {
+  id: number;
+  lastLoad: Date;
+}
+
 export interface GlobalState {
   players: string[];
 }
@@ -23,6 +32,26 @@ export function initStorage() {
   });
 }
 
+function toScriptState(state: Partial<ScriptState>): ScriptState {
+  return {
+    scriptTitle: state.scriptTitle || "",
+    id: state.id || 0,
+    numPlayers: state.numPlayers || 8,
+    ranking: state.ranking || {},
+    selection: state.selection || [],
+    bluffs: state.bluffs || [],
+    lastSave: state.lastSave || new Date(),
+  };
+}
+
+export async function setLastLoadTime(id: number) {
+  const lastLoad = new Date();
+  await localforage.setItem<LastLoadState>(`lastLoad.${id}`, {
+    id,
+    lastLoad,
+  });
+}
+
 export async function loadState(id: number): Promise<ScriptState | null> {
   const s: Partial<ScriptState> | null = await localforage.getItem(
     `assign.${id}`,
@@ -30,15 +59,7 @@ export async function loadState(id: number): Promise<ScriptState | null> {
   if (!s) {
     return null;
   }
-  return {
-    scriptTitle: s.scriptTitle || "",
-    id: s.id || 0,
-    numPlayers: s.numPlayers || 8,
-    ranking: s.ranking || {},
-    selection: s.selection || [],
-    bluffs: s.bluffs || [],
-    lastSave: s.lastSave || new Date(),
-  };
+  return toScriptState(s);
 }
 
 export async function storeState(
@@ -64,13 +85,66 @@ export async function storeState(
 
 export async function latestScript(): Promise<ScriptState | null> {
   let newestState: ScriptState | null = null;
-  await localforage.iterate<ScriptState, void>((s) => {
+  await localforage.iterate<Partial<ScriptState>, void>((partial, key) => {
+    if (!key.startsWith("assign.")) {
+      return;
+    }
+    const s = toScriptState(partial);
     if (newestState == null || s.lastSave > newestState.lastSave) {
       newestState = s;
     }
     return;
   });
   return newestState;
+}
+
+async function recentlyLoaded(
+  after: Date,
+  deleteOlderThan: Date,
+): Promise<ScriptStateWithLastLoad[]> {
+  const loadStates: LastLoadState[] = [];
+  const toDelete: number[] = [];
+  await localforage.iterate<LastLoadState, void>((s, key) => {
+    if (!key.startsWith("lastLoad.")) {
+      return;
+    }
+    if (s.lastLoad > after) {
+      loadStates.push(s);
+    }
+    if (s.lastLoad < deleteOlderThan) {
+      toDelete.push(s.id);
+    }
+    return;
+  });
+
+  for (const id of toDelete) {
+    await localforage.removeItem(`lastLoad.${id}`);
+  }
+
+  const states: ScriptStateWithLastLoad[] = [];
+  for (const { id, lastLoad } of loadStates) {
+    const maybeState = await loadState(id);
+    const s: ScriptState = maybeState || toScriptState({ id });
+    states.push({
+      ...s,
+      lastLoad: lastLoad,
+    });
+  }
+
+  states.sort((a, b) => b.lastLoad.valueOf() - a.lastLoad.valueOf());
+  return states;
+}
+
+const secPerDay = 24 * 60 * 60;
+const RECENT_AGE_MS: number = 14 * secPerDay * 1000;
+const MAX_RECENT_MS: number = 30 * secPerDay * 1000;
+
+export async function getRecentScripts(): Promise<ScriptState[]> {
+  const scripts = await recentlyLoaded(
+    new Date(Date.now() - RECENT_AGE_MS),
+    new Date(Date.now() - MAX_RECENT_MS),
+  );
+  return scripts;
 }
 
 export async function loadGlobalState(): Promise<GlobalState> {

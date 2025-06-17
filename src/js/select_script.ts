@@ -1,4 +1,4 @@
-import { ScriptData } from "./botc/script";
+import { ScriptData, ScriptsFile } from "./botc/script";
 import { getScripts } from "./get_scripts";
 import { getAuthenticated } from "state";
 
@@ -52,6 +52,24 @@ function getJson(): ScriptData | null {
     return null;
   }
   return parseJson(json);
+}
+
+export async function getScriptById(
+  scriptFile: ScriptsFile,
+  id: number,
+): Promise<ScriptData> {
+  const script = scriptFile.scripts.find((s) => s.pk == id);
+  if (!script) {
+    throw new Error(`unknown script id ${id}`);
+  }
+  if (script.allAmne) {
+    if (await getAuthenticated()) {
+      return script;
+    } else {
+      throw new Error(`script ${id} requires authentication`);
+    }
+  }
+  return script;
 }
 
 export async function selectedScript(): Promise<ScriptData> {

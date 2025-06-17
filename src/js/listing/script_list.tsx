@@ -51,9 +51,14 @@ function ScriptTitleTags({
           &nbsp;<TagSpan>teensy</TagSpan>
         </>
       )}
-      {onlyBaseThree(chars) && !BaseThree.includes(script.pk) && (
+      {BaseThree.includes(script.pk) && (
         <>
           &nbsp;<TagSpan>base3</TagSpan>
+        </>
+      )}
+      {onlyBaseThree(chars) && !BaseThree.includes(script.pk) && (
+        <>
+          &nbsp;<TagSpan>base3-roles</TagSpan>
         </>
       )}
     </>
