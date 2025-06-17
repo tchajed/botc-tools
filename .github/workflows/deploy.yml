@@ -17,10 +17,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      fail-fast: false
-
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
