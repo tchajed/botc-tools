@@ -1,9 +1,9 @@
 import { BagCharacter, splitSelectedChars } from "../../botc/setup";
 import "../../icons";
+import { ScriptState } from "../../state";
 import { CharacterContext } from "../character_context";
 import { History, SetHistory } from "../history";
 import { CharacterSelectionVars, Selection } from "../selection";
-import { ScriptState } from "../state";
 import { BluffList } from "./bluffs";
 import { CardInfo, CharacterCard } from "./characters";
 import { RankingBtns } from "./ranking_btns";

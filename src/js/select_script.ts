@@ -1,6 +1,6 @@
 import { ScriptData } from "./botc/script";
 import { getScripts } from "./get_scripts";
-import { getAuthenticated } from "randomizer/state";
+import { getAuthenticated } from "state";
 
 function selectedScriptId(): string {
   if (window.location.hash != "") {

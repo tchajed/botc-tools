@@ -1,4 +1,5 @@
 import "../../icons";
+import { ScriptState } from "../../state";
 import { CharacterContext } from "../character_context";
 import {
   History,
@@ -7,7 +8,6 @@ import {
   pureHistoryApply,
 } from "../history";
 import { CharacterSelectionVars, SelAction } from "../selection";
-import { ScriptState } from "../state";
 import { Button } from "./button";
 import styled from "@emotion/styled";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

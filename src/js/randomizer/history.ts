@@ -1,6 +1,6 @@
+import { ScriptState } from "../state";
 import { Ranking } from "./ranking";
 import { SelAction } from "./selection";
-import { ScriptState } from "./state";
 import { Dispatch, SetStateAction } from "react";
 
 const MAX_SIZE = 20;
