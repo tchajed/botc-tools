@@ -11,7 +11,7 @@
     "build": "vite build",
     "postbuild": "workbox generateSW",
     "fullbuild": "yarn run fetch-assets && yarn run build",
-    "lint": "eslint src fetch_assets test",
+    "lint": "eslint",
     "fmt": "prettier --write --list-different .",
     "typecheck": "tsc --noEmit",
     "check": "yarn run lint && yarn run prettier --check . && yarn run typecheck",
