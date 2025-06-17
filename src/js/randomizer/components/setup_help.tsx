@@ -174,6 +174,9 @@ function ModificationExplanation(props: {
     case "xaan": {
       return <span>(X outsiders)</span>;
     }
+    case "hermit": {
+      return <span>(&#x2212;0 or &#x2212;1 outsider)</span>;
+    }
     case "lordoftyphon":
       return (
         <span>
