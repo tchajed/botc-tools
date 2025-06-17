@@ -66,8 +66,7 @@ To build an optimized, static version of the site to `dist/`, run `yarn build`.
 ## Testing
 
 There is currently no testing framework setup. This is not intentional, I just
-haven't figured out how to set one up that works with Vite. (A contribution
-that sets up testing would be very useful!)
+haven't set one up. (A contribution that sets up testing would be very useful!)
 
 There is infrastructure for some automated browser screenshots:
 
