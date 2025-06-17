@@ -24,7 +24,9 @@ export function initStorage() {
 }
 
 export async function loadState(id: number): Promise<ScriptState | null> {
-  const s = await localforage.getItem<Partial<ScriptState>>(`assign.${id}`);
+  const s: Partial<ScriptState> | null = await localforage.getItem(
+    `assign.${id}`,
+  );
   if (!s) {
     return null;
   }
@@ -72,10 +74,8 @@ export async function latestScript(): Promise<ScriptState | null> {
 }
 
 export async function loadGlobalState(): Promise<GlobalState> {
-  let state = await localforage.getItem<Partial<GlobalState>>("global");
-  if (!state) {
-    state = {};
-  }
+  const state: Partial<GlobalState> =
+    (await localforage.getItem("global")) || {};
   return {
     players: state.players || [],
   };

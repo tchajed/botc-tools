@@ -1,3 +1,10 @@
+import {
+  ScriptState,
+  loadGlobalState,
+  loadState,
+  storeGlobalState,
+  storeState,
+} from "../state";
 import { CharacterContext } from "./character_context";
 import { Column, ColumnContainer } from "./columns";
 import { SelectedCharacters, sortBag } from "./components/bag";
@@ -9,13 +16,6 @@ import { SetupModifiers } from "./components/setup_help";
 import { History, restoreState } from "./history";
 import { randomRanking } from "./ranking";
 import { Selection, SelAction, CharacterSelectionVars } from "./selection";
-import {
-  ScriptState,
-  loadGlobalState,
-  loadState,
-  storeGlobalState,
-  storeState,
-} from "./state";
 import { TownsquareImage } from "./tokens/townsquare_image";
 import { css } from "@emotion/react";
 import { CharacterInfo, getCharacter } from "botc/roles";
