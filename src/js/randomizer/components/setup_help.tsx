@@ -98,10 +98,6 @@ function ModificationExplanation(props: {
       if (arrayEq(mod.delta, [0, +1]) || arrayEq(mod.delta, [+1, 0])) {
         return <span>(+0 or +1 outsider)</span>;
       }
-      // hermit
-      if (arrayEq(mod.delta, [0, -1]) || arrayEq(mod.delta, [-1, 0])) {
-        return <span>(&#x2212;0 or &#x2212;1 outsider)</span>;
-      }
       // sentinel
       if (arrayEq(mod.delta, [0, +1, -1]) || arrayEq(mod.delta, [+1, 0, -1])) {
         return <span>(might be +1 or &#x2212;1 outsider)</span>;
@@ -177,6 +173,9 @@ function ModificationExplanation(props: {
     }
     case "xaan": {
       return <span>(X outsiders)</span>;
+    }
+    case "hermit": {
+      return <span>(&#x2212;0 or &#x2212;1 outsider)</span>;
     }
     case "lordoftyphon":
       return (

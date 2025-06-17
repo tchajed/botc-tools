@@ -151,6 +151,8 @@ export type SetupModification = (
   | { type: "minion_ppp" }
   // +2 Minion
   | { type: "babygronk_battc" }
+  // -0 or -1 outsider & all other outsider modifications
+  | { type: "hermit" }
 ) & { notInBag?: boolean };
 
 function outsiders(...delta: number[]): SetupModification {
@@ -168,7 +170,6 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   godfather: outsiders(+1, -1),
   sentinel: outsiders(0, +1, -1),
   lyingppp: outsiders(+1, -1),
-  hermit: outsiders(0, -1),
   huntsman: { type: "huntsman" },
   riot: { type: "riot" },
   legion: { type: "legion" },
@@ -180,6 +181,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   summoner: { type: "summoner" },
   lordoftyphon: { type: "lordoftyphon" },
   xaan: { type: "xaan" },
+  hermit: { type: "hermit" },
 
   // Fall of Rome
   badomenfallofrome: { type: "drunk", notInBag: true },
@@ -233,6 +235,8 @@ function arbitraryOutsiders(old_dist: Distribution): Distribution[] {
 function applyModification(
   old_dist: Distribution,
   mod: SetupModification,
+  // global character list
+  characters: CharacterInfo[],
 ): Distribution[] {
   const dist: Distribution = { ...old_dist };
   switch (mod.type) {
@@ -342,6 +346,25 @@ function applyModification(
       dist.townsfolk += old_dist.minion;
       return arbitraryOutsiders(dist);
     }
+    case "hermit": {
+      // hermit's own ability
+      const dists = applyModification(old_dist, outsiders(-0, -1), characters);
+      // inherit any setup modifications of other characters in bag
+      const scriptOutsiderMods: SetupModification[] = characters
+        .filter((c) => c.roleType === "outsider" && c.id != "hermit")
+        .flatMap((c) => {
+          const mod = SetupChanges[characterIdWithoutNumber(c.id)];
+          if (mod) {
+            return [mod];
+          }
+          return [];
+        });
+      return dists.flatMap((d) => {
+        return scriptOutsiderMods.flatMap((mod) =>
+          applyModification(d, mod, characters),
+        );
+      });
+    }
     case "villageidiot":
     case "legionary": {
       return [dist];
@@ -405,7 +428,14 @@ export function modifiedDistribution(
 ): Distribution[] {
   let dists = [dist];
   for (const mod of mods) {
-    dists = dists.flatMap((dist) => applyModification(dist, mod));
+    dists = dists.flatMap((dist) => applyModification(dist, mod, characters));
+  }
+  // the Hermit can remove itself but still have its -1 outsider setup effect,
+  // so it change the distribution without being in the selection
+  if (characters.some((c) => c.id === "hermit")) {
+    dists = dists.flatMap((dist) =>
+      applyModification(dist, outsiders(-0, -1), characters),
+    );
   }
   dists = dists.filter((d) => clampedValid(d, characters));
   return uniqueDistributions(dists);
@@ -502,6 +532,13 @@ export function splitSelectedChars(
   }
 
   const outsideBag = selected.filter((char) => !goesInBag(char));
+  if (bag.find((c) => c.id == "hermit")) {
+    const drunk = characters.find((c) => c.id == "drunk");
+    if (drunk && !bag.find((c) => c.id == "drunk")) {
+      outsideBag.push(drunk);
+    }
+  }
+
   outsideBag.sort((c1, c2) => c1.name.localeCompare(c2.name));
   return { bag, outsideBag };
 }
