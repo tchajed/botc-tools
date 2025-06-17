@@ -57,7 +57,9 @@ export function FullscreenBluffs(props: {
               THESE CHARACTERS <br /> ARE NOT IN PLAY{bluffs.length > 0 && ":"}
             </div>
             {bluffs.map((char) => (
-              <TokenCanvas character={char} key={char.id} size="25vh" />
+              <div>
+                <TokenCanvas character={char} key={char.id} size="25vh" />
+              </div>
             ))}
           </div>
         );
