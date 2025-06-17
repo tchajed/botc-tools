@@ -343,7 +343,7 @@ export function App(props: {
             </div>
           )}
           <h1>BotC tools</h1>
-          {props.recents && (
+          {props.recents.length > 0 && (
             <>
               <h2>Recents</h2>
               <ScriptList scripts={props.recents} />
