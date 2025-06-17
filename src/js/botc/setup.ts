@@ -370,11 +370,9 @@ function applyModification(
           }
           return [];
         });
-      return dists.flatMap((d) => {
-        return scriptOutsiderMods.flatMap((mod) =>
-          applyModification(d, mod, characters),
-        );
-      });
+      return dists.flatMap((d) =>
+        applyModifications(d, scriptOutsiderMods, characters),
+      );
     }
     case "villageidiot":
     case "legionary": {
@@ -402,6 +400,18 @@ function applyModification(
       return [dist];
     }
   }
+}
+
+function applyModifications(
+  old_dist: Distribution,
+  mods: SetupModification[],
+  characters: CharacterInfo[],
+): Distribution[] {
+  let dists = [{ ...old_dist }];
+  for (const mod of mods) {
+    dists = dists.flatMap((dist) => applyModification(dist, mod, characters));
+  }
+  return dists;
 }
 
 function clampedValid(
@@ -437,28 +447,26 @@ export function modifiedDistribution(
   mods: SetupModification[],
   characters: CharacterInfo[],
 ): Distribution[] {
-  let dists = [dist];
-  for (const mod of mods) {
-    dists = dists.flatMap((dist) => applyModification(dist, mod, characters));
-  }
-  // the Hermit can remove itself but still have its -1 outsider setup effect,
-  // so it change the distribution without being in the selection
-  if (characters.some((c) => c.id === "hermit")) {
-    dists = dists.flatMap((dist) =>
-      applyModification(dist, outsiders(-0, -1), characters),
-    );
-  }
+  let dists = applyModifications(dist, mods, characters);
   dists = dists.filter((d) => clampedValid(d, characters));
   return uniqueDistributions(dists);
 }
 
-export function modifyingCharacters(selection: Set<string>): CharacterInfo[] {
+export function modifyingCharacters(
+  selection: Set<string>,
+  characters: CharacterInfo[],
+): CharacterInfo[] {
   const modified: CharacterInfo[] = [];
   selection.forEach((id) => {
     if (modifiesSetup(id)) {
       modified.push(getCharacter(id));
     }
   });
+  // the Hermit can remove itself but still have its -1 outsider setup effect,
+  // so it change the distribution without being in the selection
+  if (!selection.has("hermit") && characters.some((c) => c.id === "hermit")) {
+    modified.push(getCharacter("hermit"));
+  }
   modified.sort((c1, c2) => c1.name.localeCompare(c2.name));
   return modified;
 }

@@ -120,7 +120,7 @@ export function Randomizer({
 
   const targetDists = targetDistributions(
     numPlayers,
-    modifyingCharacters(selection),
+    modifyingCharacters(selection, characters),
     characters,
   );
   const selectedCharInfo: CharacterInfo[] = [...selection].map((id) =>
