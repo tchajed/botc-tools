@@ -32,7 +32,6 @@ import { NumPlayerSelector } from "components/num_players";
 import { FullscreenRole } from "components/role_fullscreen";
 import React, { SetStateAction, useEffect, useState } from "react";
 import { restoreScroll } from "routing";
-import { visibleClass } from "tabs";
 
 export function Randomizer({
   script,
@@ -153,7 +152,7 @@ export function Randomizer({
 
   return (
     <CharacterContext.Provider value={characters}>
-      <div className={visibleClass(active)}>
+      <div className={active ? "visible" : "not-visible"}>
         <h1>{script.title}</h1>
         <NumPlayerSelector
           teenysville={script.teensyville}

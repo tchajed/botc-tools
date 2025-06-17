@@ -8,7 +8,6 @@ import { Fullscreen } from "../components/fullscreen_modal";
 import { Jinxes } from "../components/jinxes";
 import { FullscreenRole } from "../components/role_fullscreen";
 import { restoreScroll } from "../routing";
-import { visibleClass } from "../tabs";
 import { css } from "@emotion/react";
 import { faCopy } from "@fortawesome/free-solid-svg-icons/faCopy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -204,7 +203,7 @@ export function CharacterSheet(props: {
   const qrDest = window.location.href;
 
   return (
-    <div className={visibleClass(active)}>
+    <div className={active ? "visible" : "not-visible"}>
       <div
         css={css`
           display: flex;

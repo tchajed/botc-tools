@@ -16,7 +16,6 @@ import { CardInfo } from "../randomizer/components/characters";
 import { Selection } from "../randomizer/selection";
 import { TokenCanvas } from "../randomizer/tokens/token_canvas";
 import { restoreScroll } from "../routing";
-import { visibleClass } from "../tabs";
 import { ToggleAllRoles, isActive } from "./toggle_roles";
 import { css, useTheme } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -419,7 +418,7 @@ export function NightOrder(props: {
 
   return (
     <ShowBluffsContext.Provider value={() => setShowBluffs(bluffs)}>
-      <div className={visibleClass(active)}>
+      <div className={active ? "visible" : "not-visible"}>
         <Sheet
           script={props.script}
           firstNight={true}
