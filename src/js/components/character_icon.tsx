@@ -1,5 +1,4 @@
-// This glob import is replaced by vite.config.ts which loads `character_icons_vite.ts` instead.
-import images from "../../../assets/icons/*.webp";
+import images from "../character_icons_vite";
 import { css } from "@emotion/react";
 import { characterIdWithoutNumber, getCharacter } from "botc/roles";
 

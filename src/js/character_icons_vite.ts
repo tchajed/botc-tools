@@ -1,14 +1,7 @@
-/**
- * character_icon.tsx contains a glob import that is replaced by vite.config.ts.
- * vite.config.ts loads this file instead to provide Vite-specific glob imports.
- * This file contains a glob import that only works in Vite.
- */
-
 // Return a map of the form { "Icon_<id>": <url> }.
 const images = Object.fromEntries(
   Object.entries(
     // `import.meta.glob` is a Vite-specific feature.
-    // @ts-expect-error TODO: Can use "vite/client" types after removing conflicting definition in `assets/globals.d.ts`
     import.meta.glob("../../assets/icons/*.webp", {
       eager: true,
       query: "?url",

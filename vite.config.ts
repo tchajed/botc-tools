@@ -15,11 +15,6 @@ const alias: AliasOptions = [
       replacement: path.resolve(__dirname, "src", "js", name),
     };
   }),
-  {
-    // Redirect character icon imports to use Vite-specific glob syntax.
-    find: /^.*\/assets\/icons\/\*\.webp$/,
-    replacement: path.resolve(__dirname, "src", "js", "character_icons_vite"),
-  },
 ];
 
 // We run PostHTML on our `index.html` and `script.html` files to process an `<include>` tag.
