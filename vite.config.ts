@@ -2,11 +2,8 @@ import react from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
 import posthtml from "posthtml";
-import type {
-  AliasOptions,
-  IndexHtmlTransformHook,
-  IndexHtmlTransformResult,
-} from "vite";
+import include from "posthtml-include";
+import type { AliasOptions, IndexHtmlTransformResult } from "vite";
 import { defineConfig } from "vite";
 
 const alias: AliasOptions = [
@@ -32,10 +29,9 @@ function postHtmlPlugin() {
   return {
     name: "posthtml-transform",
     async transformIndexHtml(html: string): Promise<IndexHtmlTransformResult> {
-      const postHtmlResult = await posthtml()
-        .use(require("posthtml-include")())
-        .process(html);
-      return postHtmlResult.html;
+      return posthtml([include({ encoding: "utf8" })])
+        .process(html)
+        .then((r) => r.html);
     },
   };
 }

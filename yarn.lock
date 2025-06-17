@@ -6159,7 +6159,7 @@ posthtml-expressions@^1.7.1:
 
 posthtml-include@^2.0.1:
   version "2.0.1"
-  resolved "https://registry.npmjs.org/posthtml-include/-/posthtml-include-2.0.1.tgz"
+  resolved "https://registry.yarnpkg.com/posthtml-include/-/posthtml-include-2.0.1.tgz#cefd729dcd53eeb86da767ca3005fbb892180cf2"
   integrity sha512-1YXy4QWeJldosTKLPz6ecbI4e26jHmo3R97NNTKMQqITvZOY025+yvX/RUgvcD1VghLeACs0Y2P3GjtJo5s27Q==
   dependencies:
     posthtml "^0.16.6"
