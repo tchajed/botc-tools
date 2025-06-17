@@ -168,6 +168,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   godfather: outsiders(+1, -1),
   sentinel: outsiders(0, +1, -1),
   lyingppp: outsiders(+1, -1),
+  hermit: outsiders(0, -1),
   huntsman: { type: "huntsman" },
   riot: { type: "riot" },
   legion: { type: "legion" },
