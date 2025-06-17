@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import { getScriptById } from "select_script";
 import { getRecentScripts, initStorage } from "state";
 
-const MAX_RECENT_SCRIPTS = 6;
+const MAX_RECENT_SCRIPTS = 5;
 
 async function init() {
   const app = document.getElementById("app");
