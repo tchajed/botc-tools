@@ -72,10 +72,15 @@ function arrayEq<T>(a1: T[], a2: T[]): boolean {
   return a1.length == a2.length && a1.every((v, i) => a2[i] === v);
 }
 
+// UI element that explains a setup rule
+//
+// characters is the script characters (for Heretic/Baron jinx, where the
+// presence of the Heretic modifies how the Baron works)
 function ModificationExplanation(props: {
   mod: SetupModification;
+  characters: CharacterInfo[];
 }): React.JSX.Element {
-  const { mod } = props;
+  const { mod, characters } = props;
   switch (mod.type) {
     case "outsider_count": {
       if (mod.delta.length == 1) {
@@ -108,6 +113,16 @@ function ModificationExplanation(props: {
     case "drunk":
     case "marionette": {
       return <span>(+1 townsfolk, not distributed)</span>;
+    }
+    case "baron": {
+      if (characters.find((c) => c.id === "heretic")) {
+        return (
+          <span>
+            (+1 or +2 outsiders, due to <span className="good">Heretic</span>)
+          </span>
+        );
+      }
+      return <span>(+2 outsiders)</span>;
     }
     case "lilmonsta": {
       return <span>(+1 minion, not distributed)</span>;
@@ -230,6 +245,7 @@ function elementOrList(els: React.JSX.Element[]): React.JSX.Element {
 
 function ModificationList(props: {
   modified: CharacterInfo[];
+  characters: CharacterInfo[];
 }): React.JSX.Element {
   const { modified } = props;
   return (
@@ -242,7 +258,12 @@ function ModificationList(props: {
             </span>
             <span>
               {" "}
-              {<ModificationExplanation mod={SetupChanges[char.id]} />}
+              {
+                <ModificationExplanation
+                  mod={SetupChanges[char.id]}
+                  characters={props.characters}
+                />
+              }
             </span>
           </div>
         );
@@ -349,7 +370,7 @@ export function SetupModifiers(props: {
       }}
     >
       <br />
-      <ModificationList modified={modified} />
+      <ModificationList modified={modified} characters={characters} />
       <StickyDistHelp id="distribution-help">
         <div>
           <DistLabel>goal</DistLabel>
