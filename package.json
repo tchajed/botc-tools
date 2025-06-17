@@ -12,7 +12,6 @@
     "build": "vite build",
     "build:parcel": "parcel build --public-url '.'",
     "postbuild": "workbox generateSW",
-    "postbuild:parcel": "workbox generateSW",
     "fullbuild": "yarn run fetch-assets && yarn run build",
     "fullbuild:parcel": "yarn run fetch-assets && yarn run build:parcel",
     "lint": "eslint src fetch_assets test",
