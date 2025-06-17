@@ -1,12 +1,12 @@
 import { ScriptsFile } from "../botc/script";
 import "../icons";
+import { clearSavedScroll, pageUrl } from "../routing";
 import {
   ScriptState,
   getPassword,
   latestScript,
   storePassword,
-} from "../randomizer/state";
-import { clearSavedScroll, pageUrl } from "../routing";
+} from "../state";
 import { BaseThree, ScriptList } from "./script_list";
 import { searchNormalize } from "./search";
 import { SearchResults } from "./search_results";

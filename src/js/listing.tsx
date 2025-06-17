@@ -1,8 +1,8 @@
 import { getScripts } from "./get_scripts";
 import { App } from "./listing/app";
-import { initStorage } from "randomizer/state";
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { initStorage } from "state";
 
 async function init() {
   const app = document.getElementById("app");

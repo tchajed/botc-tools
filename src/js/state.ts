@@ -1,4 +1,4 @@
-import { Ranking } from "./ranking";
+import { Ranking } from "./randomizer/ranking";
 import localforage from "localforage";
 import { isCorrectPassword } from "password";
 
