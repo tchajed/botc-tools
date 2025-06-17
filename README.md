@@ -35,7 +35,7 @@ yarn fetch-assets --json
 yarn run check
 ```
 
-Parcel does not work on Node 22.7+, so `nvm use` is there to make it easy to get 22.6.
+The project now uses Vite as the default build tool instead of Parcel.
 
 The last command fetches the JSON assets, which are needed for the code to build.
 
@@ -66,8 +66,7 @@ To build an optimized, static version of the site to `dist/`, run `yarn build`.
 ## Testing
 
 There is currently no testing framework setup. This is not intentional, I just
-haven't figured out how to set one up that works with Parcel. (A contribution
-that sets up testing would be very useful! I think Karma + Mocha will work.)
+haven't set one up. (A contribution that sets up testing would be very useful!)
 
 There is infrastructure for some automated browser screenshots:
 
