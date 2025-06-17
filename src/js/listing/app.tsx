@@ -1,14 +1,15 @@
-import { ScriptsFile } from "../botc/script";
+import { ScriptData, ScriptsFile } from "../botc/script";
 import "../icons";
 import { clearSavedScroll, pageUrl } from "../routing";
 import {
   ScriptState,
   getPassword,
+  getRecentScripts,
   latestScript,
   storePassword,
 } from "../state";
 import { BaseThree, ScriptList } from "./script_list";
-import { searchNormalize } from "./search";
+import { favorites, searchNormalize } from "./search";
 import { SearchResults } from "./search_results";
 import { Global, ThemeProvider, css } from "@emotion/react";
 import styled from "@emotion/styled";
@@ -234,7 +235,10 @@ const scriptLinkStyle = {
   `,
 };
 
-export function App(props: { scriptsFile: ScriptsFile }): React.JSX.Element {
+export function App(props: {
+  scriptsFile: ScriptsFile;
+  recents: ScriptData[];
+}): React.JSX.Element {
   const [password, setPassword] = useState<string>("");
   const [authenticated, setAuthenticated] = useState<boolean>(false);
 
@@ -343,10 +347,16 @@ export function App(props: { scriptsFile: ScriptsFile }): React.JSX.Element {
             </div>
           )}
           <h1>BotC tools</h1>
-          <h2>Base 3</h2>
-          <ScriptList scripts={baseThree} />
-          <h2>Custom</h2>
-          <SearchResults scripts={custom} query={query} setQuery={setQuery} />
+          {props.recents && (
+            <>
+              <h2>Recents</h2>
+              <ScriptList scripts={props.recents} />
+            </>
+          )}
+          <h2>Search</h2>
+          <SearchResults scripts={scripts} query={query} setQuery={setQuery} />
+          <h2>Shortcuts</h2>
+          <ScriptList scripts={favorites(scripts)} />
           <HelpText />
           <Footer
             lastUpdate={lastUpdate}

@@ -63,7 +63,7 @@ export function SearchResults(props: {
           </>
         )}
       </div>
-      {allResults.length == 0 && <span>No results</span>}
+      {allResults.length == 0 && query != "" && <span>No results</span>}
       <ScriptList scripts={results} />
       {extraResults.length > 0 && (
         <span>... plus {extraResults.length} more</span>

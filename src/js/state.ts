@@ -61,7 +61,10 @@ export async function loadState(id: number): Promise<ScriptState | null> {
     return null;
   }
   const lastLoad = new Date();
-  await localforage.setItem(`lastLoad.${id}`, lastLoad);
+  await localforage.setItem<LastLoadState>(`lastLoad.${id}`, {
+    id,
+    lastLoad,
+  });
   return s;
 }
 
@@ -105,29 +108,36 @@ async function recentlyLoaded(
   after: Date,
   deleteOlderThan: Date,
 ): Promise<ScriptStateWithLastLoad[]> {
-  const states: ScriptStateWithLastLoad[] = [];
+  const loadStates: LastLoadState[] = [];
   const toDelete: number[] = [];
-  await localforage.iterate<LastLoadState, void>(async (loadState, key) => {
+  await localforage.iterate<LastLoadState, void>((loadState, key) => {
     if (!key.startsWith("lastLoad.")) {
       return;
     }
     if (loadState.lastLoad > after) {
-      const maybeState = await loadStateRaw(loadState.id);
-      // TODO: need to find script title
-      const s: ScriptState = maybeState || toScriptState({ id: loadState.id });
-      states.push({
-        ...s,
-        lastLoad: loadState.lastLoad,
-      });
+      loadStates.push(loadState);
     }
     if (loadState.lastLoad < deleteOlderThan) {
       toDelete.push(loadState.id);
     }
     return;
   });
+
   for (const id of toDelete) {
     await localforage.removeItem(`lastLoad.${id}`);
   }
+
+  const states: ScriptStateWithLastLoad[] = [];
+  for (const loadState of loadStates) {
+    const maybeState = await loadStateRaw(loadState.id);
+    // TODO: need to find script title
+    const s: ScriptState = maybeState || toScriptState({ id: loadState.id });
+    states.push({
+      ...s,
+      lastLoad: loadState.lastLoad,
+    });
+  }
+
   states.sort((a, b) => b.lastLoad.valueOf() - a.lastLoad.valueOf());
   return states;
 }
