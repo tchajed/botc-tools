@@ -1,6 +1,6 @@
 /**
- * character_icon.tsx contains a glob import that only works in Parcel.
- * vite.config.ts replaces that Parcel glob import by loading this file instead.
+ * character_icon.tsx contains a glob import that is replaced by vite.config.ts.
+ * vite.config.ts loads this file instead to provide Vite-specific glob imports.
  * This file contains a glob import that only works in Vite.
  */
 

@@ -2,16 +2,12 @@ import react from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
 import posthtml from "posthtml";
-import type {
-  AliasOptions,
-  IndexHtmlTransformHook,
-  IndexHtmlTransformResult,
-} from "vite";
+import type { AliasOptions, IndexHtmlTransformResult } from "vite";
 import { defineConfig } from "vite";
 
 const alias: AliasOptions = [
-  // `.parcelrc` uses the `parcel-resolver-ts-base-url` plugin so imports can be relative to `./src/js` instead of the current file.
-  // The equivalent in Vite is to declare an alias for every file and directory in `./src/js`.
+  // Set up aliases so imports can be relative to `./src/js` instead of the current file.
+  // This declares an alias for every file and directory in `./src/js`.
   ...fs.readdirSync("./src/js").map((filename) => {
     const name = filename.replace(/\.(j|t)sx?$/, "");
     return {
@@ -20,8 +16,7 @@ const alias: AliasOptions = [
     };
   }),
   {
-    // Parcel imports our character icons using a Parcel-specific glob syntax.
-    // Redirect to character_icons_vite.ts, where we'll use a Vite-specific glob syntax instead.
+    // Redirect character icon imports to use Vite-specific glob syntax.
     find: /^.*\/assets\/icons\/\*\.webp$/,
     replacement: path.resolve(__dirname, "src", "js", "character_icons_vite"),
   },
