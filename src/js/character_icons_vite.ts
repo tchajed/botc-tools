@@ -1,8 +1,8 @@
 // Return a map of the form { "Icon_<id>": <url> }.
-const images = Object.fromEntries(
+const images: Record<string, string> = Object.fromEntries(
   Object.entries(
     // `import.meta.glob` is a Vite-specific feature.
-    import.meta.glob("../../assets/icons/*.webp", {
+    import.meta.glob<string>("../../assets/icons/*.webp", {
       eager: true,
       query: "?url",
       import: "default",
