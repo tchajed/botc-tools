@@ -108,7 +108,7 @@ export function selectableCharacters(
 
 export type SetupModification = (
   | {
-      // eg, Baron (+2), Fang Gu (+1), Vigormortis (-1)
+      // eg, Fang Gu (+1), Vigormortis (-1)
       // godfather and sentinel have multiple options
       type: "outsider_count";
       delta: number[];
@@ -116,6 +116,9 @@ export type SetupModification = (
   // +1 townsfolk and does not go in bag (these are identical but it's easier to
   // separate them)
   | { type: "drunk"; notInBag: true }
+  // Baron is separated to handle Heretic/Baron jinx, which changes Baron's
+  // ability to +1 or +2 Outsiders.
+  | { type: "baron" }
   | { type: "marionette"; notInBag: true }
   // +1 minion and does not go in bag
   | { type: "lilmonsta"; notInBag: true }
@@ -160,7 +163,7 @@ function outsiders(...delta: number[]): SetupModification {
 }
 
 export const SetupChanges: { [key: string]: SetupModification } = {
-  baron: outsiders(+2),
+  baron: { type: "baron" },
   vigormortis: outsiders(-1),
   fanggu: outsiders(+1),
   balloonist: outsiders(0, +1),
@@ -253,6 +256,14 @@ function applyModification(
     case "marionette": {
       dist.townsfolk++;
       return [dist];
+    }
+    case "baron": {
+      let mod: SetupModification = { type: "outsider_count", delta: [2] };
+      // Heretic on the script changes the Baron's ability (using a Jinx)
+      if (characters.find((c) => c.id == "heretic")) {
+        mod = { type: "outsider_count", delta: [1, 2] };
+      }
+      return applyModification(old_dist, mod, characters);
     }
     case "lilmonsta": {
       dist.minion++;
