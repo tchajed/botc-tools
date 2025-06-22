@@ -84,18 +84,18 @@ function getTitleAuthorSearcher(
 /**
  * Queue up one incoming request, overwriting it whenever the user sends us new data
  */
-let incomingRequest: SearchWorkerRequest | undefined = undefined;
+let incomingRequestTimeout: ReturnType<typeof setTimeout> | undefined =
+  undefined;
 onmessage = ({ data }: MessageEvent<SearchWorkerRequest>) => {
-  incomingRequest = data;
-};
-
-setInterval(function handleIncomingRequest() {
-  if (incomingRequest) {
-    const response = runSearch(incomingRequest);
-    postMessage(response);
+  if (incomingRequestTimeout) {
+    clearTimeout(incomingRequestTimeout);
   }
-  incomingRequest = undefined;
-});
+  incomingRequestTimeout = setTimeout(() => {
+    const response = runSearch(data);
+    postMessage(response);
+    incomingRequestTimeout = undefined;
+  });
+};
 
 function runSearch({
   query,
