@@ -1,16 +1,54 @@
 import { ScriptList } from "./script_list";
-import { queryMatches, searchNormalize } from "./search";
+import { searchNormalize } from "./search";
 import { css } from "@emotion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ScriptData } from "botc/script";
+import type { ScriptData } from "botc/script";
 import { isSafari } from "detect";
+import type { SearchWorker } from "listing/SearchWorker";
+import { useEffect, useMemo, useState } from "react";
+
+function useQueryMatches(
+  authenticated: boolean,
+  query: string,
+  limit?: number,
+): ScriptData[] {
+  const [worker, setWorker] = useState<SearchWorker | undefined>();
+  const [scriptData, setScriptData] = useState<ScriptData[]>([]);
+
+  useEffect(function searchWorkerLifecycle() {
+    const worker = new Worker(new URL("./search.worker.ts", import.meta.url), {
+      name: "Script searcher",
+      type: "module",
+    }) as SearchWorker;
+
+    worker.onmessage = ({ data }) => {
+      setScriptData(data.scriptData);
+    };
+
+    setWorker(worker);
+
+    return () => {
+      worker.terminate();
+      setWorker(undefined);
+    };
+  }, []);
+
+  useEffect(
+    function dispatchSearchQuery() {
+      worker?.postMessage({ authenticated, query, limit });
+    },
+    [worker, authenticated, query],
+  );
+
+  return scriptData;
+}
 
 export function SearchResults(props: {
-  scripts: ScriptData[];
+  authenticated: boolean;
   query: string;
   setQuery: (q: string) => void;
 }): React.JSX.Element {
-  const { scripts, query, setQuery } = props;
+  const { authenticated, query, setQuery } = props;
 
   // on Safari the search box already has a magnifying glass icon so avoid
   // adding a redundant one
@@ -22,9 +60,17 @@ export function SearchResults(props: {
     window.location.hash = searchNormalize(newQuery);
   }
 
-  const allResults = queryMatches(scripts, query);
-  const results = allResults.slice(0, 20);
-  const extraResults = allResults.slice(20);
+  const limit = 20;
+
+  const allResults = useQueryMatches(authenticated, query);
+  const results = useMemo(
+    () => allResults.slice(0, limit),
+    [allResults, limit],
+  );
+  const numExtraResults = useMemo(
+    () => allResults.length - limit,
+    [allResults, limit],
+  );
 
   return (
     <>
@@ -65,9 +111,7 @@ export function SearchResults(props: {
       </div>
       {allResults.length == 0 && query != "" && <span>No results</span>}
       <ScriptList scripts={results} />
-      {extraResults.length > 0 && (
-        <span>... plus {extraResults.length} more</span>
-      )}
+      {numExtraResults > 0 && <span>... plus {numExtraResults} more</span>}
     </>
   );
 }

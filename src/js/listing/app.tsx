@@ -252,10 +252,6 @@ export function App(props: {
   const baseThree = scripts.filter((s) => BaseThree.includes(s.pk));
   baseThree.sort((s1, s2) => s1.pk - s2.pk);
 
-  const searchScripts = scripts.filter((s) => {
-    return authenticated || !s.allAmne;
-  });
-
   function removePrefix(s: string, prefix: string): string {
     if (s.startsWith(prefix)) {
       return s.substring(prefix.length);
@@ -351,7 +347,7 @@ export function App(props: {
           )}
           <h2>Search</h2>
           <SearchResults
-            scripts={searchScripts}
+            authenticated={authenticated}
             query={query}
             setQuery={setQuery}
           />

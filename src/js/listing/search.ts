@@ -1,6 +1,6 @@
 import { nameToId, roles } from "../botc/roles";
 import { ScriptData } from "../botc/script";
-import { matchSorter } from "match-sorter";
+import Fuse from "fuse.js/basic";
 
 const FAVORITE_TITLES: Array<string> = [
   "Trouble Brewing",
@@ -29,21 +29,13 @@ function characterList(script: ScriptData): string[] {
   return characters;
 }
 
-// match scripts that have a list of characters
-function characterQueryMatches(
-  characters: string,
-  scripts: ScriptData[],
-): ScriptData[] {
-  const terms = characters.split(" ");
-
-  return terms.reduceRight(
-    (results, char) =>
-      matchSorter(results, char.replace("-", ""), {
-        keys: [characterList],
-        threshold: matchSorter.rankings.WORD_STARTS_WITH,
-      }),
-    scripts,
-  );
+/**
+ * @returns A Fuse object containing the given scripts, indexed by character
+ */
+export function makeCharacterSearcher(scripts: ScriptData[]): Fuse<ScriptData> {
+  return new Fuse(scripts, {
+    keys: [{ name: "characters", getFn: (script) => characterList(script) }],
+  });
 }
 
 export function favorites(scripts: ScriptData[]): ScriptData[] {
@@ -59,27 +51,21 @@ export function favorites(scripts: ScriptData[]): ScriptData[] {
   return results;
 }
 
-export function queryMatches(
+/**
+ * @returns A Fuse object containing the given scripts, indexed by title and author
+ */
+export function makeTitleAuthorSearcher(
   scripts: ScriptData[],
-  query: string,
-): ScriptData[] {
-  let matches: ScriptData[] = [];
-  if (query == "") {
-    // matches = scripts.filter((s) => FAVORITE_TITLES.has(s.title));
-  } else {
-    matches = matchSorter(scripts, query, { keys: ["title", "author"] });
-    if (matches.length < 10) {
-      // fill in results with character-based search
-      matches.push(
-        ...characterQueryMatches(
-          query,
-          // start with non-matching scripts
-          scripts.filter((s) => !matches.some((m) => m.pk == s.pk)),
-        ),
-      );
-    }
-  }
-  return matches;
+): Fuse<ScriptData> {
+  return new Fuse(scripts, {
+    keys: [
+      {
+        name: "title",
+        getFn: (script) => script.title.replace(/[^A-Za-z]/g, ""),
+      },
+      { name: "author" },
+    ],
+  });
 }
 
 export function searchNormalize(query: string): string {
