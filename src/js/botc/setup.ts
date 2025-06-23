@@ -200,8 +200,11 @@ export const SetupChanges: { [key: string]: SetupModification } = {
   babygronkbattc: { type: "babygronk_battc" },
 };
 
-export function goesInBag(char: CardInfo): boolean {
+export function goesInBag(withLordOfTyphon: boolean, char: CardInfo): boolean {
   if (char.roleType == "fabled") {
+    return false;
+  }
+  if (withLordOfTyphon && char.roleType == "minion") {
     return false;
   }
   const mod = SetupChanges[characterIdWithoutNumber(char.id)];
@@ -350,11 +353,9 @@ function applyModification(
     }
     case "lordoftyphon": {
       const dist = { ...old_dist };
-      // minions are not distributed
-      //
-      // TODO: would be better to select minions but make them not go in the bag
-      dist.minion = 0;
-      dist.townsfolk += old_dist.minion;
+      // minions are not distributed, must be selected
+      dist.townsfolk += dist.minion;
+      dist.minion++;
       return arbitraryOutsiders(dist);
     }
     case "hermit": {
@@ -522,7 +523,10 @@ export function splitSelectedChars(
   outsideBag: CardInfo[];
 } {
   const selected = characters.filter((char) => selection.has(char.id));
-  const bag: BagCharacter[] = selected.filter((c) => goesInBag(c));
+  const withLordOfTyphon = selected.some((char) => char.id == "lordoftyphon");
+  const bag: BagCharacter[] = selected.filter((c) =>
+    goesInBag(withLordOfTyphon, c),
+  );
   const dist = distributionForCount(numPlayers);
   const riot = bag.find((c) => c.id == "riot");
   if (riot) {
@@ -550,7 +554,9 @@ export function splitSelectedChars(
     }
   }
 
-  const outsideBag = selected.filter((char) => !goesInBag(char));
+  const outsideBag = selected.filter(
+    (char) => !goesInBag(withLordOfTyphon, char),
+  );
   if (bag.find((c) => c.id == "hermit")) {
     const drunk = characters.find((c) => c.id == "drunk");
     if (drunk && !bag.find((c) => c.id == "drunk")) {
