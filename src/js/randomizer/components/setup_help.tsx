@@ -40,7 +40,8 @@ export function LegionDistr({
   );
 }
 
-export function KazaliDistr({
+// a goal distribution shown as just good / evil counts
+export function GoodAndEvilDistr({
   dist,
 }: {
   dist: Distribution;
@@ -54,6 +55,26 @@ export function KazaliDistr({
   return (
     <span className="distribution">
       <Num className="good">{dist.townsfolk + dist.outsider}</Num>/
+      <Num className="evil">{dist.demon}</Num>
+    </span>
+  );
+}
+
+export function LordOfTyphonDistr({
+  dist,
+}: {
+  dist: Distribution;
+}): React.JSX.Element {
+  const Num = styled.span`
+    // make each number fixed-width
+    display: inline-block;
+    min-width: 1rem;
+    text-align: center;
+  `;
+  return (
+    <span className="distribution">
+      <Num className="good">{dist.townsfolk + dist.outsider}</Num>/
+      <Num className="evil">{dist.minion}</Num>/
       <Num className="evil">{dist.demon}</Num>
     </span>
   );
@@ -337,13 +358,24 @@ export function SetupModifiers(props: {
   if (selection.has("atheist")) {
     goalDistributionElement = <AtheistDistr numPlayers={numPlayers} />;
   }
-  // TODO: want lord of typhon to be presented differently if it allows
-  // selecting minions that don't go in the bag
-  if (
-    selection.has("kazali") ||
-    selection.has("lordoftyphon") ||
-    selection.has("xaan")
-  ) {
+  if (selection.has("lordoftyphon")) {
+    const collapsedGoodDistributions: Distribution[] = uniqueDistributions(
+      newDistributions.map((dist) => {
+        return {
+          townsfolk: dist.townsfolk + dist.outsider,
+          outsider: 0,
+          minion: dist.minion,
+          demon: dist.demon,
+        };
+      }),
+    );
+    goalDistributionElement = elementOrList(
+      collapsedGoodDistributions.map((dist, i) => (
+        <LordOfTyphonDistr dist={dist} key={i} />
+      )),
+    );
+  }
+  if (selection.has("kazali") || selection.has("xaan")) {
     const collapsedGoodDistributions: Distribution[] = uniqueDistributions(
       newDistributions.map((dist) => {
         return {
@@ -356,7 +388,7 @@ export function SetupModifiers(props: {
     );
     goalDistributionElement = elementOrList(
       collapsedGoodDistributions.map((dist, i) => (
-        <KazaliDistr dist={dist} key={i} />
+        <GoodAndEvilDistr dist={dist} key={i} />
       )),
     );
   }
