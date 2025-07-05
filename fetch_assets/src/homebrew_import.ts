@@ -82,7 +82,7 @@ export async function downloadHomebrewImages(
     console.log(`homebrew "${script.name}" images already downloaded`);
     return;
   }
-  console.log(`downloading ${icons.length} images`);
+  console.log(`downloading ${icons.length} images for ${script.name}`);
   const bar = new cliProgress.SingleBar({}, cliProgress.Presets.rect);
   bar.start(icons.length, 0);
   await downloadRoles(icons, imgDir, (n) => {

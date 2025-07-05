@@ -61,5 +61,5 @@ export async function downloadExtraIcons(iconsDir: string) {
     return;
   }
   console.log(`extracting ${icons.length} extra icons`);
-  extractIconFiles(icons);
+  await extractIconFiles(icons);
 }
