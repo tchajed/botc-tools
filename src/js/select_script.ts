@@ -54,20 +54,31 @@ function getJson(): ScriptData | null {
   return parseJson(json);
 }
 
-export async function getScriptById(
+export async function tryGetScriptById(
   scriptFile: ScriptsFile,
   id: number,
-): Promise<ScriptData> {
+): Promise<ScriptData | null> {
   const script = scriptFile.scripts.find((s) => s.pk == id);
   if (!script) {
-    throw new Error(`unknown script id ${id}`);
+    return null;
   }
   if (script.allAmne) {
     if (await getAuthenticated()) {
       return script;
     } else {
-      throw new Error(`script ${id} requires authentication`);
+      return null;
     }
+  }
+  return script;
+}
+
+export async function getScriptById(
+  scriptFile: ScriptsFile,
+  id: number,
+): Promise<ScriptData> {
+  const script = await tryGetScriptById(scriptFile, id);
+  if (!script) {
+    throw new Error(`unknown script id ${id}`);
   }
   return script;
 }
