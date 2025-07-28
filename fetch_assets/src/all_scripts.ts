@@ -16,16 +16,13 @@ interface Resp {
 async function getPage(
   page: number,
 ): Promise<{ count: number; data: ScriptData[]; next: boolean }> {
-  const resp = await axios.get(
-    "https://botc-scripts.azurewebsites.net/api/scripts/",
-    {
-      maxRate: 3000 * 1024, // 3MB/s
-      params: {
-        format: "json",
-        page,
-      },
+  const resp = await axios.get("https://botcscripts.com/api/scripts/", {
+    maxRate: 3000 * 1024, // 3MB/s
+    params: {
+      format: "json",
+      page,
     },
-  );
+  });
   const data: Resp = resp.data;
   return {
     count: data.count,
