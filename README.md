@@ -49,7 +49,7 @@ yarn fetch-assets
 ```
 
 This fetches character icons, and all the scripts from
-<https://botc-scripts.azurewebsites.net> - it will take a couple minutes.
+<https://botcscripts.com> - it will take a couple minutes.
 Running multiple times won't re-download images and scripts. If you want to
 re-fetch, delete the downloaded assets:
 

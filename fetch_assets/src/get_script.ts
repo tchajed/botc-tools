@@ -14,7 +14,7 @@ export type ScriptsFile = {
   lastUpdate: string;
 };
 
-const apiBase = "https://botc-scripts.azurewebsites.net/api";
+const apiBase = "https://botcscripts.com/api";
 
 type ContentRow =
   | { id: string }
