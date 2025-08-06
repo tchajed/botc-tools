@@ -19,10 +19,10 @@ export const IMAGE_SIZE = 177;
  *
  */
 export async function makeSquare(
-  data: ArrayBuffer,
+  data: Uint8Array,
   size: number,
 ): Promise<sharp.Sharp> {
-  let img = sharp(Buffer.from(data));
+  let img = sharp(data);
   // remove existing border
   img = img.trim();
   // contain puts the image into exactly these dimensions, filling with a
@@ -38,19 +38,19 @@ export async function makeSquare(
   return img;
 }
 
-async function downloadRole(r: Role): Promise<ArrayBuffer> {
+async function downloadRole(r: Role): Promise<Uint8Array> {
   let url: string;
   if (r.icon.startsWith("https://") || r.icon.startsWith("http://")) {
     url = r.icon;
   } else {
     url = `${BASE_URL}/${r.icon}`;
   }
-  const { data } = await axios.get(url, {
+  const { data } = await axios.get<ArrayBuffer>(url, {
     responseType: "arraybuffer",
     responseEncoding: "binary",
     maxRate: 3000 * 1024, // 3MB/s
   });
-  return data;
+  return new Uint8Array(data);
 }
 
 function normalizeId(id: string) {
