@@ -45,7 +45,7 @@ function iconEntries(zip: AdmZip, iconsDir: string): Icon[] {
 export async function extractIconFiles(icons: Icon[]) {
   await Promise.all(
     icons.map(async (icon) => {
-      const data: Buffer = icon.entry.getData();
+      const data = icon.entry.getData();
       const img = await makeSquare(data, IMAGE_SIZE);
       await img.webp({ effort: 6 }).toFile(icon.destPath);
     }),
