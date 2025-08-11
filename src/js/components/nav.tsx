@@ -56,7 +56,6 @@ function PageLink(
 const navStyle = css`
   background-color: ${theme.color.primary};
   padding: 1rem 5px;
-  margin: 0 0 1rem 0;
   box-shadow: 0px 3px 3px 0 ${theme.color.primary};
 
   position: sticky;

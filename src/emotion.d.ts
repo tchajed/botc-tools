@@ -5,6 +5,7 @@ declare module "@emotion/react" {
     color: {
       primary: string;
       secondary: string;
+      messageBar: string;
       good: string;
       evil: string;
     };

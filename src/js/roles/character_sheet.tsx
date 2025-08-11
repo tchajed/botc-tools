@@ -11,6 +11,7 @@ import { restoreScroll } from "../routing";
 import { css } from "@emotion/react";
 import { faCopy } from "@fortawesome/free-solid-svg-icons/faCopy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MessageBarHandleContext } from "components/messagebar";
 import React, { useEffect, useState } from "react";
 import QRCode from "react-qr-code";
 import reactStringReplace from "react-string-replace";
@@ -64,10 +65,12 @@ function FullscreenQr(props: {
 
 function CopyJsonLink(props: { script: Script }): React.JSX.Element {
   const { script } = props;
+  const toastHandleRef = React.useContext(MessageBarHandleContext);
   const handleClick = React.useCallback(
     async (ev: React.MouseEvent<HTMLAnchorElement>) => {
       ev.preventDefault();
       await navigator.clipboard.writeText(script.toPocketGrimoire);
+      toastHandleRef?.current?.sendMessage("Copied to JSON!");
     },
     [script],
   );
