@@ -12,11 +12,14 @@ import { favorites, searchNormalize } from "./search";
 import { SearchResults } from "./search_results";
 import { Global, ThemeProvider, css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { faFileUpload } from "@fortawesome/free-solid-svg-icons/faFileUpload";
+import { faPaste } from "@fortawesome/free-solid-svg-icons/faPaste";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { differenceInDays } from "date-fns";
 import { isCorrectPassword } from "password";
 import { lighten } from "polished";
 import { useEffect, useState } from "react";
+import { parseJson } from "select_script";
 import { GlobalStyle } from "styles/global_style";
 import { IndexStyles } from "styles/index_style";
 import { theme } from "theme";
@@ -62,6 +65,67 @@ function UpdateBar(): React.JSX.Element {
         A new version is available. Close all tabs to restart.
       </div>
     </div>
+  );
+}
+
+function handleJson(json: string): void {
+  try {
+    json = JSON.stringify(JSON.parse(json)); // Minify JSON
+    parseJson(json); // Validate before redirecting
+  } catch (error) {
+    console.error("Error parsing JSON:", error);
+    alert("Unable to parse JSON. Please ensure it is a valid script.");
+    return;
+  }
+  const encodedJson = encodeURIComponent(json);
+  window.location.href = `./script.html?json=${encodedJson}`;
+}
+
+function PasteJson(): React.JSX.Element {
+  return (
+    <BtnLink
+      onClick={async () => {
+        let clipboardText = "";
+        try {
+          clipboardText = await navigator.clipboard.readText();
+        } catch (error) {
+          console.error("Error reading clipboard:", error);
+          alert(
+            "Could not read clipboard. Please ensure clipboard access is allowed.",
+          );
+          return;
+        }
+        handleJson(clipboardText);
+      }}
+    >
+      <FontAwesomeIcon icon={faPaste} />
+      &nbsp; Paste JSON from clipboard
+    </BtnLink>
+  );
+}
+
+function UploadJson(): React.JSX.Element {
+  return (
+    <BtnLink
+      onClick={async () => {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "application/json";
+        fileInput.onchange = async (event) => {
+          const file = (event.target as HTMLInputElement).files?.[0];
+          if (!file) {
+            alert("No file selected.");
+            return;
+          }
+          const fileContent = await file.text();
+          handleJson(fileContent);
+        };
+        fileInput.click();
+      }}
+    >
+      <FontAwesomeIcon icon={faFileUpload} />
+      &nbsp; Upload JSON file
+    </BtnLink>
   );
 }
 
@@ -328,7 +392,7 @@ export function App(props: {
       <div>
         <Global styles={[GlobalStyle, IndexStyles]} />
         <div className="main">
-          {lastScript && (
+          {lastScript && lastScript.id != 0 && (
             <div css={scriptLinkStyle.link}>
               <BtnLink href={pageUrl("assign", lastScript.id.toString())}>
                 <span css={scriptLinkStyle.title}>
@@ -353,6 +417,23 @@ export function App(props: {
           />
           <h2>Shortcuts</h2>
           <ScriptList scripts={favorites(scripts)} />
+          <h2>Custom JSON</h2>
+          <ul
+            css={[
+              css`
+                li {
+                  padding-bottom: 1rem;
+                }
+              `,
+            ]}
+          >
+            <li>
+              <PasteJson />
+            </li>
+            <li>
+              <UploadJson />
+            </li>
+          </ul>
           <HelpText />
           <Footer
             lastUpdate={lastUpdate}
