@@ -164,6 +164,12 @@ The new Snake Charmer is poisoned.
     firstNight:
       "Show the Grimoire to the Widow for as long as they need. The Widow points to a player. That player is poisoned. Wake a good player. Show the THIS CHARACTER IS IN PLAY card, then the Widow character token.",
   },
+  wraith: {
+    firstNight:
+      "Wake the Wraith tonight whenever other evil players wake. If the Wraith is drunk or poisoned, show them DO NOT OPEN YOUR EYES TONIGHT.",
+    otherNights:
+      "Wake the Wraith tonight whenever other evil players wake. If the Wraith is drunk or poisoned, show them DO NOT OPEN YOUR EYES TONIGHT.",
+  },
 };
 
 // new roles not in BotC online
