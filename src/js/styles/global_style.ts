@@ -27,7 +27,7 @@ const ElementStyles = css`
     @media print {
       max-width: 7in;
     }
-    margin: 0 auto;
+    margin: 1rem auto;
     padding: 5px;
   }
 

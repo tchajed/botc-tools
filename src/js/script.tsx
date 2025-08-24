@@ -13,6 +13,11 @@ import { Page } from "./routing";
 import { selectedScript } from "./select_script";
 import { Global, ThemeProvider } from "@emotion/react";
 import { getCharacter } from "botc/roles";
+import {
+  MessageBar,
+  MessageBarHandleContext,
+  type MessageBarHandle,
+} from "components/messagebar";
 import React, { useEffect, useReducer, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { initStorage, setLastLoadTime } from "state";
@@ -104,43 +109,47 @@ function ScriptApp({ script }: { script: Script }): React.JSX.Element {
     }
   }, [currentPage]);
 
+  const messageBarHandleRef = React.useRef<MessageBarHandle>(null);
   return (
     <React.StrictMode>
       <ThemeProvider theme={theme}>
-        <div>
-          <Global styles={[GlobalStyle, ScriptStyles]} />
-          <Nav
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            scriptId={script.id}
-          />
-          <div className="main">
-            <CharacterSheet
-              active={currentPage == "roles"}
-              script={script}
-              completeSetup={completeSetup}
+        <MessageBarHandleContext value={messageBarHandleRef}>
+          <div>
+            <Global styles={[GlobalStyle, ScriptStyles]} />
+            <Nav
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              scriptId={script.id}
             />
-            <NightOrder
-              active={currentPage == "night"}
-              script={script}
-              selection={selection}
-              bluffs={bluffList}
-              teensy={teensy}
-              validSetup={completeSetup}
-              anySetup={anySetup}
-            />
-            <Randomizer
-              active={currentPage == "assign"}
-              script={script}
-              selection={selection}
-              selDispatch={selDispatch}
-              bluffs={bluffs}
-              bluffsDispatch={bluffsDispatch}
-              numPlayers={numPlayers}
-              setNumPlayers={setNumPlayers}
-            />
+            <MessageBar ref={messageBarHandleRef} />
+            <div className="main">
+              <CharacterSheet
+                active={currentPage == "roles"}
+                script={script}
+                completeSetup={completeSetup}
+              />
+              <NightOrder
+                active={currentPage == "night"}
+                script={script}
+                selection={selection}
+                bluffs={bluffList}
+                teensy={teensy}
+                validSetup={completeSetup}
+                anySetup={anySetup}
+              />
+              <Randomizer
+                active={currentPage == "assign"}
+                script={script}
+                selection={selection}
+                selDispatch={selDispatch}
+                bluffs={bluffs}
+                bluffsDispatch={bluffsDispatch}
+                numPlayers={numPlayers}
+                setNumPlayers={setNumPlayers}
+              />
+            </div>
           </div>
-        </div>
+        </MessageBarHandleContext>
       </ThemeProvider>
     </React.StrictMode>
   );
