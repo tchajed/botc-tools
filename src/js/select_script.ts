@@ -26,7 +26,7 @@ interface ScriptCharacter {
   id: string;
 }
 
-function parseJson(json: string): ScriptData {
+export function parseJson(json: string): ScriptData {
   const parsed: (ScriptMeta | ScriptCharacter | string)[] = JSON.parse(json);
   const meta = parsed.find(
     (item): item is ScriptMeta =>
