@@ -1,4 +1,5 @@
 import { ScriptData, ScriptsFile } from "./botc/script";
+import { decompressScriptJson } from "./compression";
 import { getScripts } from "./get_scripts";
 import { getAuthenticated } from "state";
 
@@ -27,7 +28,9 @@ interface ScriptCharacter {
 }
 
 export function parseJson(json: string): ScriptData {
-  const parsed: (ScriptMeta | ScriptCharacter | string)[] = JSON.parse(json);
+  const decompressedJson = decompressScriptJson(json);
+  const parsed: (ScriptMeta | ScriptCharacter | string)[] =
+    JSON.parse(decompressedJson);
   const meta = parsed.find(
     (item): item is ScriptMeta =>
       typeof item === "object" && item.id === "_meta",
