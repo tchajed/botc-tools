@@ -7,6 +7,7 @@
   "scripts": {
     "fetch-assets": "ts-node fetch_assets/src/main.ts",
     "test-screenshots": "ts-node test/screenshot.ts",
+    "update-roles-snapshot": "ts-node fetch_assets/src/update_roles_snapshot.ts",
     "start": "vite dev",
     "build": "vite build",
     "postbuild": "workbox generateSW",
