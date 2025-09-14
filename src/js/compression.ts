@@ -1,18 +1,17 @@
-import rolesData from "../../assets/data/roles.json";
+import rolesList from "./roles_snapshot.json";
 
 const characterIdToIndex = new Map<string, number>();
-rolesData.forEach((role, index) => {
-  characterIdToIndex.set(role.id, index);
+rolesList.forEach((characterId: string, index: number) => {
+  characterIdToIndex.set(characterId, index);
 });
 
 const indexToCharacterId = new Map<number, string>();
-rolesData.forEach((role, index) => {
-  indexToCharacterId.set(index, role.id);
+rolesList.forEach((characterId: string, index: number) => {
+  indexToCharacterId.set(index, characterId);
 });
 
 /**
- * Compresses a script JSON by replacing character IDs with indices
- * where possible. Characters not in the roles.json are kept as-is.
+ * Compresses a script JSON by replacing character IDs with indices where possible. Characters not in roles_snapshot.json are kept as-is.
  */
 export function compressScriptJson(json: string): string {
   try {
