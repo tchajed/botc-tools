@@ -1,4 +1,5 @@
 import { ScriptData, ScriptsFile } from "../botc/script";
+import { compressScriptJson } from "../compression";
 import "../icons";
 import { clearSavedScroll, pageUrl } from "../routing";
 import {
@@ -77,8 +78,8 @@ function handleJson(json: string): void {
     alert("Unable to parse JSON. Please ensure it is a valid script.");
     return;
   }
-  const encodedJson = encodeURIComponent(json);
-  window.location.href = `./script.html?json=${encodedJson}`;
+  const compressedJson = compressScriptJson(json);
+  window.location.href = `./script.html?json=${compressedJson}`;
 }
 
 function PasteJson(): React.JSX.Element {
