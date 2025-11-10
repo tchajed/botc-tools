@@ -114,7 +114,8 @@ export const DemonInfo: CharacterInfo = new CharacterInfo(
 DemonInfo.firstNight = {
   details: `If there are 7 or more players:<tab>Wake the Demon.
   <tab>Show the THESE ARE YOUR MINIONS token. Point to all Minions.
-  <tab>Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
+  <tab>Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.
+  <tab>(Optional) Ask WHICH CHARACTER ARE YOU BLUFFING AS?`,
   index: nightorder.firstNight("demoninfo"),
 };
 
@@ -127,7 +128,8 @@ export const NonTeensyDemonInfo: CharacterInfo = new CharacterInfo(
 NonTeensyDemonInfo.firstNight = {
   details: `Wake the Demon.
   Show the THESE ARE YOUR MINIONS token. Point to all Minions.
-  Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.`,
+  Show THESE CHARACTERS ARE NOT IN PLAY and three bluffs.
+  (Optional) Ask WHICH CHARACTER ARE YOU BLUFFING AS?`,
   index: nightorder.firstNight("demoninfo"),
 };
 

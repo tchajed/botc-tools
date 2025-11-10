@@ -37,6 +37,7 @@ const tokenNames = [
   "THIS CHARACTER IS IN PLAY",
   "STORM CAUGHT CHARACTER IS NOT IN PLAY",
   "DO NOT OPEN YOUR EYES TONIGHT",
+  "WHICH CHARACTER ARE YOU BLUFFING AS?",
 ];
 // sort by reverse length so we try to match longer names first, to handle
 // one name which is a prefix of another correctly
