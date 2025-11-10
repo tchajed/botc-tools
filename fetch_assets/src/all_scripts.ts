@@ -13,11 +13,13 @@ interface Resp {
   results: ScriptInstanceResp[];
 }
 
+const PAGE_BATCH_SIZE = 2;
+
 async function getPage(
   page: number,
 ): Promise<{ count: number; data: ScriptData[]; next: boolean }> {
   const resp = await axios.get("https://botcscripts.com/api/scripts/", {
-    maxRate: 3000 * 1024, // 3MB/s
+    maxRate: 300 * 1024, // 300KB/s
     params: {
       format: "json",
       page,
@@ -58,7 +60,7 @@ export async function fetchAllScripts(): Promise<ScriptData[]> {
     bar.updateETA();
   }, 2000);
   while (pageNums.length > 0 && !done) {
-    const nextGroup = pageNums.splice(0, 5);
+    const nextGroup = pageNums.splice(0, PAGE_BATCH_SIZE);
     const allPages = await Promise.all(
       nextGroup.map(async (page) => {
         const r = await getPage(page);
