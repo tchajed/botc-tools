@@ -1,3 +1,4 @@
+import { roles, nameToId, RoleTypes } from "./botc/roles";
 import { ScriptData, ScriptsFile } from "./botc/script";
 import { decompressScriptJson } from "./compression";
 import { getScripts } from "./get_scripts";
@@ -27,6 +28,12 @@ interface ScriptCharacter {
   id: string;
 }
 
+function charSortKey(char: string): number {
+  const roleType = roles.get(nameToId(char))?.roleType ?? "";
+  const index = RoleTypes.indexOf(roleType as (typeof RoleTypes)[number]);
+  return index === -1 ? 999 : index;
+}
+
 export function parseJson(json: string): ScriptData {
   const decompressedJson = decompressScriptJson(json);
   const parsed: (ScriptMeta | ScriptCharacter | string)[] =
@@ -37,7 +44,8 @@ export function parseJson(json: string): ScriptData {
   )!;
   const characters = parsed
     .filter((item): item is ScriptCharacter | string => item !== meta)
-    .map((item) => (typeof item === "string" ? item : item.id));
+    .map((item) => (typeof item === "string" ? item : item.id))
+    .sort((a, b) => charSortKey(a) - charSortKey(b));
 
   return {
     pk: 0,
