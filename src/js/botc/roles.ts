@@ -25,7 +25,7 @@ export interface NightAction {
   index: number;
 }
 
-const RoleTypes = [
+export const RoleTypes = [
   "townsfolk",
   "outsider",
   "minion",
