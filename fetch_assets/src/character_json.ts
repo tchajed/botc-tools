@@ -10,10 +10,10 @@ export async function downloadCharacterData(assetsPath: string) {
   // see https://github.com/nicholas-eden/townsquare/tree/develop/src
   const downloads: { url: string; name: string }[] = [];
   for (const { name, dest } of [
-    { name: "roles.json", dest: "roles.json" },
+    { name: "characters.json", dest: "roles.json" },
     { name: "nightsheet.json", dest: "nightsheet.json" },
-    { name: "hatred.json", dest: "jinx.json" },
-    { name: "fabled.json", dest: "fabled.json" },
+    { name: "jinxes.json", dest: "jinx.json" },
+    { name: "non_player_characters.json", dest: "fabled.json" },
   ]) {
     downloads.push({
       url: `https://raw.githubusercontent.com/nicholas-eden/townsquare/refs/heads/develop/src/${name}`,
