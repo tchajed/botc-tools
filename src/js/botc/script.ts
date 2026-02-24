@@ -76,7 +76,8 @@ export function onlyBaseThree(characters: CharacterInfo[]): boolean {
     (c) =>
       c.edition != "other" ||
       c.roleType == "travellers" ||
-      c.roleType == "fabled",
+      c.roleType == "fabled" ||
+      c.roleType == "loric",
   );
 }
 
