@@ -31,6 +31,7 @@ function postHtmlPlugin() {
 }
 
 export default defineConfig({
+  base: "./",
   assetsInclude: ["icons/touch-icon.png"],
   build: {
     emptyOutDir: true,
