@@ -26,8 +26,9 @@ async function downloadFile(url: string, destFile: string) {
 
 /** Download JSON files with character metadata and text. */
 export async function downloadCharacterData(assetsPath: string) {
-  // Townsquare merged characters.json and non_player_characters.json into
-  // roles.json. Split them again to retain the file layout expected by the app.
+  // The Townsquare repo (nicholas-eden/townsquare, the source of this data)
+  // merged characters.json and non_player_characters.json into roles.json.
+  // Split them again to retain the file layout expected by the app.
   const rolesPath = `${assetsPath}/roles.json`;
   const nonPlayerRolesPath = `${assetsPath}/fabled.json`;
   const downloadRoles = async () => {
