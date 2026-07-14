@@ -44,3 +44,5 @@ jobs:
   rebuild:
     uses: ./.github/workflows/deploy.yml
     needs: ["cleanup"]
+    with:
+      clean_assets: true
