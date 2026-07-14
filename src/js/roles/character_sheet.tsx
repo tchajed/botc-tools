@@ -116,7 +116,7 @@ function Character(props: {
 }
 
 function pluralRole(roleType: string): string {
-  return ["townsfolk", "fabled", "travellers"].includes(roleType)
+  return ["townsfolk", "fabled", "loric", "travellers"].includes(roleType)
     ? roleType
     : roleType + "s";
 }

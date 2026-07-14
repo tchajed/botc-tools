@@ -201,7 +201,7 @@ export const SetupChanges: { [key: string]: SetupModification } = {
 };
 
 export function goesInBag(withLordOfTyphon: boolean, char: CardInfo): boolean {
-  if (char.roleType == "fabled") {
+  if (char.roleType == "fabled" || char.roleType == "loric") {
     return false;
   }
   if (withLordOfTyphon && char.roleType == "minion") {

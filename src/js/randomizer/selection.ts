@@ -37,7 +37,7 @@ export function requiredSelection(characters: CharacterInfo[]): Set<string> {
     required.add(demons[0].id);
   }
   for (const c of characters) {
-    if (c.roleType == "fabled") {
+    if (c.roleType == "fabled" || c.roleType == "loric") {
       required.add(c.id);
     }
   }

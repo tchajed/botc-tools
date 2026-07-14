@@ -111,7 +111,8 @@ export function Nav(props: {
     dest: Page,
   ): React.MouseEventHandler<HTMLAnchorElement> {
     const newUrl = new URL(
-      `${window.location.origin}/script.html?page=${dest}&id=${id}`,
+      `./script.html?page=${dest}&id=${id}`,
+      window.location.href,
     );
     return (e) => {
       saveScroll(currentPage);

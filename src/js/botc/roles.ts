@@ -31,6 +31,7 @@ export const RoleTypes = [
   "minion",
   "demon",
   "fabled",
+  "loric",
   "travellers",
 ] as const;
 export type RoleType = (typeof RoleTypes)[number];
@@ -70,7 +71,7 @@ export class CharacterInfo {
   }
 
   get special(): boolean {
-    return ["travellers", "fabled"].includes(this.roleType);
+    return ["travellers", "fabled", "loric"].includes(this.roleType);
   }
 
   nightDetails(firstNight: boolean): NightAction | null {
